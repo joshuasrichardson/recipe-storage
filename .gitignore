@@ -1,0 +1,25 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+node_modules
+*/node_modules
+storage-recipe/.pnp
+storage-recipe/.pnp.js
+
+# testing
+storage-recipe/coverage
+
+# production
+storage-recipe/build
+
+# misc
+storage-recipe/.DS_Store
+storage-recipe/.env.local
+storage-recipe/.env.development.local
+storage-recipe/.env.test.local
+storage-recipe/.env.production.local
+TODO.txt
+
+storage-recipe/npm-debug.log*
+storage-recipe/yarn-debug.log*
+storage-recipe/yarn-error.log*

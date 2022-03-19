@@ -1,0 +1,15 @@
+#navbarSupportedContent {
+  justify-content: flex-end;
+}
+
+.navbar-toggler {
+  width: auto;
+}
+
+.navbar-toggler:hover {
+  background-color: #003815;
+}
+
+.nav-link {
+  text-decoration: none;
+}
