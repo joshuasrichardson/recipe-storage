@@ -1,7 +1,8 @@
 const express = require('express');
 const bodyParser = require("body-parser");
 const mongoose = require('mongoose');
-var cors = require('cors');
+const cors = require('cors');
+const config = require('./constants');
 
 // setup express
 const app = express();
@@ -13,8 +14,9 @@ app.use(bodyParser.urlencoded({
   extended: false
 }));
 
+console.log("Mongodb url:", config.MONGODB_URL);
 // connect to the mongodb database
-mongoose.connect('mongodb://localhost:27017/recipe-storage', {
+mongoose.connect(config.MONGODB_URL, {
   useUnifiedTopology: true,
   useNewUrlParser: true
 });
@@ -35,11 +37,11 @@ app.use(cookieSession({
 
 // setup users API path
 // It is important to have this after the cookieParser and cookieSession so it can use them.
-const users = require("./users.js");
-app.use("/users", users.routes);
-const recipes = require("./recipes.js");
-app.use("/recipes", recipes.routes);
-const storage = require("./storage.js");
-app.use("/storage", storage.routes);
+const users = require('./users.js');
+app.use("/api/users", users.routes);
+const recipes = require('./recipes.js');
+app.use("/api/recipes", recipes.routes);
+const storage = require('./storage.js');
+app.use("/api/storage", storage.routes);
 
 app.listen(3002, () => console.log('Server listening on port 3002!'));

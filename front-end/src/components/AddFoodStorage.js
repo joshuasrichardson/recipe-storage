@@ -1,5 +1,5 @@
 import React, {useState, useContext} from 'react';
-import {GlobalContext} from '../context/GlobalState';
+import {Context} from '../App';
 import Scanner from './BarcodeScanner.js';
 import {Link} from 'react-router-dom';
 import axios from 'axios';
@@ -12,7 +12,7 @@ const AddFoodStorage = () => {
   const [description, setdescription] = useState("");
   const [container, setcontainer] = useState("");
   const [expiration, setExpiration] = useState("");
-  const {user} = useContext(GlobalContext);
+  const {user} = useContext(Context);
 
   const onCodeChange = event => setCode(event.target.value);
   const onNameChange = event => setName(event.target.value);
@@ -58,7 +58,7 @@ const AddFoodStorage = () => {
     console.log(code);
     console.log(name);
     try {
-      let response = await axios.post('http://localhost:3002/storage', {
+      let response = await axios.post('/api/storage', {
         user: user._id,
         barcode: code,
         name: name,
@@ -68,6 +68,10 @@ const AddFoodStorage = () => {
         expiration: expiration
       });
       console.log(response.data);
+      setCode("");
+      setName("");
+      setBrand("");
+      setdescription("");
     } catch (error) {
       console.log(error.response.data.message);
     }
@@ -109,7 +113,7 @@ const AddFoodStorage = () => {
             </select>
             <label className="item">Expiration:</label>
             <input type="date" name="expiration" value={expiration} onChange={onExpirationChange}></input>
-            <button type="submit">Add to Storage</button>
+            <button className="addButton" type="submit">Add to Storage</button>
           </form>
         </div>
       </div>

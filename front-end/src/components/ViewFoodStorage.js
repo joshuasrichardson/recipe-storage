@@ -1,9 +1,9 @@
 import React, {useState, useContext, useEffect} from 'react';
-import {GlobalContext} from '../context/GlobalState';
+import {Context} from '../App';
 import axios from 'axios';
 
 function ViewFoodStorage() {
-  const {user} = useContext(GlobalContext);
+  const {user} = useContext(Context);
   const [allItems, setAllItems] = useState([]);
 
   useEffect(() => {
@@ -14,7 +14,7 @@ function ViewFoodStorage() {
 
   const getStorage = async () => {
     try {
-      let response = await axios.get('http://localhost:3002/storage/' + user._id);
+      let response = await axios.get('/api/storage/' + user._id);
       setAllItems(response.data);
     } catch (error) {
       console.log(error.response.data.message);

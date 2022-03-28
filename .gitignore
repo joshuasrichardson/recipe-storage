@@ -3,23 +3,24 @@
 # dependencies
 node_modules
 */node_modules
-storage-recipe/.pnp
-storage-recipe/.pnp.js
+front-end/.pnp
+front-end/.pnp.js
 
 # testing
-storage-recipe/coverage
+front-end/coverage
 
 # production
-storage-recipe/build
+front-end/build
 
 # misc
-storage-recipe/.DS_Store
-storage-recipe/.env.local
-storage-recipe/.env.development.local
-storage-recipe/.env.test.local
-storage-recipe/.env.production.local
+front-end/.DS_Store
+front-end/.env.local
+front-end/.env.development.local
+front-end/.env.test.local
+front-end/.env.production.local
 TODO.txt
 
-storage-recipe/npm-debug.log*
-storage-recipe/yarn-debug.log*
-storage-recipe/yarn-error.log*
+front-end/npm-debug.log*
+front-end/yarn-debug.log*
+front-end/yarn-error.log*
+back-end/mongo-url.js

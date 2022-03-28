@@ -170,6 +170,10 @@ select, input {
   justify-content: space-around;
 }
 
+.addButton {
+  margin: 10px auto;
+}
+
 button {
   color: #E0D6CE;
   background-color: #8B0000;

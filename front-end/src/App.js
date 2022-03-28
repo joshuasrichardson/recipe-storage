@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { useEffect, useState, createContext, useContext } from 'react';
 import './App.css';
 import Nav from './components/Nav.js';
 import Footer from './components/Footer.js';
@@ -7,13 +7,23 @@ import ViewFoodStorage from './components/ViewFoodStorage.js';
 import ViewRecipes from './components/ViewRecipes.js';
 import Login from './components/Login.js';
 import {BrowserRouter, Route, Routes, Link} from 'react-router-dom';
-import {GlobalProvider} from './context/GlobalState';
-import useCookie from 'react-use-cookie';
+import axios from 'axios';
+
+export const Context = createContext();
 
 function App() {
-  const [userId, setUserId] = useCookie('token', '0');
+  const [user, setUser] = useState(null);
 
-  return (<GlobalProvider>
+  useEffect(async () => {
+    if (user == null) {
+      // TODO: Stop this from happening right after they log out.
+      let response = await axios.get('/api/users');
+      console.log(response);
+      setUser(response.data.user);
+    }
+  });
+
+  return (<Context.Provider value={{user: user, setUser}}>
     <BrowserRouter>
       <div className="App">
         <Nav/>
@@ -32,10 +42,13 @@ function App() {
         <Footer/>
       </div>
     </BrowserRouter>
-  </GlobalProvider>);
+  </Context.Provider>);
 }
 
 const Home = () => {
+  const {user} = useContext(Context);
+
+  if (user == null) {
   return (<div className="page">
     <div className="main-container">
       <h1>Recipe Storage</h1>
@@ -50,6 +63,10 @@ const Home = () => {
       </div>
     </div>
   </div>);
+  }
+  else {
+    return (<AddFoodStorage/>);
+  }
 }
 
 export default App;

@@ -1,5 +1,5 @@
 import React, {useEffect} from "react";
-import config from "./config.json";
+import config from "./barcode-config.json";
 import Quagga from "quagga";
 import '../App.css';
 

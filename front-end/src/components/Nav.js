@@ -3,13 +3,15 @@ import '../App.css';
 import './nav.css';
 import {Link} from 'react-router-dom';
 import {ConditionalLink} from './ConditionalLink';
-import {GlobalContext} from '../context/GlobalState';
+import {Context} from '../App';
+import axios from 'axios';
 
 function Nav() {
-  const {user, setUser} = useContext(GlobalContext);
+  const {user, setUser} = useContext(Context);
 
-  const logout = () => {
+  const logout = async () => {
     setUser(null);
+    await axios.delete('/api/users');
   }
 
   return (<div className="Nav">
@@ -50,14 +52,13 @@ function Nav() {
               </Link>
             </li>
             <li>
-              <ConditionalLink to='/login' classN="nav-link" condition={user == null}>
+              <Link to='/login' className="nav-link" onClick={logout}>
                 {
                   user == null
                     ? "Login"
-                    : ""
+                    : "Logout"
                 }
-              </ConditionalLink>
-              {user != null && <div className="nav-link" onClick={() => setUser(null)}>Logout</div>}
+              </Link>
             </li>
           </ul>
         </div>
