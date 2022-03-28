@@ -68,6 +68,8 @@ const User = mongoose.model('User', userSchema);
 
 // middleware function to check for logged-in users
 const validUser = async (req, res, next) => {
+  console.log("Checking user");
+  console.log(req.session);
   try {
     if (!req.session.userID)
       return res.status(403).send({
@@ -172,6 +174,8 @@ router.post('/login', async (req, res) => {
 
     // set user session info
     req.session.userID = user._id;
+    console.log("UserID", req.session.userID);
+    console.log(req.session);
 
     return res.send({
       user: user

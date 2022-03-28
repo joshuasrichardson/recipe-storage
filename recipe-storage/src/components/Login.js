@@ -1,7 +1,7 @@
 import React, {useState, useContext} from 'react';
+import {GlobalContext} from '../context/GlobalState';
 import {useNavigate} from 'react-router-dom';
 import axios from 'axios';
-import {GlobalContext} from '../context/GlobalState';
 
 const Login = props => {
   const [hasAccount, setHasAccount] = useState(props.hasAccount);
@@ -20,7 +20,7 @@ const Login = props => {
     let response = null
     try {
       if (hasAccount) {
-        response = await axios.post('http://localhost:3000/users/login', {
+        response = await axios.post('http://localhost:3002/users/login', {
           username: username,
           password: password
         });
@@ -38,7 +38,7 @@ const Login = props => {
   const register = async () => {
     if (!firstName || !lastName) 
       return;
-    return await axios.post('http://localhost:3000/users', {
+    return await axios.post('http://localhost:3002/users', {
       firstName: firstName,
       lastName: lastName,
       username: username,

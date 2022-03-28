@@ -5,9 +5,7 @@ function ViewRecipes() {
   const [searchField, setSearchField] = useState("");
   const [relevantRecipes, setRelevantRecipes] = useState([]);
 
-  const handleTextChange = e => {
-    setSearchField(e.target.value);
-  };
+  const onSearchChange = e => setSearchField(e.target.value);
 
   const fetchRecipes = async (item) => {
     await fetch("https://api.edamam.com/api/recipes/v2?type=public&q=" + item + "&app_id=3a833dd2&app_key=688beca46c7ed7483c41a629c1c183a3").then((data) => data.json()).then((recipes) => displayRecipes(recipes));
@@ -25,7 +23,7 @@ function ViewRecipes() {
     <div className="main-container other-container food-storage-container">
       <div className="food-storage-header">
         <h1 className="title">Recipes</h1>
-        <input id="recipe-search-bar" className="search-bar" type="search" placeholder="Search recipes..." onChange={handleTextChange}></input>
+        <input id="recipe-search-bar" className="search-bar" type="search" placeholder="Search recipes..." onChange={onSearchChange}></input>
       </div>
       <button onClick={() => fetchRecipes(searchField)}>
         Search

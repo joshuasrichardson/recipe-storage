@@ -27,14 +27,22 @@ function Nav() {
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav mb-2 mb-lg-0">
             <li>
-              <Link to='/add-item' className="nav-link">
-                Add Item
-              </Link>
+              <ConditionalLink to='/add-item' classN="nav-link" condition={user != null}>
+                {
+                  user != null
+                    ? "Add Item"
+                    : ""
+                }
+              </ConditionalLink>
             </li>
             <li>
-              <Link to='/view-items' className="nav-link">
-                View Items
-              </Link>
+              <ConditionalLink to='/view-items' classN="nav-link" condition={user != null}>
+                {
+                  user != null
+                    ? "View Items"
+                    : ""
+                }
+              </ConditionalLink>
             </li>
             <li>
               <Link to='/view-recipes' className="nav-link">

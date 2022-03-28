@@ -8,8 +8,11 @@ import ViewRecipes from './components/ViewRecipes.js';
 import Login from './components/Login.js';
 import {BrowserRouter, Route, Routes, Link} from 'react-router-dom';
 import {GlobalProvider} from './context/GlobalState';
+import useCookie from 'react-use-cookie';
 
 function App() {
+  const [userId, setUserId] = useCookie('token', '0');
+
   return (<GlobalProvider>
     <BrowserRouter>
       <div className="App">
@@ -33,7 +36,6 @@ function App() {
 }
 
 const Home = () => {
-
   return (<div className="page">
     <div className="main-container">
       <h1>Recipe Storage</h1>
@@ -46,7 +48,6 @@ const Home = () => {
           <button>Create Account</button>
         </Link>
       </div>
-      <p>Right now, you cannot actually make your own account, login, or add items. However, at some point, having an account will allow you to keep track of your food storage, choose recipes based on the ingredients you own, and set up meal plans and budgeting.</p>
     </div>
   </div>);
 }

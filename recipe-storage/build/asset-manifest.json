@@ -1,28 +1,16 @@
 {
   "files": {
-    "main.css": "/static/css/main.a795caa8.css",
-    "main.js": "/static/js/main.31f85e4d.js",
+    "main.css": "/static/css/main.9b0ae86b.css",
+    "main.js": "/static/js/main.ffd86531.js",
     "static/js/787.ad9f5a26.chunk.js": "/static/js/787.ad9f5a26.chunk.js",
-    "static/media/tomato.jpg": "/static/media/tomato.3fb0ddd7c781dfa0f17d.jpg",
-    "static/media/nabe.jpg": "/static/media/nabe.d31f1deed600ea910f97.jpg",
-    "static/media/melon-pan.jpg": "/static/media/melon-pan.9ee2eb278c63f130207f.jpg",
-    "static/media/korokke.jpg": "/static/media/korokke.72dd8877aac011dd1e14.jpg",
     "static/media/food-background.jpg": "/static/media/food-background.3f5e482a2d5d6e8ba926.jpg",
-    "static/media/gyudon.jpg": "/static/media/gyudon.a26c8b51b8e20e5898c4.jpg",
-    "static/media/karage-curry.jpg": "/static/media/karage-curry.03ac4ccda59cf6c56540.jpg",
-    "static/media/sanshokudon.jpg": "/static/media/sanshokudon.3b90212fbe6515e80c24.jpg",
-    "static/media/cookies.jpg": "/static/media/cookies.3b64b4467aede58cbd13.jpg",
-    "static/media/peach-pie.jpg": "/static/media/peach-pie.294100b998ef733f0756.jpg",
-    "static/media/spring-rolls.jpg": "/static/media/spring-rolls.0b0f5dc571c0e76317b2.jpg",
-    "static/media/eggs.jpg": "/static/media/eggs.a5c2070032993003b239.jpg",
-    "static/media/strawberries.jpg": "/static/media/strawberries.054fa26d881e08e7decf.jpg",
     "index.html": "/index.html",
-    "main.a795caa8.css.map": "/static/css/main.a795caa8.css.map",
-    "main.31f85e4d.js.map": "/static/js/main.31f85e4d.js.map",
+    "main.9b0ae86b.css.map": "/static/css/main.9b0ae86b.css.map",
+    "main.ffd86531.js.map": "/static/js/main.ffd86531.js.map",
     "787.ad9f5a26.chunk.js.map": "/static/js/787.ad9f5a26.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.a795caa8.css",
-    "static/js/main.31f85e4d.js"
+    "static/css/main.9b0ae86b.css",
+    "static/js/main.ffd86531.js"
   ]
 }
