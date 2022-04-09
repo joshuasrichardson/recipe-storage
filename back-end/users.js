@@ -1,5 +1,5 @@
 const express = require("express");
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const argon2 = require("argon2");
 
 const router = express.Router();
@@ -13,16 +13,15 @@ const userSchema = new mongoose.Schema({
   password: String,
   role: {
     type: String,
-    default: ""
-  }
+    default: "",
+  },
 });
 
 // This is a hook that will be called before a user record is saved,
 // allowing us to be sure to salt and hash the password first.
-userSchema.pre('save', async function(next) {
+userSchema.pre("save", async function (next) {
   // only hash the password if it has been modified (or is new)
-  if (!this.isModified('password'))
-    return next();
+  if (!this.isModified("password")) return next();
 
   try {
     // generate a hash. argon2 does the salting and hashing for us
@@ -39,7 +38,7 @@ userSchema.pre('save', async function(next) {
 // This is a method that we can call on User objects to compare the hash of the
 // password the browser sends with the has of the user's true password stored in
 // the database.
-userSchema.methods.comparePassword = async function(password) {
+userSchema.methods.comparePassword = async function (password) {
   try {
     // note that we supply the hash stored in the database (first argument) and
     // the plaintext password. argon2 will do the hashing and salting and
@@ -55,14 +54,14 @@ userSchema.methods.comparePassword = async function(password) {
 // object to JSON. It deletes the password hash from the object. This ensures
 // that we never send password hashes over our API, to avoid giving away
 // anything to an attacker.
-userSchema.methods.toJSON = function() {
+userSchema.methods.toJSON = function () {
   var obj = this.toObject();
   delete obj.password;
   return obj;
-}
+};
 
 // create a User model from the User schema
-const User = mongoose.model('User', userSchema);
+const User = mongoose.model("User", userSchema);
 
 /* Middleware */
 
@@ -73,14 +72,14 @@ const validUser = async (req, res, next) => {
   try {
     if (!req.session.userID)
       return res.status(403).send({
-        message: "not logged in"
+        message: "not logged in",
       });
     const user = await User.findOne({
-      _id: req.session.userID
+      _id: req.session.userID,
     });
     if (!user) {
       return res.status(403).send({
-        message: "not logged in"
+        message: "not logged in",
       });
     }
     // set the user field in the request
@@ -88,7 +87,7 @@ const validUser = async (req, res, next) => {
   } catch (error) {
     // Return an error if user does not exist.
     return res.status(403).send({
-      message: "not logged in"
+      message: "not logged in",
     });
   }
 
@@ -102,25 +101,24 @@ const validUser = async (req, res, next) => {
    module that imports this one to use a complete path, such as "/api/user" */
 
 // create a new user
-router.post('/', async (req, res) => {
+router.post("/", async (req, res) => {
   // Make sure that the form coming from the browser includes a username and a
   // passsword, otherwise return an error. A 400 error means the request was
   // malformed.
   if (!req.body.username || !req.body.password)
     return res.status(400).send({
-      message: "username and password are required"
+      message: "username and password are required",
     });
 
   try {
-
     //  Check to see if username already exists and if not send a 403 error. A 403
     // error means permission denied.
     const existingUser = await User.findOne({
-      username: req.body.username
+      username: req.body.username,
     });
     if (existingUser)
       return res.status(403).send({
-        message: "username already exists"
+        message: "username already exists",
       });
 
     // create a new user and save it to the database
@@ -137,7 +135,7 @@ router.post('/', async (req, res) => {
     req.session.userID = user._id;
     // send back a 200 OK response, along with the user that was created
     return res.send({
-      user: user
+      user: user,
     });
   } catch (error) {
     console.log(error);
@@ -146,30 +144,30 @@ router.post('/', async (req, res) => {
 });
 
 // login a user
-router.post('/login', async (req, res) => {
+router.post("/login", async (req, res) => {
   // Make sure that the form coming from the browser includes a username and a
   // password, otherwise return an error.
   if (!req.body.username || !req.body.password)
     return res.status(400).send({
-      message: "username or password is missing"
+      message: "username or password is missing",
     });
 
   try {
     //  lookup user record
     const user = await User.findOne({
-      username: req.body.username
+      username: req.body.username,
     });
     // Return an error if user does not exist.
     if (!user)
       return res.status(403).send({
-        message: "username or password is wrong"
+        message: "username or password is wrong",
       });
 
     // Return the SAME error if the password is wrong. This ensure we don't
     // leak any information about which users exist.
-    if (!await user.comparePassword(req.body.password))
+    if (!(await user.comparePassword(req.body.password)))
       return res.status(403).send({
-        message: "username or password is wrong"
+        message: "username or password is wrong",
       });
 
     // set user session info
@@ -178,7 +176,7 @@ router.post('/login', async (req, res) => {
     console.log(req.session);
 
     return res.send({
-      user: user
+      user: user,
     });
   } catch (error) {
     console.log(error);
@@ -187,10 +185,10 @@ router.post('/login', async (req, res) => {
 });
 
 // get logged in user
-router.get('/', validUser, async (req, res) => {
+router.get("/", validUser, async (req, res) => {
   try {
     res.send({
-      user: req.user
+      user: req.user,
     });
   } catch (error) {
     console.log(error);
@@ -212,5 +210,5 @@ router.delete("/", validUser, async (req, res) => {
 module.exports = {
   routes: router,
   model: User,
-  valid: validUser
+  valid: validUser,
 };

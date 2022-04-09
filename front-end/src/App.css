@@ -58,13 +58,17 @@ video.drawingBuffer {
   background-color: #003815 !important;
 }
 
-.logo, h1, h2, .storage-item-name, .username {
+.logo,
+h1,
+h2,
+.storage-item-name,
+.username {
   font-family: "Architects Daughter", sans-serif;
   padding: 5px;
 }
 
 body {
-  background-color: #A99C6C;
+  background-color: #a99c6c;
   background: url(./images/food-background.jpg) no-repeat center fixed;
   background-size: cover;
 }
@@ -91,12 +95,13 @@ body {
   padding: 30px;
 }
 
-h1, h2 {
+h1,
+h2 {
   font-weight: bold;
   color: #003815 !important;
   text-align: center;
   padding: 25px;
-  border-bottom: 1px solid #5D6063;
+  border-bottom: 1px solid #5d6063;
 }
 
 h1 {
@@ -114,9 +119,12 @@ p {
   font-size: 1.2em;
 }
 
-h1, h2, p, label {
+h1,
+h2,
+p,
+label {
   color: #020;
-  text-shadow: 0px 0px 6px #F0E3D0, 0px 0px 6px #F0E3D0, 0px 0px 6px #F0E3D0;
+  text-shadow: 0px 0px 6px #f0e3d0, 0px 0px 6px #f0e3d0, 0px 0px 6px #f0e3d0;
 }
 
 .login-container {
@@ -139,7 +147,8 @@ h1, h2, p, label {
   width: 100%;
 }
 
-select, input {
+select,
+input {
   padding: 5px;
 }
 
@@ -154,8 +163,9 @@ label {
   padding-right: 5px;
 }
 
-select, input {
-  background-color: #E0D6CE;
+select,
+input {
+  background-color: #e0d6ce;
   border-radius: 4px;
 }
 
@@ -175,8 +185,8 @@ select, input {
 }
 
 button {
-  color: #E0D6CE;
-  background-color: #8B0000;
+  color: #e0d6ce;
+  background-color: #8b0000;
   font-weight: bold;
   padding: 20px;
   text-align: center;
@@ -189,12 +199,12 @@ button {
 }
 
 button:hover {
-  color: #E0D6CE;
-  background-color: #B00000;
+  color: #e0d6ce;
+  background-color: #b00000;
 }
 
 .video-container {
-  background-color: #E0D6CE;
+  background-color: #e0d6ce;
   max-width: 320px;
   margin: 10px;
   display: flex;
@@ -229,7 +239,7 @@ video {
 .storage-item {
   display: flex;
   flex-direction: column;
-  background-color: #E0D6CE;
+  background-color: #e0d6ce;
   padding: 10px;
   border-radius: 5px;
   margin: 5px;
@@ -276,7 +286,13 @@ ul {
   width: 90%;
 }
 
-select, input, hr, .video-container, .storage-item, .storage-item-picture, .button {
+select,
+input,
+hr,
+.video-container,
+.storage-item,
+.storage-item-picture,
+.button {
   border: 1.5px solid #003815;
 }
 
@@ -287,7 +303,7 @@ select, input, hr, .video-container, .storage-item, .storage-item-picture, .butt
 }
 
 footer {
-  background-color: #E0D6CE;
+  background-color: #e0d6ce;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -301,7 +317,8 @@ footer {
 }
 
 /* Mobile Styles */
-@media only screen and (max-width: 400px) {}
+@media only screen and (max-width: 400px) {
+}
 
 /* Tablet Styles */
 @media only screen and (min-width: 401px) and (max-width: 960px) {
@@ -365,7 +382,8 @@ footer {
     width: 400px;
   }
 
-  .selections-container, .quote {
+  .selections-container,
+  .quote {
     width: 500px;
   }
 }

@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 var express = require("express");
 var router = express.Router();
 const users = require("./users.js");
@@ -8,7 +8,7 @@ const validUser = users.valid;
 const itemSchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.ObjectId,
-    ref: 'User'
+    ref: "User",
   },
   code: String,
   name: String,
@@ -18,11 +18,11 @@ const itemSchema = new mongoose.Schema({
   expiration: Date,
   added: {
     type: Date,
-    default: Date.now
+    default: Date.now,
   },
 });
 
-const Item = mongoose.model('Item', itemSchema);
+const Item = mongoose.model("Item", itemSchema);
 
 // TODO: use validUser instead of sending the user in the request.
 router.post("/", async (req, res, next) => {
@@ -50,10 +50,12 @@ router.post("/", async (req, res, next) => {
 router.get("/:user", async (req, res) => {
   try {
     let items = await Item.find({
-      user: req.params.user
-    }).sort({
-      added: -1
-    }).populate('user'); // replace the user ids with objects representing the users
+      user: req.params.user,
+    })
+      .sort({
+        added: -1,
+      })
+      .populate("user"); // replace the user ids with objects representing the users
     return res.send(items);
   } catch (error) {
     console.log(error);
@@ -63,4 +65,4 @@ router.get("/:user", async (req, res) => {
 
 module.exports = {
   routes: router,
-}
+};
