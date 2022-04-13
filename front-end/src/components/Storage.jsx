@@ -1,9 +1,8 @@
-import React, { useState, useContext, useEffect } from "react";
-import { Context } from "../App";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-function ViewFoodStorage() {
-  const { user } = useContext(Context);
+function Storage() {
   const [allItems, setAllItems] = useState([]);
 
   useEffect(() => {
@@ -14,7 +13,7 @@ function ViewFoodStorage() {
 
   const getStorage = async () => {
     try {
-      let response = await axios.get("/api/storage/" + user._id);
+      let response = await axios.get("/api/storage/");
       setAllItems(response.data);
     } catch (error) {
       console.log(error.response.data.message);
@@ -23,7 +22,7 @@ function ViewFoodStorage() {
   };
 
   const getItemsHTML = (items) => {
-    return items.map((item) => <StorageItem item={item} />);
+    return items.map((item) => <StorageItem key={item._id} item={item} />);
   };
 
   return (
@@ -38,13 +37,20 @@ function ViewFoodStorage() {
   );
 }
 
-export default ViewFoodStorage;
+export default Storage;
 
 // <li>Number: {item.count}</li>
 const StorageItem = (item) => {
+  const navigate = useNavigate();
   item = item.item;
   return (
-    <div key={item.name} className="storage-item">
+    <div
+      className="storage-item"
+      onClick={() => {
+        console.log(item);
+        navigate("/storage/" + item._id);
+      }}
+    >
       <img className="storage-item-picture" src={item.src} alt={item.name} />
       <h3 className="storage-item-name">{item.name}</h3>
       <ul className="storage-item-description">

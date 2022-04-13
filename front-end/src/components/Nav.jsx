@@ -39,7 +39,7 @@ function Nav() {
             <ul className="navbar-nav mb-2 mb-lg-0">
               <li>
                 <ConditionalLink
-                  to="/add-item"
+                  to="/storage/add"
                   classN="nav-link"
                   condition={user != null}
                 >
@@ -48,7 +48,7 @@ function Nav() {
               </li>
               <li>
                 <ConditionalLink
-                  to="/view-items"
+                  to="/storage"
                   classN="nav-link"
                   condition={user != null}
                 >
@@ -56,7 +56,7 @@ function Nav() {
                 </ConditionalLink>
               </li>
               <li>
-                <Link to="/view-recipes" className="nav-link">
+                <Link to="/recipes" className="nav-link">
                   View Recipes
                 </Link>
               </li>

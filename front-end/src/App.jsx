@@ -1,11 +1,12 @@
 import React, { useEffect, useState, createContext, useContext } from "react";
 import "./App.css";
-import Nav from "./components/Nav.js";
-import Footer from "./components/Footer.js";
-import AddFoodStorage from "./components/AddFoodStorage.js";
-import ViewFoodStorage from "./components/ViewFoodStorage.js";
-import ViewRecipes from "./components/ViewRecipes.js";
-import Login from "./components/Login.js";
+import Nav from "./components/Nav.jsx";
+import Footer from "./components/Footer.jsx";
+import AddFoodStorage from "./components/AddFoodStorage.jsx";
+import Storage from "./components/Storage.jsx";
+import Item from "./components/Item.jsx";
+import ViewRecipes from "./components/ViewRecipes.jsx";
+import Login from "./components/Login.jsx";
 import { BrowserRouter, Route, Routes, Link } from "react-router-dom";
 import axios from "axios";
 
@@ -29,16 +30,17 @@ function App() {
         <div className="App">
           <Nav />
           <Routes>
-            <Route path="/" exact="exact" element={<Home />} />
-            <Route path="/add-item" element={<AddFoodStorage />} />
-            <Route path="/view-items" element={<ViewFoodStorage />} />
+            <Route path="/storage/add" exact element={<AddFoodStorage />} />
+            <Route path="/storage/:id" exact element={<Item />} />
+            <Route path="/storage" exact element={<Storage />} />
+            <Route path="/recipes" exact element={<ViewRecipes />} />
+            <Route path="/login" exact element={<Login hasAccount={true} />} />
             <Route
-              path="/view-recipes"
-              exact="exact"
-              element={<ViewRecipes />}
+              path="/register"
+              exact
+              element={<Login hasAccount={false} />}
             />
-            <Route path="/login" element={<Login hasAccount={true} />} />
-            <Route path="/register" element={<Login hasAccount={false} />} />
+            <Route path="/" exact element={<Home />} />
           </Routes>
           <Footer />
         </div>

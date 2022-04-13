@@ -12,6 +12,8 @@
     "cookie-session": "^2.0.0",
     "cors": "^2.8.5",
     "express": "~4.16.1",
-    "mongoose": "^6.2.7"
+    "mongoose": "^6.2.7",
+    "node-jsx": "^0.13.3",
+    "react": "^18.0.0"
   }
 }

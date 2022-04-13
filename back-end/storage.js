@@ -2,7 +2,6 @@ const mongoose = require("mongoose");
 var express = require("express");
 var router = express.Router();
 const users = require("./users.js");
-const User = users.model;
 const validUser = users.valid;
 
 const itemSchema = new mongoose.Schema({
@@ -24,11 +23,10 @@ const itemSchema = new mongoose.Schema({
 
 const Item = mongoose.model("Item", itemSchema);
 
-// TODO: use validUser instead of sending the user in the request.
-router.post("/", async (req, res, next) => {
+router.post("/", validUser, async (req, res) => {
   console.log(req);
   const item = new Item({
-    user: req.body.user,
+    user: req.user,
     code: req.body.code,
     name: req.body.name,
     brand: req.body.brand,
@@ -45,12 +43,25 @@ router.post("/", async (req, res, next) => {
   }
 });
 
-// TODO: use validUser instead of sending the user in the request.
-// get my items
-router.get("/:user", async (req, res) => {
+// get my item
+router.get("/:id", validUser, async (req, res) => {
   try {
     let items = await Item.find({
-      user: req.params.user,
+      user: req.user,
+      _id: req.params.id,
+    }).populate("user"); // replace the user ids with objects representing the users
+    return res.send(items[0]);
+  } catch (error) {
+    console.log(error);
+    return res.sendStatus(500);
+  }
+});
+
+// get my items
+router.get("/", validUser, async (req, res) => {
+  try {
+    let items = await Item.find({
+      user: req.user,
     })
       .sort({
         added: -1,

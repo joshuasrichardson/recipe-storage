@@ -14,7 +14,7 @@ const Scanner = (props) => {
   useEffect(() => {
     Quagga.init(config, (err) => {
       if (err) {
-        console.log(err, "error msg");
+        console.log(err, "Quagga failed to initialize the barcode scanner");
       }
       Quagga.start();
       return () => {
@@ -64,7 +64,7 @@ const Scanner = (props) => {
             },
             drawingCtx,
             {
-              color: "#00F",
+              color: "blue",
               lineWidth: 2,
             }
           );

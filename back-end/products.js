@@ -13,7 +13,7 @@ const productSchema = new mongoose.Schema({
 
 const Product = mongoose.model("Product", productSchema);
 
-router.post("/", async (req, res, next) => {
+router.post("/", async (req, res) => {
   console.log(req.body);
   try {
     let product = await Product.find({
@@ -30,9 +30,44 @@ router.post("/", async (req, res, next) => {
         container: req.body.container,
       });
       await product.save();
-    } else {
-      // TODO: average num days to expire then update it.
+    } else if (
+      product.code != req.body.code ||
+      product.name != req.body.name ||
+      product.brand != req.body.brand ||
+      product.description != req.body.description ||
+      product.container != req.body.container
+    ) {
+      return res.send({
+        id: product._id,
+        message: "Item already exists with different attributes.",
+        code: product.code,
+        name: product.name,
+        brand: product.brand,
+        description: product.description,
+        container: product.containe,
+        status: 300,
+      });
     }
+    return res.sendStatus(200);
+  } catch (error) {
+    console.log(error);
+    return res.sendStatus(500);
+  }
+});
+
+router.put("/:id", async (req, res) => {
+  console.log(req.body);
+  try {
+    // TODO: average num days to expire then update it.
+    let product = await Product.findByIdAndUpdate({
+      _id: req.params.id,
+      code: req.body.code,
+      name: req.body.name,
+      brand: req.body.brand,
+      description: req.body.description,
+      container: req.body.container,
+    });
+    console.log(product);
     return res.sendStatus(200);
   } catch (error) {
     console.log(error);
@@ -42,10 +77,13 @@ router.post("/", async (req, res, next) => {
 
 router.get("/:code", async (req, res) => {
   try {
-    let product = await Product.find({
+    let products = await Product.find({
       code: req.params.code,
     });
-    return res.send(product);
+    if (products.length == 0) {
+      return res.sendStatus(404);
+    }
+    return res.send(products);
   } catch (error) {
     console.log(error);
     return res.sendStatus(500);

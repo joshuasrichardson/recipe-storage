@@ -10,7 +10,7 @@ const Login = (props) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [err, setErr] = useState("");
-  const { user, setUser } = useContext(Context);
+  const { setUser } = useContext(Context);
   const navigate = useNavigate();
 
   const login = async (e) => {
@@ -27,7 +27,7 @@ const Login = (props) => {
         response = await register();
       }
       setUser(response.data.user);
-      navigate("/add-item", { replace: true });
+      navigate("/storage/add", { replace: true });
     } catch (error) {
       setErr(error.response.data.message);
       setUser(null);
