@@ -21,7 +21,7 @@ router.post("/", async (req, res) => {
     let product = products[0];
     // console.log(product);
     // TODO: Calc number of days to expire.
-    if (product.length == 0) {
+    if (products.length == 0) {
       product = new Product({
         code: req.body.code,
         name: req.body.name,
