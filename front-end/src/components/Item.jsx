@@ -10,7 +10,7 @@ const Item = () => {
       const res = await axios.get("/api/storage/" + id);
       setItem(res.data);
     }
-  }, [item, setItem]);
+  }, [id, item, setItem]);
 
   return (
     <div className="storage-item">

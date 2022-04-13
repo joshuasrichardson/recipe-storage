@@ -7,6 +7,7 @@ import Storage from "./components/Storage.jsx";
 import Item from "./components/Item.jsx";
 import ViewRecipes from "./components/ViewRecipes.jsx";
 import Login from "./components/Login.jsx";
+import DiffChecker from "./components/DiffChecker.jsx";
 import { BrowserRouter, Route, Routes, Link } from "react-router-dom";
 import axios from "axios";
 
@@ -33,6 +34,7 @@ function App() {
             <Route path="/storage/add" exact element={<AddFoodStorage />} />
             <Route path="/storage/:id" exact element={<Item />} />
             <Route path="/storage" exact element={<Storage />} />
+            <Route path="/item/update" exact element={<DiffChecker />} />
             <Route path="/recipes" exact element={<ViewRecipes />} />
             <Route path="/login" exact element={<Login hasAccount={true} />} />
             <Route

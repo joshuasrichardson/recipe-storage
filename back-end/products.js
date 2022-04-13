@@ -14,12 +14,12 @@ const productSchema = new mongoose.Schema({
 const Product = mongoose.model("Product", productSchema);
 
 router.post("/", async (req, res) => {
-  console.log(req.body);
   try {
-    let product = await Product.find({
+    let products = await Product.find({
       code: req.body.code,
     });
-    console.log(product);
+    let product = products[0];
+    // console.log(product);
     // TODO: Calc number of days to expire.
     if (product.length == 0) {
       product = new Product({
@@ -34,8 +34,7 @@ router.post("/", async (req, res) => {
       product.code != req.body.code ||
       product.name != req.body.name ||
       product.brand != req.body.brand ||
-      product.description != req.body.description ||
-      product.container != req.body.container
+      product.description != req.body.description
     ) {
       return res.send({
         id: product._id,
@@ -44,8 +43,7 @@ router.post("/", async (req, res) => {
         name: product.name,
         brand: product.brand,
         description: product.description,
-        container: product.containe,
-        status: 300,
+        container: product.container,
       });
     }
     return res.sendStatus(200);
@@ -59,15 +57,20 @@ router.put("/:id", async (req, res) => {
   console.log(req.body);
   try {
     // TODO: average num days to expire then update it.
-    let product = await Product.findByIdAndUpdate({
-      _id: req.params.id,
-      code: req.body.code,
-      name: req.body.name,
-      brand: req.body.brand,
-      description: req.body.description,
-      container: req.body.container,
-    });
+    let product = await Product.findByIdAndUpdate(
+      {
+        _id: req.params.id,
+      },
+      {
+        code: req.body.code,
+        name: req.body.name,
+        brand: req.body.brand,
+        description: req.body.description,
+        container: req.body.container,
+      }
+    );
     console.log(product);
+    product.save();
     return res.sendStatus(200);
   } catch (error) {
     console.log(error);

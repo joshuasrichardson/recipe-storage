@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Context } from "../App";
 import Scanner from "./BarcodeScanner.jsx";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const AddFoodStorage = () => {
@@ -12,30 +12,15 @@ const AddFoodStorage = () => {
   const [description, setDescription] = useState("");
   const [container, setContainer] = useState("Refrigerator");
   const [expiration, setExpiration] = useState("");
-  const [tags, setTags] = useState([]); // TODO: use this
-  const [quantity, setQuantity] = useState(1); // TODO: use this
-  const [unit, setUnit] = useState(""); // TODO: use this
+  // const [tags, setTags] = useState([]); // TODO: use this
+  // const [quantity, setQuantity] = useState(1); // TODO: use this
+  // const [unit, setUnit] = useState(""); // TODO: use this
   const { user } = useContext(Context);
-
-  useEffect(() => {
-    if (code.length == 12) {
-      // TODO: When the other barcode types are added, make this based on the type
-      getItem();
-    }
-  }, [code]);
-
-  const onCodeChange = async (event) => {
-    setCode(event.target.value);
-  };
-  const onNameChange = (event) => setName(event.target.value);
-  const onBrandChange = (event) => setBrand(event.target.value);
-  const onDescriptionChange = (event) => setDescription(event.target.value);
-  const onContainerChange = (event) => setContainer(event.target.value);
-  const onExpirationChange = (event) => setExpiration(event.target.value);
+  const navigate = useNavigate();
 
   const getItem = async () => {
-    let res = await axios.get("/api/products/" + code);
-    if (res.status == 200) {
+    try {
+      let res = await axios.get("/api/products/" + code);
       let item = res.data[0]; // TODO: handle case where the barcode isn't unique
       console.log("Product:", item);
       setName(item.name != null ? item.name : "");
@@ -43,7 +28,7 @@ const AddFoodStorage = () => {
       setDescription(item.description != null ? item.description : "");
       setContainer(item.container != null ? item.container : "");
       // TODO: Set expiration
-    } else {
+    } catch {
       try {
         const data = await fetch(
           "https://nutritionix-api.p.rapidapi.com/v1_1/item?upc=" + code,
@@ -74,13 +59,29 @@ const AddFoodStorage = () => {
     }
   };
 
+  useEffect(() => {
+    if (code.length === 12) {
+      // TODO: When the other barcode types are added, make this based on the type
+      getItem();
+    }
+  }, [code]);
+
+  const onCodeChange = async (event) => {
+    setCode(event.target.value);
+  };
+  const onNameChange = (event) => setName(event.target.value);
+  const onBrandChange = (event) => setBrand(event.target.value);
+  const onDescriptionChange = (event) => setDescription(event.target.value);
+  const onContainerChange = (event) => setContainer(event.target.value);
+  const onExpirationChange = (event) => setExpiration(event.target.value);
+
   const onDetected = (code) => {
     setCode(code);
   };
 
   const addItem = async (e) => {
     e.preventDefault();
-    if (name == "") {
+    if (name === "") {
       console.log("Nothing to add");
       return;
     }
@@ -96,7 +97,7 @@ const AddFoodStorage = () => {
         expiration: expiration,
       });
       console.log(response.data);
-      await addProduct();
+      addProduct();
       setCode("");
       setName("");
       setBrand("");
@@ -115,32 +116,23 @@ const AddFoodStorage = () => {
       container: container,
       expiration: expiration,
     });
-    console.log(response.data);
-  };
-
-  const updateItem = async () => {
-    let response = await axios.put("/api/storage", {
-      user: user._id,
-      barcode: code,
-      name: name,
-      brand: brand,
-      description: description,
-      container: container,
-      expiration: expiration,
-    });
-    console.log(response.data);
-  };
-
-  const updateProduct = async () => {
-    const response = await axios.put("/api/products", {
-      code: code,
-      name: name,
-      brand: brand,
-      description: description,
-      container: container,
-      expiration: expiration,
-    });
-    console.log(response.data);
+    let data = response.data;
+    console.log(data);
+    if (data.message === "Item already exists with different attributes.") {
+      navigate("/item/update", {
+        state: {
+          id: data.id,
+          oldCode: data.code,
+          oldName: data.name,
+          oldBrand: data.brand,
+          oldDescription: data.description,
+          newCode: code,
+          newName: name,
+          newBrand: brand,
+          newDescription: description,
+        },
+      });
+    }
   };
 
   return (
