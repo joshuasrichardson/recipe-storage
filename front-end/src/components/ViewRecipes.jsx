@@ -1,20 +1,11 @@
 import { useState } from "react";
+import ServerFacade from "../api/ServerFacade";
 
 function ViewRecipes() {
   const [searchField, setSearchField] = useState("");
   const [relevantRecipes, setRelevantRecipes] = useState([]);
 
   const onSearchChange = (e) => setSearchField(e.target.value);
-
-  const fetchRecipes = async (item) => {
-    await fetch(
-      "https://api.edamam.com/api/recipes/v2?type=public&q=" +
-        item +
-        "&app_id=3a833dd2&app_key=688beca46c7ed7483c41a629c1c183a3"
-    )
-      .then((data) => data.json())
-      .then((recipes) => displayRecipes(recipes));
-  };
 
   const displayRecipes = (recipes) => {
     setRelevantRecipes(getRecipesHTML(Array.from(recipes.hits)));
@@ -37,7 +28,11 @@ function ViewRecipes() {
             onChange={onSearchChange}
           ></input>
         </div>
-        <button onClick={() => fetchRecipes(searchField)}>Search</button>
+        <button
+          onClick={() => ServerFacade.getRecipes(searchField, displayRecipes)}
+        >
+          Search
+        </button>
         <div className="storage-item-container">{relevantRecipes}</div>
       </div>
     </div>

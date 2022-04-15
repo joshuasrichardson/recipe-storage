@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import { Context } from "../App";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import ServerFacade from "../api/ServerFacade";
 
 const Login = (props) => {
   const [hasAccount, setHasAccount] = useState(props.hasAccount);
@@ -9,49 +9,41 @@ const Login = (props) => {
   const [lastName, setLastName] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [password2, setPassword2] = useState("");
   const [err, setErr] = useState("");
   const { setUser } = useContext(Context);
   const navigate = useNavigate();
 
+  const onLoggedIn = (user) => {
+    setUser(user);
+    navigate("/storage/add", { replace: true });
+  };
+
   const login = async (e) => {
     e.preventDefault();
-    if (!username || !password) return;
-    let response = null;
-    try {
-      if (hasAccount) {
-        response = await axios.post("/api/users/login", {
-          username: username,
-          password: password,
-        });
-      } else {
-        response = await register();
-      }
-      setUser(response.data.user);
-      navigate("/storage/add", { replace: true });
-    } catch (error) {
-      setErr(error.response.data.message);
-      setUser(null);
-    }
+    ServerFacade.login(username, password, onLoggedIn, setErr);
   };
 
-  const register = async () => {
-    if (!firstName || !lastName) return;
-    return await axios.post("/api/users", {
-      firstName: firstName,
-      lastName: lastName,
-      username: username,
-      password: password,
-    });
-  };
-
-  const checkPasswords = (password2) => {
-    // TODO
+  const register = async (e) => {
+    e.preventDefault();
+    ServerFacade.register(
+      username,
+      password,
+      password2,
+      firstName,
+      lastName,
+      onLoggedIn,
+      setErr
+    );
   };
 
   return (
     <div className="main-container">
       <h1>Recipe Storage</h1>
-      <form className="user-input" onSubmit={login}>
+      <form
+        className="user-input"
+        onSubmit={(e) => (hasAccount ? login(e) : register(e))}
+      >
         {!hasAccount && (
           <div>
             <label className="item" htmlFor="first-name">
@@ -95,7 +87,7 @@ const Login = (props) => {
             <input
               type="password"
               name="password"
-              onChange={(e) => checkPasswords(e.target.value)}
+              onChange={(e) => setPassword2(e.target.value)}
             ></input>
           </div>
         )}

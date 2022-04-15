@@ -32,7 +32,7 @@ app.use(
     name: "session",
     keys: ["secretValue"],
     cookie: {
-      maxAge: 24 * 60 * 60 * 1000, // 24 hours
+      maxAge: 31 * 24 * 60 * 60 * 1000, // About a month
     },
   })
 );

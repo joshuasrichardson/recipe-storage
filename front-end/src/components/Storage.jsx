@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import ServerFacade from "../api/ServerFacade";
 
 function Storage() {
   const [allItems, setAllItems] = useState([]);
@@ -12,13 +12,7 @@ function Storage() {
   });
 
   const getStorage = async () => {
-    try {
-      let response = await axios.get("/api/storage/");
-      setAllItems(response.data);
-    } catch (error) {
-      console.log(error.response.data.message);
-      setAllItems([]);
-    }
+    ServerFacade.getStorage(setAllItems);
   };
 
   const getItemsHTML = (items) => {

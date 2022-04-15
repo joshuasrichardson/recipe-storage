@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { useParams } from "react-router-dom";
+import ServerFacade from "../api/ServerFacade";
 
 const Item = () => {
   let { id } = useParams();
   const [item, setItem] = useState(null);
+
   useEffect(async () => {
     if (item == null) {
-      const res = await axios.get("/api/storage/" + id);
-      setItem(res.data);
+      const i = await ServerFacade.getItem(id);
+      setItem(i);
     }
   }, [id, item, setItem]);
 

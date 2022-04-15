@@ -4,14 +4,14 @@ import "./nav.css";
 import { Link } from "react-router-dom";
 import { ConditionalLink } from "./ConditionalLink";
 import { Context } from "../App";
-import axios from "axios";
+import ServerFacade from "../api/ServerFacade";
 
 function Nav() {
   const { user, setUser } = useContext(Context);
 
   const logout = async () => {
+    await ServerFacade.logout();
     setUser(null);
-    await axios.delete("/api/users");
   };
 
   return (

@@ -1,19 +1,9 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import axios from "axios";
+import ServerFacade from "../api/ServerFacade";
 
 const DiffChecker = () => {
   const location = useLocation();
   const navigate = useNavigate();
-
-  const updateProduct = async (code, name, brand, description) => {
-    const response = await axios.put("/api/products/" + location.state.id, {
-      code: code,
-      name: name,
-      brand: brand,
-      description: description,
-    });
-    console.log(response.data);
-  };
 
   return (
     <div>
@@ -39,12 +29,13 @@ const DiffChecker = () => {
         </ul>
         <button
           onClick={() => {
-            updateProduct(
-              location.state.newCode,
-              location.state.newName,
-              location.state.newBrand,
-              location.state.newDescription
-            );
+            ServerFacade.updateProduct({
+              id: location.state.id,
+              code: location.state.newCode,
+              name: location.state.newName,
+              brand: location.state.newBrand,
+              description: location.state.newDescription,
+            });
             navigate("/storage/add");
           }}
         >
