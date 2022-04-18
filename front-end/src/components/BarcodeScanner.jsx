@@ -1,100 +1,45 @@
-import React, { useEffect } from "react";
-import config from "./barcode-config.json";
+import React, { useEffect, useState } from "react";
+import config from "./BarcodeConfig.js";
 import Quagga from "quagga";
 import "../App.css";
 
 const Scanner = (props) => {
   const { onDetected } = props;
+  const [showCamera, setShowCamera] = useState(false);
 
   const detected = (result) => {
-    Quagga.stop();
     onDetected(result.codeResult.code);
   };
 
   useEffect(() => {
-    Quagga.init(config, (err) => {
-      if (err) {
-        console.log(err, "Quagga failed to initialize the barcode scanner");
-      }
-      Quagga.start();
-      return () => {
+    if (showCamera) {
+      Quagga.init(config, (err) => {
+        if (err) {
+          console.log(err, "Quagga failed to initialize the barcode scanner");
+        }
+        Quagga.start();
+      });
+
+      Quagga.onDetected(detected);
+    } else {
+      try {
         Quagga.stop();
-      };
-    });
+      } catch {}
+    }
+  }, [showCamera, detected]);
 
-    //detecting boxes on stream
-    Quagga.onProcessed((result) => {
-      var drawingCtx = Quagga.canvas.ctx.overlay,
-        drawingCanvas = Quagga.canvas.dom.overlay;
-
-      if (result) {
-        if (result.boxes) {
-          drawingCtx.clearRect(
-            0,
-            0,
-            Number(drawingCanvas.getAttribute("width")),
-            Number(drawingCanvas.getAttribute("height"))
-          );
-          result.boxes
-            .filter(function (box) {
-              return box !== result.box;
-            })
-            .forEach(function (box) {
-              Quagga.ImageDebug.drawPath(
-                box,
-                {
-                  x: 0,
-                  y: 1,
-                },
-                drawingCtx,
-                {
-                  color: "green",
-                  lineWidth: 2,
-                }
-              );
-            });
-        }
-
-        if (result.box) {
-          Quagga.ImageDebug.drawPath(
-            result.box,
-            {
-              x: 0,
-              y: 1,
-            },
-            drawingCtx,
-            {
-              color: "blue",
-              lineWidth: 2,
-            }
-          );
-        }
-
-        if (result.codeResult && result.codeResult.code) {
-          Quagga.ImageDebug.drawPath(
-            result.line,
-            {
-              x: "x",
-              y: "y",
-            },
-            drawingCtx,
-            {
-              color: "red",
-              lineWidth: 3,
-            }
-          );
-        }
-      }
-    });
-
-    Quagga.onDetected(detected);
-  }, [detected]);
+  const setCamera = () => {
+    if (showCamera) Quagga.stop();
+    setShowCamera(!showCamera);
+  };
 
   return (
-    // If you do not specify a target,
-    // QuaggaJS would look for an element that matches
-    // the CSS selector #interactive.viewport
-    <div id="interactive" className="viewport" />
+    <div className="container">
+      {showCamera && <div id="interactive" className="viewport"></div>}
+      <button onClick={setCamera}>
+        {showCamera ? "Done Scanning" : "Start Scanning"}
+      </button>
+    </div>
   );
 };
 

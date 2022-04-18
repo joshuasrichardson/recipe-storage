@@ -5,7 +5,6 @@ import { Link, useNavigate } from "react-router-dom";
 import ServerFacade from "../api/ServerFacade";
 
 const AddFoodStorage = () => {
-  const [camera, setCamera] = useState(false);
   const [code, setCode] = useState("");
   const [name, setName] = useState("");
   const [brand, setBrand] = useState("");
@@ -20,6 +19,7 @@ const AddFoodStorage = () => {
 
   const getItem = async () => {
     const item = await ServerFacade.getProduct(code);
+    if (item == null) return;
     setName(item.name != null ? item.name : "");
     setBrand(item.brand != null ? item.brand : "");
     setDescription(item.description != null ? item.description : "");
@@ -42,10 +42,6 @@ const AddFoodStorage = () => {
   const onDescriptionChange = (event) => setDescription(event.target.value);
   const onContainerChange = (event) => setContainer(event.target.value);
   const onExpirationChange = (event) => setExpiration(event.target.value);
-
-  const onDetected = (code) => {
-    setCode(code);
-  };
 
   const addItem = async (e) => {
     e.preventDefault();
@@ -80,12 +76,7 @@ const AddFoodStorage = () => {
         <h2>Add Food Storage</h2>
         <p>Scan the barcode of your item to add it to your inventory.</p>
         <div className="video-container">
-          <div className="container">
-            {camera && <Scanner onDetected={onDetected} />}
-          </div>
-          <button onClick={() => setCamera(!camera)}>
-            {camera ? "Done Scanning" : "Start Scanning"}
-          </button>
+          <Scanner onDetected={setCode} />
           {name === "" && code !== "" && <p>No results</p>}
           <div className="user-input">
             <form className="item" onSubmit={addItem}>
