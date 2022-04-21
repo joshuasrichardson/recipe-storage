@@ -17,6 +17,9 @@ const DiffChecker = () => {
           <li>Old Name: {location.state.oldName}</li>
           <li>Old Brand: {location.state.oldBrand}</li>
           <li>Old Description: {location.state.oldDescription}</li>
+          <li>Old Tags: {location.state.oldTags}</li>
+          <li>Old Amount: {location.state.oldAmount}</li>
+          <li>Old Unit: {location.state.oldUnit}</li>
         </ul>
         <button onClick={() => navigate("/storage/add")}>Keep</button>
       </div>
@@ -26,6 +29,9 @@ const DiffChecker = () => {
           <li>New Name: {location.state.newName}</li>
           <li>New Brand: {location.state.newBrand}</li>
           <li>New Description: {location.state.newDescription}</li>
+          <li>New Tags: {location.state.newTags}</li>
+          <li>New Amount: {location.state.newAmount}</li>
+          <li>New Unit: {location.state.newUnit}</li>
         </ul>
         <button
           onClick={() => {
@@ -35,6 +41,9 @@ const DiffChecker = () => {
               name: location.state.newName,
               brand: location.state.newBrand,
               description: location.state.newDescription,
+              tags: location.state.newTags,
+              amount: location.state.newAmount,
+              unit: location.state.newUnit,
             });
             navigate("/storage/add");
           }}

@@ -1,14 +1,27 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import ServerFacade from "../api/ServerFacade";
 
 function ViewRecipes() {
   const [searchField, setSearchField] = useState("");
   const [relevantRecipes, setRelevantRecipes] = useState([]);
+  const location = useLocation();
+
+  useEffect(async () => {
+    if (location.state != null) {
+      if (location.state.tags.length > 0) {
+        await ServerFacade.getRecipes(location.state.tags[0], displayRecipes);
+      } else if (location.state.name != null) {
+        await ServerFacade.getRecipes(location.state.name, displayRecipes);
+      }
+      location.state = null;
+    }
+  }, [location]);
 
   const onSearchChange = (e) => setSearchField(e.target.value);
 
   const displayRecipes = (recipes) => {
-    setRelevantRecipes(getRecipesHTML(Array.from(recipes.hits)));
+    setRelevantRecipes(getRecipesHTML(recipes));
   };
 
   const getRecipesHTML = (items) => {

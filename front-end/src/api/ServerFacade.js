@@ -1,4 +1,5 @@
 import axios from "axios";
+import moment from "moment";
 
 const login = async (username, password, onSuccess, onFailure) => {
   if (!username || !password) {
@@ -88,50 +89,71 @@ const getProduct = async (code) => {
 };
 
 const addProduct = async (item) => {
-  const response = await axios.post("/api/products", {
-    code: item.code,
-    name: item.name,
-    brand: item.brand,
-    description: item.description,
-    container: item.container,
-    expiration: item.expiration,
-  });
-  let data = response.data;
-  console.log(data);
-  return {
-    message: data.message,
-    state: {
-      id: data.id,
-      oldCode: data.code,
-      oldName: data.name,
-      oldBrand: data.brand,
-      oldDescription: data.description,
-      newCode: item.code,
-      newName: item.name,
-      newBrand: item.brand,
-      newDescription: item.description,
-    },
-  };
+  try {
+    const formData = new FormData();
+    formData.append("image", item.image, item.image.name);
+    formData.append("code", item.code);
+    formData.append("brand", item.brand);
+    formData.append("description", item.description);
+    formData.append("container", item.container);
+    formData.append("tags", item.tags);
+    formData.append("amount", item.amount);
+    formData.append("unit", item.unit);
+    formData.append("exipration", item.exipration);
+    const response = await axios.post("/api/products", formData);
+    // const response = await axios.post("/api/products", item);
+    let data = response.data;
+    console.log(data);
+    return {
+      message: data.message,
+      state: {
+        id: data.id,
+        oldCode: data.code,
+        oldName: data.name,
+        oldBrand: data.brand,
+        oldDescription: data.description,
+        oldTags: data.tags,
+        oldAmount: data.amount,
+        oldUnit: data.unit,
+        newCode: item.code,
+        newName: item.name,
+        newBrand: item.brand,
+        newDescription: item.description,
+        newTags: item.tags,
+        newAmount: item.amount,
+        newUnit: item.unit,
+      },
+    };
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 const updateProduct = async (product) => {
-  const response = await axios.put("/api/products/" + product.id, {
-    code: product.code,
-    name: product.name,
-    brand: product.brand,
-    description: product.description,
-  });
+  const response = await axios.put("/api/products/" + product.id, product);
   console.log(response.data);
 };
 
 const getItem = async (id) => {
   const res = await axios.get("/api/storage/" + id);
+  res.data.expiration = formatDate(res.data.expiration);
   return res.data;
+};
+
+const deleteItem = async (id) => {
+  try {
+    await axios.delete("/api/storage/" + id);
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 const getStorage = async (setItems) => {
   try {
     let response = await axios.get("/api/storage/");
+    response.data.forEach(
+      (item) => (item.expiration = formatDate(item.expiration))
+    );
     setItems(response.data);
   } catch (error) {
     console.log(error.response.data.message);
@@ -154,6 +176,10 @@ const addFoodStorage = async (userId, item) => {
       description: item.description,
       container: item.container,
       expiration: item.expiration,
+      tags: item.tags,
+      amount: item.amount,
+      unit: item.unit,
+      quantity: item.quantity,
     });
     console.log(response.data);
   } catch (error) {
@@ -161,14 +187,27 @@ const addFoodStorage = async (userId, item) => {
   }
 };
 
-const getRecipes = async (item, onSuccess) => {
-  await fetch(
-    "https://api.edamam.com/api/recipes/v2?type=public&q=" +
-      item +
-      "&app_id=3a833dd2&app_key=688beca46c7ed7483c41a629c1c183a3"
-  )
-    .then((data) => data.json())
-    .then((recipes) => onSuccess(recipes));
+const getRecipes = async (itemName, setItems) => {
+  try {
+    let response = await axios.get("/api/recipes/" + itemName);
+    setItems(response.data);
+  } catch (error) {
+    console.log(error.response.data.message);
+    setItems([]);
+  }
+  // await fetch(
+  //   "https://api.edamam.com/api/recipes/v2?type=public&q=" +
+  //     item +
+  //     "&app_id=3a833dd2&app_key=688beca46c7ed7483c41a629c1c183a3"
+  // )
+  //   .then((data) => data.json())
+  //   .then((recipes) => onSuccess(recipes));
+};
+
+const formatDate = (date) => {
+  date = moment(date).format("d MMMM YYYY");
+  if (date === "Invalid date") date = "Unknown";
+  return date;
 };
 
 export default {
@@ -180,6 +219,7 @@ export default {
   addProduct,
   updateProduct,
   getItem,
+  deleteItem,
   getStorage,
   addFoodStorage,
   getRecipes,

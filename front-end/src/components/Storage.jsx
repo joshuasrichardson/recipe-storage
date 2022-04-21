@@ -41,7 +41,6 @@ const StorageItem = (item) => {
     <div
       className="storage-item"
       onClick={() => {
-        console.log(item);
         navigate("/storage/" + item._id);
       }}
     >

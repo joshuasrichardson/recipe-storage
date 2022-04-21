@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import ServerFacade from "../api/ServerFacade";
 
 const Item = () => {
-  let { id } = useParams();
+  const navigate = useNavigate();
+  const { id } = useParams();
   const [item, setItem] = useState(null);
 
   useEffect(async () => {
@@ -13,6 +14,11 @@ const Item = () => {
     }
   }, [id, item, setItem]);
 
+  const deleteItem = () => {
+    ServerFacade.deleteItem(id);
+    navigate("/storage");
+  };
+
   return (
     <div className="storage-item">
       <img className="storage-item-picture" src={item?.src} alt={item?.name} />
@@ -21,7 +27,13 @@ const Item = () => {
         <li>Container: {item?.container}</li>
         <li>Expiration: {item?.expiration}</li>
         <li>Description: {item?.description}</li>
+        <li>Tags: {item?.tags}</li>
+        <li>Amount: {item?.amount + " " + item?.unit}</li>
       </ul>
+      <button onClick={() => navigate("/recipes", { state: item })}>
+        &#128269;
+      </button>
+      <button onClick={deleteItem}>&#x1F5D1;</button>
     </div>
   );
 };
