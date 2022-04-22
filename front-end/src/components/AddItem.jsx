@@ -80,6 +80,8 @@ const AddFoodStorage = () => {
     setAmount("");
     setUnit("");
     setQuantity(1);
+    setImage("");
+    setImageUrl("");
   };
 
   return (

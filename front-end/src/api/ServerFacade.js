@@ -91,7 +91,7 @@ const getProduct = async (code) => {
 const addProduct = async (item) => {
   try {
     const formData = new FormData();
-    formData.append("image", item.image, item.image.name);
+    if (item.image) formData.append("image", item.image, item.image.name);
     formData.append("code", item.code);
     formData.append("brand", item.brand);
     formData.append("description", item.description);

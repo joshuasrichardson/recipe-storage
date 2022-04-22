@@ -26,34 +26,51 @@ const upload = multer({
   limits: {
     fileSize: 100000000,
   },
-});
+}).single("image");
 
-router.post("/", upload.single("image"), async (req, res) => {
+router.post("/", async (req, res) => {
   console.log("In products post:");
-  console.log(req.body);
-  if (!req.file)
-    return res.status(400).send({
-      message: "Must upload a file.",
-    });
-  console.log("file name:", req.file.filename);
+  upload(req, res, function (err) {
+    if (err instanceof multer.MulterError) {
+      // A Multer error occurred when uploading.
+      console.log(err);
+    } else if (err) {
+      // An unknown error occurred when uploading.
+      console.log(err);
+    }
+
+    // Everything went fine.
+  });
+  console.log("File:", req.file);
+  console.log("Body:", req.body);
   try {
+    // Get the product if it exists
     let products = await Product.find({
       code: req.body.code,
     });
     let product = products[0];
-    if (product != null) {
-      console.log("Adding src");
-      if (product.src != null) {
-        fs.unlink("../front-end/public/" + product.src, function (err) {
-          if (err) console.log(err);
-          // if no error, file has been deleted successfully
-          console.log("File deleted!");
-        });
+
+    // By default the path to the image is empty
+    let imagePath = "";
+    if (req.file) {
+      // If the image is specified, update it.
+      imagePath = "/images/" + req.file.filename;
+      if (product) {
+        console.log("Adding src");
+        if (product.src != null) {
+          fs.unlink("../front-end/public/" + product.src, function (err) {
+            if (err) console.log(err);
+            // if no error, file has been deleted successfully
+            console.log("Old file deleted!");
+          });
+        }
+        product.src = imagePath;
+        product.save();
       }
-      product.src = "/images/" + req.file.filename;
-      product.save();
     }
+
     // TODO: Calc number of days to expire.
+    // If the product doesn't exist yet, make a new one.
     if (products.length == 0) {
       product = new Product({
         code: req.body.code,
@@ -64,7 +81,7 @@ router.post("/", upload.single("image"), async (req, res) => {
         tags: req.body.tags,
         amount: req.body.amount,
         unit: req.body.unit,
-        src: "/images/" + req.file.filename,
+        src: imagePath,
       });
       await product.save();
     } else if (
@@ -76,6 +93,7 @@ router.post("/", upload.single("image"), async (req, res) => {
       product.amount != req.body.amount ||
       product.unit != req.body.unit
     ) {
+      // If the item exists, but the information is a little different, send back a response showing what is different.
       return res.send({
         id: product._id,
         message: "Item already exists with different attributes.",
@@ -87,11 +105,10 @@ router.post("/", upload.single("image"), async (req, res) => {
         tags: product.tags,
         amount: product.amount,
         unit: product.unit,
-        src: "/images/" + req.file.filename,
+        src: product.src,
       });
-    } else {
-      // TODO: Delete the file that was just uploaded or update it
     }
+    // If nothing changed, we don't actually need to do anything.
     return res.sendStatus(200);
   } catch (error) {
     console.log(error);
