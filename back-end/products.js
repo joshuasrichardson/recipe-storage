@@ -20,10 +20,11 @@ const Product = mongoose.model("Product", productSchema);
 
 // Configure multer so that it will upload to '/public/images'
 const multer = require("multer");
+const { IMAGES_DIR } = require("./constants");
 const upload = multer({
-  dest: "../front-end/public/images/",
+  dest: IMAGES_DIR + "/images/",
   limits: {
-    fileSize: 50000000,
+    fileSize: 100000000,
   },
 });
 
