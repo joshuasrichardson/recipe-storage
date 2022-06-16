@@ -18,6 +18,7 @@ const itemSchema = new mongoose.Schema({
   tags: Array,
   amount: Number,
   unit: String,
+  src: String,
   added: {
     type: Date,
     default: Date.now,
@@ -41,6 +42,7 @@ router.post("/", validUser, async (req, res) => {
         tags: req.body.tags,
         amount: req.body.amount,
         unit: req.body.unit,
+        src: req.body.src,
       });
       await item.save();
     }

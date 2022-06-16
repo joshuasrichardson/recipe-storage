@@ -16,7 +16,7 @@ const AddFoodStorage = () => {
   const [amount, setAmount] = useState("");
   const [unit, setUnit] = useState("");
   const [quantity, setQuantity] = useState(1);
-  const [image, setImage] = useState("");
+  const [image, setImage] = useState(null);
   const [imageUrl, setImageUrl] = useState("");
   const { user } = useContext(Context);
   const navigate = useNavigate();
@@ -24,14 +24,15 @@ const AddFoodStorage = () => {
   const getItem = async () => {
     const item = await ServerFacade.getProduct(code);
     if (item == null) return;
-    setName(item.name != null ? item.name : "");
-    setBrand(item.brand != null ? item.brand : "");
-    setDescription(item.description != null ? item.description : "");
-    setContainer(item.container != null ? item.container : "Refrigerator");
-    setTags(item.tags != null ? item.tags.join(", ") : "");
-    setAmount(item.amount != null ? item.amount : "");
-    setUnit(item.unit != null ? item.unit : "");
-    setImageUrl(item.src != null ? item.src : "");
+    setName(item.name ? item.name : "");
+    setBrand(item.brand ? item.brand : "");
+    setDescription(item.description ? item.description : "");
+    setContainer(item.container ? item.container : "Refrigerator");
+    setTags(item.tags ? item.tags.join(", ") : "");
+    setAmount(item.amount ? item.amount : "");
+    setUnit(item.unit ? item.unit : "");
+    setImageUrl(item.src ? item.src : "");
+    console.log("Image url: ", item.src);
     // TODO: Set expiration and new attributes
   };
 
@@ -44,7 +45,8 @@ const AddFoodStorage = () => {
 
   const addItem = async (e) => {
     e.preventDefault();
-    await ServerFacade.addFoodStorage(user._id, {
+
+    console.log("add item: ", {
       code: code,
       name: name,
       brand: brand,
@@ -57,6 +59,7 @@ const AddFoodStorage = () => {
       quantity: quantity,
       image: image,
     });
+
     const response = await ServerFacade.addProduct({
       code: code,
       name: name,
@@ -64,10 +67,24 @@ const AddFoodStorage = () => {
       description: description,
       container: container,
       expiration: expiration,
-      tags: tags,
+      tags: tags.split(",").map((t) => t.trim()),
       amount: amount,
       unit: unit,
       image: image,
+    });
+    console.log("src:", response.src);
+    await ServerFacade.addFoodStorage(user._id, {
+      code: code,
+      name: name,
+      brand: brand,
+      description: description,
+      container: container,
+      expiration: expiration,
+      tags: tags.split(",").map((t) => t.trim()),
+      amount: amount,
+      unit: unit,
+      quantity: quantity,
+      src: response.src ? response.src : "",
     });
     if (response.message === "Item already exists with different attributes.") {
       navigate("/item/update", { state: response.state });
@@ -80,7 +97,7 @@ const AddFoodStorage = () => {
     setAmount("");
     setUnit("");
     setQuantity(1);
-    setImage("");
+    setImage(null);
     setImageUrl("");
   };
 

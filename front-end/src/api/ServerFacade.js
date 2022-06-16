@@ -92,6 +92,7 @@ const addProduct = async (item) => {
   try {
     const formData = new FormData();
     if (item.image) formData.append("image", item.image, item.image.name);
+    formData.append("name", item.name);
     formData.append("code", item.code);
     formData.append("brand", item.brand);
     formData.append("description", item.description);
@@ -103,9 +104,10 @@ const addProduct = async (item) => {
     const response = await axios.post("/api/products", formData);
     // const response = await axios.post("/api/products", item);
     let data = response.data;
-    console.log(data);
+    console.log("Data in add product sf: ", data);
     return {
       message: data.message,
+      src: data.src,
       state: {
         id: data.id,
         oldCode: data.code,
@@ -154,6 +156,7 @@ const getStorage = async (setItems) => {
     response.data.forEach(
       (item) => (item.expiration = formatDate(item.expiration))
     );
+    console.log("My storage:", response.data);
     setItems(response.data);
   } catch (error) {
     console.log(error.response.data.message);
@@ -166,7 +169,7 @@ const addFoodStorage = async (userId, item) => {
     console.log("Nothing to add");
     return;
   }
-  console.log("Adding item:", item.code, item.name);
+  console.log("Adding item:", item);
   try {
     const response = await axios.post("/api/storage", {
       user: userId,
@@ -180,10 +183,11 @@ const addFoodStorage = async (userId, item) => {
       amount: item.amount,
       unit: item.unit,
       quantity: item.quantity,
+      src: item.src,
     });
     console.log(response.data);
   } catch (error) {
-    console.log(error.response.data.message);
+    console.log(error);
   }
 };
 

@@ -44,7 +44,7 @@ const StorageItem = (item) => {
         navigate("/storage/" + item._id);
       }}
     >
-      <img className="storage-item-picture" src={item.src} alt={item.name} />
+      <img className="storage-item-picture" src={item.src} alt={item.src} />
       <h3 className="storage-item-name">{item.name}</h3>
       <ul className="storage-item-description">
         <li>Container: {item.container}</li>
