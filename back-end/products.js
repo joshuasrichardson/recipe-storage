@@ -24,7 +24,7 @@ const { IMAGES_DIR } = require("./constants");
 const upload = multer({
   dest: IMAGES_DIR + "/images/",
   limits: {
-    fileSize: 100000000,
+    fileSize: 1048576,
   },
 });
 
@@ -40,19 +40,21 @@ router.post("/", upload.single("image"), async (req, res) => {
     let product = products[0];
 
     // By default the path to the image is empty
-    let imagePath = "";
-    if (req.file) {
+    if (req.file && product) {
       // If the image is specified, update it.
-      imagePath = "/images/" + req.file.filename;
-      if (product) {
-        console.log("Adding src");
-        if (product.src != null) {
-          fs.unlink("../front-end/public/" + product.src, function (err) {
+      let imagePath = "/images/" + req.file.filename;
+      if (product.src != null && product.src != "") {
+        fs.copyFile(
+          IMAGES_DIR + imagePath,
+          IMAGES_DIR + product.src,
+          0,
+          function (err) {
             if (err) console.log(err);
-            // if no error, file has been deleted successfully
-            console.log("Old file deleted!");
-          });
-        }
+            // if no error, file has been replaced successfully
+            console.log("Old file replaced!");
+          }
+        );
+      } else {
         product.src = imagePath;
         product.save();
       }
@@ -70,7 +72,7 @@ router.post("/", upload.single("image"), async (req, res) => {
         tags: req.body.tags,
         amount: req.body.amount,
         unit: req.body.unit,
-        src: imagePath,
+        src: req.file ? "/images/" + req.file.filename : "",
       });
       await product.save();
     } else if (
