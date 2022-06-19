@@ -47,6 +47,7 @@
 .logo,
 h1,
 h2,
+h3,
 .storage-item-name,
 .username {
   font-family: "Architects Daughter", sans-serif;
@@ -96,6 +97,11 @@ h1 {
 
 h2 {
   font-size: 35px;
+}
+
+h3 {
+  font-weight: bold;
+  color: #003815 !important;
 }
 
 p {
@@ -306,6 +312,18 @@ footer {
   max-width: 300px;
 }
 
+.diff-checker {
+  width: 95%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: auto;
+}
+
+.red-text {
+  color: #8b0000;
+}
+
 /* Mobile Styles */
 @media only screen and (max-width: 400px) {
 }
@@ -380,5 +398,28 @@ footer {
   .selections-container,
   .quote {
     width: 500px;
+  }
+
+  .change-prompt {
+    max-width: 60%;
+    width: 60%;
+  }
+
+  .diff-box {
+    max-width: 50%;
+    width: 50%;
+  }
+
+  .diff-boxes {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
+
+  .wide-on-computer {
+    max-width: 70%;
+    width: 70%;
+    margin: 20px auto;
   }
 }

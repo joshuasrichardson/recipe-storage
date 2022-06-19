@@ -32,7 +32,7 @@ function ViewRecipes() {
     <div className="page">
       <div className="main-container other-container food-storage-container">
         <div className="food-storage-header">
-          <h1 className="title">Recipes</h1>
+          <h1 className="title">Recipes -- Temporarily Unavailable</h1>
           <input
             id="recipe-search-bar"
             className="search-bar"

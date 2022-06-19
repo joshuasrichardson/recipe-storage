@@ -20,14 +20,14 @@ const Item = () => {
   };
 
   return (
-    <div className="storage-item">
+    <div className="storage-item wide-on-computer">
       <img className="storage-item-picture" src={item?.src} alt={item?.name} />
       <h3 className="storage-item-name">{item?.name}</h3>
       <ul className="storage-item-description">
         <li>Container: {item?.container}</li>
         <li>Expiration: {item?.expiration}</li>
         <li>Description: {item?.description}</li>
-        <li>Tags: {item?.tags}</li>
+        <li>Tags: {item?.tags ? item.tags.join(", ") : ""}</li>
         <li>Amount: {item?.amount + " " + item?.unit}</li>
       </ul>
       <button onClick={() => navigate("/recipes", { state: item })}>

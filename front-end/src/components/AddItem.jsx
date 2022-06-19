@@ -154,12 +154,6 @@ const AddFoodStorage = () => {
                 value={unit}
                 onChange={(e) => setUnit(e.target.value)}
               ></input>
-              <label className="item">Quantity:</label>
-              <input
-                type="text"
-                value={quantity}
-                onChange={(e) => setQuantity(e.target.value)}
-              ></input>
               <label className="item">Container:</label>
               <select
                 className="item"
@@ -179,6 +173,12 @@ const AddFoodStorage = () => {
                 name="expiration"
                 value={expiration}
                 onChange={(e) => setExpiration(e.target.value)}
+              ></input>
+              <label className="item">Quantity:</label>
+              <input
+                type="text"
+                value={quantity}
+                onChange={(e) => setQuantity(e.target.value)}
               ></input>
               <Uploader setImage={setImage}></Uploader>
               <button className="addButton" type="submit">

@@ -5,51 +5,95 @@ const DiffChecker = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
+  const getClass = (attribute) => {
+    return JSON.stringify(location.state["old" + attribute]) ==
+      JSON.stringify(location.state["new" + attribute])
+      ? ""
+      : "red-text";
+  };
+
   return (
-    <div>
-      <p>
-        The item you inserted seems to have already been added, but some of the
-        information is different. Would you like to update it?
+    <div className="diff-checker">
+      <p className="storage-item change-prompt">
+        <h3>Change detected</h3>
+        Would you like to update the autofill for this item?
       </p>
-      <div className="storage-item">
-        <ul className="storage-item-description">
-          <li>Old Code: {location.state.oldCode}</li>
-          <li>Old Name: {location.state.oldName}</li>
-          <li>Old Brand: {location.state.oldBrand}</li>
-          <li>Old Description: {location.state.oldDescription}</li>
-          <li>Old Tags: {location.state.oldTags}</li>
-          <li>Old Amount: {location.state.oldAmount}</li>
-          <li>Old Unit: {location.state.oldUnit}</li>
-        </ul>
-        <button onClick={() => navigate("/storage/add")}>Keep</button>
-      </div>
-      <div className="storage-item">
-        <ul className="storage-item-description">
-          <li>New Code: {location.state.newCode}</li>
-          <li>New Name: {location.state.newName}</li>
-          <li>New Brand: {location.state.newBrand}</li>
-          <li>New Description: {location.state.newDescription}</li>
-          <li>New Tags: {location.state.newTags}</li>
-          <li>New Amount: {location.state.newAmount}</li>
-          <li>New Unit: {location.state.newUnit}</li>
-        </ul>
-        <button
-          onClick={() => {
-            ServerFacade.updateProduct({
-              id: location.state.id,
-              code: location.state.newCode,
-              name: location.state.newName,
-              brand: location.state.newBrand,
-              description: location.state.newDescription,
-              tags: location.state.newTags,
-              amount: location.state.newAmount,
-              unit: location.state.newUnit,
-            });
-            navigate("/storage/add");
-          }}
-        >
-          Update
-        </button>
+      <div className="diff-boxes">
+        <div className="storage-item diff-box">
+          <ul className="storage-item-description">
+            <li className={getClass("Code")}>
+              Old Code: {location.state.oldCode}
+            </li>
+            <li className={getClass("Name")}>
+              Old Name: {location.state.oldName}
+            </li>
+            <li className={getClass("Brand")}>
+              Old Brand: {location.state.oldBrand}
+            </li>
+            <li className={getClass("Description")}>
+              Old Description: {location.state.oldDescription}
+            </li>
+            <li className={getClass("Tags")}>
+              Old Tags: {location.state.oldTags?.join(", ")}
+            </li>
+            <li className={getClass("Amount")}>
+              Old Amount: {location.state.oldAmount}
+            </li>
+            <li className={getClass("Unit")}>
+              Old Unit: {location.state.oldUnit}
+            </li>
+            <li className={getClass("Container")}>
+              Old Container: {location.state.oldContainer}
+            </li>
+          </ul>
+          <button onClick={() => navigate("/storage/add")}>Keep</button>
+        </div>
+        <div className="storage-item diff-box">
+          <ul className="storage-item-description">
+            <li className={getClass("Code")}>
+              New Code: {location.state.newCode}
+            </li>
+            <li className={getClass("Name")}>
+              New Name: {location.state.newName}
+            </li>
+            <li className={getClass("Brand")}>
+              New Brand: {location.state.newBrand}
+            </li>
+            <li className={getClass("Description")}>
+              New Description: {location.state.newDescription}
+            </li>
+            <li className={getClass("Tags")}>
+              New Tags: {location.state.newTags?.join(", ")}
+            </li>
+            <li className={getClass("Amount")}>
+              New Amount: {location.state.newAmount}
+            </li>
+            <li className={getClass("Unit")}>
+              New Unit: {location.state.newUnit}
+            </li>
+            <li className={getClass("Container")}>
+              New Container: {location.state.newContainer}
+            </li>
+          </ul>
+          <button
+            onClick={() => {
+              ServerFacade.updateProduct({
+                id: location.state.id,
+                code: location.state.newCode,
+                name: location.state.newName,
+                brand: location.state.newBrand,
+                description: location.state.newDescription,
+                tags: location.state.newTags,
+                amount: location.state.newAmount,
+                unit: location.state.newUnit,
+                container: location.state.newContainer,
+              });
+              navigate("/storage/add");
+            }}
+          >
+            Update
+          </button>
+        </div>
       </div>
     </div>
   );

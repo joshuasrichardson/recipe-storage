@@ -86,17 +86,6 @@ router.post("/", upload.single("image"), async (req, res) => {
       product.unit != req.body.unit
     ) {
       // If the item exists, but the information is a little different, send back a response showing what is different.
-      console.log("It's different");
-      console.log(product.code != req.body.code);
-      console.log(product.name != req.body.name);
-      console.log("Name before: ", product.name);
-      console.log("Name after: ", req.body.name);
-      console.log(product.brand != req.body.brand);
-      console.log(product.description != req.body.description);
-      console.log(product.container != req.body.container);
-      console.log(product.tags != req.body.tags);
-      console.log(product.amount != req.body.amount);
-      console.log(product.unit != req.body.unit);
       return res.send({
         id: product._id,
         message: "Item already exists with different attributes.",
@@ -136,6 +125,7 @@ router.put("/:id", async (req, res) => {
         tags: req.body.tags,
         amount: req.body.amount,
         unit: req.body.unit,
+        container: req.body.container,
       }
     );
     console.log(product);

@@ -117,6 +117,7 @@ const addProduct = async (item) => {
         oldTags: data.tags,
         oldAmount: data.amount,
         oldUnit: data.unit,
+        oldContainer: data.container,
         newCode: item.code,
         newName: item.name,
         newBrand: item.brand,
@@ -124,6 +125,7 @@ const addProduct = async (item) => {
         newTags: item.tags,
         newAmount: item.amount,
         newUnit: item.unit,
+        newContainer: item.container,
       },
     };
   } catch (error) {
@@ -209,9 +211,8 @@ const getRecipes = async (itemName, setItems) => {
 };
 
 const formatDate = (date) => {
-  date = moment(date).format("d MMMM YYYY");
-  if (date === "Invalid date") date = "Unknown";
-  return date;
+  if (date == null) return "Unknown";
+  return moment(date?.substring(0, 10)).format("D MMM YYYY");
 };
 
 export default {
