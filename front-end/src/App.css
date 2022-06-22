@@ -176,6 +176,22 @@ input {
   margin: 10px auto;
 }
 
+button.small {
+  color: #e0d6ce;
+  background-color: #8b0000;
+  font-weight: bold;
+  padding: 10px;
+  text-align: center;
+  border-radius: 5px;
+  width: 40px;
+  max-width: 40px;
+  height: 40px;
+  max-height: 40px;
+  display: block;
+  text-decoration: none;
+  margin: -5px;
+}
+
 button {
   color: #e0d6ce;
   background-color: #8b0000;
@@ -193,6 +209,14 @@ button {
 button:hover {
   color: #e0d6ce;
   background-color: #b00000;
+}
+
+.flex-row {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  width: 95%;
 }
 
 .video-container {
@@ -324,6 +348,21 @@ footer {
   color: #8b0000;
 }
 
+.list-item {
+  border: 1px solid #003815;
+  width: 100%;
+  padding: 5px 5px 0 5px;
+}
+
+.list-item-description {
+  list-style-type: none;
+}
+
+.list-item-name {
+  color: #003815;
+  font-weight: 500;
+}
+
 /* Mobile Styles */
 @media only screen and (max-width: 400px) {
 }
@@ -357,12 +396,7 @@ footer {
     order: 1;
   }
 
-  .title {
-    order: 2;
-  }
-
   .search-bar {
-    order: 3;
     width: 200px;
   }
 

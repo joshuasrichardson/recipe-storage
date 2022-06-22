@@ -1,11 +1,20 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ServerFacade from "../api/ServerFacade";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
 
 function Storage() {
   const [matchingItems, setMatchingItems] = useState([]);
   const [allItems, setAllItems] = useState([]);
   const [numItems, setNumItems] = useState(0);
+  const [itemStyleIcon, setItemStyleIcon] = useState(
+    <FontAwesomeIcon icon={solid("list")} />
+  );
+  const [unusedIcon, setUnusedIcon] = useState(
+    <FontAwesomeIcon icon={solid("image")} />
+  );
+  const [useImageView, setUseImageView] = useState(true);
 
   useEffect(() => {
     if (allItems.length === 0) {
@@ -26,7 +35,10 @@ function Storage() {
   };
 
   const getItemsHTML = (items) => {
-    return items.map((item) => <StorageItem key={item._id} item={item} />);
+    if (useImageView) {
+      return items.map((item) => <ImgViewItem key={item._id} item={item} />);
+    }
+    return items.map((item) => <ListViewItem key={item._id} item={item} />);
   };
 
   const onSearchChange = (e) => {
@@ -56,12 +68,20 @@ function Storage() {
       for (let tag of item.tags) {
         if (tag.toLowerCase().includes(searchField.toLowerCase())) {
           searchItems.push(item);
-          continue;
+          break;
         }
       }
     }
 
     setMatchingItems(searchItems);
+  };
+
+  const changeView = () => {
+    let temp = itemStyleIcon;
+    setItemStyleIcon(unusedIcon);
+    setUnusedIcon(temp);
+
+    setUseImageView(!useImageView);
   };
 
   return (
@@ -76,7 +96,15 @@ function Storage() {
             placeholder="Search items..."
             onChange={onSearchChange}
           ></input>
-          <p>{numItems} Items</p>
+          <div className="flex-row">
+            <Link to="/storage/add" className="button-link">
+              <button className="small">+</button>
+            </Link>
+            <p>{numItems} Items</p>
+            <button onClick={changeView} className="small">
+              {itemStyleIcon}
+            </button>
+          </div>
         </div>
         <div className="storage-item-container">
           {getItemsHTML(matchingItems)}
@@ -89,7 +117,7 @@ function Storage() {
 export default Storage;
 
 // <li>Number: {item.count}</li>
-const StorageItem = (item) => {
+const ImgViewItem = (item) => {
   const navigate = useNavigate();
   item = item.item;
   return (
@@ -104,6 +132,33 @@ const StorageItem = (item) => {
       <ul className="storage-item-description">
         <li>Container: {item.container}</li>
         <li>Expiration: {item.expiration}</li>
+      </ul>
+    </div>
+  );
+};
+
+const ListViewItem = (item) => {
+  const navigate = useNavigate();
+  item = item.item;
+  return (
+    <div
+      className="list-item"
+      onClick={() => {
+        navigate("/storage/" + item._id);
+      }}
+    >
+      <ul className="list-item-description">
+        <li className="list-item-name">{item.name}</li>
+        <li>
+          <div className="flex-row">
+            <div>
+              <em>{item.container}</em>
+            </div>
+            <div>
+              <em>{item.expiration}</em>
+            </div>
+          </div>
+        </li>
       </ul>
     </div>
   );

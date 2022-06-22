@@ -52,12 +52,12 @@ function Nav() {
                   classN="nav-link"
                   condition={user != null}
                 >
-                  {user != null ? "View Items" : ""}
+                  {user != null ? "Storage" : ""}
                 </ConditionalLink>
               </li>
               <li>
                 <Link to="/recipes" className="nav-link">
-                  View Recipes
+                  Recipes
                 </Link>
               </li>
               <li>
