@@ -3,6 +3,7 @@ import Storage from "./components/Storage.jsx";
 import Item from "./components/Item.jsx";
 import ViewRecipes from "./components/ViewRecipes.jsx";
 import Login from "./components/Login.jsx";
+import Editor from "./components/Editor.jsx";
 import DiffChecker from "./components/DiffChecker.jsx";
 import Intro from "./components/Intro.jsx";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
@@ -15,6 +16,7 @@ const AllRoutes = () => {
       <Routes>
         <Route path="/storage/add" exact element={<AddItem />} />
         <Route path="/storage/:id" exact element={<Item />} />
+        <Route path="/storage/edit/:id" exact element={<Editor />} />
         <Route path="/storage" exact element={<Storage />} />
         <Route path="/item/update" exact element={<DiffChecker />} />
         <Route path="/recipes" exact element={<ViewRecipes />} />

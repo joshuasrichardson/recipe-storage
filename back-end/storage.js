@@ -98,6 +98,33 @@ router.get("/", validUser, async (req, res) => {
   }
 });
 
+router.put("/:id", async (req, res) => {
+  console.log(req.body);
+  try {
+    let item = await Item.findByIdAndUpdate(
+      {
+        _id: req.params.id,
+      },
+      {
+        name: req.body.name,
+        brand: req.body.brand,
+        description: req.body.description,
+        container: req.body.container,
+        tags: req.body.tags,
+        amount: req.body.amount,
+        unit: req.body.unit,
+        expiration: req.body.expiration,
+      }
+    );
+    console.log(item);
+    item.save();
+    return res.sendStatus(200);
+  } catch (error) {
+    console.log(error);
+    return res.sendStatus(500);
+  }
+});
+
 module.exports = {
   routes: router,
 };

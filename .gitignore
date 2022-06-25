@@ -25,3 +25,6 @@ front-end/npm-debug.log*
 front-end/yarn-debug.log*
 front-end/yarn-error.log*
 back-end/mongo-url.js
+
+deploy.sh
+practice.sh

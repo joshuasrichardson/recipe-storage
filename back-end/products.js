@@ -125,7 +125,6 @@ router.put("/:id", async (req, res) => {
         tags: req.body.tags,
         amount: req.body.amount,
         unit: req.body.unit,
-        container: req.body.container,
       }
     );
     console.log(product);

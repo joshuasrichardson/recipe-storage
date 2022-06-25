@@ -193,12 +193,17 @@ const addFoodStorage = async (userId, item) => {
   }
 };
 
+const updateItem = async (item) => {
+  const response = await axios.put("/api/storage/" + item.id, item);
+  console.log(response.data);
+};
+
 const getRecipes = async (itemName, setItems) => {
   try {
     let response = await axios.get("/api/recipes/" + itemName);
     setItems(response.data);
   } catch (error) {
-    console.log(error.response.data.message);
+    console.log(error);
     setItems([]);
   }
   // await fetch(
@@ -227,5 +232,6 @@ export default {
   deleteItem,
   getStorage,
   addFoodStorage,
+  updateItem,
   getRecipes,
 };

@@ -33,6 +33,9 @@ const Item = () => {
       <button onClick={() => navigate("/recipes", { state: item })}>
         &#128269;
       </button>
+      <button onClick={() => navigate("/storage/edit/" + item._id)}>
+        Edit
+      </button>
       <button onClick={deleteItem}>&#x1F5D1;</button>
     </div>
   );

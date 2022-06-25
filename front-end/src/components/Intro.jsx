@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { Context } from "../App";
-import AddItem from "./AddItem.jsx";
+import Storage from "./Storage.jsx";
 import { Link } from "react-router-dom";
 
 const Intro = () => {
@@ -12,11 +12,15 @@ const Intro = () => {
         <div className="main-container">
           <h1>Recipe Storage</h1>
           <p className="call-to-action">
-            Get started by viewing recipes or creating your own account.
+            Get started by viewing recipes, logging in, or creating your own
+            account.
           </p>
           <div className="selections-container">
             <Link to="/recipes" className="button-link">
               <button>See Recipes</button>
+            </Link>
+            <Link to="/login" className="button-link">
+              <button>Login</button>
             </Link>
             <Link to="/register" className="button-link">
               <button>Create Account</button>
@@ -26,7 +30,7 @@ const Intro = () => {
       </div>
     );
   } else {
-    return <AddItem />;
+    return <Storage />;
   }
 };
 

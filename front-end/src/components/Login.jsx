@@ -16,7 +16,7 @@ const Login = (props) => {
 
   const onLoggedIn = (user) => {
     setUser(user);
-    navigate("/storage/add", { replace: true });
+    navigate("/storage", { replace: true });
   };
 
   const login = async (e) => {
