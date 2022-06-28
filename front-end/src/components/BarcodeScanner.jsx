@@ -36,7 +36,7 @@ const Scanner = (props) => {
   return (
     <div className="container">
       {showCamera && <div id="interactive" className="viewport"></div>}
-      <button onClick={setCamera}>
+      <button className="obvious" onClick={setCamera}>
         {showCamera ? "Done Scanning" : "Start Scanning"}
       </button>
     </div>

@@ -4,6 +4,8 @@ import Scanner from "./BarcodeScanner.jsx";
 import Uploader from "./Uploader.jsx";
 import { Link, useNavigate } from "react-router-dom";
 import ServerFacade from "../api/ServerFacade";
+import { toast } from "react-toastify";
+import { toastEmitter } from "./Toaster";
 
 const AddFoodStorage = () => {
   const [code, setCode] = useState("");
@@ -89,6 +91,7 @@ const AddFoodStorage = () => {
     if (response.message === "Item already exists with different attributes.") {
       navigate("/item/update", { state: response.state });
     }
+    toast.success("Added " + name + "!", toastEmitter);
     setCode("");
     setName("");
     setBrand("");
@@ -181,7 +184,7 @@ const AddFoodStorage = () => {
                 onChange={(e) => setQuantity(e.target.value)}
               ></input>
               <Uploader setImage={setImage}></Uploader>
-              <button className="addButton" type="submit">
+              <button className="obvious addButton" type="submit">
                 Add to Storage
               </button>
             </form>
@@ -189,7 +192,7 @@ const AddFoodStorage = () => {
         </div>
         <div className="div-hr"></div>
         <Link to="/storage" className="button-link">
-          <button>View My Storage</button>
+          <button className="obvious">View My Storage</button>
         </Link>
       </div>
     </div>

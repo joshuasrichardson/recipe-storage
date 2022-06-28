@@ -93,7 +93,7 @@ const Login = (props) => {
         )}
         <p>{err}</p>
         <div className="login-container">
-          <button type="submit">
+          <button className="obvious" type="submit">
             {hasAccount && "Login"}
             {!hasAccount && "Create"}
           </button>

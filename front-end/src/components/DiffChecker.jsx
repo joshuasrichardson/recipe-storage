@@ -14,10 +14,10 @@ const DiffChecker = () => {
 
   return (
     <div className="diff-checker">
-      <p className="storage-item change-prompt">
+      <div className="storage-item change-prompt">
         <h3>Change detected</h3>
-        Would you like to update the autofill for this item?
-      </p>
+        <p>Would you like to update the autofill for this item?</p>
+      </div>
       <div className="diff-boxes">
         <div className="storage-item diff-box">
           <ul className="storage-item-description">
@@ -46,7 +46,9 @@ const DiffChecker = () => {
               Old Container: {location.state.oldContainer}
             </li>
           </ul>
-          <button onClick={() => navigate("/storage/add")}>Keep</button>
+          <button className="obvious" onClick={() => navigate("/storage/add")}>
+            Keep
+          </button>
         </div>
         <div className="storage-item diff-box">
           <ul className="storage-item-description">
@@ -76,6 +78,7 @@ const DiffChecker = () => {
             </li>
           </ul>
           <button
+            className="obvious"
             onClick={() => {
               ServerFacade.updateProduct({
                 id: location.state.id,

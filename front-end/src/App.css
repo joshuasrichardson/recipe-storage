@@ -172,7 +172,7 @@ input {
   justify-content: space-around;
 }
 
-.addButton {
+button.addButton {
   margin: 10px auto;
 }
 
@@ -192,7 +192,7 @@ button.small {
   margin: -5px;
 }
 
-button {
+.obvious {
   color: #e0d6ce;
   background-color: #8b0000;
   font-weight: bold;

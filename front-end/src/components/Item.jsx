@@ -1,13 +1,22 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useLocation, useNavigate } from "react-router-dom";
 import ServerFacade from "../api/ServerFacade";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
+import { toast } from "react-toastify";
+import { toastEmitter } from "./Toaster";
 
 const Item = () => {
+  const location = useLocation();
   const navigate = useNavigate();
   const { id } = useParams();
   const [item, setItem] = useState(null);
 
   useEffect(async () => {
+    if (location.state?.updated) {
+      toast.success("Updated " + location.state.updated + "!", toastEmitter);
+      location.state.updated = false;
+    }
     if (item == null) {
       const i = await ServerFacade.getItem(id);
       setItem(i);
@@ -16,7 +25,7 @@ const Item = () => {
 
   const deleteItem = () => {
     ServerFacade.deleteItem(id);
-    navigate("/storage");
+    navigate("/storage", { state: { deleted: item.name } });
   };
 
   return (
@@ -30,13 +39,23 @@ const Item = () => {
         <li>Tags: {item?.tags ? item.tags.join(", ") : ""}</li>
         <li>Amount: {item?.amount + " " + item?.unit}</li>
       </ul>
-      <button onClick={() => navigate("/recipes", { state: item })}>
-        &#128269;
-      </button>
-      <button onClick={() => navigate("/storage/edit/" + item._id)}>
-        Edit
-      </button>
-      <button onClick={deleteItem}>&#x1F5D1;</button>
+      <div className="flex-row">
+        <button
+          className="obvious small"
+          onClick={() => navigate("/recipes", { state: item })}
+        >
+          <FontAwesomeIcon icon={solid("search")} />
+        </button>
+        <button
+          className="obvious small"
+          onClick={() => navigate("/storage/edit/" + item._id)}
+        >
+          <FontAwesomeIcon icon={solid("edit")} />
+        </button>
+        <button className="obvious small" onClick={deleteItem}>
+          <FontAwesomeIcon icon={solid("trash")} />
+        </button>
+      </div>
     </div>
   );
 };

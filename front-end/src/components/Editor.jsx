@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import ServerFacade from "../api/ServerFacade";
+import moment from "moment";
 
 const Editor = () => {
   const navigate = useNavigate();
@@ -42,7 +43,7 @@ const Editor = () => {
       amount: amount,
       unit: unit,
     });
-    //navigate("/storage/" + id); // TODO: Fix expiration, remove e.preventDefault(), and restore this
+    navigate("/storage/" + id, { state: { updated: name } }); // TODO: Fix expiration, remove e.preventDefault(), and restore this
   };
 
   return (
@@ -104,10 +105,10 @@ const Editor = () => {
             <input
               type="date"
               name="expiration"
-              value={expiration}
+              value={moment(expiration).format("YYYY-MM-DD")}
               onChange={(e) => setExpiration(e.target.value)}
             ></input>
-            <button className="addButton" type="submit">
+            <button className="obvious addButton" type="submit">
               Update
             </button>
           </form>

@@ -140,6 +140,7 @@ const updateProduct = async (product) => {
 
 const getItem = async (id) => {
   const res = await axios.get("/api/storage/" + id);
+  console.log("getItem Response: ", res);
   res.data.expiration = formatDate(res.data.expiration);
   return res.data;
 };

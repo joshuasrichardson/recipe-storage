@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import ServerFacade from "../api/ServerFacade";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
+import { toast } from "react-toastify";
+import { toastEmitter } from "./Toaster";
 
 function Storage() {
   const [matchingItems, setMatchingItems] = useState([]);
@@ -16,7 +18,13 @@ function Storage() {
   );
   const [useImageView, setUseImageView] = useState(true);
 
+  const location = useLocation();
+
   useEffect(() => {
+    if (location.state?.deleted) {
+      toast.success("Deleted " + location.state.deleted + "!", toastEmitter);
+      location.state.deleted = false;
+    }
     if (allItems.length === 0) {
       getStorage();
     }
@@ -98,10 +106,10 @@ function Storage() {
           ></input>
           <div className="flex-row">
             <Link to="/storage/add" className="button-link">
-              <button className="small">+</button>
+              <button className="obvious small">+</button>
             </Link>
             <p>{numItems} Items</p>
-            <button onClick={changeView} className="small">
+            <button onClick={changeView} className="obvious small">
               {itemStyleIcon}
             </button>
           </div>

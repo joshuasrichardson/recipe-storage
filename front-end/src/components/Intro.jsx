@@ -17,13 +17,13 @@ const Intro = () => {
           </p>
           <div className="selections-container">
             <Link to="/recipes" className="button-link">
-              <button>See Recipes</button>
+              <button className="obvious">See Recipes</button>
             </Link>
             <Link to="/login" className="button-link">
-              <button>Login</button>
+              <button className="obvious">Login</button>
             </Link>
             <Link to="/register" className="button-link">
-              <button>Create Account</button>
+              <button className="obvious">Create Account</button>
             </Link>
           </div>
         </div>

@@ -42,6 +42,7 @@ function ViewRecipes() {
           ></input>
         </div>
         <button
+          className="obvious"
           onClick={() => ServerFacade.getRecipes(searchField, displayRecipes)}
         >
           Search
