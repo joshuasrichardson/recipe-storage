@@ -365,6 +365,11 @@ footer {
 
 /* Mobile Styles */
 @media only screen and (max-width: 400px) {
+  body {
+    background: url(./images/healthy_food_cropped.jpg) repeat;
+    background-size: 100vw;
+    background-attachment: scroll;
+  }
 }
 
 /* Tablet Styles */
