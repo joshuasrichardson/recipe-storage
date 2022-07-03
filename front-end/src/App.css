@@ -348,6 +348,10 @@ footer {
   color: #8b0000;
 }
 
+.blue-text {
+  color: #00008b;
+}
+
 .list-item {
   border: 1px solid #003815;
   width: 100%;

@@ -6,6 +6,22 @@ import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
 import { toast } from "react-toastify";
 import { toastEmitter } from "./Toaster";
 
+const getColor = (expiration) => {
+  const today = new Date();
+  const expDate = new Date(expiration);
+
+  console.log(expDate);
+  console.log(today);
+
+  if (expDate < today) return "red-text";
+
+  var oneWeek = 7;
+  var oneWeekFromToday = new Date(today.setDate(today.getDate() + oneWeek));
+  if (expDate < oneWeekFromToday) return "blue-text";
+
+  return "";
+};
+
 function Storage() {
   const [matchingItems, setMatchingItems] = useState([]);
   const [allItems, setAllItems] = useState([]);
@@ -139,7 +155,9 @@ const ImgViewItem = (item) => {
       <h3 className="storage-item-name">{item.name}</h3>
       <ul className="storage-item-description">
         <li>Container: {item.container}</li>
-        <li>Expiration: {item.expiration}</li>
+        <li className={getColor(item.expiration)}>
+          Expiration: {item.expiration}
+        </li>
       </ul>
     </div>
   );
@@ -162,7 +180,7 @@ const ListViewItem = (item) => {
             <div>
               <em>{item.container}</em>
             </div>
-            <div>
+            <div className={getColor(item.expiration)}>
               <em>{item.expiration}</em>
             </div>
           </div>
