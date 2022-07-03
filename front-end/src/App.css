@@ -101,7 +101,7 @@ h2 {
 
 h3 {
   font-weight: bold;
-  color: #003815 !important;
+  color: #003815;
 }
 
 p {
@@ -344,14 +344,6 @@ footer {
   margin: auto;
 }
 
-.red-text {
-  color: #8b0000;
-}
-
-.blue-text {
-  color: #00008b;
-}
-
 .list-item {
   border: 1px solid #003815;
   width: 100%;
@@ -365,6 +357,14 @@ footer {
 .list-item-name {
   color: #003815;
   font-weight: 500;
+}
+
+.red-text {
+  color: #8b0000;
+}
+
+.blue-text {
+  color: #00008b;
 }
 
 /* Mobile Styles */

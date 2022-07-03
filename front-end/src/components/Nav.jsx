@@ -56,6 +56,15 @@ function Nav() {
                 </ConditionalLink>
               </li>
               <li>
+                <ConditionalLink
+                  to="/storage/history"
+                  classN="nav-link"
+                  condition={user != null}
+                >
+                  {user != null ? "History" : ""}
+                </ConditionalLink>
+              </li>
+              <li>
                 <Link to="/recipes" className="nav-link">
                   Recipes
                 </Link>

@@ -142,6 +142,14 @@ const getItem = async (id) => {
   const res = await axios.get("/api/storage/" + id);
   console.log("getItem Response: ", res);
   res.data.expiration = formatDate(res.data.expiration);
+  res.data.added = formatDate(res.data.added);
+  return res.data;
+};
+
+const getHistoryItem = async (id) => {
+  const res = await axios.get("/api/storage/history/" + id);
+  res.data.expiration = formatDate(res.data.expiration);
+  res.data.added = formatDate(res.data.added);
   return res.data;
 };
 
@@ -159,10 +167,20 @@ const getStorage = async (setItems) => {
     response.data.forEach(
       (item) => (item.expiration = formatDate(item.expiration))
     );
-    console.log("My storage:", response.data);
     setItems(response.data);
   } catch (error) {
-    console.log(error.response.data.message);
+    console.log(error);
+    setItems([]);
+  }
+};
+
+const getStorageHistory = async (setItems) => {
+  try {
+    let response = await axios.get("/api/storage/history");
+    response.data.forEach((item) => (item.added = formatDate(item.added)));
+    setItems(response.data);
+  } catch (error) {
+    console.log(error);
     setItems([]);
   }
 };
@@ -230,8 +248,10 @@ export default {
   addProduct,
   updateProduct,
   getItem,
+  getHistoryItem,
   deleteItem,
   getStorage,
+  getStorageHistory,
   addFoodStorage,
   updateItem,
   getRecipes,

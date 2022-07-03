@@ -6,7 +6,7 @@ import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
 import { toast } from "react-toastify";
 import { toastEmitter } from "./Toaster";
 
-const Item = () => {
+const Item = ({ canEdit, getItem }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const { id } = useParams();
@@ -18,7 +18,7 @@ const Item = () => {
       location.state.updated = false;
     }
     if (item == null) {
-      const i = await ServerFacade.getItem(id);
+      const i = await getItem(id);
       setItem(i);
     }
   }, [id, item, setItem]);
@@ -26,6 +26,30 @@ const Item = () => {
   const deleteItem = () => {
     ServerFacade.deleteItem(id);
     navigate("/storage", { state: { deleted: item.name } });
+  };
+
+  const getOptions = () => {
+    if (canEdit) {
+      return (
+        <div className="flex-row">
+          <button
+            className="obvious small"
+            onClick={() => navigate("/recipes", { state: item })}
+          >
+            <FontAwesomeIcon icon={solid("search")} />
+          </button>
+          <button
+            className="obvious small"
+            onClick={() => navigate("/storage/edit/" + item._id)}
+          >
+            <FontAwesomeIcon icon={solid("edit")} />
+          </button>
+          <button className="obvious small" onClick={deleteItem}>
+            <FontAwesomeIcon icon={solid("trash")} />
+          </button>
+        </div>
+      );
+    }
   };
 
   return (
@@ -38,24 +62,11 @@ const Item = () => {
         <li>Description: {item?.description}</li>
         <li>Tags: {item?.tags ? item.tags.join(", ") : ""}</li>
         <li>Amount: {item?.amount + " " + item?.unit}</li>
+        <li>
+          {item?.deleted ? "Deleted" : "Added"}: {item?.added}
+        </li>
       </ul>
-      <div className="flex-row">
-        <button
-          className="obvious small"
-          onClick={() => navigate("/recipes", { state: item })}
-        >
-          <FontAwesomeIcon icon={solid("search")} />
-        </button>
-        <button
-          className="obvious small"
-          onClick={() => navigate("/storage/edit/" + item._id)}
-        >
-          <FontAwesomeIcon icon={solid("edit")} />
-        </button>
-        <button className="obvious small" onClick={deleteItem}>
-          <FontAwesomeIcon icon={solid("trash")} />
-        </button>
-      </div>
+      {getOptions()}
     </div>
   );
 };
