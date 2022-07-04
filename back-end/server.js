@@ -47,5 +47,7 @@ const storage = require("./storage.js");
 app.use("/api/storage", storage.routes);
 const products = require("./products.js");
 app.use("/api/products", products.routes);
+const containers = require("./containers.js");
+app.use("/api/containers", containers.routes);
 
 app.listen(3002, () => console.log("Server listening on port 3002!"));

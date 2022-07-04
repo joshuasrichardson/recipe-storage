@@ -217,6 +217,21 @@ const updateItem = async (item) => {
   console.log(response.data);
 };
 
+const getContainers = async (setContainers) => {
+  try {
+    const response = await axios.get("/api/containers");
+    setContainers(response.data[0].containers);
+  } catch (error) {
+    console.log(error);
+    setContainers([]);
+  }
+};
+
+const addContainer = async (container) => {
+  if (!container || container === "") return;
+  await axios.put("/api/containers", { container: container });
+};
+
 const getRecipes = async (itemName, setItems) => {
   try {
     let response = await axios.get("/api/recipes/" + itemName);
@@ -254,5 +269,7 @@ export default {
   getStorageHistory,
   addFoodStorage,
   updateItem,
+  getContainers,
+  addContainer,
   getRecipes,
 };

@@ -12,7 +12,8 @@ const AddFoodStorage = () => {
   const [name, setName] = useState("");
   const [brand, setBrand] = useState("");
   const [description, setDescription] = useState("");
-  const [container, setContainer] = useState("Refrigerator");
+  const [containers, setContainers] = useState([]);
+  const [container, setContainer] = useState("");
   const [expiration, setExpiration] = useState("");
   const [tags, setTags] = useState([]);
   const [amount, setAmount] = useState("");
@@ -44,6 +45,19 @@ const AddFoodStorage = () => {
       getItem();
     }
   }, [code]);
+
+  useEffect(async () => {
+    if (containers && containers.length > 0) {
+      setContainer(containers[0]);
+    } else {
+      await ServerFacade.getContainers(setContainers);
+      if (!containers || containers.length === 0) {
+        setContainer("Refrigerator");
+      } else {
+        setContainer(containers[0]);
+      }
+    }
+  }, [containers]);
 
   const addItem = async (e) => {
     e.preventDefault();
@@ -104,6 +118,22 @@ const AddFoodStorage = () => {
     setImageUrl("");
   };
 
+  const getOptions = () => {
+    return containers?.map((cont) => <option key={cont} value={cont}></option>);
+  };
+
+  const onContainerChange = (e) => {
+    setContainer(e.target.value);
+  };
+
+  const onContainerBlur = (e) => {
+    const cont = e.target.value;
+    if (!containers.includes(cont) && cont !== "" && cont.length < 40) {
+      ServerFacade.addContainer(cont);
+      containers.push(cont);
+    }
+  };
+
   return (
     <div className="page">
       <div className="main-container other-container">
@@ -158,18 +188,13 @@ const AddFoodStorage = () => {
                 onChange={(e) => setUnit(e.target.value)}
               ></input>
               <label className="item">Container:</label>
-              <select
-                className="item"
-                default="Refrigerator"
+              <input
+                list="containerList"
                 value={container}
-                onChange={(e) => setContainer(e.target.value)}
-              >
-                <option value="Refrigerator">Refrigerator</option>
-                <option value="Pantry">Pantry</option>
-                <option value="Shelf">Shelf</option>
-                <option value="Storage Room">Storage Room</option>
-                <option value="Under the Bed">Under the Bed</option>
-              </select>
+                onChange={onContainerChange}
+                onBlur={onContainerBlur}
+              />
+              <datalist id="containerList">{getOptions()}</datalist>
               <label className="item">Expiration:</label>
               <input
                 type="date"
