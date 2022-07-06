@@ -46,7 +46,7 @@ const register = async (
 
 const getLoggedInUser = async () => {
   const response = await axios.get("/api/users");
-  console.log(response);
+  console.log("User:", response);
   return response.data.user;
 };
 
@@ -254,7 +254,7 @@ const formatDate = (date) => {
   return moment(date?.substring(0, 10)).format("D MMM YYYY");
 };
 
-export default {
+const ServerFacade = {
   login,
   register,
   getLoggedInUser,
@@ -273,3 +273,5 @@ export default {
   addContainer,
   getRecipes,
 };
+
+export default ServerFacade;

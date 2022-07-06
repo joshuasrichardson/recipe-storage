@@ -34,7 +34,7 @@ function ItemGroup({
   const [unusedIcon, setUnusedIcon] = useState(
     <FontAwesomeIcon icon={solid("image")} />
   );
-  const [useImageView, setUseImageView] = useState(true);
+  const [useImageView, setUseImageView] = useState(false);
 
   const location = useLocation();
 
@@ -46,7 +46,7 @@ function ItemGroup({
     if (allItems.length === 0) {
       getItemGroup(setAllItems);
     }
-  });
+  }, [location.state, allItems, setAllItems, getItemGroup]);
 
   useEffect(() => {
     setMatchingItems(allItems);

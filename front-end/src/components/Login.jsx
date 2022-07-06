@@ -3,8 +3,7 @@ import { Context } from "../App";
 import { useNavigate } from "react-router-dom";
 import ServerFacade from "../api/ServerFacade";
 
-const Login = (props) => {
-  const [hasAccount, setHasAccount] = useState(props.hasAccount);
+const Login = ({ hasAccount }) => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [username, setUsername] = useState("");
@@ -52,6 +51,7 @@ const Login = (props) => {
             <input
               type="text"
               name="first-name"
+              value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
             ></input>
             <label className="item" htmlFor="last-name">
@@ -60,6 +60,7 @@ const Login = (props) => {
             <input
               type="text"
               name="last-name"
+              value={lastName}
               onChange={(e) => setLastName(e.target.value)}
             ></input>
           </div>
@@ -69,6 +70,7 @@ const Login = (props) => {
         </label>
         <input
           type="text"
+          value={username}
           onChange={(e) => setUsername(e.target.value)}
         ></input>
         <label className="item" htmlFor="password">
@@ -77,6 +79,7 @@ const Login = (props) => {
         <input
           type="password"
           name="password"
+          value={password}
           onChange={(e) => setPassword(e.target.value)}
         ></input>
         {!hasAccount && (
@@ -87,6 +90,7 @@ const Login = (props) => {
             <input
               type="password"
               name="password"
+              value={password2}
               onChange={(e) => setPassword2(e.target.value)}
             ></input>
           </div>
@@ -97,7 +101,10 @@ const Login = (props) => {
             {hasAccount && "Login"}
             {!hasAccount && "Create"}
           </button>
-          <a className="link" onClick={() => setHasAccount(!hasAccount)}>
+          <a
+            className="link"
+            onClick={() => navigate(hasAccount ? "/register" : "/login")}
+          >
             {hasAccount && "Don't have an account? Click here to create one."}
             {!hasAccount && "Have an account? Click here to login."}
           </a>

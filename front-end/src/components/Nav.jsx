@@ -10,8 +10,10 @@ function Nav() {
   const { user, setUser } = useContext(Context);
 
   const logout = async () => {
-    await ServerFacade.logout();
-    setUser(null);
+    if (user) {
+      await ServerFacade.logout();
+      setUser(null);
+    }
   };
 
   return (
@@ -39,29 +41,20 @@ function Nav() {
             <ul className="navbar-nav mb-2 mb-lg-0">
               <li>
                 <ConditionalLink
-                  to="/storage/add"
-                  classN="nav-link"
-                  condition={user != null}
-                >
-                  {user != null ? "Add Item" : ""}
-                </ConditionalLink>
-              </li>
-              <li>
-                <ConditionalLink
                   to="/storage"
                   classN="nav-link"
-                  condition={user != null}
+                  condition={user}
                 >
-                  {user != null ? "Storage" : ""}
+                  {user ? "Storage" : ""}
                 </ConditionalLink>
               </li>
               <li>
                 <ConditionalLink
                   to="/storage/history"
                   classN="nav-link"
-                  condition={user != null}
+                  condition={user}
                 >
-                  {user != null ? "History" : ""}
+                  {user ? "History" : ""}
                 </ConditionalLink>
               </li>
               <li>
@@ -71,7 +64,7 @@ function Nav() {
               </li>
               <li>
                 <Link to="/login" className="nav-link" onClick={logout}>
-                  {user == null ? "Login" : "Logout"}
+                  {user ? "Logout" : "Login"}
                 </Link>
               </li>
             </ul>

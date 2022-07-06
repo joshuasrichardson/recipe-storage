@@ -12,16 +12,19 @@ const Item = ({ canEdit, getItem }) => {
   const { id } = useParams();
   const [item, setItem] = useState(null);
 
-  useEffect(async () => {
-    if (location.state?.updated) {
-      toast.success("Updated " + location.state.updated + "!", toastEmitter);
-      location.state.updated = false;
-    }
-    if (item == null) {
-      const i = await getItem(id);
-      setItem(i);
-    }
-  }, [id, item, setItem]);
+  useEffect(() => {
+    const updateScreen = async () => {
+      if (location.state?.updated) {
+        toast.success("Updated " + location.state.updated + "!", toastEmitter);
+        location.state.updated = false;
+      }
+      if (item == null) {
+        const i = await getItem(id);
+        setItem(i);
+      }
+    };
+    updateScreen();
+  }, [location.state, id, item, setItem, getItem]);
 
   const deleteItem = () => {
     ServerFacade.deleteItem(id);
@@ -57,14 +60,17 @@ const Item = ({ canEdit, getItem }) => {
       <img className="storage-item-picture" src={item?.src} alt={item?.name} />
       <h3 className="storage-item-name">{item?.name}</h3>
       <ul className="storage-item-description">
-        <li>Container: {item?.container}</li>
-        <li>Expiration: {item?.expiration}</li>
-        <li>Description: {item?.description}</li>
-        <li>Tags: {item?.tags ? item.tags.join(", ") : ""}</li>
-        <li>Amount: {item?.amount + " " + item?.unit}</li>
-        <li>
-          {item?.deleted ? "Deleted" : "Added"}: {item?.added}
-        </li>
+        {item?.brand && <li>Brand: {item?.brand}</li>}
+        {item?.container && <li>Container: {item?.container}</li>}
+        {item?.expiration && <li>Expiration: {item?.expiration}</li>}
+        {item?.description && <li>Description: {item?.description}</li>}
+        {item?.tags && <li>Tags: {item?.tags ? item.tags.join(", ") : ""}</li>}
+        {item?.amount && <li>Amount: {item?.amount + " " + item?.unit}</li>}
+        {item?.added && (
+          <li>
+            {item?.deleted ? "Deleted" : "Added"}: {item?.added}
+          </li>
+        )}
       </ul>
       {getOptions()}
     </div>

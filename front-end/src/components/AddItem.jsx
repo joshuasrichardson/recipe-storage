@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useCallback } from "react";
 import { Context } from "../App";
 import Scanner from "./BarcodeScanner.jsx";
 import Uploader from "./Uploader.jsx";
@@ -24,57 +24,38 @@ const AddFoodStorage = () => {
   const { user } = useContext(Context);
   const navigate = useNavigate();
 
-  const getItem = async () => {
+  const getItem = useCallback(async () => {
     const item = await ServerFacade.getProduct(code);
     if (item == null) return;
     setName(item.name ? item.name : "");
     setBrand(item.brand ? item.brand : "");
     setDescription(item.description ? item.description : "");
-    setContainer(item.container ? item.container : "Refrigerator");
+    setContainer(item.container ? item.container : "");
     setTags(item.tags ? item.tags.join(", ") : "");
     setAmount(item.amount ? item.amount : "");
     setUnit(item.unit ? item.unit : "");
     setImageUrl(item.src ? item.src : "");
     console.log("Image url: ", item.src);
-    // TODO: Set expiration and new attributes
-  };
+  }, [code]);
 
   useEffect(() => {
     if (code.length === 12) {
       // TODO: When the other barcode types are added, make this based on the type
       getItem();
     }
-  }, [code]);
+  }, [code, getItem]);
 
-  useEffect(async () => {
-    if (containers && containers.length > 0) {
-      setContainer(containers[0]);
-    } else {
-      await ServerFacade.getContainers(setContainers);
-      if (!containers || containers.length === 0) {
-        setContainer("Refrigerator");
-      } else {
-        setContainer(containers[0]);
+  useEffect(() => {
+    const updateContainers = async () => {
+      if (containers.length === 0) {
+        await ServerFacade.getContainers(setContainers);
       }
-    }
+    };
+    updateContainers();
   }, [containers]);
 
   const addItem = async (e) => {
     e.preventDefault();
-
-    console.log("add item: ", {
-      code: code,
-      name: name,
-      brand: brand,
-      description: description,
-      container: container,
-      expiration: expiration,
-      tags: tags.split(",").map((t) => t.trim()),
-      amount: amount,
-      unit: unit,
-      quantity: quantity,
-      image: image,
-    });
 
     const response = await ServerFacade.addProduct({
       code: code,
@@ -143,7 +124,7 @@ const AddFoodStorage = () => {
           <Scanner onDetected={setCode} />
           {name === "" && code !== "" && <p>No results</p>}
           <div className="user-input">
-            <img src={imageUrl} />
+            <img src={imageUrl} alt={name} />
             <form className="item" onSubmit={addItem}>
               <label className="item">Barcode Number:</label>
               <input

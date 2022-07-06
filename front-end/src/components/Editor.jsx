@@ -10,23 +10,36 @@ const Editor = () => {
   const [brand, setBrand] = useState("");
   const [description, setDescription] = useState("");
   const [container, setContainer] = useState("");
+  const [containers, setContainers] = useState([]);
   const [expiration, setExpiration] = useState("");
   const [tags, setTags] = useState([]);
   const [amount, setAmount] = useState("");
   const [unit, setUnit] = useState("");
 
-  useEffect(async () => {
-    if (name == "") {
-      const i = await ServerFacade.getItem(id);
-      setName(i.name);
-      setBrand(i.brand);
-      setDescription(i.description);
-      setContainer(i.container);
-      setExpiration(i.expiration);
-      setAmount(i.amount);
-      setUnit(i.unit);
-      setTags(i.tags ? i.tags.join(", ") : "");
-    }
+  useEffect(() => {
+    const updateContainers = async () => {
+      if (containers.length === 0) {
+        await ServerFacade.getContainers(setContainers);
+      }
+    };
+    updateContainers();
+  }, [containers]);
+
+  useEffect(() => {
+    const setItem = async () => {
+      if (name === "") {
+        const i = await ServerFacade.getItem(id);
+        setName(i.name);
+        setBrand(i.brand);
+        setDescription(i.description);
+        setContainer(i.container);
+        setExpiration(i.expiration);
+        setAmount(i.amount);
+        setUnit(i.unit);
+        setTags(i.tags ? i.tags.join(", ") : "");
+      }
+    };
+    setItem();
   }, [id, name]);
 
   const update = async (e) => {
@@ -44,6 +57,10 @@ const Editor = () => {
       unit: unit,
     });
     navigate("/storage/" + id, { state: { updated: name } }); // TODO: Fix expiration, remove e.preventDefault(), and restore this
+  };
+
+  const getOptions = () => {
+    return containers?.map((cont) => <option key={cont} value={cont}></option>);
   };
 
   return (
@@ -89,18 +106,12 @@ const Editor = () => {
               onChange={(e) => setUnit(e.target.value)}
             ></input>
             <label className="item">Container:</label>
-            <select
-              className="item"
-              default="Refrigerator"
+            <input
+              list="containerList"
               value={container}
               onChange={(e) => setContainer(e.target.value)}
-            >
-              <option value="Refrigerator">Refrigerator</option>
-              <option value="Pantry">Pantry</option>
-              <option value="Shelf">Shelf</option>
-              <option value="Storage Room">Storage Room</option>
-              <option value="Under the Bed">Under the Bed</option>
-            </select>
+            />
+            <datalist id="containerList">{getOptions()}</datalist>
             <label className="item">Expiration:</label>
             <input
               type="date"
