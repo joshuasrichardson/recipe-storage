@@ -177,7 +177,10 @@ const getStorage = async (setItems) => {
 const getStorageHistory = async (setItems) => {
   try {
     let response = await axios.get("/api/storage/history");
-    response.data.forEach((item) => (item.added = formatDate(item.added)));
+    response.data.forEach(
+      (item) => (item.expiration = formatDate(item.expiration))
+    );
+    response.data.forEach((item) => (item.added = formatDateTime(item.added)));
     setItems(response.data);
   } catch (error) {
     console.log(error);
@@ -232,26 +235,37 @@ const addContainer = async (container) => {
   await axios.put("/api/containers", { container: container });
 };
 
+const getEdamamRecipes = async (itemName, setItems) => {
+  await fetch(
+    "https://api.edamam.com/api/recipes/v2?type=public&q=" +
+      itemName +
+      "&app_id=3a833dd2&app_key=688beca46c7ed7483c41a629c1c183a3"
+  )
+    .then((data) => data.json())
+    .then((response) => setItems(response.hits.map((hit) => hit.recipe)));
+};
+
 const getRecipes = async (itemName, setItems) => {
   try {
     let response = await axios.get("/api/recipes/" + itemName);
+    console.log(response);
     setItems(response.data);
+    // This function will work if we call getEdamamRecipes(itemName, setItems),
+    // but I don't want to go over the free limit.
   } catch (error) {
     console.log(error);
     setItems([]);
   }
-  // await fetch(
-  //   "https://api.edamam.com/api/recipes/v2?type=public&q=" +
-  //     item +
-  //     "&app_id=3a833dd2&app_key=688beca46c7ed7483c41a629c1c183a3"
-  // )
-  //   .then((data) => data.json())
-  //   .then((recipes) => onSuccess(recipes));
 };
 
 const formatDate = (date) => {
   if (date == null) return "Unknown";
-  return moment(date?.substring(0, 10)).format("D MMM YYYY");
+  return moment(date).format("D MMM YYYY");
+};
+
+const formatDateTime = (datetime) => {
+  if (datetime == null) return "Unknown";
+  return moment(datetime).format("D MMM YYYY LT");
 };
 
 const ServerFacade = {

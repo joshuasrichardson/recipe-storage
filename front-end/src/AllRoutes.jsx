@@ -4,7 +4,7 @@ import Storage from "./components/Storage.jsx";
 import { Context } from "./App";
 import StorageHistory from "./components/StorageHistory.jsx";
 import Item from "./components/Item.jsx";
-import ViewRecipes from "./components/ViewRecipes.jsx";
+import Recipes from "./components/Recipes.jsx";
 import Login from "./components/Login.jsx";
 import Editor from "./components/Editor.jsx";
 import DiffChecker from "./components/DiffChecker.jsx";
@@ -32,7 +32,7 @@ const AllRoutes = () => {
         />
         <Route path="/storage/history" exact element={<StorageHistory />} />
         <Route path="/item/update" exact element={<DiffChecker />} />
-        <Route path="/recipes" exact element={<ViewRecipes />} />
+        <Route path="/recipes" exact element={<Recipes />} />
         <Route path="/login" exact element={<Login hasAccount={true} />} />
         <Route path="/storage/edit/:id" exact element={<Editor />} />
         <Route path="/*" exact element={<Storage />} />
@@ -43,7 +43,7 @@ const AllRoutes = () => {
   const getLoggedOutRoutes = () => {
     return (
       <Routes>
-        <Route path="/recipes" exact element={<ViewRecipes />} />
+        <Route path="/recipes" exact element={<Recipes />} />
         <Route path="/login" exact element={<Login hasAccount={true} />} />
         <Route path="/register" exact element={<Login hasAccount={false} />} />
         <Route path="/*" element={<Intro />} />

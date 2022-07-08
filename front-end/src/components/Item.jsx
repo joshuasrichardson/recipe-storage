@@ -57,7 +57,13 @@ const Item = ({ canEdit, getItem }) => {
 
   return (
     <div className="storage-item wide-on-computer">
-      <img className="storage-item-picture" src={item?.src} alt={item?.name} />
+      {item?.src && (
+        <img
+          className="storage-item-picture"
+          src={item?.src}
+          alt={item?.name}
+        />
+      )}
       <h3 className="storage-item-name">{item?.name}</h3>
       <ul className="storage-item-description">
         {item?.brand && <li>Brand: {item?.brand}</li>}

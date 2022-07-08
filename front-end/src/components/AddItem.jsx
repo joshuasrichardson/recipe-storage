@@ -1,7 +1,11 @@
 import React, { useState, useEffect, useContext, useCallback } from "react";
 import { Context } from "../App";
 import Scanner from "./BarcodeScanner.jsx";
-import Uploader from "./Uploader.jsx";
+// // When I decide to bring pictures back in, use this:
+// import Uploader from "./Uploader.jsx";
+// <Uploader setImage={setImage}></Uploader>
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
 import { Link, useNavigate } from "react-router-dom";
 import ServerFacade from "../api/ServerFacade";
 import { toast } from "react-toastify";
@@ -97,6 +101,7 @@ const AddFoodStorage = () => {
     setQuantity(1);
     setImage(null);
     setImageUrl("");
+    window.scrollTo({ top: 200, behavior: "smooth" });
   };
 
   const getOptions = () => {
@@ -119,7 +124,18 @@ const AddFoodStorage = () => {
     <div className="page">
       <div className="main-container other-container">
         <h2>Add Food Storage</h2>
-        <p>Scan the barcode of your item to add it to your inventory.</p>
+        <div className="flex-row padded">
+          <Link to="/storage" className="button-link">
+            <button className="small">
+              <FontAwesomeIcon icon={solid("warehouse")} />
+            </button>
+          </Link>
+          <Link to="/storage/history" className="button-link">
+            <button className="small">
+              <FontAwesomeIcon icon={solid("history")} />
+            </button>
+          </Link>
+        </div>
         <div className="video-container">
           <Scanner onDetected={setCode} />
           {name === "" && code !== "" && <p>No results</p>}
@@ -156,18 +172,24 @@ const AddFoodStorage = () => {
                 value={tags}
                 onChange={(e) => setTags(e.target.value)}
               ></input>
-              <label className="item">Amount:</label>
-              <input
-                type="text"
-                value={amount}
-                onChange={(e) => setAmount(e.target.value)}
-              ></input>
-              <label className="item">Unit:</label>
-              <input
-                type="text"
-                value={unit}
-                onChange={(e) => setUnit(e.target.value)}
-              ></input>
+              <div className="flex-row hundred">
+                <div className="forty-five">
+                  <label className="item">Amount:</label>
+                  <input
+                    type="text"
+                    value={amount}
+                    onChange={(e) => setAmount(e.target.value)}
+                  ></input>
+                </div>
+                <div className="forty-five">
+                  <label className="item">Unit:</label>
+                  <input
+                    type="text"
+                    value={unit}
+                    onChange={(e) => setUnit(e.target.value)}
+                  ></input>
+                </div>
+              </div>
               <label className="item">Container:</label>
               <input
                 list="containerList"
@@ -189,17 +211,13 @@ const AddFoodStorage = () => {
                 value={quantity}
                 onChange={(e) => setQuantity(e.target.value)}
               ></input>
-              <Uploader setImage={setImage}></Uploader>
+
               <button className="obvious addButton" type="submit">
                 Add to Storage
               </button>
             </form>
           </div>
         </div>
-        <div className="div-hr"></div>
-        <Link to="/storage" className="button-link">
-          <button className="obvious">View My Storage</button>
-        </Link>
       </div>
     </div>
   );

@@ -223,6 +223,18 @@ input::-webkit-calendar-picker-indicator {
   width: 95%;
 }
 
+.hundred {
+  width: 100%;
+}
+
+.forty-five {
+  width: 45%;
+}
+
+.padded {
+  padding: 10px;
+}
+
 .video-container {
   background-color: #e0d6ce;
   max-width: 320px;

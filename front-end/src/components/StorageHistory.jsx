@@ -7,7 +7,9 @@ function StorageHistory() {
     <ItemGroup
       title="Food Storage History"
       getItemGroup={ServerFacade.getStorageHistory}
-      itemViewDir="/storage/history/" //TODO: Add a component corresponding to this path
+      itemViewDir="/storage/history/"
+      itemType="Action"
+      itemTypePlural="Actions"
     />
   );
 }

@@ -8,7 +8,6 @@ function Storage() {
       title="Food Storage"
       getItemGroup={ServerFacade.getStorage}
       itemViewDir="/storage/"
-      canAdd
       showExpiration
     />
   );

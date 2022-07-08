@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import ServerFacade from "../api/ServerFacade";
 
-function ViewRecipes() {
+function Recipes() {
   const [searchField, setSearchField] = useState("");
   const [relevantRecipes, setRelevantRecipes] = useState([]);
   const location = useLocation();
@@ -24,8 +24,10 @@ function ViewRecipes() {
     setRelevantRecipes(getRecipesHTML(recipes));
   };
 
-  const getRecipesHTML = (items) => {
-    return items.map((item) => <Recipe recipe={item} />);
+  const getRecipesHTML = (recipes) => {
+    return recipes.map((recipe, index) => (
+      <Recipe key={index} recipe={recipe} />
+    ));
   };
 
   return (
@@ -43,7 +45,9 @@ function ViewRecipes() {
         </div>
         <button
           className="obvious"
-          onClick={() => ServerFacade.getRecipes(searchField, displayRecipes)}
+          onClick={() =>
+            ServerFacade.getRecipes(searchField.trim(), displayRecipes)
+          }
         >
           Search
         </button>
@@ -53,24 +57,27 @@ function ViewRecipes() {
   );
 }
 
-export default ViewRecipes;
+export default Recipes;
 
-const Recipe = (recipe) => {
-  recipe = recipe.recipe.recipe;
+const Recipe = ({ recipe }) => {
   console.log(recipe);
   return (
     <div key={recipe.label} className="storage-item">
-      <img
-        className="storage-item-picture"
-        src={recipe.image}
-        alt={recipe.label}
-      />
-      <h3 className="storage-item-name">{recipe.label}</h3>
+      {recipe.image && (
+        <img
+          className="storage-item-picture"
+          src={recipe.image}
+          alt={recipe.label}
+        />
+      )}
+      <h3 className="storage-item-name">{recipe.label || recipe.name}</h3>
       <ul className="storage-item-description">
         <li>Calories: {Math.round(recipe.calories)}</li>
-        <li>
-          <a href={recipe.url}>See recipe details</a>
-        </li>
+        {recipe.url && (
+          <li>
+            <a href={recipe.url}>See recipe details</a>
+          </li>
+        )}
       </ul>
     </div>
   );

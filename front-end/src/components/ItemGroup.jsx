@@ -22,17 +22,18 @@ function ItemGroup({
   title,
   getItemGroup,
   itemViewDir,
-  canAdd,
   showExpiration,
+  itemType = "Item",
+  itemTypePlural = "Items",
 }) {
   const [matchingItems, setMatchingItems] = useState([]);
   const [allItems, setAllItems] = useState([]);
   const [numItems, setNumItems] = useState(0);
   const [itemStyleIcon, setItemStyleIcon] = useState(
-    <FontAwesomeIcon icon={solid("list")} />
+    <FontAwesomeIcon icon={solid("image")} />
   );
   const [unusedIcon, setUnusedIcon] = useState(
-    <FontAwesomeIcon icon={solid("image")} />
+    <FontAwesomeIcon icon={solid("list")} />
   );
   const [useImageView, setUseImageView] = useState(false);
 
@@ -78,7 +79,8 @@ function ItemGroup({
   };
 
   const onSearchChange = (e) => {
-    search(e.target.value);
+    const searchValue = e.target.value?.trim();
+    search(searchValue);
   };
 
   const search = (searchField) => {
@@ -120,17 +122,6 @@ function ItemGroup({
     setUseImageView(!useImageView);
   };
 
-  const getAddButton = () => {
-    if (canAdd) {
-      return (
-        <Link to="/storage/add" className="button-link">
-          <button className="obvious small">+</button>
-        </Link>
-      );
-    }
-    return <div></div>;
-  };
-
   return (
     <div className="page">
       <div className="main-container other-container food-storage-container">
@@ -140,13 +131,15 @@ function ItemGroup({
             id="item-search-bar"
             className="search-bar"
             type="search"
-            placeholder="Search items..."
+            placeholder={"Search " + itemTypePlural.toLocaleLowerCase() + "..."}
             onChange={onSearchChange}
           ></input>
           <div className="flex-row">
-            {getAddButton()}
+            <Link to="/storage/add" className="button-link">
+              <button className="obvious small">+</button>
+            </Link>
             <p>
-              {numItems} {numItems > 1 ? "Items" : "Item"}
+              {numItems} {numItems === 1 ? itemType : itemTypePlural}
             </p>
             <button onClick={changeView} className="obvious small">
               {itemStyleIcon}
@@ -182,7 +175,9 @@ const ImgViewItem = ({ item, itemViewDir, showExpiration }) => {
         navigate(itemViewDir + item._id);
       }}
     >
-      <img className="storage-item-picture" src={item.src} alt={item.src} />
+      {item?.src && (
+        <img className="storage-item-picture" src={item.src} alt={item.src} />
+      )}
       <h3 className={"storage-item-name" + (item.deleted ? " red-text" : "")}>
         {item.name}
       </h3>
