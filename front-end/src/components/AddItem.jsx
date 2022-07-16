@@ -19,7 +19,7 @@ const AddFoodStorage = () => {
   const [containers, setContainers] = useState([]);
   const [container, setContainer] = useState("");
   const [expiration, setExpiration] = useState("");
-  const [tags, setTags] = useState([]);
+  const [tags, setTags] = useState("");
   const [amount, setAmount] = useState("");
   const [unit, setUnit] = useState("");
   const [quantity, setQuantity] = useState(1);
@@ -30,16 +30,16 @@ const AddFoodStorage = () => {
 
   const getItem = useCallback(async () => {
     const item = await ServerFacade.getProduct(code);
+
     if (item == null) return;
     setName(item.name ? item.name : "");
     setBrand(item.brand ? item.brand : "");
     setDescription(item.description ? item.description : "");
     setContainer(item.container ? item.container : "");
-    setTags(item.tags ? item.tags.join(", ") : "");
+    setTags(item.tags ? item.tags : "");
     setAmount(item.amount ? item.amount : "");
     setUnit(item.unit ? item.unit : "");
     setImageUrl(item.src ? item.src : "");
-    console.log("Image url: ", item.src);
   }, [code]);
 
   useEffect(() => {
@@ -68,12 +68,13 @@ const AddFoodStorage = () => {
       description: description,
       container: container,
       expiration: expiration,
-      tags: tags.split(",").map((t) => t.trim()),
+      tags: tags,
       amount: amount,
       unit: unit,
       image: image,
+      src: imageUrl ? imageUrl : undefined,
     });
-    console.log("src:", response.src);
+
     await ServerFacade.addFoodStorage(user._id, {
       code: code,
       name: name,
@@ -81,15 +82,16 @@ const AddFoodStorage = () => {
       description: description,
       container: container,
       expiration: expiration,
-      tags: tags.split(",").map((t) => t.trim()),
+      tags: tags,
       amount: amount,
       unit: unit,
       quantity: quantity,
-      src: response.src ? response.src : "",
+      src: response.product.src ? response.product.src : "",
     });
     if (response.message === "Item already exists with different attributes.") {
       navigate("/item/update", { state: response.state });
     }
+    tryAddingContainer();
     toast.success("Added " + name + "!", toastEmitter);
     setCode("");
     setName("");
@@ -112,11 +114,14 @@ const AddFoodStorage = () => {
     setContainer(e.target.value);
   };
 
-  const onContainerBlur = (e) => {
-    const cont = e.target.value;
-    if (!containers.includes(cont) && cont !== "" && cont.length < 40) {
-      ServerFacade.addContainer(cont);
-      containers.push(cont);
+  const tryAddingContainer = () => {
+    if (
+      !containers.includes(container) &&
+      container !== "" &&
+      container.length < 40
+    ) {
+      ServerFacade.addContainer(container);
+      containers.push(container);
     }
   };
 
@@ -195,7 +200,6 @@ const AddFoodStorage = () => {
                 list="containerList"
                 value={container}
                 onChange={onContainerChange}
-                onBlur={onContainerBlur}
               />
               <datalist id="containerList">{getOptions()}</datalist>
               <label className="item">Expiration:</label>
@@ -211,13 +215,13 @@ const AddFoodStorage = () => {
                 value={quantity}
                 onChange={(e) => setQuantity(e.target.value)}
               ></input>
-
               <button className="obvious addButton" type="submit">
                 Add to Storage
               </button>
             </form>
           </div>
         </div>
+        <a href="https://Nutritionix.com">Powered by Nutritionix</a>
       </div>
     </div>
   );

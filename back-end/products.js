@@ -43,7 +43,7 @@ router.post("/", upload.single("image"), async (req, res) => {
     if (req.file && product) {
       // If the image is specified, update it.
       let imagePath = "/images/" + req.file.filename;
-      if (product.src != null && product.src != "") {
+      if (product.src) {
         fs.copyFile(
           IMAGES_DIR + imagePath,
           IMAGES_DIR + product.src,
@@ -62,7 +62,7 @@ router.post("/", upload.single("image"), async (req, res) => {
 
     // TODO: Calc number of days to expire.
     // If the product doesn't exist yet, make a new one.
-    if (products.length == 0) {
+    if (!products.length) {
       product = new Product({
         code: req.body.code,
         name: req.body.name,
@@ -72,7 +72,11 @@ router.post("/", upload.single("image"), async (req, res) => {
         tags: req.body.tags,
         amount: req.body.amount,
         unit: req.body.unit,
-        src: req.file ? "/images/" + req.file.filename : "",
+        src: req.file
+          ? "/images/" + req.file.filename
+          : req.body.src
+          ? req.body.src
+          : "",
       });
       await product.save();
     } else if (
@@ -87,21 +91,15 @@ router.post("/", upload.single("image"), async (req, res) => {
     ) {
       // If the item exists, but the information is a little different, send back a response showing what is different.
       return res.send({
-        id: product._id,
         message: "Item already exists with different attributes.",
-        code: product.code,
-        name: product.name,
-        brand: product.brand,
-        description: product.description,
-        container: product.container,
-        tags: product.tags,
-        amount: product.amount,
-        unit: product.unit,
-        src: product.src,
+        product: product,
       });
+    } else if (req.body.src) {
+      product.src = req.body.src;
+      product.save();
     }
     // If nothing changed, we don't actually need to do anything.
-    return res.send({ src: product.src });
+    return res.send({ product: product });
   } catch (error) {
     console.log(error);
     return res.sendStatus(500);

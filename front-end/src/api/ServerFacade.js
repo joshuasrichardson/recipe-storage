@@ -1,5 +1,11 @@
 import axios from "axios";
 import moment from "moment";
+import {
+  X_API_KEY,
+  X_APP_KEY,
+  X_RAPIDAPI_HOST,
+  X_RAPIDAPI_KEY,
+} from "./constants";
 
 const login = async (username, password, onSuccess, onFailure) => {
   if (!username || !password) {
@@ -30,7 +36,6 @@ const register = async (
   } else if (password !== password2) {
     return onFailure("Passwords do not match");
   }
-  console.log(password, password2);
   try {
     const response = await axios.post("/api/users", {
       firstName: firstName,
@@ -46,7 +51,6 @@ const register = async (
 
 const getLoggedInUser = async () => {
   const response = await axios.get("/api/users");
-  console.log("User:", response);
   return response.data.user;
 };
 
@@ -54,35 +58,76 @@ const logout = async () => {
   await axios.delete("/api/users");
 };
 
+const getNutritionixV1Item = async (code) => {
+  const data = await fetch(
+    "https://nutritionix-api.p.rapidapi.com/v1_1/item?upc=" + code,
+    {
+      method: "GET",
+      headers: {
+        "x-rapidapi-host": X_RAPIDAPI_HOST,
+        "x-rapidapi-key": X_RAPIDAPI_KEY,
+      },
+    }
+  );
+  let item = await data.json();
+  if (item.item_name != null) {
+    return {
+      name: item.item_name,
+      brand: item.brand_name,
+      description: item.item_description,
+    };
+  }
+};
+
+const getNutritionixV2Item = async (code) => {
+  const response = await axios.get(
+    "https://trackapi.nutritionix.com/v2/search/item?upc=" + code,
+    {
+      headers: {
+        "x-app-id": X_API_KEY,
+        "x-app-key": X_APP_KEY,
+      },
+    }
+  );
+  const item = response.data.foods[0];
+  if (item.food_name != null) {
+    return {
+      name: item.food_name,
+      brand: item.brand_name,
+      description: item.nf_ingredient_statement?.toLowerCase(),
+      unit: "Grams",
+      tags: arrayToString(item.tags),
+      src: item.photo?.thumb,
+      // serving_weight_grams could also be useful in some situations
+    };
+  }
+};
+
+const copyMissingFields = (item, detailedItem) => {
+  if (!item.name) item.name = detailedItem.name;
+  if (!item.brand) item.brand = detailedItem.brand;
+  if (!item.description) item.description = detailedItem.description;
+  if (!item.amount) item.amount = detailedItem.amount;
+  if (!item.unit) item.unit = detailedItem.unit;
+  if (!item.tags) item.tags = detailedItem.tags;
+  if (!item.src) item.src = detailedItem.src;
+  return item;
+};
+
 const getProduct = async (code) => {
   try {
     let res = await axios.get("/api/products/" + code);
     let item = res.data[0]; // TODO: handle case where the barcode isn't unique
-    console.log("Product:", item);
+    let item2 = await getNutritionixV2Item(code);
+    item = copyMissingFields(item, item2);
+    item.tags = arrayToString(item.tags);
     return item;
-  } catch {
+  } catch (err) {
+    console.log(err);
     try {
-      const data = await fetch(
-        "https://nutritionix-api.p.rapidapi.com/v1_1/item?upc=" + code,
-        {
-          method: "GET",
-          headers: {
-            "x-rapidapi-host": "nutritionix-api.p.rapidapi.com",
-            "x-rapidapi-key":
-              "117f58b37bmshefcfb5c06599164p15d063jsnf2337c5ea376",
-          },
-        }
-      );
-      let item = await data.json();
-      console.log("Item:", item);
-      if (item.item_name != null) {
-        return {
-          name: item.item_name,
-          brand: item.brand_name,
-          description: item.item_description,
-        };
-      }
-    } catch {
+      return await getNutritionixV2Item(code);
+    } catch (error) {
+      console.log(error);
       return null;
     }
   }
@@ -97,27 +142,26 @@ const addProduct = async (item) => {
     formData.append("brand", item.brand);
     formData.append("description", item.description);
     formData.append("container", item.container);
-    formData.append("tags", item.tags);
+    formData.append("tags", stringToArray(item.tags));
     formData.append("amount", item.amount);
     formData.append("unit", item.unit);
     formData.append("exipration", item.exipration);
+    if (item.src) formData.append("src", item.src);
     const response = await axios.post("/api/products", formData);
-    // const response = await axios.post("/api/products", item);
     let data = response.data;
-    console.log("Data in add product sf: ", data);
     return {
       message: data.message,
-      src: data.src,
+      product: data.product,
       state: {
-        id: data.id,
-        oldCode: data.code,
-        oldName: data.name,
-        oldBrand: data.brand,
-        oldDescription: data.description,
-        oldTags: data.tags,
-        oldAmount: data.amount,
-        oldUnit: data.unit,
-        oldContainer: data.container,
+        id: data.product.id,
+        oldCode: data.product.code,
+        oldName: data.product.name,
+        oldBrand: data.product.brand,
+        oldDescription: data.product.description,
+        oldTags: arrayToString(data.product.tags),
+        oldAmount: data.product.amount,
+        oldUnit: data.product.unit,
+        oldContainer: data.product.container,
         newCode: item.code,
         newName: item.name,
         newBrand: item.brand,
@@ -134,13 +178,12 @@ const addProduct = async (item) => {
 };
 
 const updateProduct = async (product) => {
+  product.tags = stringToArray(product.tags);
   const response = await axios.put("/api/products/" + product.id, product);
-  console.log(response.data);
 };
 
 const getItem = async (id) => {
   const res = await axios.get("/api/storage/" + id);
-  console.log("getItem Response: ", res);
   res.data.expiration = formatDate(res.data.expiration);
   res.data.added = formatDate(res.data.added);
   return res.data;
@@ -193,7 +236,6 @@ const addFoodStorage = async (userId, item) => {
     console.log("Nothing to add");
     return;
   }
-  console.log("Adding item:", item);
   try {
     const response = await axios.post("/api/storage", {
       user: userId,
@@ -203,21 +245,20 @@ const addFoodStorage = async (userId, item) => {
       description: item.description,
       container: item.container,
       expiration: item.expiration,
-      tags: item.tags,
+      tags: stringToArray(item.tags),
       amount: item.amount,
       unit: item.unit,
       quantity: item.quantity,
       src: item.src,
     });
-    console.log(response.data);
   } catch (error) {
     console.log(error);
   }
 };
 
 const updateItem = async (item) => {
+  item.tags = stringToArray(item.tags);
   const response = await axios.put("/api/storage/" + item.id, item);
-  console.log(response.data);
 };
 
 const getContainers = async (setContainers) => {
@@ -248,7 +289,6 @@ const getEdamamRecipes = async (itemName, setItems) => {
 const getRecipes = async (itemName, setItems) => {
   try {
     let response = await axios.get("/api/recipes/" + itemName);
-    console.log(response);
     setItems(response.data);
     // This function will work if we call getEdamamRecipes(itemName, setItems),
     // but I don't want to go over the free limit.
@@ -266,6 +306,17 @@ const formatDate = (date) => {
 const formatDateTime = (datetime) => {
   if (datetime == null) return "Unknown";
   return moment(datetime).format("D MMM YYYY LT");
+};
+
+const stringToArray = (string) => {
+  if (!string || !string.length) return [];
+  if (!string.includes(",")) return [string];
+  return string.split(",").map((t) => t.trim());
+};
+
+const arrayToString = (array) => {
+  if (!array) return "";
+  return array.join(", ");
 };
 
 const ServerFacade = {

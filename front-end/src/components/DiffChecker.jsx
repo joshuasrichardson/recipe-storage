@@ -6,7 +6,7 @@ const DiffChecker = () => {
   const navigate = useNavigate();
 
   const getClass = (attribute) => {
-    return JSON.stringify(location.state["old" + attribute]) ==
+    return JSON.stringify(location.state["old" + attribute]) ===
       JSON.stringify(location.state["new" + attribute])
       ? ""
       : "red-text";
@@ -34,7 +34,7 @@ const DiffChecker = () => {
               Old Description: {location.state.oldDescription}
             </li>
             <li className={getClass("Tags")}>
-              Old Tags: {location.state.oldTags?.join(", ")}
+              Old Tags: {location.state.oldTags}
             </li>
             <li className={getClass("Amount")}>
               Old Amount: {location.state.oldAmount}
@@ -65,7 +65,7 @@ const DiffChecker = () => {
               New Description: {location.state.newDescription}
             </li>
             <li className={getClass("Tags")}>
-              New Tags: {location.state.newTags?.join(", ")}
+              New Tags: {location.state.newTags}
             </li>
             <li className={getClass("Amount")}>
               New Amount: {location.state.newAmount}

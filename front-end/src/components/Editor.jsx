@@ -12,7 +12,7 @@ const Editor = () => {
   const [container, setContainer] = useState("");
   const [containers, setContainers] = useState([]);
   const [expiration, setExpiration] = useState("");
-  const [tags, setTags] = useState([]);
+  const [tags, setTags] = useState("");
   const [amount, setAmount] = useState("");
   const [unit, setUnit] = useState("");
 
@@ -36,7 +36,7 @@ const Editor = () => {
         setExpiration(i.expiration);
         setAmount(i.amount);
         setUnit(i.unit);
-        setTags(i.tags ? i.tags.join(", ") : "");
+        setTags(i.tags);
       }
     };
     setItem();

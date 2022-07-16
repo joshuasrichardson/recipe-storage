@@ -70,13 +70,14 @@ const Item = ({ canEdit, getItem }) => {
         {item?.container && <li>Container: {item?.container}</li>}
         {item?.expiration && <li>Expiration: {item?.expiration}</li>}
         {item?.description && <li>Description: {item?.description}</li>}
-        {item?.tags && <li>Tags: {item?.tags ? item.tags.join(", ") : ""}</li>}
+        {item?.tags && <li>Tags: {item?.tags ? item.tags : ""}</li>}
         {item?.amount && <li>Amount: {item?.amount + " " + item?.unit}</li>}
         {item?.added && (
           <li>
             {item?.deleted ? "Deleted" : "Added"}: {item?.added}
           </li>
         )}
+        {item?.code && <li>Bar Code: {item?.code}</li>}
       </ul>
       {getOptions()}
     </div>
