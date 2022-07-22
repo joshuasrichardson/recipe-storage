@@ -91,24 +91,28 @@ function ItemGroup({
 
     let searchItems = [];
     for (let item of allItems) {
-      if (item.name.toLowerCase().includes(searchField.toLowerCase())) {
-        searchItems.push(item);
-        continue;
-      }
-
-      if (item.brand?.toLowerCase().includes(searchField.toLowerCase())) {
-        searchItems.push(item);
-        continue;
-      }
-      if (item.container?.toLowerCase().includes(searchField.toLowerCase())) {
-        searchItems.push(item);
-        continue;
-      }
-      for (let tag of item.tags) {
-        if (tag.toLowerCase().includes(searchField.toLowerCase())) {
+      try {
+        if (item.name?.toLowerCase().includes(searchField.toLowerCase())) {
           searchItems.push(item);
-          break;
+          continue;
         }
+
+        if (item.brand?.toLowerCase().includes(searchField.toLowerCase())) {
+          searchItems.push(item);
+          continue;
+        }
+        if (item.container?.toLowerCase().includes(searchField.toLowerCase())) {
+          searchItems.push(item);
+          continue;
+        }
+        for (let tag of item.tags) {
+          if (tag.toLowerCase().includes(searchField.toLowerCase())) {
+            searchItems.push(item);
+            break;
+          }
+        }
+      } catch (err) {
+        console.log(err);
       }
     }
 
