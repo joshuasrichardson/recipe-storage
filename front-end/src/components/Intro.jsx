@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { Context } from "../App";
-import Storage from "./Storage.jsx";
+import Storage from "./storage/Storage";
 import { Link } from "react-router-dom";
 
 const Intro = () => {

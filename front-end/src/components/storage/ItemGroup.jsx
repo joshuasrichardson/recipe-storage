@@ -3,7 +3,7 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
 import { toast } from "react-toastify";
-import { toastEmitter } from "./Toaster";
+import { toastEmitter } from "../Toaster";
 
 const getColor = (expiration) => {
   const today = new Date();
@@ -78,12 +78,12 @@ function ItemGroup({
     ));
   };
 
-  const onSearchChange = (e) => {
-    const searchValue = e.target.value?.trim();
-    search(searchValue);
+  const onSearchChange = async (e) => {
+    const searchValue = e.target?.value?.trim();
+    if (searchValue) search(searchValue);
   };
 
-  const search = (searchField) => {
+  const search = async (searchField) => {
     if (searchField === "") {
       setMatchingItems(allItems);
       return;
@@ -95,11 +95,12 @@ function ItemGroup({
         searchItems.push(item);
         continue;
       }
-      if (item.brand.toLowerCase().includes(searchField.toLowerCase())) {
+
+      if (item.brand?.toLowerCase().includes(searchField.toLowerCase())) {
         searchItems.push(item);
         continue;
       }
-      if (item.container.toLowerCase().includes(searchField.toLowerCase())) {
+      if (item.container?.toLowerCase().includes(searchField.toLowerCase())) {
         searchItems.push(item);
         continue;
       }

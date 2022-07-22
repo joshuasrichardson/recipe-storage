@@ -6,7 +6,7 @@ import { Toaster } from "./components/Toaster";
 
 export const Context = createContext();
 
-function App() {
+const App = () => {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
@@ -22,11 +22,11 @@ function App() {
   return (
     <Context.Provider value={{ user: user, setUser }}>
       <div className="App">
-        <AllRoutes />
+        <AllRoutes user={user} setUser={setUser} />
         <Toaster />
       </div>
     </Context.Provider>
   );
-}
+};
 
 export default App;

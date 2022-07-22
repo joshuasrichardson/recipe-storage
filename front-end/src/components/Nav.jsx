@@ -1,14 +1,10 @@
-import React, { useContext } from "react";
+import React from "react";
 import "../App.css";
-import "./nav.css";
 import { Link } from "react-router-dom";
 import { ConditionalLink } from "./ConditionalLink";
-import { Context } from "../App";
 import ServerFacade from "../api/ServerFacade";
 
-function Nav() {
-  const { user, setUser } = useContext(Context);
-
+const Nav = ({ user, setUser }) => {
   const logout = async () => {
     if (user) {
       await ServerFacade.logout();
@@ -73,6 +69,6 @@ function Nav() {
       </nav>
     </div>
   );
-}
+};
 
 export default Nav;

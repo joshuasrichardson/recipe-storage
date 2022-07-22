@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext, useCallback } from "react";
-import { Context } from "../App";
+import { Context } from "../../App";
 import Scanner from "./BarcodeScanner.jsx";
 // // When I decide to bring pictures back in, use this:
 // import Uploader from "./Uploader.jsx";
@@ -7,9 +7,9 @@ import Scanner from "./BarcodeScanner.jsx";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
 import { Link, useNavigate } from "react-router-dom";
-import ServerFacade from "../api/ServerFacade";
+import ServerFacade from "../../api/ServerFacade";
 import { toast } from "react-toastify";
-import { toastEmitter } from "./Toaster";
+import { toastEmitter } from "../Toaster";
 
 const AddFoodStorage = () => {
   const [code, setCode] = useState("");
@@ -43,7 +43,7 @@ const AddFoodStorage = () => {
   }, [code]);
 
   useEffect(() => {
-    if (code.length === 12) {
+    if (code.length === 4 || code.length === 12 || code.length === 13) {
       // TODO: When the other barcode types are added, make this based on the type
       getItem();
     }
@@ -145,7 +145,7 @@ const AddFoodStorage = () => {
           <Scanner onDetected={setCode} />
           {name === "" && code !== "" && <p>No results</p>}
           <div className="user-input">
-            <img src={imageUrl} alt={name} />
+            <img src={imageUrl} alt="" />
             <form className="item" onSubmit={addItem}>
               <label className="item">Barcode Number:</label>
               <input

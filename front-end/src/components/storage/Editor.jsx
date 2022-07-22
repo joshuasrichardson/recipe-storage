@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import ServerFacade from "../api/ServerFacade";
+import ServerFacade from "../../api/ServerFacade";
 import moment from "moment";
 
 const Editor = () => {

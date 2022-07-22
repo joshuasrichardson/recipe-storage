@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import config from "./BarcodeConfig.js";
 import Quagga from "quagga";
-import "../App.css";
+import "../../App.css";
 
 const Scanner = (props) => {
   const { onDetected } = props;

@@ -1,5 +1,5 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import ServerFacade from "../api/ServerFacade";
+import ServerFacade from "../../api/ServerFacade";
 
 const DiffChecker = () => {
   const location = useLocation();

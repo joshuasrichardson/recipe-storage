@@ -9,7 +9,9 @@ import {
 
 const login = async (username, password, onSuccess, onFailure) => {
   if (!username || !password) {
-    return onFailure("Must enter a username and password");
+    return onFailure({
+      response: { data: { message: "Must enter a username and password" } },
+    });
   }
   try {
     const response = await axios.post("/api/users/login", {
@@ -18,7 +20,7 @@ const login = async (username, password, onSuccess, onFailure) => {
     });
     onSuccess(response.data.user);
   } catch (error) {
-    onFailure(error.response.data.message);
+    onFailure(error);
   }
 };
 
@@ -118,8 +120,10 @@ const getProduct = async (code) => {
   try {
     let res = await axios.get("/api/products/" + code);
     let item = res.data[0]; // TODO: handle case where the barcode isn't unique
-    let item2 = await getNutritionixV2Item(code);
-    item = copyMissingFields(item, item2);
+    if (code.length === 12 && !item.src) {
+      let item2 = await getNutritionixV2Item(code);
+      item = copyMissingFields(item, item2);
+    }
     item.tags = arrayToString(item.tags);
     return item;
   } catch (err) {

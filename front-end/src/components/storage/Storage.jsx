@@ -1,5 +1,5 @@
 import React from "react";
-import ServerFacade from "../api/ServerFacade";
+import ServerFacade from "../../api/ServerFacade";
 import ItemGroup from "./ItemGroup";
 
 function Storage() {
