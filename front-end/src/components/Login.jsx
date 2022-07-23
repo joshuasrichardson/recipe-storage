@@ -35,7 +35,7 @@ const Login = ({ hasAccount, setUser }) => {
       firstName,
       lastName,
       onLoggedIn,
-      setErr
+      onFailure
     );
   };
 
@@ -101,12 +101,11 @@ const Login = ({ hasAccount, setUser }) => {
         )}
         <p>{err}</p>
         <div className="login-container">
-          <button className="obvious" type="submit">
+          <button data-testid="login-button" className="obvious" type="submit">
             {hasAccount && "Login"}
             {!hasAccount && "Create"}
           </button>
           <a
-            data-testid="login-button"
             className="link"
             onClick={() => navigate(hasAccount ? "/register" : "/login")}
           >

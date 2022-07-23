@@ -13,20 +13,31 @@ jest.mock("react-router-dom", () => {
   return { useNavigate: jest.fn().mockImplementation(() => mockNavigate) };
 });
 
+const testUser = {
+  firstName: "Test",
+  lastName: "User",
+  username: "testuser",
+  password: "correct",
+  role: "",
+};
+
+const newUser = {
+  firstName: "New",
+  lastName: "User",
+  username: "newuser",
+  password: "newpassword",
+  role: "",
+};
+
+const serverErrorName = "GuyThatCausesServerError";
+
 const mockLogin = (username, password, onSuccess, onFailure) => {
   if (!username || !password) {
     return onFailure({
       response: { data: { message: "Must enter a username and password" } },
     });
   }
-  if (username === "testuser" && password === "correct")
-    onSuccess({
-      firstName: "Test",
-      lastName: "User",
-      username: "testuser",
-      password: "correct",
-      role: "",
-    });
+  if (username === "testuser" && password === "correct") onSuccess(testUser);
   else {
     onFailure({
       response: { data: { message: "Incorrect username or password" } },
@@ -43,23 +54,17 @@ const mockRegister = (
   onSuccess,
   onFailure
 ) => {
+  if (username === serverErrorName) return onFailure("Server Error");
   if (!firstName || !lastName || !username || !password || !password2) {
     return onFailure({
       response: { data: { message: "Must enter all information" } },
     });
   }
-  if (username === "testuser") {
+  if (username === testUser.username) {
     return onFailure({
       response: { data: { message: "User alerady exists" } },
     });
-  } else
-    onSuccess({
-      firstName: "Test",
-      lastName: "User",
-      username: "testuser",
-      password: "correct",
-      role: "",
-    });
+  } else onSuccess(newUser);
 };
 
 jest.mock("../../api/ServerFacade", () => {
@@ -156,7 +161,7 @@ describe("Login", () => {
     });
     const err = "Must enter a username and password";
     expectFailedWithMessage(loginPage, err);
-    changeField(loginPage, "Username:", "testuser");
+    changeField(loginPage, "Username:", testUser.username);
     act(() => {
       loginPage.getByRole("button", { name: "Login" }).click();
     });
@@ -167,13 +172,13 @@ describe("Login", () => {
 
   it("can login with correct username and password", () => {
     const loginPage = render(<Login hasAccount setUser={mockSetUser} />, root);
-    changeField(loginPage, "Username:", "testuser");
-    changeField(loginPage, "Password:", "correct");
+    changeField(loginPage, "Username:", testUser.username);
+    changeField(loginPage, "Password:", testUser.password);
     act(() => {
       loginPage.getByRole("button", { name: "Login" }).click();
     });
-    expect(mockSetUser).toHaveBeenCalled();
-    expect(mockNavigate).toHaveBeenCalled();
+    expect(mockSetUser).toHaveBeenCalledWith(testUser);
+    expect(mockNavigate).toHaveBeenCalledWith("/storage", { replace: true });
   });
 
   it("switches to register when the link is clicked", () => {
@@ -208,40 +213,42 @@ describe("Register", () => {
     expect(mockNavigate).not.toHaveBeenCalled();
   });
 
-  //   it("cannot register with missing fields", () => {
-  //     const registerPage = render(<Login setUser={mockSetUser} />, root);
-  //     act(() => {
-  //       registerPage.getByTestId("login-button").click();
-  //     });
-  //     const err = "Must enter all information";
-  //     expect(registerPage.getByText(err)).toBeInTheDocument();
-  //     // missing password confirmation
-  //     const fieldNames = ["First Name:", "Last Name:", "Username:", "Password:"];
-  //     for (let fieldName in fieldNames) {
-  //       changeField(registerPage, fieldName, "aaa");
-  //       act(() => {
-  //         registerPage.getByTestId("login-button").click();
-  //       });
-  //       expect(registerPage.getByText(err)).toBeInTheDocument();
-  //     }
-  //     expect(mockSetUser).not.toHaveBeenCalled();
-  //     expect(mockNavigate).not.toHaveBeenCalled();
-  //   });
+  it("cannot register with missing fields", () => {
+    const registerPage = render(<Login setUser={mockSetUser} />, root);
+    act(() => {
+      registerPage.getByTestId("login-button").click();
+    });
+    const err = "Must enter all information";
+    expect(registerPage.getByText(err)).toBeInTheDocument();
+    // missing password confirmation
+    const fieldNames = ["First Name:", "Last Name:", "Username:", "Password:"];
+    for (let fieldName of fieldNames) {
+      changeField(registerPage, fieldName, "anything");
+      act(() => registerPage.getByTestId("login-button").click());
+      expect(registerPage.getByText(err)).toBeInTheDocument();
+    }
+    expect(mockSetUser).not.toHaveBeenCalled();
+    expect(mockNavigate).not.toHaveBeenCalled();
+  });
 
-  //   it("can register with all information filled in", () => {
-  //     const registrationPage = render(<Login setUser={mockSetUser} />, root);
-  //     act(() => {
-  //       fireEvent.change(registrationPage.getByLabelText("Username:"), {
-  //         target: { value: "newuser" },
-  //       });
-  //       fireEvent.change(registrationPage.getByLabelText("Password:"), {
-  //         target: { value: "correct" },
-  //       });
-  //       registrationPage.getByRole("button", { name: "Create" }).click();
-  //     });
-  //     expect(mockSetUser).toHaveBeenCalled();
-  //     expect(mockNavigate).toHaveBeenCalled();
-  //   });
+  it("can register with all information filled in", () => {
+    const registrationPage = render(<Login setUser={mockSetUser} />, root);
+    const registrationInfo = [
+      { field: "First Name:", value: newUser.firstName },
+      { field: "Last Name:", value: newUser.lastName },
+      { field: "Username:", value: newUser.username },
+      { field: "Password:", value: newUser.password },
+      { field: "Confirm Password:", value: newUser.password },
+    ];
+    for (let info of registrationInfo) {
+      changeField(registrationPage, info.field, info.value);
+    }
+    const err = "Must enter all information";
+    expect(registrationPage.queryByText(err)).not.toBeInTheDocument();
+    act(() => registrationPage.getByTestId("login-button").click());
+    expect(mockSetUser).toHaveBeenCalledWith(newUser);
+    expect(mockNavigate).toHaveBeenCalledWith("/storage", { replace: true });
+  });
 
   it("switches to login when the link is clicked", () => {
     const registrationPage = render(<Login setUser={mockSetUser} />, root);
@@ -252,5 +259,15 @@ describe("Register", () => {
     });
     expect(mockSetUser).not.toHaveBeenCalled();
     expect(mockNavigate).toHaveBeenCalledWith("/login");
+  });
+
+  it("can handle unknown server errors", () => {
+    const registrationPage = render(<Login setUser={mockSetUser} />, root);
+    changeField(registrationPage, "Username:", serverErrorName);
+    act(() => registrationPage.getByTestId("login-button").click());
+    const err = "Unknown error occurred";
+    expect(registrationPage.queryByText(err)).toBeInTheDocument();
+    expect(mockSetUser).not.toHaveBeenCalled();
+    expect(mockNavigate).not.toHaveBeenCalled();
   });
 });
