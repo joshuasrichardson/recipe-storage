@@ -19,8 +19,9 @@ const login = async (username, password, onSuccess, onFailure) => {
       password: password,
     });
     onSuccess(response.data.user);
-  } catch (error) {
-    onFailure(error);
+  } catch (err) {
+    onFailure(err.response?.data?.message || "Unknown error occurred");
+    if (!err.response) console.log(err);
   }
 };
 
@@ -46,8 +47,9 @@ const register = async (
       password: password,
     });
     onSuccess(response.data.user);
-  } catch (error) {
-    onFailure(error.response.data.message);
+  } catch (err) {
+    onFailure(err.response?.data?.message || "Unknown error occurred");
+    if (!err.response) console.log(err);
   }
 };
 

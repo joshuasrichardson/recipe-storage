@@ -1,9 +1,10 @@
 import React from "react";
-import { render, act, fireEvent } from "@testing-library/react";
+import { render, act, fireEvent, RenderResult } from "@testing-library/react";
 import Login from "../Login";
 import { createRoot } from "react-dom/client";
+import { User } from "../../types";
 
-let container = null;
+let container: HTMLElement = null;
 let root = null;
 
 let mockSetUser = jest.fn();
@@ -13,57 +14,52 @@ jest.mock("react-router-dom", () => {
   return { useNavigate: jest.fn().mockImplementation(() => mockNavigate) };
 });
 
-const testUser = {
+const testUser: User = {
   firstName: "Test",
   lastName: "User",
   username: "testuser",
   password: "correct",
-  role: "",
 };
 
-const newUser = {
+const newUser: User = {
   firstName: "New",
   lastName: "User",
   username: "newuser",
   password: "newpassword",
-  role: "",
 };
 
 const serverErrorName = "GuyThatCausesServerError";
 
-const mockLogin = (username, password, onSuccess, onFailure) => {
+const mockLogin = (
+  username: string,
+  password: string,
+  onSuccess: (user: User) => void,
+  onFailure: (err: string) => void
+) => {
   if (!username || !password) {
-    return onFailure({
-      response: { data: { message: "Must enter a username and password" } },
-    });
+    return onFailure("Must enter a username and password");
   }
   if (username === "testuser" && password === "correct") onSuccess(testUser);
   else {
-    onFailure({
-      response: { data: { message: "Incorrect username or password" } },
-    });
+    onFailure("Incorrect username or password");
   }
 };
 
 const mockRegister = (
-  username,
-  password,
-  password2,
-  firstName,
-  lastName,
-  onSuccess,
-  onFailure
+  username: string,
+  password: string,
+  password2: string,
+  firstName: string,
+  lastName: string,
+  onSuccess: (user: User) => void,
+  onFailure: (err: string) => void
 ) => {
-  if (username === serverErrorName) return onFailure("Server Error");
+  if (username === serverErrorName) return onFailure("Unknown error occurred");
   if (!firstName || !lastName || !username || !password || !password2) {
-    return onFailure({
-      response: { data: { message: "Must enter all information" } },
-    });
+    return onFailure("Must enter all information");
   }
   if (username === testUser.username) {
-    return onFailure({
-      response: { data: { message: "User alerady exists" } },
-    });
+    return onFailure("User alerady exists");
   } else onSuccess(newUser);
 };
 
@@ -122,7 +118,11 @@ afterEach(() => {
   root = null;
 });
 
-const changeField = (component, fieldName, value) => {
+const changeField = (
+  component: RenderResult,
+  fieldName: string,
+  value: string
+): void => {
   act(() => {
     fireEvent.change(component.getByLabelText(fieldName), {
       target: { value: value },
@@ -130,7 +130,7 @@ const changeField = (component, fieldName, value) => {
   });
 };
 
-const expectFailedWithMessage = (component, message) => {
+const expectFailedWithMessage = (component: RenderResult, message: string) => {
   expect(mockSetUser).not.toHaveBeenCalled();
   expect(mockNavigate).not.toHaveBeenCalled();
   expect(component.getByText(message)).toBeInTheDocument();

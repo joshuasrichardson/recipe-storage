@@ -1,15 +1,15 @@
 import React from "react";
-import AddItem from "./components/storage/AddItem.jsx";
-import Storage from "./components/storage/Storage.jsx";
-import StorageHistory from "./components/storage/StorageHistory.jsx";
-import Item from "./components/storage/Item.jsx";
-import Recipes from "./components/recipe/Recipes.jsx";
-import Login from "./components/Login.jsx";
-import Editor from "./components/storage/Editor.jsx";
-import DiffChecker from "./components/storage/DiffChecker.jsx";
-import Intro from "./components/Intro.jsx";
+import AddItem from "./components/storage/AddItem";
+import Storage from "./components/storage/Storage";
+import StorageHistory from "./components/storage/StorageHistory";
+import Item from "./components/storage/Item";
+import Recipes from "./components/recipe/Recipes";
+import Login from "./components/Login.tsx";
+import Editor from "./components/storage/Editor";
+import DiffChecker from "./components/storage/DiffChecker";
+import Intro from "./components/Intro";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Nav from "./components/Nav.jsx";
+import Nav from "./components/Nav";
 import ServerFacade from "./api/ServerFacade";
 
 const AllRoutes = ({ user, setUser }) => {

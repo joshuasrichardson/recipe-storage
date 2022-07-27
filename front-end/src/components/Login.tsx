@@ -1,32 +1,38 @@
-import React, { useState } from "react";
+import React, { ReactElement, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ServerFacade from "../api/ServerFacade";
+import { User } from "../types";
 
-const Login = ({ hasAccount, setUser }) => {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [password2, setPassword2] = useState("");
-  const [err, setErr] = useState("");
+export type LoginProps = {
+  hasAccount?: boolean;
+  setUser: (user: User) => void;
+};
+
+const Login: React.FC<LoginProps> = ({
+  hasAccount,
+  setUser,
+}: LoginProps): ReactElement => {
+  const [firstName, setFirstName] = useState<string>("");
+  const [lastName, setLastName] = useState<string>("");
+  const [username, setUsername] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [password2, setPassword2] = useState<string>("");
+  const [err, setErr] = useState<string>("");
   const navigate = useNavigate();
 
-  const onLoggedIn = (user) => {
+  const onLoggedIn = (user: User): void => {
     setUser(user);
     navigate("/storage", { replace: true });
   };
 
-  const onFailure = (err) => {
-    setErr(err.response?.data?.message || "Unknown error occurred");
-    if (!err.response) console.log(err);
-  };
-
-  const login = async (e) => {
+  const login = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
-    ServerFacade.login(username, password, onLoggedIn, onFailure);
+    ServerFacade.login(username, password, onLoggedIn, setErr);
   };
 
-  const register = async (e) => {
+  const register = async (
+    e: React.FormEvent<HTMLFormElement>
+  ): Promise<void> => {
     e.preventDefault();
     ServerFacade.register(
       username,
@@ -35,7 +41,7 @@ const Login = ({ hasAccount, setUser }) => {
       firstName,
       lastName,
       onLoggedIn,
-      onFailure
+      setErr
     );
   };
 
