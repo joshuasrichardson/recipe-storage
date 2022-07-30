@@ -1,8 +1,10 @@
 import React from "react";
-import { render, act, fireEvent, RenderResult } from "@testing-library/react";
+import { render, act, RenderResult } from "@testing-library/react";
 import Login from "../Login";
 import { createRoot } from "react-dom/client";
 import { User } from "../../types";
+import { newUser, testUser } from "../../../testUtils/mocks";
+import { changeField } from "../../../testUtils/testFunctions";
 
 let container: HTMLElement = null;
 let root = null;
@@ -13,20 +15,6 @@ let mockNavigate = jest.fn();
 jest.mock("react-router-dom", () => {
   return { useNavigate: jest.fn().mockImplementation(() => mockNavigate) };
 });
-
-const testUser: User = {
-  firstName: "Test",
-  lastName: "User",
-  username: "testuser",
-  password: "correct",
-};
-
-const newUser: User = {
-  firstName: "New",
-  lastName: "User",
-  username: "newuser",
-  password: "newpassword",
-};
 
 const serverErrorName = "GuyThatCausesServerError";
 
@@ -117,18 +105,6 @@ afterEach(() => {
   container = null;
   root = null;
 });
-
-const changeField = (
-  component: RenderResult,
-  fieldName: string,
-  value: string
-): void => {
-  act(() => {
-    fireEvent.change(component.getByLabelText(fieldName), {
-      target: { value: value },
-    });
-  });
-};
 
 const expectFailedWithMessage = (component: RenderResult, message: string) => {
   expect(mockSetUser).not.toHaveBeenCalled();

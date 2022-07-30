@@ -1,8 +1,8 @@
-import React from "react";
-import { ToastContainer } from "react-toastify";
+import React, { ReactElement } from "react";
+import { ToastContainer, ToastOptions } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-function Toaster() {
+const Toaster: React.FC = (): ReactElement => {
   return (
     <ToastContainer
       position="bottom-center"
@@ -16,9 +16,9 @@ function Toaster() {
       pauseOnHover
     />
   );
-}
+};
 
-function toastEmitter() {
+export const toastEmitter = (): ToastOptions<{}> => {
   return {
     position: "bottom-center",
     autoClose: 2000,
@@ -28,6 +28,6 @@ function toastEmitter() {
     draggable: true,
     progress: undefined,
   };
-}
+};
 
-export { Toaster, toastEmitter };
+export default Toaster;

@@ -1,11 +1,13 @@
-import React, { useContext } from "react";
-import { Context } from "../App";
+import React, { ReactElement, useContext } from "react";
 import Storage from "./storage/Storage";
 import { Link } from "react-router-dom";
+import { User } from "../types";
 
-const Intro = () => {
-  const { user } = useContext(Context);
+export type IntroProps = {
+  user?: User;
+};
 
+const Intro: React.FC<IntroProps> = ({ user }: IntroProps): ReactElement => {
   if (user == null) {
     return (
       <div className="page">

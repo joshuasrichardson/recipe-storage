@@ -3,7 +3,7 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
 import { toast } from "react-toastify";
-import { toastEmitter } from "../Toaster";
+import { toastEmitter } from "../Toaster.tsx";
 
 const getColor = (expiration) => {
   const today = new Date();

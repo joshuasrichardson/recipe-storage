@@ -4,7 +4,7 @@ import ServerFacade from "../../api/ServerFacade";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
 import { toast } from "react-toastify";
-import { toastEmitter } from "../Toaster";
+import { toastEmitter } from "../Toaster.tsx";
 
 const Item = ({ canEdit, getItem }) => {
   const location = useLocation();

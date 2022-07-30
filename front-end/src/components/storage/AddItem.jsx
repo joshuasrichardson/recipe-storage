@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext, useCallback } from "react";
-import { Context } from "../../App";
+import { Context } from "../../App.tsx";
 import Scanner from "./BarcodeScanner.jsx";
 // // When I decide to bring pictures back in, use this:
 // import Uploader from "./Uploader.jsx";
@@ -9,7 +9,7 @@ import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
 import { Link, useNavigate } from "react-router-dom";
 import ServerFacade from "../../api/ServerFacade";
 import { toast } from "react-toastify";
-import { toastEmitter } from "../Toaster";
+import { toastEmitter } from "../Toaster.tsx";
 
 const AddFoodStorage = () => {
   const [code, setCode] = useState("");

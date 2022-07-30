@@ -1,11 +1,21 @@
-import React from "react";
+import React, { ReactElement } from "react";
 import "../App.css";
 import { Link } from "react-router-dom";
-import { ConditionalLink } from "./ConditionalLink";
+// @ts-ignore
+import ConditionalLink from "./ConditionalLink.tsx";
 import ServerFacade from "../api/ServerFacade";
+import { User } from "../types";
 
-const Nav = ({ user, setUser }) => {
-  const logout = async () => {
+export type NavParams = {
+  user: User;
+  setUser: (user: User) => void;
+};
+
+const Nav: React.FC<NavParams> = ({
+  user,
+  setUser,
+}: NavParams): ReactElement => {
+  const logout = async (): Promise<void> => {
     if (user) {
       await ServerFacade.logout();
       setUser(null);
@@ -16,7 +26,7 @@ const Nav = ({ user, setUser }) => {
     <div className="Nav">
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
         <div className="container-fluid nav-links">
-          <Link to="/" className="navbar-brand logo" href="/index.html">
+          <Link to="/" className="navbar-brand logo">
             Recipe Storage
           </Link>
           <h4 className="navbar-brand username">

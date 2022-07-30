@@ -1,17 +1,17 @@
 {
   "files": {
     "main.css": "/static/css/main.ebd65bdc.css",
-    "main.js": "/static/js/main.a62a9e06.js",
+    "main.js": "/static/js/main.b48b7100.js",
     "static/js/787.ad9f5a26.chunk.js": "/static/js/787.ad9f5a26.chunk.js",
     "static/media/food-background.jpg": "/static/media/food-background.3f5e482a2d5d6e8ba926.jpg",
     "static/media/healthy_food_cropped.jpg": "/static/media/healthy_food_cropped.3d39f4b071bc531be01c.jpg",
     "index.html": "/index.html",
     "main.ebd65bdc.css.map": "/static/css/main.ebd65bdc.css.map",
-    "main.a62a9e06.js.map": "/static/js/main.a62a9e06.js.map",
+    "main.b48b7100.js.map": "/static/js/main.b48b7100.js.map",
     "787.ad9f5a26.chunk.js.map": "/static/js/787.ad9f5a26.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.ebd65bdc.css",
-    "static/js/main.a62a9e06.js"
+    "static/js/main.b48b7100.js"
   ]
 }

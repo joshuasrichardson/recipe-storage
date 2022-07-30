@@ -119,18 +119,24 @@ const copyMissingFields = (item, detailedItem) => {
 };
 
 const getProduct = async (code) => {
+  // TODO: Move more logic to the backend
+  let res;
+  let item;
+  let item2;
+
   try {
-    let res = await axios.get("/api/products/" + code);
-    let item = res.data[0]; // TODO: handle case where the barcode isn't unique
+    res = await axios.get("/api/products/" + code);
+    item = res.data[0]; // TODO: handle case where the barcode isn't unique
     if (code.length === 12 && !item.src) {
-      let item2 = await getNutritionixV2Item(code);
+      item2 = await getNutritionixV2Item(code);
       item = copyMissingFields(item, item2);
     }
     item.tags = arrayToString(item.tags);
     return item;
   } catch (err) {
-    console.log(err);
     try {
+      console.log(err);
+      if (item) return item;
       return await getNutritionixV2Item(code);
     } catch (error) {
       console.log(error);

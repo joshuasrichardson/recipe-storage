@@ -1,42 +1,51 @@
-import React from "react";
+import React, { ReactElement } from "react";
 import AddItem from "./components/storage/AddItem";
 import Storage from "./components/storage/Storage";
 import StorageHistory from "./components/storage/StorageHistory";
 import Item from "./components/storage/Item";
 import Recipes from "./components/recipe/Recipes";
+// @ts-ignore
 import Login from "./components/Login.tsx";
 import Editor from "./components/storage/Editor";
 import DiffChecker from "./components/storage/DiffChecker";
-import Intro from "./components/Intro";
+// @ts-ignore
+import Intro from "./components/Intro.tsx";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Nav from "./components/Nav";
+// @ts-ignore
+import Nav from "./components/Nav.tsx";
 import ServerFacade from "./api/ServerFacade";
+import { User } from "./types";
 
-const AllRoutes = ({ user, setUser }) => {
+export type AllRoutesParams = {
+  user: User;
+  setUser: (user: User) => void;
+};
+
+const AllRoutes: React.FC<AllRoutesParams> = ({
+  user,
+  setUser,
+}: AllRoutesParams): ReactElement => {
   const getLoggedInRoutes = () => {
     return (
       <Routes>
-        <Route path="/storage/add" exact element={<AddItem />} />
+        <Route path="/storage/add" element={<AddItem />} />
         <Route
           path="/storage/:id"
-          exact
           element={<Item canEdit getItem={ServerFacade.getItem} />}
         />
         <Route
           path="/storage/history/:id"
-          exact
           element={<Item getItem={ServerFacade.getHistoryItem} />}
         />
-        <Route path="/storage/history" exact element={<StorageHistory />} />
-        <Route path="/item/update" exact element={<DiffChecker />} />
-        <Route path="/recipes" exact element={<Recipes />} />
+        <Route path="/storage/history" element={<StorageHistory />} />
+        <Route path="/item/update" element={<DiffChecker />} />
+        <Route path="/recipes" element={<Recipes />} />
         <Route
           path="/login"
-          exact
           element={<Login hasAccount={true} setUser={setUser} />}
         />
-        <Route path="/storage/edit/:id" exact element={<Editor />} />
-        <Route path="/*" exact element={<Storage />} />
+        <Route path="/storage/edit/:id" element={<Editor />} />
+        <Route path="/*" element={<Storage />} />
       </Routes>
     );
   };
@@ -44,18 +53,16 @@ const AllRoutes = ({ user, setUser }) => {
   const getLoggedOutRoutes = () => {
     return (
       <Routes>
-        <Route path="/recipes" exact element={<Recipes />} />
+        <Route path="/recipes" element={<Recipes />} />
         <Route
           path="/login"
-          exact
           element={<Login hasAccount={true} setUser={setUser} />}
         />
         <Route
           path="/register"
-          exact
           element={<Login hasAccount={false} setUser={setUser} />}
         />
-        <Route path="/*" element={<Intro />} />
+        <Route path="/*" element={<Intro user={user} />} />
       </Routes>
     );
   };
