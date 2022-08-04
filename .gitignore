@@ -19,8 +19,7 @@ front-end/.env.development.local
 front-end/.env.test.local
 front-end/.env.production.local
 front-end/public/images
-front-end/src/api/constants.js
-TODO.txt
+front-end/src/api/constants.ts
 
 front-end/npm-debug.log*
 front-end/yarn-debug.log*

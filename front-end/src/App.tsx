@@ -2,7 +2,8 @@ import React, { useEffect, useState, createContext, ReactElement } from "react";
 import "./App.css";
 // @ts-ignore
 import AllRoutes from "./AllRoutes.tsx";
-import ServerFacade from "./api/ServerFacade";
+// @ts-ignore
+import ServerFacade from "./api/ServerFacade.ts";
 // @ts-ignore
 import Toaster from "./components/Toaster.tsx";
 import { User } from "./types";

@@ -12,7 +12,7 @@ let mockLogout = jest.fn();
 let mockSetUser = jest.fn();
 
 jest.mock("../ConditionalLink", () => ({ to }) => <div>{to}</div>);
-jest.mock("../../api/ServerFacade", () => {
+jest.mock("../../api/ServerFacade.ts", () => {
   return {
     logout: jest.fn().mockImplementation(() => mockLogout()),
   };
@@ -21,7 +21,7 @@ jest.mock("../../api/ServerFacade", () => {
 beforeEach(() => {
   mockSetUser = jest.fn();
   mockLogout = jest.fn();
-  jest.mock("../../api/ServerFacade", () => {
+  jest.mock("../../api/ServerFacade.ts", () => {
     return {
       logout: jest.fn().mockImplementation(() => mockLogout()),
     };

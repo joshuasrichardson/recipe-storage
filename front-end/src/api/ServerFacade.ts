@@ -1,51 +1,82 @@
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import moment from "moment";
-import {
-  X_API_KEY,
-  X_APP_KEY,
-  X_RAPIDAPI_HOST,
-  X_RAPIDAPI_KEY,
-} from "./constants";
+import { User } from "../types";
+// @ts-ignore
+import { keys } from "./constants.ts";
 
-const login = async (username, password, onSuccess, onFailure) => {
+export type LoginParams = {
+  username: string;
+  password: string;
+  onSuccess: (user: User) => void;
+  onFailure: (err: string) => void;
+};
+
+type LoginRequest = {
+  username: string;
+  password: string;
+};
+
+const login = async ({
+  username,
+  password,
+  onSuccess,
+  onFailure,
+}: LoginParams): Promise<void> => {
   if (!username || !password) {
-    return onFailure({
-      response: { data: { message: "Must enter a username and password" } },
-    });
+    return onFailure("Must enter a username and password");
   }
   try {
-    const response = await axios.post("/api/users/login", {
-      username: username,
-      password: password,
-    });
+    const response: AxiosResponse<{ user: User }, LoginRequest> =
+      await axios.post("/api/users/login", {
+        username: username,
+        password: password,
+      });
     onSuccess(response.data.user);
-  } catch (err) {
+  } catch (err: any) {
     onFailure(err.response?.data?.message || "Unknown error occurred");
     if (!err.response) console.log(err);
   }
 };
 
-const register = async (
+export type RegisterParams = {
+  username: string;
+  password: string;
+  password2: string;
+  firstName: string;
+  lastName: string;
+  onSuccess: (user: User) => void;
+  onFailure: (err: string) => void;
+};
+
+type RegisterRequest = {
+  username: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+};
+
+const register = async ({
   username,
   password,
   password2,
   firstName,
   lastName,
   onSuccess,
-  onFailure
-) => {
+  onFailure,
+}: RegisterParams): Promise<void> => {
   if (!username || !password || !firstName || !lastName) {
     return onFailure("Must enter a username, password, and name");
   } else if (password !== password2) {
     return onFailure("Passwords do not match");
   }
   try {
-    const response = await axios.post("/api/users", {
-      firstName: firstName,
-      lastName: lastName,
-      username: username,
-      password: password,
-    });
+    const response: AxiosResponse<{ user: User }, RegisterRequest> =
+      await axios.post("/api/users", {
+        firstName: firstName,
+        lastName: lastName,
+        username: username,
+        password: password,
+      });
     onSuccess(response.data.user);
   } catch (err) {
     onFailure(err.response?.data?.message || "Unknown error occurred");
@@ -53,23 +84,25 @@ const register = async (
   }
 };
 
-const getLoggedInUser = async () => {
-  const response = await axios.get("/api/users");
+const getLoggedInUser = async (): Promise<User> => {
+  const response: AxiosResponse<{ user: User }, any> = await axios.get(
+    "/api/users"
+  );
   return response.data.user;
 };
 
-const logout = async () => {
+const logout = async (): Promise<void> => {
   await axios.delete("/api/users");
 };
 
-const getNutritionixV1Item = async (code) => {
+const getNutritionixV1Item = async (code: string) => {
   const data = await fetch(
     "https://nutritionix-api.p.rapidapi.com/v1_1/item?upc=" + code,
     {
       method: "GET",
       headers: {
-        "x-rapidapi-host": X_RAPIDAPI_HOST,
-        "x-rapidapi-key": X_RAPIDAPI_KEY,
+        "x-rapidapi-host": keys.X_RAPIDAPI_HOST,
+        "x-rapidapi-key": keys.X_RAPIDAPI_KEY,
       },
     }
   );
@@ -88,8 +121,8 @@ const getNutritionixV2Item = async (code) => {
     "https://trackapi.nutritionix.com/v2/search/item?upc=" + code,
     {
       headers: {
-        "x-app-id": X_API_KEY,
-        "x-app-key": X_APP_KEY,
+        "x-app-id": keys.X_API_KEY,
+        "x-app-key": keys.X_APP_KEY,
       },
     }
   );
@@ -249,9 +282,9 @@ const addFoodStorage = async (userId, item) => {
     return;
   }
   try {
-    const response = await axios.post("/api/storage", {
+    await axios.post("/api/storage", {
       user: userId,
-      barcode: item.code,
+      code: item.code,
       name: item.name,
       brand: item.brand,
       description: item.description,

@@ -10,7 +10,7 @@ const mockGetLoggedInUser: jest.Mock<User, []> = jest
   .fn()
   .mockImplementation(() => mockUser);
 
-jest.mock("../api/ServerFacade", () => {
+jest.mock("../api/ServerFacade.ts", () => {
   return {
     getLoggedInUser: jest.fn().mockImplementation(() => mockGetLoggedInUser),
   };

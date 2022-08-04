@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import ServerFacade from "../../api/ServerFacade";
+import ServerFacade from "../../api/ServerFacade.ts";
 
 function Recipes() {
   const [searchField, setSearchField] = useState("");

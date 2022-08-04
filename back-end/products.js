@@ -80,14 +80,15 @@ router.post("/", upload.single("image"), async (req, res) => {
       });
       await product.save();
     } else if (
-      product.code != req.body.code ||
-      product.name != req.body.name ||
-      product.brand != req.body.brand ||
-      product.description != req.body.description ||
-      product.container != req.body.container ||
-      product.tags != req.body.tags ||
-      product.amount != req.body.amount ||
-      product.unit != req.body.unit
+      (product?.code || product?.name) &&
+      (product.code != req.body.code ||
+        product.name != req.body.name ||
+        product.brand != req.body.brand ||
+        product.description != req.body.description ||
+        product.container != req.body.container ||
+        product.tags != req.body.tags ||
+        product.amount != req.body.amount ||
+        product.unit != req.body.unit)
     ) {
       // If the item exists, but the information is a little different, send back a response showing what is different.
       return res.send({

@@ -13,7 +13,8 @@ import Intro from "./components/Intro.tsx";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 // @ts-ignore
 import Nav from "./components/Nav.tsx";
-import ServerFacade from "./api/ServerFacade";
+// @ts-ignore
+import ServerFacade from "./api/ServerFacade.ts";
 import { User } from "./types";
 
 export type AllRoutesParams = {

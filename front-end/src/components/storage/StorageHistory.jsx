@@ -1,5 +1,5 @@
 import React from "react";
-import ServerFacade from "../../api/ServerFacade";
+import ServerFacade from "../../api/ServerFacade.ts";
 import ItemGroup from "./ItemGroup";
 
 function StorageHistory() {

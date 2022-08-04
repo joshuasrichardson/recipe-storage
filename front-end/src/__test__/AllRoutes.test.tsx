@@ -19,7 +19,7 @@ jest.mock("../components/storage/AddItem", () => () => "AddItem");
 jest.mock("../components/storage/DiffChecker", () => () => "DiffChecker");
 jest.mock("../components/recipe/Recipes", () => () => "Recipes");
 
-jest.mock("../api/ServerFacade", () => {
+jest.mock("../api/ServerFacade.ts", () => {
   return {
     getItem: jest.fn(),
     getItemHistory: jest.fn(),

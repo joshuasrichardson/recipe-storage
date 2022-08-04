@@ -7,7 +7,7 @@ import Scanner from "./BarcodeScanner.jsx";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
 import { Link, useNavigate } from "react-router-dom";
-import ServerFacade from "../../api/ServerFacade";
+import ServerFacade from "../../api/ServerFacade.ts";
 import { toast } from "react-toastify";
 import { toastEmitter } from "../Toaster.tsx";
 
@@ -26,24 +26,27 @@ const AddFoodStorage = () => {
   const [image, setImage] = useState(null);
   const [imageUrl, setImageUrl] = useState("");
   const { user } = useContext(Context);
+
   const navigate = useNavigate();
+
+  const barcodeLengths = [4, 12, 13];
 
   const getItem = useCallback(async () => {
     const item = await ServerFacade.getProduct(code);
 
     if (item == null) return;
-    setName(item.name ? item.name : "");
-    setBrand(item.brand ? item.brand : "");
-    setDescription(item.description ? item.description : "");
-    setContainer(item.container ? item.container : "");
-    setTags(item.tags ? item.tags : "");
-    setAmount(item.amount ? item.amount : "");
-    setUnit(item.unit ? item.unit : "");
-    setImageUrl(item.src ? item.src : "");
+    setName(item.name || "");
+    setBrand(item.brand || "");
+    setDescription(item.description || "");
+    setContainer(item.container || "");
+    setTags(item.tags || "");
+    setAmount(item.amount || "");
+    setUnit(item.unit || "");
+    setImageUrl(item.src || "");
   }, [code]);
 
   useEffect(() => {
-    if (code.length === 4 || code.length === 12 || code.length === 13) {
+    if (barcodeLengths.includes(code.length)) {
       // TODO: When the other barcode types are added, make this based on the type
       getItem();
     }
@@ -72,7 +75,7 @@ const AddFoodStorage = () => {
       amount: amount,
       unit: unit,
       image: image,
-      src: imageUrl ? imageUrl : undefined,
+      src: imageUrl || undefined,
     });
 
     await ServerFacade.addFoodStorage(user._id, {
@@ -86,7 +89,7 @@ const AddFoodStorage = () => {
       amount: amount,
       unit: unit,
       quantity: quantity,
-      src: response.product.src ? response.product.src : "",
+      src: response.product.src || "",
     });
     if (response.message === "Item already exists with different attributes.") {
       navigate("/item/update", { state: response.state });

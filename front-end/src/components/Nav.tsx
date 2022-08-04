@@ -3,7 +3,8 @@ import "../App.css";
 import { Link } from "react-router-dom";
 // @ts-ignore
 import ConditionalLink from "./ConditionalLink.tsx";
-import ServerFacade from "../api/ServerFacade";
+// @ts-ignore
+import ServerFacade from "../api/ServerFacade.ts";
 import { User } from "../types";
 
 export type NavParams = {

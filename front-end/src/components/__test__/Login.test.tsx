@@ -51,7 +51,7 @@ const mockRegister = (
   } else onSuccess(newUser);
 };
 
-jest.mock("../../api/ServerFacade", () => {
+jest.mock("../../api/ServerFacade.ts", () => {
   return {
     login: jest
       .fn()

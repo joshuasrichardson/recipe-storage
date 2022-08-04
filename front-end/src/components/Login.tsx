@@ -1,6 +1,7 @@
 import React, { ReactElement, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import ServerFacade from "../api/ServerFacade";
+// @ts-ignore
+import ServerFacade from "../api/ServerFacade.ts";
 import { User } from "../types";
 
 export type LoginProps = {
