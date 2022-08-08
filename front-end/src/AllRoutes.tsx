@@ -2,8 +2,9 @@ import React, { ReactElement } from "react";
 import AddItem from "./components/storage/AddItem";
 import Storage from "./components/storage/Storage";
 import StorageHistory from "./components/storage/StorageHistory";
-import Item from "./components/storage/Item";
-import Recipes from "./components/recipe/Recipes";
+import ItemComponent from "./components/storage/Item";
+// @ts-ignore
+import Recipes from "./components/recipe/Recipes.tsx";
 // @ts-ignore
 import Login from "./components/Login.tsx";
 import Editor from "./components/storage/Editor";
@@ -16,6 +17,8 @@ import Nav from "./components/Nav.tsx";
 // @ts-ignore
 import ServerFacade from "./api/ServerFacade.ts";
 import { User } from "./types";
+// @ts-ignore
+import AddRecipe from "./components/recipe/AddRecipe.tsx";
 
 export type AllRoutesParams = {
   user: User;
@@ -32,14 +35,15 @@ const AllRoutes: React.FC<AllRoutesParams> = ({
         <Route path="/storage/add" element={<AddItem />} />
         <Route
           path="/storage/:id"
-          element={<Item canEdit getItem={ServerFacade.getItem} />}
+          element={<ItemComponent canEdit getItem={ServerFacade.getItem} />}
         />
         <Route
           path="/storage/history/:id"
-          element={<Item getItem={ServerFacade.getHistoryItem} />}
+          element={<ItemComponent getItem={ServerFacade.getHistoryItem} />}
         />
         <Route path="/storage/history" element={<StorageHistory />} />
         <Route path="/item/update" element={<DiffChecker />} />
+        <Route path="/recipes/add" element={<AddRecipe />} />
         <Route path="/recipes" element={<Recipes />} />
         <Route
           path="/login"

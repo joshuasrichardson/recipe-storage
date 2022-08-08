@@ -5,6 +5,7 @@ import { createRoot } from "react-dom/client";
 import { User } from "../../types";
 import { newUser, testUser } from "../../../testUtils/mocks";
 import { changeField } from "../../../testUtils/testFunctions";
+import { LoginParams, RegisterParams } from "../../api/ServerFacade";
 
 let container: HTMLElement = null;
 let root = null;
@@ -18,12 +19,12 @@ jest.mock("react-router-dom", () => {
 
 const serverErrorName = "GuyThatCausesServerError";
 
-const mockLogin = (
-  username: string,
-  password: string,
-  onSuccess: (user: User) => void,
-  onFailure: (err: string) => void
-) => {
+const mockLogin = ({
+  username,
+  password,
+  onSuccess,
+  onFailure,
+}: LoginParams) => {
   if (!username || !password) {
     return onFailure("Must enter a username and password");
   }
@@ -33,15 +34,15 @@ const mockLogin = (
   }
 };
 
-const mockRegister = (
-  username: string,
-  password: string,
-  password2: string,
-  firstName: string,
-  lastName: string,
-  onSuccess: (user: User) => void,
-  onFailure: (err: string) => void
-) => {
+const mockRegister = ({
+  username,
+  password,
+  password2,
+  firstName,
+  lastName,
+  onSuccess,
+  onFailure,
+}: RegisterParams) => {
   if (username === serverErrorName) return onFailure("Unknown error occurred");
   if (!firstName || !lastName || !username || !password || !password2) {
     return onFailure("Must enter all information");
@@ -55,30 +56,30 @@ jest.mock("../../api/ServerFacade.ts", () => {
   return {
     login: jest
       .fn()
-      .mockImplementation((username, password, onSuccess, onFailure) =>
-        mockLogin(username, password, onSuccess, onFailure)
+      .mockImplementation(({ username, password, onSuccess, onFailure }) =>
+        mockLogin({ username, password, onSuccess, onFailure })
       ),
     register: jest
       .fn()
       .mockImplementation(
-        (
+        ({
           username,
           password,
           password2,
           firstName,
           lastName,
           onSuccess,
-          onFailure
-        ) =>
-          mockRegister(
+          onFailure,
+        }) =>
+          mockRegister({
             username,
             password,
             password2,
             firstName,
             lastName,
             onSuccess,
-            onFailure
-          )
+            onFailure,
+          })
       ),
   };
 });

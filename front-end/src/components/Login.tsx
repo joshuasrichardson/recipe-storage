@@ -26,33 +26,38 @@ const Login: React.FC<LoginProps> = ({
     navigate("/storage", { replace: true });
   };
 
-  const login = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
-    e.preventDefault();
-    ServerFacade.login(username, password, onLoggedIn, setErr);
+  const login = async (): Promise<void> => {
+    ServerFacade.login({
+      username,
+      password,
+      onSuccess: onLoggedIn,
+      onFailure: setErr,
+    });
   };
 
-  const register = async (
-    e: React.FormEvent<HTMLFormElement>
-  ): Promise<void> => {
-    e.preventDefault();
-    ServerFacade.register(
+  const register = async (): Promise<void> => {
+    ServerFacade.register({
       username,
       password,
       password2,
       firstName,
       lastName,
-      onLoggedIn,
-      setErr
-    );
+      onSuccess: onLoggedIn,
+      onFailure: setErr,
+    });
+  };
+
+  const useAccount = async (
+    e: React.FormEvent<HTMLFormElement>
+  ): Promise<void> => {
+    e.preventDefault();
+    hasAccount ? login() : register();
   };
 
   return (
     <div className="main-container">
       <h1>Recipe Storage</h1>
-      <form
-        className="user-input"
-        onSubmit={(e) => (hasAccount ? login(e) : register(e))}
-      >
+      <form className="user-input" onSubmit={useAccount}>
         {!hasAccount && (
           <div>
             <label className="item" htmlFor="first-name">

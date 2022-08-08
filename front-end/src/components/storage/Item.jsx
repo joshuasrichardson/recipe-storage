@@ -6,7 +6,7 @@ import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
 import { toast } from "react-toastify";
 import { toastEmitter } from "../Toaster.tsx";
 
-const Item = ({ canEdit, getItem }) => {
+const ItemComponent = ({ canEdit, getItem }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const { id } = useParams();
@@ -70,7 +70,7 @@ const Item = ({ canEdit, getItem }) => {
         {item?.container && <li>Container: {item?.container}</li>}
         {item?.expiration && <li>Expiration: {item?.expiration}</li>}
         {item?.description && <li>Description: {item?.description}</li>}
-        {item?.tags && <li>Tags: {item?.tags ? item.tags : ""}</li>}
+        {item?.tags && <li>Tags: {item?.tags}</li>}
         {item?.amount && <li>Amount: {item?.amount + " " + item?.unit}</li>}
         {item?.added && (
           <li>
@@ -84,4 +84,4 @@ const Item = ({ canEdit, getItem }) => {
   );
 };
 
-export default Item;
+export default ItemComponent;

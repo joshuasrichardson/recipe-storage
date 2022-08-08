@@ -1,19 +1,23 @@
-import { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import React, { ChangeEvent } from "react";
+import { useState, useEffect, ReactElement } from "react";
+import { Link, useLocation } from "react-router-dom";
+// @ts-ignore
 import ServerFacade from "../../api/ServerFacade.ts";
+import { Item, Recipe } from "../../types";
 
-function Recipes() {
-  const [searchField, setSearchField] = useState("");
-  const [relevantRecipes, setRelevantRecipes] = useState([]);
+const Recipes: React.FC = (): ReactElement => {
+  const [searchField, setSearchField] = useState<string>("");
+  const [recipes, setRecipes] = useState<Recipe[]>([]);
   const location = useLocation();
 
   useEffect(() => {
-    const getRecipesFromState = async () => {
-      if (location.state) {
-        if (location.state.tags.length > 0) {
-          await ServerFacade.getRecipes(location.state.tags[0], displayRecipes);
-        } else if (location.state.name) {
-          await ServerFacade.getRecipes(location.state.name, displayRecipes);
+    const getRecipesFromState = async (): Promise<void> => {
+      const state = location.state as Item;
+      if (state) {
+        if (state.tags.length > 0) {
+          await ServerFacade.getRecipes(state.tags[0], setRecipes);
+        } else if (state.name) {
+          await ServerFacade.getRecipes(state.name, setRecipes);
         }
         location.state = null;
       }
@@ -21,16 +25,8 @@ function Recipes() {
     getRecipesFromState();
   }, [location]);
 
-  const onSearchChange = (e) => setSearchField(e.target.value);
-
-  const displayRecipes = (recipes) => {
-    setRelevantRecipes(getRecipesHTML(recipes));
-  };
-
-  const getRecipesHTML = (recipes) => {
-    return recipes.map((recipe, index) => (
-      <Recipe key={index} recipe={recipe} />
-    ));
+  const onSearchChange = (e: ChangeEvent<HTMLInputElement>): void => {
+    setSearchField(e.currentTarget.value);
   };
 
   return (
@@ -46,23 +42,32 @@ function Recipes() {
             onChange={onSearchChange}
           ></input>
         </div>
+        <div className="flex-row">
+          <Link to="/recipes/add" className="button-link">
+            <button className="obvious small">+</button>
+          </Link>
+        </div>
         <button
           className="obvious"
           onClick={() =>
-            ServerFacade.getRecipes(searchField.trim(), displayRecipes)
+            ServerFacade.getRecipes(searchField.trim(), setRecipes)
           }
         >
           Search
         </button>
-        <div className="storage-item-container">{relevantRecipes}</div>
+        <div className="storage-item-container">
+          {recipes.map((recipe: Recipe, index: number) => (
+            <RecipeComponent key={index} recipe={recipe} />
+          ))}
+        </div>
       </div>
     </div>
   );
-}
+};
 
 export default Recipes;
 
-const Recipe = ({ recipe }) => {
+const RecipeComponent = ({ recipe }) => {
   console.log(recipe);
   return (
     <div key={recipe.label} className="storage-item">

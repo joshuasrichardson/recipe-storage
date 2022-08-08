@@ -7,8 +7,8 @@ import { keys } from "./constants.ts";
 export type LoginParams = {
   username: string;
   password: string;
-  onSuccess: (user: User) => void;
-  onFailure: (err: string) => void;
+  onSuccess: (user: User) => any;
+  onFailure: (err: string) => any;
 };
 
 type LoginRequest = {
@@ -44,8 +44,8 @@ export type RegisterParams = {
   password2: string;
   firstName: string;
   lastName: string;
-  onSuccess: (user: User) => void;
-  onFailure: (err: string) => void;
+  onSuccess: (user: User) => any;
+  onFailure: (err: string) => any;
 };
 
 type RegisterRequest = {
@@ -95,26 +95,26 @@ const logout = async (): Promise<void> => {
   await axios.delete("/api/users");
 };
 
-const getNutritionixV1Item = async (code: string) => {
-  const data = await fetch(
-    "https://nutritionix-api.p.rapidapi.com/v1_1/item?upc=" + code,
-    {
-      method: "GET",
-      headers: {
-        "x-rapidapi-host": keys.X_RAPIDAPI_HOST,
-        "x-rapidapi-key": keys.X_RAPIDAPI_KEY,
-      },
-    }
-  );
-  let item = await data.json();
-  if (item.item_name != null) {
-    return {
-      name: item.item_name,
-      brand: item.brand_name,
-      description: item.item_description,
-    };
-  }
-};
+// const getNutritionixV1Item = async (code: string) => {
+//   const data = await fetch(
+//     "https://nutritionix-api.p.rapidapi.com/v1_1/item?upc=" + code,
+//     {
+//       method: "GET",
+//       headers: {
+//         "x-rapidapi-host": keys.X_RAPIDAPI_HOST,
+//         "x-rapidapi-key": keys.X_RAPIDAPI_KEY,
+//       },
+//     }
+//   );
+//   let item = await data.json();
+//   if (item.item_name != null) {
+//     return {
+//       name: item.item_name,
+//       brand: item.brand_name,
+//       description: item.item_description,
+//     };
+//   }
+// };
 
 const getNutritionixV2Item = async (code) => {
   const response = await axios.get(
@@ -224,7 +224,7 @@ const addProduct = async (item) => {
 
 const updateProduct = async (product) => {
   product.tags = stringToArray(product.tags);
-  const response = await axios.put("/api/products/" + product.id, product);
+  await axios.put("/api/products/" + product.id, product);
 };
 
 const getItem = async (id) => {
@@ -303,7 +303,7 @@ const addFoodStorage = async (userId, item) => {
 
 const updateItem = async (item) => {
   item.tags = stringToArray(item.tags);
-  const response = await axios.put("/api/storage/" + item.id, item);
+  await axios.put("/api/storage/" + item.id, item);
 };
 
 const getContainers = async (setContainers) => {
@@ -321,15 +321,15 @@ const addContainer = async (container) => {
   await axios.put("/api/containers", { container: container });
 };
 
-const getEdamamRecipes = async (itemName, setItems) => {
-  await fetch(
-    "https://api.edamam.com/api/recipes/v2?type=public&q=" +
-      itemName +
-      "&app_id=3a833dd2&app_key=688beca46c7ed7483c41a629c1c183a3"
-  )
-    .then((data) => data.json())
-    .then((response) => setItems(response.hits.map((hit) => hit.recipe)));
-};
+// const getEdamamRecipes = async (itemName, setItems) => {
+//   await fetch(
+//     "https://api.edamam.com/api/recipes/v2?type=public&q=" +
+//       itemName +
+//       "&app_id=3a833dd2&app_key=688beca46c7ed7483c41a629c1c183a3"
+//   )
+//     .then((data) => data.json())
+//     .then((response) => setItems(response.hits.map((hit) => hit.recipe)));
+// };
 
 const getRecipes = async (itemName, setItems) => {
   try {
@@ -341,6 +341,10 @@ const getRecipes = async (itemName, setItems) => {
     console.log(error);
     setItems([]);
   }
+};
+
+const addRecipe = async (): Promise<void> => {
+  //TODO
 };
 
 const formatDate = (date) => {
@@ -382,6 +386,7 @@ const ServerFacade = {
   getContainers,
   addContainer,
   getRecipes,
+  addRecipe,
 };
 
 export default ServerFacade;
