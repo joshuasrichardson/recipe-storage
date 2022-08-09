@@ -80,10 +80,15 @@ const RecipeComponent = ({ recipe }) => {
       )}
       <h3 className="storage-item-name">{recipe.label || recipe.name}</h3>
       <ul className="storage-item-description">
-        <li>Calories: {Math.round(recipe.calories)}</li>
-        {recipe.url && (
+        {recipe.numServings && <li>Servings: {recipe.numServings}</li>}
+        {recipe.ingredients && (
+          <li>Ingredients: {recipe.ingredients.join("\n")}</li>
+        )}
+        {recipe.steps && <li>Directions: {recipe.steps.join("\n")}</li>}
+        {recipe.calories && <li>Calories: {Math.round(recipe.calories)}</li>}
+        {recipe.link && (
           <li>
-            <a href={recipe.url}>See recipe details</a>
+            <a href={recipe.link}>See recipe details</a>
           </li>
         )}
       </ul>

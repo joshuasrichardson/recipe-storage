@@ -144,9 +144,14 @@ input {
   padding: 5px;
 }
 
-input {
+input,
+textarea {
   font-size: 1.1em;
   width: 100%;
+}
+
+textarea {
+  height: 200px;
 }
 
 label {
@@ -156,7 +161,8 @@ label {
 }
 
 select,
-input {
+input,
+textarea {
   background-color: #e0d6ce;
   border-radius: 4px;
 }
@@ -320,6 +326,7 @@ ul {
 
 select,
 input,
+textarea,
 hr,
 .video-container,
 .storage-item,

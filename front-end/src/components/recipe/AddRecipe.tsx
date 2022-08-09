@@ -1,22 +1,8 @@
-import React, {
-  useState,
-  useEffect,
-  useContext,
-  useCallback,
-  ReactElement,
-} from "react";
+import React, { useState, useContext, ReactElement } from "react";
 // @ts-ignore
 import { Context } from "../../App.tsx";
 // @ts-ignore
-import Scanner from "./BarcodeScanner.jsx";
-// // When I decide to bring pictures back in, use this:
-// import Uploader from "./Uploader.jsx";
-// <Uploader setImage={setImage}></Uploader>
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
-import { Link, useNavigate } from "react-router-dom";
-// @ts-ignore
-import ServerFacade from "../../api/ServerFacade.ts";
+import ServerFacade, { AddRecipeParams } from "../../api/ServerFacade.ts";
 import { toast } from "react-toastify";
 // @ts-ignore
 import { toastEmitter } from "../Toaster.tsx";
@@ -24,19 +10,33 @@ import { toastEmitter } from "../Toaster.tsx";
 const AddRecipe: React.FC = (): ReactElement => {
   const [name, setName] = useState<string>("");
   const [description, setDescription] = useState<string>("");
-  const [ingredients, setIngredients] = useState<string[]>([]);
-  const [steps, setSteps] = useState<string[]>([]);
-  const [numServings, setNumServings] = useState("1");
+  const [ingredients, setIngredients] = useState<string>("");
+  const [steps, setSteps] = useState<string>("");
+  const [numServings, setNumServings] = useState<string>("1");
+  const [link, setLink] = useState("");
   const { user } = useContext(Context);
-
-  const navigate = useNavigate();
 
   const addRecipe = async (
     e: React.FormEvent<HTMLFormElement>
   ): Promise<void> => {
     e.preventDefault();
+    const params: AddRecipeParams = {
+      userId: user?._id,
+      name,
+      description,
+      ingredients,
+      steps,
+      numServings,
+      link,
+    };
 
-    await ServerFacade.addRecipe(user._id);
+    await ServerFacade.addRecipe(params);
+    setName("");
+    setDescription("");
+    setIngredients("");
+    setSteps("");
+    setNumServings("1");
+    setLink("");
     window.scrollTo({ top: 200, behavior: "smooth" });
   };
 
@@ -53,29 +53,32 @@ const AddRecipe: React.FC = (): ReactElement => {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
               ></input>
-              <label className="item">Item Description:</label>
+              <label className="item">Servings:</label>
               <input
-                type="text"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-              ></input>
-              <label className="item">Ingredients:</label>
-              <input
-                type="text"
-                value={ingredients[0]}
-                onChange={(e) => setIngredients([e.target.value])}
-              ></input>
-              <label className="item">Steps:</label>
-              <input
-                type="text"
-                value={steps[0]}
-                onChange={(e) => setSteps([e.target.value])}
-              ></input>
-              <label className="item">Number of Servings:</label>
-              <input
-                type="text"
+                type="number"
                 value={numServings}
                 onChange={(e) => setNumServings(e.target.value)}
+              />
+              <label className="item">Ingredients:</label>
+              <textarea
+                value={ingredients}
+                onChange={(e) => setIngredients(e.target.value)}
+              ></textarea>
+              <label className="item">Steps:</label>
+              <textarea
+                value={steps}
+                onChange={(e) => setSteps(e.target.value)}
+              ></textarea>
+              <label className="item">Description:</label>
+              <textarea
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+              ></textarea>
+              <label className="item">Link:</label>
+              <input
+                type="url"
+                value={link}
+                onChange={(e) => setLink(e.target.value)}
               />
               <button className="obvious addButton" type="submit">
                 Add to Recipe Book

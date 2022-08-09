@@ -28,8 +28,8 @@ const login = async ({
   try {
     const response: AxiosResponse<{ user: User }, LoginRequest> =
       await axios.post("/api/users/login", {
-        username: username,
-        password: password,
+        username,
+        password,
       });
     onSuccess(response.data.user);
   } catch (err: any) {
@@ -72,10 +72,10 @@ const register = async ({
   try {
     const response: AxiosResponse<{ user: User }, RegisterRequest> =
       await axios.post("/api/users", {
-        firstName: firstName,
-        lastName: lastName,
-        username: username,
-        password: password,
+        firstName,
+        lastName,
+        username,
+        password,
       });
     onSuccess(response.data.user);
   } catch (err) {
@@ -164,7 +164,7 @@ const getProduct = async (code) => {
       item2 = await getNutritionixV2Item(code);
       item = copyMissingFields(item, item2);
     }
-    item.tags = arrayToString(item.tags);
+    if (Array.isArray(item.tags)) item.tags = arrayToString(item.tags);
     return item;
   } catch (err) {
     try {
@@ -187,7 +187,7 @@ const addProduct = async (item) => {
     formData.append("brand", item.brand);
     formData.append("description", item.description);
     formData.append("container", item.container);
-    formData.append("tags", stringToArray(item.tags));
+    formData.append("tags", item.tags);
     formData.append("amount", item.amount);
     formData.append("unit", item.unit);
     formData.append("exipration", item.exipration);
@@ -343,8 +343,22 @@ const getRecipes = async (itemName, setItems) => {
   }
 };
 
-const addRecipe = async (): Promise<void> => {
-  //TODO
+export type AddRecipeParams = {
+  userId: string;
+  name: string;
+  description: string;
+  ingredients: string;
+  steps: string;
+  numServings: string;
+  link: string;
+};
+
+const addRecipe = async (addRecipeParams: AddRecipeParams): Promise<void> => {
+  const response: AxiosResponse<any, AddRecipeParams> = await axios.post(
+    "/api/recipes",
+    addRecipeParams
+  );
+  console.log(response);
 };
 
 const formatDate = (date) => {
@@ -357,7 +371,7 @@ const formatDateTime = (datetime) => {
   return moment(datetime).format("D MMM YYYY LT");
 };
 
-const stringToArray = (string) => {
+const stringToArray = (string: string): Array<string> => {
   if (!string || !string.length) return [];
   if (!string.includes(",")) return [string];
   return string.split(",").map((t) => t.trim());
