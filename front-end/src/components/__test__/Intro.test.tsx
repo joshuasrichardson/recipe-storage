@@ -44,8 +44,11 @@ describe("Intro", () => {
       class="main-container"
     >
       <h1>
-        Recipe Storage
+        Storage Recipe
       </h1>
+      <h4>
+        The recipe for better storage management
+      </h4>
       <p
         class="call-to-action"
       >

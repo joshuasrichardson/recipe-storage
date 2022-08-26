@@ -12,7 +12,8 @@ const Intro: React.FC<IntroProps> = ({ user }: IntroProps): ReactElement => {
     return (
       <div className="page">
         <div className="main-container">
-          <h1>Recipe Storage</h1>
+          <h1>Storage Recipe</h1>
+          <h4>The recipe for better storage management</h4>
           <p className="call-to-action">
             Get started by viewing recipes, logging in, or creating your own
             account.

@@ -28,7 +28,7 @@ const Nav: React.FC<NavParams> = ({
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
         <div className="container-fluid nav-links">
           <Link to="/" className="navbar-brand logo">
-            Recipe Storage
+            Storage Recipe
           </Link>
           <h4 className="navbar-brand username">
             {user !== null ? user.username : ""}

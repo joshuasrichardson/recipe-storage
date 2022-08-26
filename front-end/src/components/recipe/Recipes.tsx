@@ -41,12 +41,13 @@ const Recipes: React.FC = (): ReactElement => {
             placeholder="Search recipes..."
             onChange={onSearchChange}
           ></input>
+          <div className="flex-row">
+            <Link to="/recipes/add" className="button-link">
+              <button className="obvious small">+</button>
+            </Link>
+          </div>
         </div>
-        <div className="flex-row">
-          <Link to="/recipes/add" className="button-link">
-            <button className="obvious small">+</button>
-          </Link>
-        </div>
+
         <button
           className="obvious"
           onClick={() =>

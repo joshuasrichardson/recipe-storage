@@ -56,7 +56,7 @@ const Login: React.FC<LoginProps> = ({
 
   return (
     <div className="main-container">
-      <h1>Recipe Storage</h1>
+      <h1>Storage Recipe</h1>
       <form className="user-input" onSubmit={useAccount}>
         {!hasAccount && (
           <div>

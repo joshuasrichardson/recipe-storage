@@ -48,6 +48,7 @@
 h1,
 h2,
 h3,
+h4,
 .storage-item-name,
 .username {
   font-family: "Architects Daughter", sans-serif;
@@ -102,6 +103,11 @@ h2 {
 h3 {
   font-weight: bold;
   color: #003815;
+}
+
+h4 {
+  color: #003815;
+  text-align: center;
 }
 
 p {

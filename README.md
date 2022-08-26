@@ -1,4 +1,4 @@
-# Recipe Storage
+# Storage Recipe
 
 The goal of this project is to help people use their food
 storage more efficiently by helping them sort it and encouraging

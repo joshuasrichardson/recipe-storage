@@ -68,7 +68,7 @@ describe("Nav", () => {
           class="navbar-brand logo"
           href="/"
         >
-          Recipe Storage
+          Storage Recipe
         </a>
         <h4
           class="navbar-brand username"
@@ -153,7 +153,7 @@ describe("Nav", () => {
           class="navbar-brand logo"
           href="/"
         >
-          Recipe Storage
+          Storage Recipe
         </a>
         <h4
           class="navbar-brand username"
