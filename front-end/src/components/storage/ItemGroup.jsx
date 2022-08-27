@@ -214,7 +214,8 @@ const ListViewItem = ({ item, itemViewDir, showExpiration }) => {
     >
       <ul className="list-item-description">
         <li className={"list-item-name" + (item.deleted ? " red-text" : "")}>
-          {(item.deleted ? "Deleted " : "Added ") + item.name}
+          {(showExpiration ? "" : item.deleted ? "Deleted " : "Added ") +
+            item.name}
         </li>
         <li>
           <div className="flex-row">
