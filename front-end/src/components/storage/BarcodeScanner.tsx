@@ -1,9 +1,18 @@
-import React, { useEffect, useState } from "react";
-import config from "./BarcodeConfig.js";
+import React, { useEffect, useState, ReactElement } from "react";
+// @ts-ignore
+import config from "./BarcodeConfig.ts";
 import Quagga from "quagga";
 import "../../App.css";
+// @ts-ignore
+import SRButton from "../../sr-ui/SRButton.tsx";
+// @ts-ignore
+import SRFlex from "../../sr-ui/SRFlex.tsx";
 
-const Scanner = (props) => {
+type ScannerProps = {
+  onDetected: Function;
+};
+
+const Scanner: React.FC = (props: ScannerProps): ReactElement => {
   const { onDetected } = props;
   const [showCamera, setShowCamera] = useState(false);
 
@@ -34,12 +43,12 @@ const Scanner = (props) => {
   };
 
   return (
-    <div className="container">
+    <SRFlex direction="column" marginVertical="10px">
       {showCamera && <div id="interactive" className="viewport"></div>}
-      <button className="obvious" onClick={setCamera}>
+      <SRButton onClick={setCamera}>
         {showCamera ? "Done Scanning" : "Start Scanning"}
-      </button>
-    </div>
+      </SRButton>
+    </SRFlex>
   );
 };
 

@@ -1,14 +1,20 @@
 import React, { ReactElement } from "react";
-import AddItem from "./components/storage/AddItem";
-import Storage from "./components/storage/Storage";
-import StorageHistory from "./components/storage/StorageHistory";
-import ItemComponent from "./components/storage/Item";
+// @ts-ignore
+import AddItem from "./components/storage/AddItem.tsx";
+// @ts-ignore
+import Storage from "./components/storage/Storage.tsx";
+// @ts-ignore
+import StorageHistory from "./components/storage/StorageHistory.tsx";
+// @ts-ignore
+import ItemComponent from "./components/storage/Item.tsx";
 // @ts-ignore
 import Recipes from "./components/recipe/Recipes.tsx";
 // @ts-ignore
 import Login from "./components/Login.tsx";
-import Editor from "./components/storage/Editor";
-import DiffChecker from "./components/storage/DiffChecker";
+// @ts-ignore
+import Editor from "./components/storage/Editor.tsx";
+// @ts-ignore
+import DiffChecker from "./components/storage/DiffChecker.tsx";
 // @ts-ignore
 import Intro from "./components/Intro.tsx";
 import { BrowserRouter, Route, Routes } from "react-router-dom";

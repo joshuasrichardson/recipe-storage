@@ -38,53 +38,60 @@ describe("Intro", () => {
     expect(intro.container).toMatchInlineSnapshot(`
 <div>
   <div
-    class="page"
+    style="margin: auto; display: flex; align-items: flex-start; justify-content: center; flex-direction: column; width: 100%; flex-wrap: wrap; padding: 0px;"
   >
     <div
-      class="main-container"
+      style="width: 520px; max-width: 520px; display: flex; align-items: center; flex-direction: column; margin: 60px; padding: 15px; border: solid; border-color: #003815; border-width: 3px;"
     >
-      <h1>
+      <h3
+        style="font-family: Architects Daughter; font-size: 48px; font-weight: bold; color: rgb(0, 56, 21); text-align: center; padding: 20px; border-bottom: 1px solid;"
+      >
         Storage Recipe
-      </h1>
-      <h4>
+      </h3>
+      <h3
+        style="font-family: Architects Daughter; font-size: 22px; font-weight: normal; color: rgb(0, 56, 21); text-align: center; padding: 10px;"
+      >
         The recipe for better storage management
-      </h4>
+      </h3>
       <p
-        class="call-to-action"
+        style="font-size: 20px; padding: 10px; margin: 20px; text-shadow: 0px 0px 6px #f0e3d0, 0px 0px 6px #f0e3d0, 0px 0px 6px #f0e3d0;"
       >
         Get started by viewing recipes, logging in, or creating your own account.
       </p>
       <div
-        class="selections-container"
+        style="margin: auto; display: flex; align-items: center; justify-content: space-around; flex-direction: row; width: 100%; flex-wrap: wrap; padding: 0px;"
       >
         <a
-          class="button-link"
-          href="/recipes"
-        >
-          <button
-            class="obvious"
-          >
-            See Recipes
-          </button>
-        </a>
-        <a
-          class="button-link"
           href="/login"
+          style="text-decoration: none;"
         >
           <button
-            class="obvious"
+            style="color: rgb(224, 214, 206); background-color: rgb(139, 0, 0); font-weight: bold; border-radius: 5px; border-width: 1.5px; border-style: solid; border-color: #003815; display: flex; align-items: center; justify-content: center; padding: 20px; width: 200px; max-width: 300px; margin: 12px;"
+            type="button"
           >
             Login
           </button>
         </a>
         <a
-          class="button-link"
           href="/register"
+          style="text-decoration: none;"
         >
           <button
-            class="obvious"
+            style="color: rgb(224, 214, 206); background-color: rgb(139, 0, 0); font-weight: bold; border-radius: 5px; border-width: 1.5px; border-style: solid; border-color: #003815; display: flex; align-items: center; justify-content: center; padding: 20px; width: 200px; max-width: 300px; margin: 12px;"
+            type="button"
           >
             Create Account
+          </button>
+        </a>
+        <a
+          href="/recipes"
+          style="text-decoration: none;"
+        >
+          <button
+            style="color: rgb(224, 214, 206); background-color: rgb(139, 0, 0); font-weight: bold; border-radius: 5px; border-width: 1.5px; border-style: solid; border-color: #003815; display: flex; align-items: center; justify-content: center; padding: 20px; width: 200px; max-width: 300px; margin: 12px;"
+            type="button"
+          >
+            See Recipes
           </button>
         </a>
       </div>

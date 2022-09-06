@@ -5,7 +5,23 @@ import { Context } from "../../App.tsx";
 import ServerFacade, { AddRecipeParams } from "../../api/ServerFacade.ts";
 import { toast } from "react-toastify";
 // @ts-ignore
-import { toastEmitter } from "../Toaster.tsx";
+import { toastEmitter } from "../../sr-ui/Toaster.tsx"; // TODO: Use this
+// @ts-ignore
+import SRButton from "../../sr-ui/SRButton.tsx";
+// @ts-ignore
+import SRFlex from "../../sr-ui/SRFlex.tsx";
+// @ts-ignore
+import SRHeader from "../../sr-ui/SRHeader.tsx";
+// @ts-ignore
+import SRContainer from "../../sr-ui/SRContainer.tsx";
+// @ts-ignore
+import SRTextInput from "../../sr-ui/SRTextInput.tsx";
+// @ts-ignore
+import SRForm from "../../sr-ui/SRForm.tsx";
+// @ts-ignore
+import { themeGray } from "../../sr-ui/styles.ts";
+// @ts-ignore
+import { ContextType } from "../../types.ts";
 
 const AddRecipe: React.FC = (): ReactElement => {
   const [name, setName] = useState<string>("");
@@ -14,7 +30,7 @@ const AddRecipe: React.FC = (): ReactElement => {
   const [steps, setSteps] = useState<string>("");
   const [numServings, setNumServings] = useState<string>("1");
   const [link, setLink] = useState("");
-  const { user } = useContext(Context);
+  const { user } = useContext<ContextType>(Context);
 
   const addRecipe = async (
     e: React.FormEvent<HTMLFormElement>
@@ -41,53 +57,60 @@ const AddRecipe: React.FC = (): ReactElement => {
   };
 
   return (
-    <div className="page">
-      <div className="main-container other-container">
-        <h2>Add Recipe</h2>
-        <div className="video-container">
-          <div className="user-input">
-            <form className="item" onSubmit={addRecipe}>
-              <label className="item">Name:</label>
-              <input
+    <SRFlex wrap="wrap" direction="column">
+      <SRContainer maxWidth="medium">
+        <SRHeader size="large" underlined>
+          Add Recipe
+        </SRHeader>
+        <SRContainer backgroundColor={themeGray} borderWidth="small">
+          <SRFlex direction="column">
+            <SRForm onSubmit={addRecipe}>
+              <SRTextInput
                 type="text"
+                label="Name:"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-              ></input>
-              <label className="item">Servings:</label>
-              <input
+              ></SRTextInput>
+              <SRTextInput
                 type="number"
+                label="Servings:"
                 value={numServings}
                 onChange={(e) => setNumServings(e.target.value)}
-              />
-              <label className="item">Ingredients:</label>
-              <textarea
+              ></SRTextInput>
+              <SRTextInput
+                label="Ingredients:"
                 value={ingredients}
                 onChange={(e) => setIngredients(e.target.value)}
-              ></textarea>
-              <label className="item">Steps:</label>
-              <textarea
+                textarea
+              ></SRTextInput>
+              <SRTextInput
+                label="Steps:"
                 value={steps}
                 onChange={(e) => setSteps(e.target.value)}
-              ></textarea>
-              <label className="item">Description:</label>
-              <textarea
+                textarea
+              ></SRTextInput>
+              <SRTextInput
+                label="Description:"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-              ></textarea>
-              <label className="item">Link:</label>
-              <input
+                textarea
+              ></SRTextInput>
+              <SRTextInput
+                label="Link:"
                 type="url"
                 value={link}
                 onChange={(e) => setLink(e.target.value)}
-              />
-              <button className="obvious addButton" type="submit">
-                Add to Recipe Book
-              </button>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
+              ></SRTextInput>
+              <SRFlex justifyContent="center">
+                <SRButton type="submit" onClick={addRecipe}>
+                  Add to Recipe Book
+                </SRButton>
+              </SRFlex>
+            </SRForm>
+          </SRFlex>
+        </SRContainer>
+      </SRContainer>
+    </SRFlex>
   );
 };
 

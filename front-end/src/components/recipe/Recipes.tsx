@@ -1,98 +1,85 @@
-import React, { ChangeEvent } from "react";
-import { useState, useEffect, ReactElement } from "react";
-import { Link, useLocation } from "react-router-dom";
+import React from "react";
+import { useState, ReactElement } from "react";
 // @ts-ignore
 import ServerFacade from "../../api/ServerFacade.ts";
+// @ts-ignore
+import SRBoxView from "../../sr-ui/SRBoxView.tsx";
 import { Item, Recipe } from "../../types";
+// @ts-ignore
+import SRGroupDisplay from "../../sr-ui/SRGroupDisplay.tsx";
 
 const Recipes: React.FC = (): ReactElement => {
-  const [searchField, setSearchField] = useState<string>("");
-  const [recipes, setRecipes] = useState<Recipe[]>([]);
-  const location = useLocation();
+  // const [recipes, setRecipes] = useState<Recipe[]>([]);
+  const [useImageView, setUseImageView] = useState(false);
+  // const location = useLocation();
 
-  useEffect(() => {
-    const getRecipesFromState = async (): Promise<void> => {
-      const state = location.state as Item;
-      if (state) {
-        if (state.tags.length > 0) {
-          await ServerFacade.getRecipes(state.tags[0], setRecipes);
-        } else if (state.name) {
-          await ServerFacade.getRecipes(state.name, setRecipes);
-        }
-        location.state = null;
-      }
-    };
-    getRecipesFromState();
-  }, [location]);
+  // useEffect(() => {
+  //   const getRecipesFromState = async (): Promise<void> => {
+  //     const state = location.state as Item;
+  //     if (state) {
+  //       if (state.tags.length > 0) {
+  //         await ServerFacade.getRecipes(state.tags, setRecipes);
+  //       } else if (state.name) {
+  //         await ServerFacade.getRecipes(state.name, setRecipes);
+  //       }
+  //       location.state = null;
+  //     }
+  //   };
+  //   getRecipesFromState();
+  // }, [location]);
 
-  const onSearchChange = (e: ChangeEvent<HTMLInputElement>): void => {
-    setSearchField(e.currentTarget.value);
+  // const onSearchChange = async (e: ChangeEvent<HTMLInputElement>): Promise<any> => {
+  //   return ServerFacade.getRecipes(e.currentTarget.value.trim(), setRecipes);
+  // };
+
+  // const getAllRecipes = async (e: ChangeEvent<HTMLInputElement>): Promise<any> => {
+  //   return ServerFacade.getRecipes(e.currentTarget.value.trim(), setRecipes);
+  // };
+
+  const getRecipesHTML = (recipes: Recipe[]): JSX.Element[] => {
+    return recipes.map((recipe: Recipe, index: number) => (
+      <RecipeComponent key={index} recipe={recipe} />
+    ));
+  };
+
+  const search = async (searchString: string): Promise<Recipe[]> => {
+    return ServerFacade.getRecipes(searchString);
   };
 
   return (
-    <div className="page">
-      <div className="main-container other-container food-storage-container">
-        <div className="food-storage-header">
-          <h1 className="title">Recipes -- Temporarily Unavailable</h1>
-          <input
-            id="recipe-search-bar"
-            className="search-bar"
-            type="search"
-            placeholder="Search recipes..."
-            onChange={onSearchChange}
-          ></input>
-          <div className="flex-row">
-            <Link to="/recipes/add" className="button-link">
-              <button className="obvious small">+</button>
-            </Link>
-          </div>
-        </div>
-
-        <button
-          className="obvious"
-          onClick={() =>
-            ServerFacade.getRecipes(searchField.trim(), setRecipes)
-          }
-        >
-          Search
-        </button>
-        <div className="storage-item-container">
-          {recipes.map((recipe: Recipe, index: number) => (
-            <RecipeComponent key={index} recipe={recipe} />
-          ))}
-        </div>
-      </div>
-    </div>
+    <SRGroupDisplay
+      title={"Recipes"}
+      getAllObjects={ServerFacade.getRecipes}
+      getObjectsHTML={getRecipesHTML}
+      objectType={"Recipe"}
+      objectTypePlural={"Recipes"}
+      addUrl="/recipes/add"
+      search={search}
+      useImageView={useImageView}
+      setUseImageView={setUseImageView}
+    />
   );
 };
 
 export default Recipes;
 
 const RecipeComponent = ({ recipe }) => {
-  console.log(recipe);
+  const getRecipeAttributes = (recipe) => {
+    return [
+      { key: "Servings", value: recipe.numServings },
+      { key: "Ingredients", value: recipe.ingredients?.join("\n") },
+      { key: "Steps", value: recipe.steps?.join("\n") },
+      { key: "Calories", value: recipe.calories },
+      { key: "Link", value: recipe.link },
+    ];
+  };
+
   return (
-    <div key={recipe.label} className="storage-item">
-      {recipe.image && (
-        <img
-          className="storage-item-picture"
-          src={recipe.image}
-          alt={recipe.label}
-        />
-      )}
-      <h3 className="storage-item-name">{recipe.label || recipe.name}</h3>
-      <ul className="storage-item-description">
-        {recipe.numServings && <li>Servings: {recipe.numServings}</li>}
-        {recipe.ingredients && (
-          <li>Ingredients: {recipe.ingredients.join("\n")}</li>
-        )}
-        {recipe.steps && <li>Directions: {recipe.steps.join("\n")}</li>}
-        {recipe.calories && <li>Calories: {Math.round(recipe.calories)}</li>}
-        {recipe.link && (
-          <li>
-            <a href={recipe.link}>See recipe details</a>
-          </li>
-        )}
-      </ul>
-    </div>
+    <SRBoxView
+      key={recipe._id}
+      src={recipe.image}
+      label={recipe.label || recipe.name}
+      attributes={getRecipeAttributes(recipe)}
+    />
   );
 };

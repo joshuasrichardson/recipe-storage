@@ -18,7 +18,7 @@ jest.mock("../api/ServerFacade.ts", () => {
 
 jest.mock("../AllRoutes", () => () => "AllRoutes");
 
-jest.mock("../components/Toaster", () => () => "Toaster");
+jest.mock("../sr-ui/Toaster", () => () => "Toaster");
 
 test("renders app", async () => {
   let result: RenderResult;
@@ -28,12 +28,8 @@ test("renders app", async () => {
   expect(mockGetLoggedInUser).toHaveBeenCalled();
   expect(result.container).toMatchInlineSnapshot(`
 <div>
-  <div
-    class="App"
-  >
-    AllRoutes
-    Toaster
-  </div>
+  AllRoutes
+  Toaster
 </div>
 `);
 });

@@ -2,8 +2,6 @@ import React, { ReactElement } from "react";
 import "../App.css";
 import { Link } from "react-router-dom";
 // @ts-ignore
-import ConditionalLink from "./ConditionalLink.tsx";
-// @ts-ignore
 import ServerFacade from "../api/ServerFacade.ts";
 import { User } from "../types";
 
@@ -24,15 +22,15 @@ const Nav: React.FC<NavParams> = ({
   };
 
   return (
-    <div className="Nav">
+    <div>
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
         <div className="container-fluid nav-links">
           <Link to="/" className="navbar-brand logo">
             Storage Recipe
           </Link>
-          <h4 className="navbar-brand username">
+          <Link to="/" className="navbar-brand logo">
             {user !== null ? user.username : ""}
-          </h4>
+          </Link>
           <button
             className="navbar-toggler"
             type="button"
@@ -46,24 +44,20 @@ const Nav: React.FC<NavParams> = ({
           </button>
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav mb-2 mb-lg-0">
-              <li>
-                <ConditionalLink
-                  to="/storage"
-                  classN="nav-link"
-                  condition={user}
-                >
-                  {user ? "Storage" : ""}
-                </ConditionalLink>
-              </li>
-              <li>
-                <ConditionalLink
-                  to="/storage/history"
-                  classN="nav-link"
-                  condition={user}
-                >
-                  {user ? "History" : ""}
-                </ConditionalLink>
-              </li>
+              {user && (
+                <li>
+                  <Link to="/storage" className="nav-link">
+                    Storage
+                  </Link>
+                </li>
+              )}
+              {user && (
+                <li>
+                  <Link to="/storage/history" className="nav-link">
+                    History
+                  </Link>
+                </li>
+              )}
               <li>
                 <Link to="/recipes" className="nav-link">
                   Recipes

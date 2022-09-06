@@ -5,10 +5,10 @@ import AllRoutes from "./AllRoutes.tsx";
 // @ts-ignore
 import ServerFacade from "./api/ServerFacade.ts";
 // @ts-ignore
-import Toaster from "./components/Toaster.tsx";
-import { User } from "./types";
+import Toaster from "./sr-ui/Toaster.tsx";
+import { ContextType, User } from "./types";
 
-export const Context = createContext(undefined);
+export const Context = createContext<ContextType>(undefined);
 
 const App: React.FC = (): ReactElement => {
   const [user, setUser] = useState<User | null>(null);
@@ -25,10 +25,8 @@ const App: React.FC = (): ReactElement => {
 
   return (
     <Context.Provider value={{ user, setUser }}>
-      <div className="App">
-        <AllRoutes user={user} setUser={setUser} />
-        <Toaster />
-      </div>
+      <AllRoutes user={user} setUser={setUser} />
+      <Toaster />
     </Context.Provider>
   );
 };

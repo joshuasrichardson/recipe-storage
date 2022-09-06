@@ -148,13 +148,15 @@ router.get("/", validUser, async (req, res) => {
 });
 
 router.put("/:id", async (req, res) => {
-  console.log(req.body);
+  console.log("Put item body:", req.body);
+  if (req.body.expiration === "Unknown") req.body.expiration = null;
   try {
     let item = await Item.findByIdAndUpdate(
       {
         _id: req.params.id,
       },
       {
+        code: req.body.code,
         name: req.body.name,
         brand: req.body.brand,
         description: req.body.description,
@@ -165,7 +167,7 @@ router.put("/:id", async (req, res) => {
         expiration: req.body.expiration,
       }
     );
-    console.log(item);
+    console.log("Put storage item:", item);
     item.save();
     return res.sendStatus(200);
   } catch (error) {

@@ -1,8 +1,10 @@
-import React from "react";
+import React, { ReactElement } from "react";
+// @ts-ignore
 import ServerFacade from "../../api/ServerFacade.ts";
-import ItemGroup from "./ItemGroup";
+// @ts-ignore
+import ItemGroup from "./ItemGroup.tsx";
 
-function Storage() {
+const Storage: React.FC = (): ReactElement => {
   return (
     <ItemGroup
       title="Food Storage"
@@ -11,6 +13,6 @@ function Storage() {
       showExpiration
     />
   );
-}
+};
 
 export default Storage;

@@ -157,17 +157,6 @@ describe("Login", () => {
     expect(mockSetUser).toHaveBeenCalledWith(testUser);
     expect(mockNavigate).toHaveBeenCalledWith("/storage", { replace: true });
   });
-
-  it("switches to register when the link is clicked", () => {
-    const loginPage = render(<Login hasAccount setUser={mockSetUser} />, root);
-    act(() => {
-      loginPage
-        .getByText("Don't have an account? Click here to create one.")
-        .click();
-    });
-    expect(mockSetUser).not.toHaveBeenCalled();
-    expect(mockNavigate).toHaveBeenCalledWith("/register");
-  });
 });
 
 describe("Register", () => {
@@ -193,7 +182,7 @@ describe("Register", () => {
   it("cannot register with missing fields", () => {
     const registerPage = render(<Login setUser={mockSetUser} />, root);
     act(() => {
-      registerPage.getByTestId("login-button").click();
+      registerPage.getByRole("button", { name: "Create" }).click();
     });
     const err = "Must enter all information";
     expect(registerPage.getByText(err)).toBeInTheDocument();
@@ -201,7 +190,7 @@ describe("Register", () => {
     const fieldNames = ["First Name:", "Last Name:", "Username:", "Password:"];
     for (let fieldName of fieldNames) {
       changeField(registerPage, fieldName, "anything");
-      act(() => registerPage.getByTestId("login-button").click());
+      act(() => registerPage.getByRole("button", { name: "Create" }).click());
       expect(registerPage.getByText(err)).toBeInTheDocument();
     }
     expect(mockSetUser).not.toHaveBeenCalled();
@@ -222,26 +211,15 @@ describe("Register", () => {
     }
     const err = "Must enter all information";
     expect(registrationPage.queryByText(err)).not.toBeInTheDocument();
-    act(() => registrationPage.getByTestId("login-button").click());
+    act(() => registrationPage.getByRole("button", { name: "Create" }).click());
     expect(mockSetUser).toHaveBeenCalledWith(newUser);
     expect(mockNavigate).toHaveBeenCalledWith("/storage", { replace: true });
-  });
-
-  it("switches to login when the link is clicked", () => {
-    const registrationPage = render(<Login setUser={mockSetUser} />, root);
-    act(() => {
-      registrationPage
-        .getByText("Have an account? Click here to login.")
-        .click();
-    });
-    expect(mockSetUser).not.toHaveBeenCalled();
-    expect(mockNavigate).toHaveBeenCalledWith("/login");
   });
 
   it("can handle unknown server errors", () => {
     const registrationPage = render(<Login setUser={mockSetUser} />, root);
     changeField(registrationPage, "Username:", serverErrorName);
-    act(() => registrationPage.getByTestId("login-button").click());
+    act(() => registrationPage.getByRole("button", { name: "Create" }).click());
     const err = "Unknown error occurred";
     expect(registrationPage.queryByText(err)).toBeInTheDocument();
     expect(mockSetUser).not.toHaveBeenCalled();

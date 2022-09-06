@@ -1,6 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, ReactElement } from "react";
+// @ts-ignore
+import SRButton from "../../sr-ui/SRButton.tsx";
+// @ts-ignore
+import SRImage from "../../sr-ui/SRButton.tsx";
 
-const Uploader = (props) => {
+type UploaderProps = {
+  setImage: Function;
+};
+
+const Uploader: React.FC = (props: UploaderProps): ReactElement => {
   const { setImage } = props;
   const [selectedImage, setSelectedImage] = useState(null);
 
@@ -8,17 +16,17 @@ const Uploader = (props) => {
     <div>
       {selectedImage && (
         <div>
-          <img
-            alt="not fount"
-            width={"250px"}
+          <SRImage
+            label="Image not found"
             src={URL.createObjectURL(selectedImage)}
           />
           <br />
-          <button onClick={() => setSelectedImage(null)}>Remove Image</button>
+          <SRButton onClick={() => setSelectedImage(null)}>
+            Remove Image
+          </SRButton>
         </div>
       )}
       <br />
-
       <br />
       <input
         type="file"

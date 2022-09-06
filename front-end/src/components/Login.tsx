@@ -2,7 +2,23 @@ import React, { ReactElement, useState } from "react";
 import { useNavigate } from "react-router-dom";
 // @ts-ignore
 import ServerFacade from "../api/ServerFacade.ts";
+// @ts-ignore
+import SRButton from "../sr-ui/SRButton.tsx";
 import { User } from "../types";
+// @ts-ignore
+import SRHeader from "../sr-ui/SRHeader.tsx";
+// @ts-ignore
+import SRContainer from "../sr-ui/SRContainer.tsx";
+// @ts-ignore
+import SRFlex from "../sr-ui/SRFlex.tsx";
+// @ts-ignore
+import SRText from "../sr-ui/SRText.tsx";
+// @ts-ignore
+import SRTextInput from "../sr-ui/SRTextInput.tsx";
+// @ts-ignore
+import SRForm from "../sr-ui/SRForm.tsx";
+// @ts-ignore
+import { themeRed } from "../sr-ui/styles.ts";
 
 export type LoginProps = {
   hasAccount?: boolean;
@@ -55,79 +71,70 @@ const Login: React.FC<LoginProps> = ({
   };
 
   return (
-    <div className="main-container">
-      <h1>Storage Recipe</h1>
-      <form className="user-input" onSubmit={useAccount}>
+    <SRContainer maxWidth="large" margin="xxlarge">
+      <SRHeader size="xlarge" padding="xlarge" underlined>
+        Storage Recipe
+      </SRHeader>
+      <SRForm onSubmit={useAccount} padding="large">
         {!hasAccount && (
           <div>
-            <label className="item" htmlFor="first-name">
-              First Name:
-            </label>
-            <input
+            <SRTextInput
               id="first-name"
+              label="First Name:"
               type="text"
               value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
-            ></input>
-            <label className="item" htmlFor="last-name">
-              Last Name:
-            </label>
-            <input
+            ></SRTextInput>
+            <SRTextInput
               id="last-name"
+              label="Last Name:"
               type="text"
               value={lastName}
               onChange={(e) => setLastName(e.target.value)}
-            ></input>
+            ></SRTextInput>
           </div>
         )}
-        <label className="item" htmlFor="username">
-          Username:
-        </label>
-        <input
+        <SRTextInput
           id="username"
+          label="Username:"
           type="text"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
-        ></input>
-        <label className="item" htmlFor="password">
-          Password:
-        </label>
-        <input
+        ></SRTextInput>
+        <SRTextInput
           id="password"
+          label="Password:"
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-        ></input>
+        ></SRTextInput>
         {!hasAccount && (
-          <div>
-            <label className="item" htmlFor="password2">
-              Confirm Password:
-            </label>
-            <input
-              id="password2"
-              type="password"
-              value={password2}
-              onChange={(e) => setPassword2(e.target.value)}
-            ></input>
-          </div>
+          <SRTextInput
+            id="password2"
+            label="Confirm Password:"
+            type="password"
+            value={password2}
+            onChange={(e) => setPassword2(e.target.value)}
+          ></SRTextInput>
         )}
-        <p>{err}</p>
-        <div className="login-container">
-          <button data-testid="login-button" className="obvious" type="submit">
+        <SRText style={{ textAlign: "center" }} color={themeRed}>
+          {err}
+        </SRText>
+        <SRFlex direction="column">
+          <SRButton dataTestid="login-button" onClick={useAccount}>
             {hasAccount && "Login"}
             {!hasAccount && "Create"}
-          </button>
+          </SRButton>
           <a
-            className="link"
-            onClick={() => navigate(hasAccount ? "/register" : "/login")}
+            href={hasAccount ? "/register" : "/login"}
+            style={{ margin: "15px" }}
           >
             {hasAccount && "Don't have an account? Click here to create one."}
             {!hasAccount && "Have an account? Click here to login."}
           </a>
-        </div>
-      </form>
-      <div className="extra-space"></div>
-    </div>
+        </SRFlex>
+      </SRForm>
+    </SRContainer>
   );
 };
 

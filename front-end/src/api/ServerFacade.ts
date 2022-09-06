@@ -198,7 +198,7 @@ const addProduct = async (item) => {
       message: data.message,
       product: data.product,
       state: {
-        id: data.product.id,
+        id: data.product._id,
         oldCode: data.product.code,
         oldName: data.product.name,
         oldBrand: data.product.brand,
@@ -331,15 +331,15 @@ const addContainer = async (container) => {
 //     .then((response) => setItems(response.hits.map((hit) => hit.recipe)));
 // };
 
-const getRecipes = async (itemName, setItems) => {
+const getRecipes = async (itemName: string): Promise<any> => {
   try {
     let response = await axios.get("/api/recipes/" + itemName);
-    setItems(response.data);
+    return response.data;
     // This function will work if we call getEdamamRecipes(itemName, setItems),
     // but I don't want to go over the free limit.
   } catch (error) {
     console.log(error);
-    setItems([]);
+    return [];
   }
 };
 
@@ -358,6 +358,7 @@ const addRecipe = async (addRecipeParams: AddRecipeParams): Promise<void> => {
     "/api/recipes",
     addRecipeParams
   );
+  debugger;
   console.log(response);
 };
 

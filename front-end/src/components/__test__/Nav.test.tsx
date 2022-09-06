@@ -4,14 +4,12 @@ import Nav from "../Nav";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import { testUser } from "../../../testUtils/mocks";
-import { User } from "../../types";
 
 let container: HTMLElement = null;
 let root = null;
 let mockLogout = jest.fn();
 let mockSetUser = jest.fn();
 
-jest.mock("../ConditionalLink", () => ({ to }) => <div>{to}</div>);
 jest.mock("../../api/ServerFacade.ts", () => {
   return {
     logout: jest.fn().mockImplementation(() => mockLogout()),
@@ -55,9 +53,7 @@ describe("Nav", () => {
     expect(mockSetUser).not.toHaveBeenCalled();
     expect(nav.container).toMatchInlineSnapshot(`
 <div>
-  <div
-    class="Nav"
-  >
+  <div>
     <nav
       class="navbar navbar-expand-lg navbar-dark bg-dark"
     >
@@ -70,8 +66,9 @@ describe("Nav", () => {
         >
           Storage Recipe
         </a>
-        <h4
-          class="navbar-brand username"
+        <a
+          class="navbar-brand logo"
+          href="/"
         />
         <button
           aria-controls="navbarSupportedContent"
@@ -93,16 +90,6 @@ describe("Nav", () => {
           <ul
             class="navbar-nav mb-2 mb-lg-0"
           >
-            <li>
-              <div>
-                /storage
-              </div>
-            </li>
-            <li>
-              <div>
-                /storage/history
-              </div>
-            </li>
             <li>
               <a
                 class="nav-link"
@@ -140,9 +127,7 @@ describe("Nav", () => {
     expect(mockSetUser).not.toHaveBeenCalled();
     expect(nav.container).toMatchInlineSnapshot(`
 <div>
-  <div
-    class="Nav"
-  >
+  <div>
     <nav
       class="navbar navbar-expand-lg navbar-dark bg-dark"
     >
@@ -155,11 +140,12 @@ describe("Nav", () => {
         >
           Storage Recipe
         </a>
-        <h4
-          class="navbar-brand username"
+        <a
+          class="navbar-brand logo"
+          href="/"
         >
           testuser
-        </h4>
+        </a>
         <button
           aria-controls="navbarSupportedContent"
           aria-expanded="false"
@@ -181,14 +167,20 @@ describe("Nav", () => {
             class="navbar-nav mb-2 mb-lg-0"
           >
             <li>
-              <div>
-                /storage
-              </div>
+              <a
+                class="nav-link"
+                href="/storage"
+              >
+                Storage
+              </a>
             </li>
             <li>
-              <div>
-                /storage/history
-              </div>
+              <a
+                class="nav-link"
+                href="/storage/history"
+              >
+                History
+              </a>
             </li>
             <li>
               <a

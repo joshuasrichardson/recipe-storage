@@ -1,3 +1,8 @@
+export type ContextType = {
+  user: User;
+  setUser: (user: User) => void;
+};
+
 export type User = {
   firstName: string;
   lastName: string;
@@ -29,3 +34,14 @@ export type Recipe = {
   password: string;
   role?: string;
 };
+
+export type Size =
+  | "none"
+  | "xsmall"
+  | "small"
+  | "medium"
+  | "large"
+  | "xlarge"
+  | "max";
+
+export type Child = JSX.Element | JSX.Element[] | string;
