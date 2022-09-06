@@ -4,6 +4,7 @@ import { Size, Child } from "../types.ts";
 import {
   borderWidthSizes,
   containerWidthSizes,
+  isMobile,
   marginSizes,
   paddingSizes,
   themeGreen,
@@ -33,8 +34,7 @@ const SRContainer: React.FC<SRContainerProps> = (
   props = { ...defaultProps, ...props };
 
   const containerStyles: React.CSSProperties = {
-    width:
-      window.innerWidth > 600 ? containerWidthSizes[props.maxWidth] : undefined,
+    width: isMobile ? undefined : containerWidthSizes[props.maxWidth],
     maxWidth: containerWidthSizes[props.maxWidth],
     background: props.backgroundColor,
     display: "flex",

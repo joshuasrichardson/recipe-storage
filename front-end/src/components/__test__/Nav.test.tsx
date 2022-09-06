@@ -53,64 +53,57 @@ describe("Nav", () => {
     expect(mockSetUser).not.toHaveBeenCalled();
     expect(nav.container).toMatchInlineSnapshot(`
 <div>
-  <div>
-    <nav
-      class="navbar navbar-expand-lg navbar-dark bg-dark"
+  <nav
+    class="navbar navbar-expand-sm navbar-dark bg-dark"
+  >
+    <div
+      aria-controls="responsive-navbar-nav"
+      class="container"
     >
-      <div
-        class="container-fluid nav-links"
+      <a
+        class="navbar-brand"
+        href="/"
       >
-        <a
-          class="navbar-brand logo"
-          href="/"
+        <h3
+          style="font-family: Architects Daughter; font-size: 22px; font-weight: normal; color: rgb(224, 214, 206); text-align: center; padding: 10px;"
         >
           Storage Recipe
-        </a>
-        <a
-          class="navbar-brand logo"
-          href="/"
-        />
-        <button
-          aria-controls="navbarSupportedContent"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-          class="navbar-toggler"
-          data-bs-target="#navbarSupportedContent"
-          data-bs-toggle="collapse"
-          type="button"
-        >
-          <span
-            class="navbar-toggler-icon"
-          />
-        </button>
+        </h3>
+      </a>
+      <div
+        class="justify-content-end navbar-collapse collapse"
+      >
         <div
-          class="collapse navbar-collapse"
-          id="navbarSupportedContent"
+          class="navbar-nav"
+          id="responsive-navbar-nav"
         >
-          <ul
-            class="navbar-nav mb-2 mb-lg-0"
+          <a
+            class="nav-link"
+            data-rr-ui-event-key="/recipes"
+            href="/recipes"
           >
-            <li>
-              <a
-                class="nav-link"
-                href="/recipes"
-              >
-                Recipes
-              </a>
-            </li>
-            <li>
-              <a
-                class="nav-link"
-                href="/login"
-              >
-                Login
-              </a>
-            </li>
-          </ul>
+            Recipes
+          </a>
+          <a
+            class="nav-link"
+            data-rr-ui-event-key="/login"
+            href="/login"
+          >
+            Login
+          </a>
         </div>
       </div>
-    </nav>
-  </div>
+      <button
+        aria-label="Toggle navigation"
+        class="navbar-toggler collapsed"
+        type="button"
+      >
+        <span
+          class="navbar-toggler-icon"
+        />
+      </button>
+    </div>
+  </nav>
 </div>
 `);
   });
@@ -127,82 +120,71 @@ describe("Nav", () => {
     expect(mockSetUser).not.toHaveBeenCalled();
     expect(nav.container).toMatchInlineSnapshot(`
 <div>
-  <div>
-    <nav
-      class="navbar navbar-expand-lg navbar-dark bg-dark"
+  <nav
+    class="navbar navbar-expand-sm navbar-dark bg-dark"
+  >
+    <div
+      aria-controls="responsive-navbar-nav"
+      class="container"
     >
-      <div
-        class="container-fluid nav-links"
+      <a
+        class="navbar-brand"
+        href="/"
       >
-        <a
-          class="navbar-brand logo"
-          href="/"
-        >
-          Storage Recipe
-        </a>
-        <a
-          class="navbar-brand logo"
-          href="/"
+        <h3
+          style="font-family: Architects Daughter; font-size: 22px; font-weight: normal; color: rgb(224, 214, 206); text-align: center; padding: 10px;"
         >
           testuser
-        </a>
-        <button
-          aria-controls="navbarSupportedContent"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-          class="navbar-toggler"
-          data-bs-target="#navbarSupportedContent"
-          data-bs-toggle="collapse"
-          type="button"
-        >
-          <span
-            class="navbar-toggler-icon"
-          />
-        </button>
+        </h3>
+      </a>
+      <div
+        class="justify-content-end navbar-collapse collapse"
+      >
         <div
-          class="collapse navbar-collapse"
-          id="navbarSupportedContent"
+          class="navbar-nav"
+          id="responsive-navbar-nav"
         >
-          <ul
-            class="navbar-nav mb-2 mb-lg-0"
+          <a
+            class="nav-link"
+            data-rr-ui-event-key="/storage"
+            href="/storage"
           >
-            <li>
-              <a
-                class="nav-link"
-                href="/storage"
-              >
-                Storage
-              </a>
-            </li>
-            <li>
-              <a
-                class="nav-link"
-                href="/storage/history"
-              >
-                History
-              </a>
-            </li>
-            <li>
-              <a
-                class="nav-link"
-                href="/recipes"
-              >
-                Recipes
-              </a>
-            </li>
-            <li>
-              <a
-                class="nav-link"
-                href="/login"
-              >
-                Logout
-              </a>
-            </li>
-          </ul>
+            Storage
+          </a>
+          <a
+            class="nav-link"
+            data-rr-ui-event-key="/storage/history"
+            href="/storage/history"
+          >
+            History
+          </a>
+          <a
+            class="nav-link"
+            data-rr-ui-event-key="/recipes"
+            href="/recipes"
+          >
+            Recipes
+          </a>
+          <a
+            class="nav-link"
+            data-rr-ui-event-key="/login"
+            href="/login"
+          >
+            Logout
+          </a>
         </div>
       </div>
-    </nav>
-  </div>
+      <button
+        aria-label="Toggle navigation"
+        class="navbar-toggler collapsed"
+        type="button"
+      >
+        <span
+          class="navbar-toggler-icon"
+        />
+      </button>
+    </div>
+  </nav>
 </div>
 `);
   });

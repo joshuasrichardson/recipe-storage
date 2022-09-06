@@ -1,8 +1,13 @@
 import React, { ReactElement } from "react";
-import "../App.css";
-import { Link } from "react-router-dom";
+import Navbar from "react-bootstrap/Navbar";
+import Container from "react-bootstrap/Container";
+import Nav from "react-bootstrap/Nav";
 // @ts-ignore
 import ServerFacade from "../api/ServerFacade.ts";
+// @ts-ignore
+import SRHeader from "../sr-ui/SRHeader.tsx";
+// @ts-ignore
+import { lightTextColor } from "../sr-ui/styles.ts";
 import { User } from "../types";
 
 export type NavParams = {
@@ -10,7 +15,7 @@ export type NavParams = {
   setUser: (user: User) => void;
 };
 
-const Nav: React.FC<NavParams> = ({
+const Navigation: React.FC<NavParams> = ({
   user,
   setUser,
 }: NavParams): ReactElement => {
@@ -22,58 +27,27 @@ const Nav: React.FC<NavParams> = ({
   };
 
   return (
-    <div>
-      <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div className="container-fluid nav-links">
-          <Link to="/" className="navbar-brand logo">
-            Storage Recipe
-          </Link>
-          <Link to="/" className="navbar-brand logo">
-            {user !== null ? user.username : ""}
-          </Link>
-          <button
-            className="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span className="navbar-toggler-icon"></span>
-          </button>
-          <div className="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul className="navbar-nav mb-2 mb-lg-0">
-              {user && (
-                <li>
-                  <Link to="/storage" className="nav-link">
-                    Storage
-                  </Link>
-                </li>
-              )}
-              {user && (
-                <li>
-                  <Link to="/storage/history" className="nav-link">
-                    History
-                  </Link>
-                </li>
-              )}
-              <li>
-                <Link to="/recipes" className="nav-link">
-                  Recipes
-                </Link>
-              </li>
-              <li>
-                <Link to="/login" className="nav-link" onClick={logout}>
-                  {user ? "Logout" : "Login"}
-                </Link>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </nav>
-    </div>
+    <Navbar collapseOnSelect expand="sm" bg="dark" variant="dark">
+      <Container aria-controls="responsive-navbar-nav">
+        <Navbar.Brand href="/">
+          <SRHeader color={lightTextColor}>
+            {user !== null ? user.username : "Storage Recipe"}
+          </SRHeader>
+        </Navbar.Brand>
+        <Navbar.Collapse className="justify-content-end">
+          <Nav id="responsive-navbar-nav" pull-right>
+            {user && <Nav.Link href="/storage">Storage</Nav.Link>}
+            {user && <Nav.Link href="/storage/history">History</Nav.Link>}
+            <Nav.Link href="/recipes">Recipes</Nav.Link>
+            <Nav.Link href="/login" onClick={logout}>
+              {user ? "Logout" : "Login"}
+            </Nav.Link>
+          </Nav>
+        </Navbar.Collapse>
+        <Navbar.Toggle />
+      </Container>
+    </Navbar>
   );
 };
 
-export default Nav;
+export default Navigation;

@@ -12,6 +12,8 @@ import SRContainer from "../sr-ui/SRContainer.tsx";
 import SRText from "../sr-ui/SRText.tsx";
 // @ts-ignore
 import SRFlex from "../sr-ui/SRFlex.tsx";
+// @ts-ignore
+import { isMobile } from "../sr-ui/styles.ts";
 
 export type IntroProps = {
   user?: User;
@@ -21,12 +23,11 @@ const Intro: React.FC<IntroProps> = ({ user }: IntroProps): ReactElement => {
   if (user == null) {
     return (
       <SRFlex
-        wrap="wrap"
         direction="column"
         justifyContent="center"
-        alignItems="flex-start"
+        alignItems={isMobile ? "center" : "flex-start"}
       >
-        <SRContainer maxWidth="large" margin="xxlarge">
+        <SRContainer maxWidth="large" margin={isMobile ? "medium" : "xxlarge"}>
           <SRHeader size="xlarge" padding="xlarge" underlined>
             Storage Recipe
           </SRHeader>

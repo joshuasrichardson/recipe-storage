@@ -1,4 +1,4 @@
-import React, { useEffect, useState, ReactElement } from "react";
+import React, { useEffect, useState, ReactElement, useCallback } from "react";
 // @ts-ignore
 import config from "./BarcodeConfig.ts";
 import Quagga from "quagga";
@@ -16,9 +16,12 @@ const Scanner: React.FC = (props: ScannerProps): ReactElement => {
   const { onDetected } = props;
   const [showCamera, setShowCamera] = useState(false);
 
-  const detected = (result) => {
-    onDetected(result.codeResult.code);
-  };
+  const detected = useCallback(
+    (result) => {
+      onDetected(result.codeResult.code);
+    },
+    [onDetected]
+  );
 
   useEffect(() => {
     if (showCamera) {

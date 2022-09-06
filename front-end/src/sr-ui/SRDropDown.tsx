@@ -1,4 +1,6 @@
 import React, { ChangeEventHandler, ReactElement } from "react";
+// @ts-ignore
+import { themeGreen } from "./styles.ts";
 
 type SRDropDownProps = {
   label: string;
@@ -15,6 +17,8 @@ const SRDropDown: React.FC<SRDropDownProps> = (
     display: "inline-block",
     marginTop: "10px",
     width: "100%",
+    color: themeGreen,
+    textShadow: "0px 0px 6px #f0e3d0, 0px 0px 6px #f0e3d0, 0px 0px 6px #f0e3d0",
   };
 
   return (

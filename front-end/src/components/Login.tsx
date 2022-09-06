@@ -18,7 +18,7 @@ import SRTextInput from "../sr-ui/SRTextInput.tsx";
 // @ts-ignore
 import SRForm from "../sr-ui/SRForm.tsx";
 // @ts-ignore
-import { themeRed } from "../sr-ui/styles.ts";
+import { isMobile, themeRed } from "../sr-ui/styles.ts";
 
 export type LoginProps = {
   hasAccount?: boolean;
@@ -71,70 +71,76 @@ const Login: React.FC<LoginProps> = ({
   };
 
   return (
-    <SRContainer maxWidth="large" margin="xxlarge">
-      <SRHeader size="xlarge" padding="xlarge" underlined>
-        Storage Recipe
-      </SRHeader>
-      <SRForm onSubmit={useAccount} padding="large">
-        {!hasAccount && (
-          <div>
-            <SRTextInput
-              id="first-name"
-              label="First Name:"
-              type="text"
-              value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
-            ></SRTextInput>
-            <SRTextInput
-              id="last-name"
-              label="Last Name:"
-              type="text"
-              value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
-            ></SRTextInput>
-          </div>
-        )}
-        <SRTextInput
-          id="username"
-          label="Username:"
-          type="text"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        ></SRTextInput>
-        <SRTextInput
-          id="password"
-          label="Password:"
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        ></SRTextInput>
-        {!hasAccount && (
+    <SRFlex
+      direction="column"
+      justifyContent="center"
+      alignItems={isMobile ? "center" : "flex-start"}
+    >
+      <SRContainer maxWidth="large" margin={isMobile ? "medium" : "xxlarge"}>
+        <SRHeader size="xlarge" padding="xlarge" underlined>
+          Storage Recipe
+        </SRHeader>
+        <SRForm onSubmit={useAccount} padding="large">
+          {!hasAccount && (
+            <>
+              <SRTextInput
+                id="first-name"
+                label="First Name:"
+                type="text"
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
+              ></SRTextInput>
+              <SRTextInput
+                id="last-name"
+                label="Last Name:"
+                type="text"
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
+              ></SRTextInput>
+            </>
+          )}
           <SRTextInput
-            id="password2"
-            label="Confirm Password:"
-            type="password"
-            value={password2}
-            onChange={(e) => setPassword2(e.target.value)}
+            id="username"
+            label="Username:"
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
           ></SRTextInput>
-        )}
-        <SRText style={{ textAlign: "center" }} color={themeRed}>
-          {err}
-        </SRText>
-        <SRFlex direction="column">
-          <SRButton dataTestid="login-button" onClick={useAccount}>
-            {hasAccount && "Login"}
-            {!hasAccount && "Create"}
-          </SRButton>
-          <a
-            href={hasAccount ? "/register" : "/login"}
-            style={{ margin: "15px" }}
-          >
-            {hasAccount && "Don't have an account? Click here to create one."}
-            {!hasAccount && "Have an account? Click here to login."}
-          </a>
-        </SRFlex>
-      </SRForm>
-    </SRContainer>
+          <SRTextInput
+            id="password"
+            label="Password:"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          ></SRTextInput>
+          {!hasAccount && (
+            <SRTextInput
+              id="password2"
+              label="Confirm Password:"
+              type="password"
+              value={password2}
+              onChange={(e) => setPassword2(e.target.value)}
+            ></SRTextInput>
+          )}
+          <SRText style={{ textAlign: "center" }} color={themeRed}>
+            {err}
+          </SRText>
+          <SRFlex direction="column">
+            <SRButton dataTestid="login-button" onClick={useAccount}>
+              {hasAccount && "Login"}
+              {!hasAccount && "Create"}
+            </SRButton>
+            <a
+              href={hasAccount ? "/register" : "/login"}
+              style={{ margin: "15px" }}
+            >
+              {hasAccount && "Don't have an account? Click here to create one."}
+              {!hasAccount && "Have an account? Click here to login."}
+            </a>
+          </SRFlex>
+        </SRForm>
+      </SRContainer>
+    </SRFlex>
   );
 };
 

@@ -1,6 +1,6 @@
 import React, { ChangeEventHandler, ReactElement } from "react";
 // @ts-ignore
-import { darkTextColor } from "./styles.ts";
+import { themeGreen } from "./styles.ts";
 
 type SRTextInputProps = {
   id?: string;
@@ -30,7 +30,8 @@ const SRTextInput: React.FC<SRTextInputProps> = (
     display: "inline-block",
     marginTop: "10px",
     width: "100%",
-    color: props.color || darkTextColor,
+    color: props.color || themeGreen,
+    textShadow: "0px 0px 6px #f0e3d0, 0px 0px 6px #f0e3d0, 0px 0px 6px #f0e3d0",
   };
 
   const inputField = (): ReactElement => {

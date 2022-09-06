@@ -6,6 +6,7 @@ import { Child, Size } from "../types.ts";
 import { headerSizes, paddingSizes, themeGreen } from "./styles.ts";
 
 type SRHeaderProps = {
+  color?: string;
   size?: Size;
   padding?: Size;
   underlined?: boolean;
@@ -13,6 +14,7 @@ type SRHeaderProps = {
 };
 
 const defaultProps: SRHeaderProps = {
+  color: themeGreen,
   size: "medium",
   padding: "medium",
   underlined: false,
@@ -36,7 +38,7 @@ const SRHeader: React.FC<SRHeaderProps> = (
     fontFamily: "Architects Daughter",
     fontSize: headerSizes[props.size],
     fontWeight: props.size === "xlarge" ? "bold" : "normal",
-    color: themeGreen,
+    color: props.color,
     textAlign: "center",
     padding: paddingSizes[props.padding],
     borderBottom: props.underlined ? "1px solid" : "none",

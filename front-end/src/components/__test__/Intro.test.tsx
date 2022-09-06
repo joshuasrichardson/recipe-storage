@@ -38,7 +38,7 @@ describe("Intro", () => {
     expect(intro.container).toMatchInlineSnapshot(`
 <div>
   <div
-    style="margin: auto; display: flex; align-items: flex-start; justify-content: center; flex-direction: column; width: 100%; flex-wrap: wrap; padding: 0px;"
+    style="margin: auto; display: flex; align-items: flex-start; justify-content: center; flex-direction: column; width: 100%; flex-wrap: nowrap; padding: 0px;"
   >
     <div
       style="width: 520px; max-width: 520px; display: flex; align-items: center; flex-direction: column; margin: 60px; padding: 15px; border: solid; border-color: #003815; border-width: 3px;"

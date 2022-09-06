@@ -77,3 +77,4 @@ export const headerSizes = {
   large: "38px",
   xlarge: "48px",
 };
+export const isMobile = window.innerWidth < 600;

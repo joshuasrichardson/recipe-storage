@@ -72,7 +72,7 @@ const GroupDisplay: React.FC<GroupDisplayProps> = ({
       setFirstRender(false);
       getAllObjects(setAllObjects);
     }
-  }, [state, allObjects, setAllObjects, getAllObjects]);
+  }, [firstRender, state, allObjects, setAllObjects, getAllObjects]);
 
   useEffect(() => {
     setMatchingObjects(allObjects);
@@ -127,12 +127,7 @@ const GroupDisplay: React.FC<GroupDisplayProps> = ({
             </SRButton>
           </SRFlex>
         </SRFlex>
-        <SRFlex
-          wrap="wrap"
-          justifyContent="space-around"
-          margin="xlarge"
-          alignItems="stretch"
-        >
+        <SRFlex wrap="wrap" justifyContent="space-around" alignItems="stretch">
           {getObjectsHTML(matchingObjects)}
         </SRFlex>
       </SRContainer>
