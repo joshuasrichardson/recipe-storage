@@ -1,8 +1,6 @@
 import axios, { AxiosResponse } from "axios";
 import moment from "moment";
 import { User } from "../types";
-// @ts-ignore
-import { keys } from "./constants.ts";
 
 export type LoginParams = {
   username: string;
@@ -116,7 +114,27 @@ const logout = async (): Promise<void> => {
 //   }
 // };
 
+type APIKeychain = {
+  X_API_KEY: string;
+  X_APP_KEY: string;
+};
+
 const getNutritionixV2Item = async (code) => {
+  let keys: APIKeychain;
+  // @ts-ignore
+  import("./constants.ts")
+    .then((data) => {
+      keys = data.keys;
+    })
+    .catch((err) => {
+      console.log(err);
+      console.log(
+        "./constants.ts has not been added to github because it contains private information."
+      );
+      console.log(
+        "If you need access to it (you are working with the owner), please contact the owner directly"
+      );
+    });
   const response = await axios.get(
     "https://trackapi.nutritionix.com/v2/search/item?upc=" + code,
     {
