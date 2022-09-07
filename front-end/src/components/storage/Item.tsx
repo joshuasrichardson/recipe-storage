@@ -45,7 +45,7 @@ const ItemComponent: React.FC<ItemComponentProps> = ({
       }
     };
     updateScreen();
-  }, [location.state, id, item, setItem, getItem]);
+  }, [state, id, item, setItem, getItem]);
 
   const deleteItem = () => {
     ServerFacade.deleteItem(id);

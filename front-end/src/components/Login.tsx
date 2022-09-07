@@ -89,6 +89,7 @@ const Login: React.FC<LoginProps> = ({
                 type="text"
                 value={firstName}
                 onChange={(e) => setFirstName(e.target.value)}
+                fillBackground
               ></SRTextInput>
               <SRTextInput
                 id="last-name"
@@ -96,6 +97,7 @@ const Login: React.FC<LoginProps> = ({
                 type="text"
                 value={lastName}
                 onChange={(e) => setLastName(e.target.value)}
+                fillBackground
               ></SRTextInput>
             </>
           )}
@@ -105,6 +107,7 @@ const Login: React.FC<LoginProps> = ({
             type="text"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
+            fillBackground
           ></SRTextInput>
           <SRTextInput
             id="password"
@@ -112,6 +115,7 @@ const Login: React.FC<LoginProps> = ({
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            fillBackground
           ></SRTextInput>
           {!hasAccount && (
             <SRTextInput
@@ -120,6 +124,7 @@ const Login: React.FC<LoginProps> = ({
               type="password"
               value={password2}
               onChange={(e) => setPassword2(e.target.value)}
+              fillBackground
             ></SRTextInput>
           )}
           <SRText style={{ textAlign: "center" }} color={themeRed}>

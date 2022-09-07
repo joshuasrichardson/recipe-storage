@@ -1,4 +1,4 @@
-import React, { useState, useEffect, ReactElement } from "react";
+import React, { useContext, useState, useEffect, ReactElement } from "react";
 import { useLocation } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
@@ -19,6 +19,10 @@ import SRHeader from "./SRHeader.tsx";
 import SRText from "./SRText.tsx";
 // @ts-ignore
 import SRTextInput from "./SRTextInput.tsx";
+// @ts-ignore
+import { Context } from "../App.tsx";
+// @ts-ignore
+import { ContextType } from "../types.ts";
 
 type GroupDisplayState = {
   deleted: boolean;
@@ -48,6 +52,7 @@ const GroupDisplay: React.FC<GroupDisplayProps> = ({
   useImageView,
   setUseImageView,
 }: GroupDisplayProps): ReactElement => {
+  const { user } = useContext<ContextType>(Context);
   const [searchString, setSearchString] = useState("");
   const [matchingObjects, setMatchingObjects] = useState<Array<Object>>([]);
   const [allObjects, setAllObjects] = useState([]);
@@ -72,7 +77,7 @@ const GroupDisplay: React.FC<GroupDisplayProps> = ({
       setFirstRender(false);
       getAllObjects(setAllObjects);
     }
-  }, [firstRender, state, allObjects, setAllObjects, getAllObjects]);
+  }, [firstRender, state, setAllObjects, getAllObjects]);
 
   useEffect(() => {
     setMatchingObjects(allObjects);
@@ -114,9 +119,10 @@ const GroupDisplay: React.FC<GroupDisplayProps> = ({
               "Search " + objectTypePlural.toLocaleLowerCase() + "..."
             }
             onChange={onSearchChange}
-          ></SRTextInput>
+            fillBackground
+          />
           <SRFlex margin="large" width="xlarge">
-            <SRButtonLink to={addUrl} size="small">
+            <SRButtonLink to={addUrl} size="small" disabled={!user}>
               +
             </SRButtonLink>
             <SRText>

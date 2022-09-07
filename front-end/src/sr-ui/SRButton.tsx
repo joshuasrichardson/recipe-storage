@@ -3,6 +3,7 @@ import React, { useState, MouseEventHandler, ReactElement } from "react";
 import { Child } from "../types.ts";
 import {
   borderWidthSizes,
+  disabledButtonColor,
   mainButtonColor,
   brightButtonColor,
   lightTextColor,
@@ -12,6 +13,7 @@ import {
 type SRButtonProps = {
   size?: "large" | "small";
   type?: "button" | "submit";
+  disabled?: boolean;
   onClick?: MouseEventHandler<HTMLButtonElement>;
   children?: Child;
 };
@@ -19,6 +21,7 @@ type SRButtonProps = {
 const defaultProps: SRButtonProps = {
   size: "large",
   type: "button",
+  disabled: false,
   onClick: () => {},
   children: <></>,
 };
@@ -31,7 +34,11 @@ const SRButton: React.FC<SRButtonProps> = (
 
   const general: React.CSSProperties = {
     color: lightTextColor,
-    backgroundColor: isHover ? brightButtonColor : mainButtonColor,
+    backgroundColor: props.disabled
+      ? disabledButtonColor
+      : isHover
+      ? brightButtonColor
+      : mainButtonColor,
     fontWeight: "bold",
     borderRadius: "5px",
     borderWidth: borderWidthSizes["small"],
@@ -67,7 +74,8 @@ const SRButton: React.FC<SRButtonProps> = (
     <button
       style={buttonStyle}
       type={props.type}
-      onClick={props.onClick}
+      disabled={props.disabled}
+      onClick={!props.disabled && props.onClick}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
     >

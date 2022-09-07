@@ -9,12 +9,14 @@ import { Child } from "../types.ts";
 type ButtonLinkProps = {
   to: string;
   size: Size;
+  disabled?: boolean;
   children?: Child;
 };
 
 const defaultProps: ButtonLinkProps = {
   to: "",
   size: "large",
+  disabled: false,
 };
 
 const SRButtonLink: React.FC<ButtonLinkProps> = (
@@ -27,8 +29,10 @@ const SRButtonLink: React.FC<ButtonLinkProps> = (
   };
 
   return (
-    <Link to={props.to} style={buttonLinkStyle}>
-      <SRButton size={props.size}>{props.children}</SRButton>
+    <Link to={!props.disabled && props.to} style={buttonLinkStyle}>
+      <SRButton size={props.size} disabled={props.disabled}>
+        {props.children}
+      </SRButton>
     </Link>
   );
 };

@@ -3,9 +3,9 @@ import React, { useState, useContext, ReactElement } from "react";
 import { Context } from "../../App.tsx";
 // @ts-ignore
 import ServerFacade, { AddRecipeParams } from "../../api/ServerFacade.ts";
-import { toast } from "react-toastify";
-// @ts-ignore
-import { toastEmitter } from "../../sr-ui/Toaster.tsx"; // TODO: Use this
+// import { toast } from "react-toastify";
+// // @ts-ignore
+// import { toastEmitter } from "../../sr-ui/Toaster.tsx"; // TODO: Use this
 // @ts-ignore
 import SRButton from "../../sr-ui/SRButton.tsx";
 // @ts-ignore

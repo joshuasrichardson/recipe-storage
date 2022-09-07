@@ -60,7 +60,7 @@ const ItemForm: React.FC<ItemFormProps> = (
     setAmount(item.amount || "");
     setUnit(item.unit || "");
     props.setImageUrl(item.src || "");
-  }, [props.code]);
+  }, [props]);
 
   useEffect(() => {
     const setItem = async () => {
@@ -79,7 +79,7 @@ const ItemForm: React.FC<ItemFormProps> = (
       }
     };
     if (props.itemId) setItem();
-  }, [props.itemId, name]);
+  }, [props, name]);
 
   useEffect(() => {
     const updateContainers = async () => {
@@ -95,7 +95,7 @@ const ItemForm: React.FC<ItemFormProps> = (
     if (!props.itemId && barcodeLengths.includes(props.code.length)) {
       autofillWithProductInfo();
     }
-  }, [props.code, autofillWithProductInfo, props.itemId]);
+  }, [props, autofillWithProductInfo]);
 
   const getOptions = () => {
     return containers?.map((cont) => <option key={cont} value={cont}></option>);

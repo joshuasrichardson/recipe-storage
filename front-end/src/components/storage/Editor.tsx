@@ -9,6 +9,8 @@ import SRFlex from "../../sr-ui/SRFlex.tsx";
 // @ts-ignore
 import SRHeader from "../../sr-ui/SRHeader.tsx";
 // @ts-ignore
+import { themeGray } from "../../sr-ui/styles.ts";
+// @ts-ignore
 import ItemForm from "./ItemForm.tsx";
 
 const Editor = () => {
@@ -38,16 +40,20 @@ const Editor = () => {
     <SRFlex direction="column">
       <SRContainer maxWidth="medium">
         <SRFlex wrap="wrap" justifyContent="space-around">
-          <SRHeader size="large">Edit Item</SRHeader>
-          <ItemForm
-            itemId={id}
-            onSubmit={update}
-            submitLabel="Update"
-            code={code}
-            setCode={setCode}
-            setImageUrl={() => {}}
-            shouldShowQuantityField={false}
-          ></ItemForm>
+          <SRHeader size="large" underlined>
+            Edit Item
+          </SRHeader>
+          <SRContainer backgroundColor={themeGray} borderWidth="small">
+            <ItemForm
+              itemId={id}
+              onSubmit={update}
+              submitLabel="Update"
+              code={code}
+              setCode={setCode}
+              setImageUrl={() => {}}
+              shouldShowQuantityField={false}
+            />
+          </SRContainer>
         </SRFlex>
       </SRContainer>
     </SRFlex>

@@ -10,75 +10,18 @@
   height: 0px;
 }
 
-.bg-dark {
-  background-color: #003815 !important;
-}
-
-.logo,
-.username {
-  font-family: "Architects Daughter", sans-serif;
-  padding: 5px;
-}
-
 body {
   background-color: #a99c6c;
   background: url(./images/food-background.jpg) no-repeat center fixed;
   background-size: cover;
 }
 
-select,
-input {
-  padding: 5px;
-}
-
-input,
-textarea {
-  font-size: 1.1em;
-  width: 100%;
-}
-
-textarea {
-  height: 200px;
-}
-
-label {
-  font-size: 1.1em;
-  text-align: left;
-  padding-right: 5px;
-}
-
-select,
-input,
-textarea {
-  background-color: #e0d6ce;
-  border-radius: 4px;
-}
-
 video {
   width: 100%;
 }
 
-select,
-input,
-textarea,
-hr {
-  border: 1.5px solid #003815;
-}
-
 .viewport {
   max-width: 300px;
-}
-
-#navbarSupportedContent {
-  justify-content: flex-end;
-}
-
-.navbar-toggler {
-  width: auto;
-}
-
-.navbar-toggler:hover {
-  background-color: #003815;
 }
 
 /* Mobile Styles */

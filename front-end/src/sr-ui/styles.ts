@@ -13,7 +13,8 @@ export const darkTextColor = "black";
 export const lightTextColor = themeGray;
 export const mainButtonColor = themeRed;
 export const brightButtonColor = "#B00000";
-export const expiringSoonColor = "#00008b";
+export const disabledButtonColor = "#B48080";
+export const expiringSoonColor = "#00008B";
 export const translucentBackground = "rgb(240, 227, 208, 0.85)";
 export const paddingSizes = {
   none: "0px",

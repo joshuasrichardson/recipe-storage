@@ -1,4 +1,4 @@
-export default {
+const config = {
   inputStream: {
     type: "LiveStream",
     constraints: {
@@ -12,3 +12,5 @@ export default {
     readers: ["upc_reader"],
   },
 };
+
+export default config;

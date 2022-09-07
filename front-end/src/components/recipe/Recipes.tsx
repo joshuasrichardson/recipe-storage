@@ -4,7 +4,7 @@ import { useState, ReactElement } from "react";
 import ServerFacade from "../../api/ServerFacade.ts";
 // @ts-ignore
 import SRBoxView from "../../sr-ui/SRBoxView.tsx";
-import { Item, Recipe } from "../../types";
+import { Recipe } from "../../types";
 // @ts-ignore
 import SRGroupDisplay from "../../sr-ui/SRGroupDisplay.tsx";
 
@@ -42,6 +42,12 @@ const Recipes: React.FC = (): ReactElement => {
     ));
   };
 
+  const getRecipes = async (
+    setRecipes: (recipes: Recipe[]) => void
+  ): Promise<void> => {
+    setRecipes(await ServerFacade.getRecipes(""));
+  };
+
   const search = async (searchString: string): Promise<Recipe[]> => {
     return ServerFacade.getRecipes(searchString);
   };
@@ -49,7 +55,7 @@ const Recipes: React.FC = (): ReactElement => {
   return (
     <SRGroupDisplay
       title={"Recipes"}
-      getAllObjects={ServerFacade.getRecipes}
+      getAllObjects={getRecipes}
       getObjectsHTML={getRecipesHTML}
       objectType={"Recipe"}
       objectTypePlural={"Recipes"}

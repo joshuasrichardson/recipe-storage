@@ -7,7 +7,7 @@ import ServerFacade from "../api/ServerFacade.ts";
 // @ts-ignore
 import SRHeader from "../sr-ui/SRHeader.tsx";
 // @ts-ignore
-import { lightTextColor } from "../sr-ui/styles.ts";
+import { lightTextColor, themeGreen } from "../sr-ui/styles.ts";
 import { User } from "../types";
 
 export type NavParams = {
@@ -19,6 +19,10 @@ const Navigation: React.FC<NavParams> = ({
   user,
   setUser,
 }: NavParams): ReactElement => {
+  const navStyle: React.CSSProperties = {
+    backgroundColor: themeGreen,
+  };
+
   const logout = async (): Promise<void> => {
     if (user) {
       await ServerFacade.logout();
@@ -27,7 +31,7 @@ const Navigation: React.FC<NavParams> = ({
   };
 
   return (
-    <Navbar collapseOnSelect expand="sm" bg="dark" variant="dark">
+    <Navbar collapseOnSelect expand="sm" variant="dark" style={navStyle}>
       <Container aria-controls="responsive-navbar-nav">
         <Navbar.Brand href="/">
           <SRHeader color={lightTextColor}>

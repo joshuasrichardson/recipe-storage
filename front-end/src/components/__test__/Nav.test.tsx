@@ -54,7 +54,8 @@ describe("Nav", () => {
     expect(nav.container).toMatchInlineSnapshot(`
 <div>
   <nav
-    class="navbar navbar-expand-sm navbar-dark bg-dark"
+    class="navbar navbar-expand-sm navbar-dark"
+    style="background-color: rgb(0, 56, 21);"
   >
     <div
       aria-controls="responsive-navbar-nav"
@@ -121,7 +122,8 @@ describe("Nav", () => {
     expect(nav.container).toMatchInlineSnapshot(`
 <div>
   <nav
-    class="navbar navbar-expand-sm navbar-dark bg-dark"
+    class="navbar navbar-expand-sm navbar-dark"
+    style="background-color: rgb(0, 56, 21);"
   >
     <div
       aria-controls="responsive-navbar-nav"
