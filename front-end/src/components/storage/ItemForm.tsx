@@ -21,6 +21,9 @@ import SRDateInput from "../../sr-ui/SRDateInput.tsx";
 import SRForm from "../../sr-ui/SRForm.tsx";
 // @ts-ignore
 import ServerFacade from "../../api/ServerFacade.ts";
+import moment from "moment";
+// @ts-ignore
+import { formatDateInput } from "../../utils/dateUtils.ts";
 
 type ItemFormProps = {
   code: string;
@@ -41,25 +44,27 @@ const ItemForm: React.FC<ItemFormProps> = (
   const [description, setDescription] = useState("");
   const [containers, setContainers] = useState([]);
   const [container, setContainer] = useState("");
-  const [expiration, setExpiration] = useState("");
+  const [expiration, setExpiration] = useState(moment());
   const [tags, setTags] = useState("");
   const [amount, setAmount] = useState("");
   const [unit, setUnit] = useState("");
   const [quantity, setQuantity] = useState(1);
 
   const autofillWithProductInfo = useCallback(async () => {
-    const item = await ServerFacade.getProduct(props.code);
+    if (props?.code) {
+      const item = await ServerFacade.getProduct(props.code);
 
-    if (item == null) return;
-    props.setCode(item.code);
-    setName(item.name || "");
-    setBrand(item.brand || "");
-    setDescription(item.description || "");
-    setContainer(item.container || "");
-    setTags(item.tags || "");
-    setAmount(item.amount || "");
-    setUnit(item.unit || "");
-    props.setImageUrl(item.src || "");
+      if (item == null) return;
+      props.setCode(item.code);
+      setName(item.name || "");
+      setBrand(item.brand || "");
+      setDescription(item.description || "");
+      setContainer(item.container || "");
+      setTags(item.tags || "");
+      setAmount(item.amount || "");
+      setUnit(item.unit || "");
+      props.setImageUrl(item.src || "");
+    }
   }, [props]);
 
   useEffect(() => {
@@ -78,7 +83,7 @@ const ItemForm: React.FC<ItemFormProps> = (
         setTags(i.tags);
       }
     };
-    if (props.itemId) setItem();
+    if (props?.itemId) setItem();
   }, [props, name]);
 
   useEffect(() => {
@@ -92,7 +97,7 @@ const ItemForm: React.FC<ItemFormProps> = (
 
   useEffect(() => {
     const barcodeLengths = [4, 12, 13];
-    if (!props.itemId && barcodeLengths.includes(props.code.length)) {
+    if (!props?.itemId && barcodeLengths.includes(props?.code?.length)) {
       autofillWithProductInfo();
     }
   }, [props, autofillWithProductInfo]);
@@ -118,7 +123,6 @@ const ItemForm: React.FC<ItemFormProps> = (
 
   const onSubmit = (e) => {
     e.preventDefault();
-    console.log("YOOYOY");
 
     props.setCode("");
     setName("");
@@ -199,8 +203,8 @@ const ItemForm: React.FC<ItemFormProps> = (
       ></SRDropDown>
       <SRDateInput
         label="Expiration:"
-        value={expiration}
-        onChange={(e) => setExpiration(e.target.value)}
+        value={formatDateInput(expiration)}
+        onChange={(e) => setExpiration(moment(e.target.value))}
       ></SRDateInput>
       {props.shouldShowQuantityField && (
         <SRTextInput

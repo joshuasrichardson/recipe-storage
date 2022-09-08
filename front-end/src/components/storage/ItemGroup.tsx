@@ -11,6 +11,10 @@ import {
   expiringSoonColor,
   themeRed, // @ts-ignore
 } from "../../sr-ui/styles.ts";
+import moment, { Moment } from "moment";
+// @ts-ignore
+import { formatDate } from "../../utils/dateUtils.ts";
+import { Item } from "../../types";
 
 type ItemGroupProps = {
   title: string;
@@ -91,7 +95,17 @@ const ItemGroup: React.FC<ItemGroupProps> = ({
     return searchItems;
   };
 
-  const ImgViewItem = ({ item, itemViewDir, showExpiration }) => {
+  type ItemViewParams = {
+    item: Item;
+    itemViewDir: string;
+    showExpiration: boolean;
+  };
+
+  const ImgViewItem = ({
+    item,
+    itemViewDir,
+    showExpiration,
+  }: ItemViewParams) => {
     const getItemAttributes = () => {
       return [
         { key: "Container", value: item.container },
@@ -101,7 +115,9 @@ const ItemGroup: React.FC<ItemGroupProps> = ({
             : item.deleted
             ? "Deleted"
             : "Added",
-          value: showExpiration ? item.expiration : item.added,
+          value: showExpiration
+            ? formatDate(item.expiration)
+            : formatDate(item.added),
         },
       ];
     };
@@ -120,20 +136,22 @@ const ItemGroup: React.FC<ItemGroupProps> = ({
     );
   };
 
-  const ListViewItem = ({ item, itemViewDir, showExpiration }) => {
+  const ListViewItem = ({
+    item,
+    itemViewDir,
+    showExpiration,
+  }: ItemViewParams) => {
     const navigate = useNavigate();
 
-    const getColor = (expiration: string): string => {
+    const getColor = (expiration: Moment): string => {
       if (!showExpiration) return darkTextColor;
 
-      const today = new Date();
-      const expDate = new Date(expiration);
+      const today = moment();
 
-      if (expDate < today) return themeRed;
+      if (expiration < today) return themeRed;
 
-      var oneWeek = 7;
-      var oneWeekFromToday = new Date(today.setDate(today.getDate() + oneWeek));
-      if (expDate < oneWeekFromToday) return expiringSoonColor;
+      var oneWeekFromToday = moment().add(1, "week");
+      if (expiration < oneWeekFromToday) return expiringSoonColor;
 
       return darkTextColor;
     };

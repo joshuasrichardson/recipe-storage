@@ -40,7 +40,7 @@ const defaultProps: SRBoxViewProps = {
   key: "default",
   label: "",
   attributes: [],
-  onClick: () => {},
+  onClick: undefined,
   direction: "column",
   alignItems: "center",
   padding: "medium",

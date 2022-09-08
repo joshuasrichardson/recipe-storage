@@ -1,6 +1,7 @@
 import axios, { AxiosResponse } from "axios";
-import moment from "moment";
-import { User } from "../types";
+import { APIFormattedItem, Item, ItemAutofill, User } from "../types";
+// @ts-ignore
+import { apiFormattedItem, viewFormattedItem } from "../utils/dateUtils.ts";
 
 export type LoginParams = {
   username: string;
@@ -83,10 +84,14 @@ const register = async ({
 };
 
 const getLoggedInUser = async (): Promise<User> => {
-  const response: AxiosResponse<{ user: User }, any> = await axios.get(
-    "/api/users"
-  );
-  return response.data.user;
+  try {
+    const response: AxiosResponse<{ user: User }, any> = await axios.get(
+      "/api/users"
+    );
+    return response.data.user;
+  } catch (err) {
+    return null;
+  }
 };
 
 const logout = async (): Promise<void> => {
@@ -119,12 +124,33 @@ type APIKeychain = {
   X_APP_KEY: string;
 };
 
-const getNutritionixV2Item = async (code) => {
+const getNutritionixV2Item = async (code: string): Promise<ItemAutofill> => {
   let keys: APIKeychain;
   // @ts-ignore
-  import("./constants.ts")
-    .then((data) => {
+  return import("./constants.ts")
+    .then(async (data) => {
       keys = data.keys;
+      const response = await axios.get(
+        "https://trackapi.nutritionix.com/v2/search/item?upc=" + code,
+        {
+          headers: {
+            "x-app-id": keys.X_API_KEY,
+            "x-app-key": keys.X_APP_KEY,
+          },
+        }
+      );
+      const item = response.data.foods[0];
+      if (item.food_name != null) {
+        return {
+          name: item.food_name,
+          brand: item.brand_name,
+          description: item.nf_ingredient_statement?.toLowerCase(),
+          unit: "Grams",
+          tags: item.tags,
+          src: item.photo?.thumb,
+          // serving_weight_grams could also be useful in some situations
+        };
+      }
     })
     .catch((err) => {
       console.log(err);
@@ -135,30 +161,12 @@ const getNutritionixV2Item = async (code) => {
         "If you need access to it (you are working with the owner), please contact the owner directly"
       );
     });
-  const response = await axios.get(
-    "https://trackapi.nutritionix.com/v2/search/item?upc=" + code,
-    {
-      headers: {
-        "x-app-id": keys.X_API_KEY,
-        "x-app-key": keys.X_APP_KEY,
-      },
-    }
-  );
-  const item = response.data.foods[0];
-  if (item.food_name != null) {
-    return {
-      name: item.food_name,
-      brand: item.brand_name,
-      description: item.nf_ingredient_statement?.toLowerCase(),
-      unit: "Grams",
-      tags: arrayToString(item.tags),
-      src: item.photo?.thumb,
-      // serving_weight_grams could also be useful in some situations
-    };
-  }
 };
 
-const copyMissingFields = (item, detailedItem) => {
+const copyMissingFields = (
+  item: ItemAutofill,
+  detailedItem: ItemAutofill
+): ItemAutofill => {
   if (!item.name) item.name = detailedItem.name;
   if (!item.brand) item.brand = detailedItem.brand;
   if (!item.description) item.description = detailedItem.description;
@@ -169,25 +177,25 @@ const copyMissingFields = (item, detailedItem) => {
   return item;
 };
 
-const getProduct = async (code) => {
+const getProduct = async (code: string): Promise<ItemAutofill> => {
   // TODO: Move more logic to the backend
-  let res;
-  let item;
-  let item2;
+  let res: AxiosResponse<ItemAutofill>;
+  let item: ItemAutofill;
+  let item2: ItemAutofill;
 
   try {
     res = await axios.get("/api/products/" + code);
-    item = res.data[0]; // TODO: handle case where the barcode isn't unique
-    if (code.length === 12 && !item.src) {
+    item = viewFormattedItem(res.data[0]); // TODO: handle case where the barcode isn't unique
+    if (code?.length === 12 && !item.src) {
       item2 = await getNutritionixV2Item(code);
       item = copyMissingFields(item, item2);
     }
-    if (Array.isArray(item.tags)) item.tags = arrayToString(item.tags);
+
     return item;
   } catch (err) {
     try {
       console.log(err);
-      if (item) return item;
+      if (item) return viewFormattedItem(item);
       return await getNutritionixV2Item(code);
     } catch (error) {
       console.log(error);
@@ -196,20 +204,24 @@ const getProduct = async (code) => {
   }
 };
 
-const addProduct = async (item) => {
+const addProduct = async (item: Item) => {
   try {
+    const apiItem: APIFormattedItem = apiFormattedItem(
+      item
+    ) as APIFormattedItem;
     const formData = new FormData();
-    if (item.image) formData.append("image", item.image, item.image.name);
-    formData.append("name", item.name);
-    formData.append("code", item.code);
-    formData.append("brand", item.brand);
-    formData.append("description", item.description);
-    formData.append("container", item.container);
-    formData.append("tags", item.tags);
-    formData.append("amount", item.amount);
-    formData.append("unit", item.unit);
-    formData.append("exipration", item.exipration);
-    if (item.src) formData.append("src", item.src);
+    if (apiItem.image)
+      formData.append("image", apiItem.image, apiItem.image.name);
+    formData.append("name", apiItem.name);
+    formData.append("code", apiItem.code);
+    formData.append("brand", apiItem.brand);
+    formData.append("description", apiItem.description);
+    formData.append("container", apiItem.container);
+    formData.append("tags", apiItem.tags);
+    formData.append("amount", apiItem.amount);
+    formData.append("unit", apiItem.unit);
+    formData.append("exipration", apiItem.expiration);
+    if (apiItem.src) formData.append("src", apiItem.src);
     const response = await axios.post("/api/products", formData);
     let data = response.data;
     return {
@@ -221,7 +233,7 @@ const addProduct = async (item) => {
         oldName: data.product.name,
         oldBrand: data.product.brand,
         oldDescription: data.product.description,
-        oldTags: arrayToString(data.product.tags),
+        oldTags: data.product.tags,
         oldAmount: data.product.amount,
         oldUnit: data.product.unit,
         oldContainer: data.product.container,
@@ -240,26 +252,23 @@ const addProduct = async (item) => {
   }
 };
 
-const updateProduct = async (product) => {
-  product.tags = stringToArray(product.tags);
+const updateProduct = async (product: ItemAutofill): Promise<void> => {
   await axios.put("/api/products/" + product.id, product);
 };
 
-const getItem = async (id) => {
-  const res = await axios.get("/api/storage/" + id);
-  res.data.expiration = formatDate(res.data.expiration);
-  res.data.added = formatDate(res.data.added);
-  return res.data;
+const getItem = async (id: string): Promise<Item> => {
+  const res: AxiosResponse<any, any> = await axios.get("/api/storage/" + id);
+  const item = viewFormattedItem(res.data);
+  return item;
 };
 
-const getHistoryItem = async (id) => {
+const getHistoryItem = async (id: string): Promise<Item> => {
   const res = await axios.get("/api/storage/history/" + id);
-  res.data.expiration = formatDate(res.data.expiration);
-  res.data.added = formatDate(res.data.added);
-  return res.data;
+  const item = viewFormattedItem(res.data);
+  return item;
 };
 
-const deleteItem = async (id) => {
+const deleteItem = async (id: string): Promise<void> => {
   try {
     await axios.delete("/api/storage/" + id);
   } catch (error) {
@@ -267,34 +276,39 @@ const deleteItem = async (id) => {
   }
 };
 
-const getStorage = async (setItems) => {
+const getStorage = async (setItems: (items: Item[]) => void): Promise<void> => {
   try {
-    let response = await axios.get("/api/storage/");
-    response.data.forEach(
-      (item) => (item.expiration = formatDate(item.expiration))
+    let response: AxiosResponse<any, any> = await axios.get("/api/storage/");
+    const apiItems: APIFormattedItem[] = response.data;
+    const items: Item[] = apiItems.map((item: APIFormattedItem) =>
+      viewFormattedItem(item)
     );
-    setItems(response.data);
+    setItems(items);
   } catch (error) {
     console.log(error);
     setItems([]);
   }
 };
 
-const getStorageHistory = async (setItems) => {
+const getStorageHistory = async (
+  setItems: (items: Item[]) => void
+): Promise<void> => {
   try {
-    let response = await axios.get("/api/storage/history");
-    response.data.forEach(
-      (item) => (item.expiration = formatDate(item.expiration))
+    let response: AxiosResponse<any, any> = await axios.get(
+      "/api/storage/history"
     );
-    response.data.forEach((item) => (item.added = formatDateTime(item.added)));
-    setItems(response.data);
+    const apiItems: APIFormattedItem[] = response.data;
+    const items: Item[] = apiItems.map((item: APIFormattedItem) =>
+      viewFormattedItem(item)
+    );
+    setItems(items);
   } catch (error) {
     console.log(error);
     setItems([]);
   }
 };
 
-const addFoodStorage = async (userId, item) => {
+const addFoodStorage = async (userId: string, item: Item): Promise<void> => {
   if (item.name === "") {
     console.log("Nothing to add");
     return;
@@ -302,26 +316,15 @@ const addFoodStorage = async (userId, item) => {
   try {
     await axios.post("/api/storage", {
       user: userId,
-      code: item.code,
-      name: item.name,
-      brand: item.brand,
-      description: item.description,
-      container: item.container,
-      expiration: item.expiration,
-      tags: stringToArray(item.tags),
-      amount: item.amount,
-      unit: item.unit,
-      quantity: item.quantity,
-      src: item.src,
+      ...apiFormattedItem(item),
     });
   } catch (error) {
     console.log(error);
   }
 };
 
-const updateItem = async (item) => {
-  item.tags = stringToArray(item.tags);
-  await axios.put("/api/storage/" + item.id, item);
+const updateItem = async (item: Item): Promise<void> => {
+  await axios.put("/api/storage/" + item.id, apiFormattedItem(item));
 };
 
 const getContainers = async (setContainers) => {
@@ -376,29 +379,7 @@ const addRecipe = async (addRecipeParams: AddRecipeParams): Promise<void> => {
     "/api/recipes",
     addRecipeParams
   );
-  debugger;
   console.log(response);
-};
-
-const formatDate = (date) => {
-  if (date == null) return "Unknown";
-  return moment(date).format("D MMM YYYY");
-};
-
-const formatDateTime = (datetime) => {
-  if (datetime == null) return "Unknown";
-  return moment(datetime).format("D MMM YYYY LT");
-};
-
-const stringToArray = (string: string): Array<string> => {
-  if (!string || !string.length) return [];
-  if (!string.includes(",")) return [string];
-  return string.split(",").map((t) => t.trim());
-};
-
-const arrayToString = (array) => {
-  if (!array) return "";
-  return array.join(", ");
 };
 
 const ServerFacade = {

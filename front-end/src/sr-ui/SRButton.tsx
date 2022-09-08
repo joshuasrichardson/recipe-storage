@@ -75,7 +75,7 @@ const SRButton: React.FC<SRButtonProps> = (
       style={buttonStyle}
       type={props.type}
       disabled={props.disabled}
-      onClick={!props.disabled && props.onClick}
+      onClick={!props.disabled ? props.onClick : undefined}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
     >

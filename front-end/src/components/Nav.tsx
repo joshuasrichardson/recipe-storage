@@ -39,7 +39,7 @@ const Navigation: React.FC<NavParams> = ({
           </SRHeader>
         </Navbar.Brand>
         <Navbar.Collapse className="justify-content-end">
-          <Nav id="responsive-navbar-nav" pull-right>
+          <Nav id="responsive-navbar-nav">
             {user && <Nav.Link href="/storage">Storage</Nav.Link>}
             {user && <Nav.Link href="/storage/history">History</Nav.Link>}
             <Nav.Link href="/recipes">Recipes</Nav.Link>

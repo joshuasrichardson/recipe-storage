@@ -1,9 +1,6 @@
 import React, { ChangeEventHandler, ReactElement } from "react";
-import {
-  borderWidthSizes,
-  themeGreen,
-  translucentBackground, // @ts-ignore
-} from "./styles.ts";
+// @ts-ignore
+import { borderWidthSizes, themeGreen, themeGray } from "./styles.ts";
 
 type SRTextInputProps = {
   id?: string;
@@ -47,9 +44,7 @@ const SRTextInput: React.FC<SRTextInputProps> = (
     padding: "5px",
     fontSize: "1.1em",
     width: "100%",
-    backgroundColor: props.fillBackground
-      ? translucentBackground
-      : props.backgroundColor,
+    backgroundColor: props.fillBackground ? themeGray : props.backgroundColor,
     border: "solid",
     borderRadius: "4px",
     borderWidth: borderWidthSizes["small"],
