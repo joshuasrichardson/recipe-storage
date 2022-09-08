@@ -1,3 +1,4 @@
+import { Moment } from "moment";
 import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 // @ts-ignore
@@ -25,7 +26,7 @@ const Editor = () => {
     brand: string;
     description: string;
     container: string;
-    expiration: string;
+    expiration: Moment;
     tags: string;
     amount: number;
     unit: string;

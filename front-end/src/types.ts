@@ -1,3 +1,5 @@
+import { Moment } from "moment";
+
 export type ContextType = {
   user: User;
   setUser: (user: User) => void;
@@ -12,19 +14,54 @@ export type User = {
 };
 
 export type Item = {
+  _id?: string;
+  id?: string;
   user: string;
   code: string;
   name: string;
   brand: string;
   description: string;
   container: string;
-  expiration: Date;
-  tags: Array<string> | string;
+  expiration: Moment;
+  tags: string;
   amount: number;
   unit: string;
   src: string;
-  added: Date;
+  added: Moment;
   deleted: boolean;
+  quantity?: number;
+  image?: any;
+};
+
+export type APIFormattedItem = {
+  _id?: string;
+  id?: string;
+  user: string;
+  code: string;
+  name: string;
+  brand: string;
+  description: string;
+  container: string;
+  expiration: string;
+  tags: string;
+  amount: string;
+  unit: string;
+  src: string;
+  added: string;
+  deleted: boolean;
+  quantity?: string;
+  image?: any;
+};
+
+export type ItemAutofill = {
+  id?: string;
+  name: string;
+  brand?: string;
+  description?: string;
+  amount?: number;
+  unit?: string;
+  tags?: string;
+  src?: string;
 };
 
 export type Recipe = {
