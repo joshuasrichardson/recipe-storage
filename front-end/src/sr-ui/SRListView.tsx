@@ -2,7 +2,7 @@ import moment from "moment";
 import { Moment } from "moment";
 import React, { MouseEventHandler, ReactElement } from "react";
 // @ts-ignore
-import { formatDate } from "../utils/dateUtils.ts";
+import DateUtils from "../utils/dateUtils.ts";
 // @ts-ignore
 import SRFlex from "./SRFlex.tsx";
 // @ts-ignore
@@ -16,6 +16,7 @@ type SRListViewProps = {
   nameColor: themeGreen | darkTextColor | themeRed;
   info?: string;
   date?: Moment;
+  dateFormatter?: (date: Moment) => string;
   dateColor?: string;
   onClick?: MouseEventHandler<HTMLDivElement>;
 };
@@ -26,6 +27,7 @@ const defaultProps: SRListViewProps = {
   nameColor: themeGreen,
   info: "",
   date: moment(),
+  dateFormatter: DateUtils.formatDate,
   dateColor: darkTextColor,
   onClick: () => {},
 };
@@ -58,7 +60,7 @@ const SRListView: React.FC<SRListViewProps> = (
               <em>{props.info}</em>
             </div>
             <div style={dateStyle}>
-              <em>{formatDate(props.date)}</em>
+              <em>{props.dateFormatter(props.date)}</em>
             </div>
           </SRFlex>
         </SRFlex>
