@@ -26,7 +26,7 @@ import SRImage from "../../sr-ui/SRImage.tsx";
 // @ts-ignore
 import { themeGray } from "../../sr-ui/styles.ts";
 // @ts-ignore
-import { ContextType } from "../../types.ts";
+import { ContextType, Item } from "../../types.ts";
 
 const AddFoodStorage: React.FC = (): ReactElement => {
   const [code, setCode] = useState("");
@@ -36,14 +36,14 @@ const AddFoodStorage: React.FC = (): ReactElement => {
 
   const navigate = useNavigate();
 
-  // TODO: add type
-  const addItem = async (item) => {
+  const addItem = async (item: Item): Promise<void> => {
     const response = await ServerFacade.addProduct({
       ...item,
       image: image,
       src: imageUrl || undefined,
     });
 
+    window.scrollTo({ top: 100, behavior: "smooth" });
     await ServerFacade.addFoodStorage(user._id, {
       ...item,
       src: response.product.src || "",
@@ -54,7 +54,11 @@ const AddFoodStorage: React.FC = (): ReactElement => {
     toast.success("Added " + item.name + "!", toastEmitter);
     setImage(null);
     setImageUrl("");
-    window.scrollTo({ top: 200, behavior: "smooth" });
+  };
+
+  const onCodeDetection = (code: string): void => {
+    setCode(code);
+    window.scrollTo({ top: 500, behavior: "smooth" });
   };
 
   return (
@@ -77,7 +81,7 @@ const AddFoodStorage: React.FC = (): ReactElement => {
             {imageUrl && <SRImage src={imageUrl} />}
             <ItemForm
               code={code}
-              setCode={setCode}
+              setCode={onCodeDetection}
               onSubmit={addItem}
               submitLabel="Add to Storage"
               setImageUrl={setImageUrl}
