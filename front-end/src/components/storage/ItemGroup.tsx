@@ -9,7 +9,8 @@ import SRGroupDisplay from "../../sr-ui/SRGroupDisplay.tsx";
 import {
   darkTextColor,
   expiringSoonColor,
-  themeRed, // @ts-ignore
+  themeRed,
+  themeGreen, // @ts-ignore
 } from "../../sr-ui/styles.ts";
 import moment, { Moment } from "moment";
 // @ts-ignore
@@ -143,15 +144,17 @@ const ItemGroup: React.FC<ItemGroupProps> = ({
   }: ItemViewParams) => {
     const navigate = useNavigate();
 
-    const getColor = (expiration: Moment): string => {
-      if (!showExpiration) return darkTextColor;
+    const getName = () =>
+      showExpiration
+        ? item.name
+        : (item.deleted ? "Deleted " : "Added ") + item.name;
 
+    const getDateColor = (expiration: Moment): string => {
+      if (!showExpiration || !expiration || typeof expiration === "string")
+        return darkTextColor;
       const today = moment();
-
-      if (expiration < today) return themeRed;
-
-      var oneWeekFromToday = moment().add(1, "week");
-      if (expiration < oneWeekFromToday) return expiringSoonColor;
+      if (expiration.isBefore(today)) return themeRed;
+      if (expiration.isBefore(today.add(1, "week"))) return expiringSoonColor;
 
       return darkTextColor;
     };
@@ -159,10 +162,11 @@ const ItemGroup: React.FC<ItemGroupProps> = ({
     return (
       <SRListView
         key={item._id}
-        name={item.name}
+        name={getName()}
+        nameColor={!showExpiration && item.deleted ? themeRed : themeGreen}
         info={item.container}
         date={showExpiration ? item.expiration : item.added}
-        dateColor={getColor(item.expiration)}
+        dateColor={getDateColor(item.expiration)}
         onClick={() => {
           navigate(itemViewDir + item._id);
         }}
