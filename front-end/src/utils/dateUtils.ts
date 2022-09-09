@@ -6,7 +6,7 @@ export const viewFormattedItem = (apiItem: APIFormattedItem): Item => {
     ...apiItem,
     expiration: apiItem.expiration ? moment(apiItem.expiration) : undefined,
     added: apiItem.added ? moment(apiItem.added) : undefined,
-    amount: apiItem.amount ? parseInt(apiItem.amount) : undefined,
+    amount: apiItem.amount ? parseFloat(apiItem.amount) : 1,
     quantity: apiItem.amount ? parseInt(apiItem.quantity) : 1,
   };
   return item;
