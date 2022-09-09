@@ -8,11 +8,12 @@ import SRFlex from "./SRFlex.tsx";
 // @ts-ignore
 import SRText from "./SRText.tsx";
 // @ts-ignore
-import { darkTextColor, themeGreen } from "./styles.ts";
+import { darkTextColor, themeGreen, themeRed } from "./styles.ts";
 
 type SRListViewProps = {
   key: string;
   name: string;
+  nameColor: themeGreen | darkTextColor | themeRed;
   info?: string;
   date?: Moment;
   dateColor?: string;
@@ -22,6 +23,7 @@ type SRListViewProps = {
 const defaultProps: SRListViewProps = {
   key: "default",
   name: "",
+  nameColor: themeGreen,
   info: "",
   date: moment(),
   dateColor: darkTextColor,
@@ -48,7 +50,7 @@ const SRListView: React.FC<SRListViewProps> = (
     <div style={divStyle} onClick={props.onClick}>
       <SRFlex justifyContent="center" padding="small">
         <SRFlex direction="column" alignItems="flex-start">
-          <SRText fontWeight={500} color={themeGreen}>
+          <SRText fontWeight={500} color={props.nameColor}>
             {props.name}
           </SRText>
           <SRFlex>
