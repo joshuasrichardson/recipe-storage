@@ -24,9 +24,23 @@ export const apiFormattedItem = (item: Item): APIFormattedItem => {
 };
 
 export const formatDate = (date: Moment): string => {
-  return date?.format("LL") || "Unknown";
+  return date?.format("ll") || "Unknown";
+};
+
+export const formatDateTime = (date: Moment): string => {
+  return date?.format("lll") || "Unknown";
 };
 
 export const formatDateInput = (date: Moment): string => {
   return date?.format("YYYY-MM-DD") || "";
 };
+
+const DateUtils = {
+  viewFormattedItem,
+  apiFormattedItem,
+  formatDate,
+  formatDateTime,
+  formatDateInput,
+};
+
+export default DateUtils;

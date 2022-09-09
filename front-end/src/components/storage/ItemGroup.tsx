@@ -14,7 +14,7 @@ import {
 } from "../../sr-ui/styles.ts";
 import moment, { Moment } from "moment";
 // @ts-ignore
-import { formatDate } from "../../utils/dateUtils.ts";
+import DateUtils from "../../utils/dateUtils.ts";
 import { Item } from "../../types";
 
 type ItemGroupProps = {
@@ -24,6 +24,7 @@ type ItemGroupProps = {
   showExpiration: boolean;
   itemType: string;
   itemTypePlural: string;
+  dateFormatter?: (date: Moment) => string;
 };
 
 const ItemGroup: React.FC<ItemGroupProps> = ({
@@ -33,6 +34,7 @@ const ItemGroup: React.FC<ItemGroupProps> = ({
   showExpiration,
   itemType = "Item",
   itemTypePlural = "Items",
+  dateFormatter = DateUtils.formatDate,
 }: ItemGroupProps): ReactElement => {
   const [useImageView, setUseImageView] = useState(false);
 
@@ -117,8 +119,8 @@ const ItemGroup: React.FC<ItemGroupProps> = ({
             ? "Deleted"
             : "Added",
           value: showExpiration
-            ? formatDate(item.expiration)
-            : formatDate(item.added),
+            ? dateFormatter(item.expiration)
+            : dateFormatter(item.added),
         },
       ];
     };
@@ -166,6 +168,7 @@ const ItemGroup: React.FC<ItemGroupProps> = ({
         nameColor={!showExpiration && item.deleted ? themeRed : themeGreen}
         info={item.container}
         date={showExpiration ? item.expiration : item.added}
+        dateFormatter={dateFormatter}
         dateColor={getDateColor(item.expiration)}
         onClick={() => {
           navigate(itemViewDir + item._id);
