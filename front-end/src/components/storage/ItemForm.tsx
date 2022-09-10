@@ -23,14 +23,16 @@ import SRForm from "../../sr-ui/SRForm.tsx";
 import ServerFacade from "../../api/ServerFacade.ts";
 // @ts-ignore
 import { formatDateInput, srDate } from "../../utils/utils.ts";
+// @ts-ignore
+import { Item } from "../../types.ts";
 
 type ItemFormProps = {
   code: string;
   setCode: (code: string) => void;
   itemId?: string;
   submitLabel: string;
-  onSubmit: (item: any) => void; // TODO: Add type
-  setImageUrl: (url: string) => void; // TODO: Add type
+  onSubmit: (item: Item) => void;
+  setImageUrl: (url: string) => void;
   shouldShowQuantityField?: boolean;
   onChange: ChangeEventHandler<HTMLInputElement>;
 };
@@ -54,7 +56,6 @@ const ItemForm: React.FC<ItemFormProps> = (
       const item = await ServerFacade.getProduct(props.code);
 
       if (item == null) return;
-      props.setCode(item.code);
       setName(item.name || "");
       setBrand(item.brand || "");
       setDescription(item.description || "");
@@ -123,14 +124,6 @@ const ItemForm: React.FC<ItemFormProps> = (
   const onSubmit = (e) => {
     e.preventDefault();
 
-    props.setCode("");
-    setName("");
-    setBrand("");
-    setDescription("");
-    setTags("");
-    setAmount("");
-    setUnit("");
-    setQuantity(1);
     props.onSubmit({
       id: props.itemId,
       code: props.code,
@@ -145,6 +138,15 @@ const ItemForm: React.FC<ItemFormProps> = (
       expiration,
     });
     tryAddingContainer();
+
+    props.setCode("");
+    setName("");
+    setBrand("");
+    setDescription("");
+    setTags("");
+    setAmount("");
+    setUnit("");
+    setQuantity(1);
   };
 
   return (

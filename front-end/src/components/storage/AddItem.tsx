@@ -56,8 +56,9 @@ const AddFoodStorage: React.FC = (): ReactElement => {
     setImageUrl("");
   };
 
-  const onCodeDetection = (code: string): void => {
-    setCode(code);
+  const onCodeDetection = (newBarCode: string): void => {
+    if (!newBarCode) return;
+    setCode(newBarCode);
     window.scrollTo({ top: 500, behavior: "smooth" });
   };
 
@@ -76,12 +77,12 @@ const AddFoodStorage: React.FC = (): ReactElement => {
           </SRButtonLink>
         </SRFlex>
         <SRContainer backgroundColor={themeGray} borderWidth="small">
-          <Scanner onDetected={setCode} />
+          <Scanner onDetected={onCodeDetection} />
           <SRFlex direction="column">
             {imageUrl && <SRImage src={imageUrl} />}
             <ItemForm
               code={code}
-              setCode={onCodeDetection}
+              setCode={setCode}
               onSubmit={addItem}
               submitLabel="Add to Storage"
               setImageUrl={setImageUrl}

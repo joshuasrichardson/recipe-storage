@@ -196,7 +196,8 @@ const getProduct = async (code: string): Promise<ItemAutofill> => {
     try {
       console.log(err);
       if (item) return viewFormattedItem(item);
-      return await getNutritionixV2Item(code);
+      if (code?.length === 12) return await getNutritionixV2Item(code);
+      return null;
     } catch (error) {
       console.log(error);
       return null;
