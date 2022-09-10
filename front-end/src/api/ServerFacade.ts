@@ -1,7 +1,7 @@
 import axios, { AxiosResponse } from "axios";
 import { APIFormattedItem, Item, ItemAutofill, User } from "../types";
 // @ts-ignore
-import { apiFormattedItem, viewFormattedItem } from "../utils/dateUtils.ts";
+import { apiFormattedItem, viewFormattedItem } from "../utils/utils.ts";
 
 export type LoginParams = {
   username: string;
@@ -210,13 +210,15 @@ const addProduct = async (item: Item) => {
       item
     ) as APIFormattedItem;
     const formData = new FormData();
-    if (apiItem.image)
+    if (apiItem.image) {
       formData.append("image", apiItem.image, apiItem.image.name);
+    }
     formData.append("name", apiItem.name);
     formData.append("code", apiItem.code);
     formData.append("brand", apiItem.brand);
     formData.append("description", apiItem.description);
     formData.append("container", apiItem.container);
+    // @ts-ignore
     formData.append("tags", apiItem.tags);
     formData.append("amount", apiItem.amount);
     formData.append("unit", apiItem.unit);

@@ -2,7 +2,7 @@ import React, { ReactElement } from "react";
 // @ts-ignore
 import ServerFacade from "../../api/ServerFacade.ts";
 // @ts-ignore
-import { formatDateTime } from "../../utils/dateUtils.ts";
+import { formatDateTime } from "../../utils/utils.ts";
 // @ts-ignore
 import ItemGroup from "./ItemGroup.tsx";
 

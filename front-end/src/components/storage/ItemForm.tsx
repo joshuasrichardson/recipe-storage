@@ -21,9 +21,8 @@ import SRDateInput from "../../sr-ui/SRDateInput.tsx";
 import SRForm from "../../sr-ui/SRForm.tsx";
 // @ts-ignore
 import ServerFacade from "../../api/ServerFacade.ts";
-import moment from "moment";
 // @ts-ignore
-import { formatDateInput } from "../../utils/dateUtils.ts";
+import { formatDateInput, srDate } from "../../utils/utils.ts";
 
 type ItemFormProps = {
   code: string;
@@ -44,7 +43,7 @@ const ItemForm: React.FC<ItemFormProps> = (
   const [description, setDescription] = useState("");
   const [containers, setContainers] = useState([]);
   const [container, setContainer] = useState("");
-  const [expiration, setExpiration] = useState(moment());
+  const [expiration, setExpiration] = useState(srDate());
   const [tags, setTags] = useState("");
   const [amount, setAmount] = useState("");
   const [unit, setUnit] = useState("");
@@ -204,7 +203,7 @@ const ItemForm: React.FC<ItemFormProps> = (
       <SRDateInput
         label="Expiration:"
         value={formatDateInput(expiration)}
-        onChange={(e) => setExpiration(moment(e.target.value))}
+        onChange={(e) => setExpiration(srDate(e.target.value))}
       ></SRDateInput>
       {props.shouldShowQuantityField && (
         <SRTextInput

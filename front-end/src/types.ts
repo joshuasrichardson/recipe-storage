@@ -1,4 +1,4 @@
-import { Moment } from "moment";
+import { Moment } from "moment-timezone";
 
 export type ContextType = {
   user: User;
@@ -22,12 +22,12 @@ export type Item = {
   brand: string;
   description: string;
   container: string;
-  expiration: Moment;
+  expiration: SRDate;
   tags: string;
   amount: number;
   unit: string;
   src: string;
-  added: Moment;
+  added: SRDate;
   deleted: boolean;
   quantity?: number;
   image?: any;
@@ -43,7 +43,7 @@ export type APIFormattedItem = {
   description: string;
   container: string;
   expiration: string;
-  tags: string;
+  tags: string[];
   amount: string;
   unit: string;
   src: string;
@@ -82,3 +82,5 @@ export type Size =
   | "max";
 
 export type Child = JSX.Element | JSX.Element[] | string;
+
+export type SRDate = Moment;

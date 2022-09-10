@@ -14,7 +14,7 @@ import SRFlex from "../../sr-ui/SRFlex.tsx";
 // @ts-ignore
 import SRBoxView from "../../sr-ui/SRBoxView.tsx";
 // @ts-ignore
-import { formatDate } from "../../utils/dateUtils.ts";
+import { formatDate } from "../../utils/utils.ts";
 
 type ItemComponentState = {
   updated: boolean;
@@ -60,10 +60,12 @@ const ItemComponent: React.FC<ItemComponentProps> = ({
       { key: "Container", value: item?.container },
       { key: "Expiration", value: formatDate(item?.expiration) },
       { key: "Description", value: item?.description },
-      { key: "Tags", value: item?.tags.length ? item?.tags : "" },
+      { key: "Tags", value: item?.tags },
       {
         key: "Amount",
-        value: item?.amount ? item?.amount + " " + item?.unit : "",
+        value: item?.amount
+          ? item.amount + " " + (item.unit ? item.unit : "")
+          : "",
       },
       { key: "Bar Code", value: item?.code },
       { key: "Added", value: formatDate(item?.added) },
