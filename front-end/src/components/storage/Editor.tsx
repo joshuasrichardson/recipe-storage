@@ -1,4 +1,5 @@
-import { Moment } from "moment";
+// @ts-ignore
+import { SRDate } from "../../types";
 import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 // @ts-ignore
@@ -26,7 +27,7 @@ const Editor = () => {
     brand: string;
     description: string;
     container: string;
-    expiration: Moment;
+    expiration: SRDate;
     tags: string;
     amount: number;
     unit: string;

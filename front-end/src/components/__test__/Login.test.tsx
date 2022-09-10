@@ -2,7 +2,6 @@ import React from "react";
 import { render, act, RenderResult } from "@testing-library/react";
 import Login from "../Login";
 import { createRoot } from "react-dom/client";
-import { User } from "../../types";
 import { newUser, testUser } from "../../../testUtils/mocks";
 import { changeField } from "../../../testUtils/testFunctions";
 import { LoginParams, RegisterParams } from "../../api/ServerFacade";

@@ -1,22 +1,22 @@
-import moment from "moment";
-import { Moment } from "moment";
 import React, { MouseEventHandler, ReactElement } from "react";
 // @ts-ignore
-import DateUtils from "../utils/dateUtils.ts";
+import Utils, { srDate } from "../utils/utils.ts";
 // @ts-ignore
 import SRFlex from "./SRFlex.tsx";
 // @ts-ignore
 import SRText from "./SRText.tsx";
 // @ts-ignore
 import { darkTextColor, themeGreen, themeRed } from "./styles.ts";
+// @ts-ignore
+import { SRDate } from "../types.ts";
 
 type SRListViewProps = {
   key: string;
   name: string;
   nameColor: themeGreen | darkTextColor | themeRed;
   info?: string;
-  date?: Moment;
-  dateFormatter?: (date: Moment) => string;
+  date?: SRDate;
+  dateFormatter?: (date: SRDate) => string;
   dateColor?: string;
   onClick?: MouseEventHandler<HTMLDivElement>;
 };
@@ -26,8 +26,8 @@ const defaultProps: SRListViewProps = {
   name: "",
   nameColor: themeGreen,
   info: "",
-  date: moment(),
-  dateFormatter: DateUtils.formatDate,
+  date: srDate(),
+  dateFormatter: Utils.formatDate,
   dateColor: darkTextColor,
   onClick: () => {},
 };

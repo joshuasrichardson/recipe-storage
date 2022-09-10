@@ -12,10 +12,9 @@ import {
   themeRed,
   themeGreen, // @ts-ignore
 } from "../../sr-ui/styles.ts";
-import moment, { Moment } from "moment";
 // @ts-ignore
-import DateUtils from "../../utils/dateUtils.ts";
-import { Item } from "../../types";
+import Utils, { srDate } from "../../utils/utils.ts";
+import { SRDate, Item } from "../../types";
 
 type ItemGroupProps = {
   title: string;
@@ -24,7 +23,7 @@ type ItemGroupProps = {
   showExpiration: boolean;
   itemType: string;
   itemTypePlural: string;
-  dateFormatter?: (date: Moment) => string;
+  dateFormatter?: (date: SRDate) => string;
 };
 
 const ItemGroup: React.FC<ItemGroupProps> = ({
@@ -34,7 +33,7 @@ const ItemGroup: React.FC<ItemGroupProps> = ({
   showExpiration,
   itemType = "Item",
   itemTypePlural = "Items",
-  dateFormatter = DateUtils.formatDate,
+  dateFormatter = Utils.formatDate,
 }: ItemGroupProps): ReactElement => {
   const [useImageView, setUseImageView] = useState(false);
 
@@ -151,10 +150,10 @@ const ItemGroup: React.FC<ItemGroupProps> = ({
         ? item.name
         : (item.deleted ? "Deleted " : "Added ") + item.name;
 
-    const getDateColor = (expiration: Moment): string => {
+    const getDateColor = (expiration: SRDate): string => {
       if (!showExpiration || !expiration || typeof expiration === "string")
         return darkTextColor;
-      const today = moment();
+      const today = srDate();
       if (expiration.isBefore(today)) return themeRed;
       if (expiration.isBefore(today.add(1, "week"))) return expiringSoonColor;
 
