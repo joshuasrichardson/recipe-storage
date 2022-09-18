@@ -1,22 +1,30 @@
 import React, { ChangeEventHandler, ReactElement } from "react";
 // @ts-ignore
-import { borderWidthSizes, themeGray, themeGreen } from "./styles.ts";
+import { Size, Child } from "../types.ts";
+import {
+  borderWidthSizes,
+  marginSizes,
+  themeGray,
+  themeGreen, // @ts-ignore
+} from "./styles.ts";
 
 type SRDropDownProps = {
   label: string;
   listName: string;
   value: string;
+  fixedOptions?: boolean;
   backgroundColor?: string;
   fillBackground?: boolean;
-  onChange: ChangeEventHandler<HTMLInputElement>;
-  options: Array<string>;
+  marginBottom?: Size;
+  onChange: ChangeEventHandler<HTMLInputElement | HTMLSelectElement>;
+  children?: Child;
 };
 
 const defaultProps: SRDropDownProps = {
   label: "",
   listName: "",
   backgroundColor: "inherit",
-  options: [""],
+  marginBottom: "none",
   value: "",
   onChange: () => {},
 };
@@ -46,20 +54,37 @@ const SRDropDown: React.FC<SRDropDownProps> = (
     borderRadius: "4px",
     borderWidth: borderWidthSizes["small"],
     borderColor: themeGreen,
+    marginBottom: marginSizes[props.marginBottom],
   };
 
-  return (
-    <div>
-      <label style={labelStyle}>{props.label}</label>
-      <input
-        list={props.listName}
-        value={props.value}
-        onChange={props.onChange}
-        style={inputStyle}
-      />
-      <datalist id={props.listName}>{props.options}</datalist>
-    </div>
-  );
+  if (props.fixedOptions) {
+    return (
+      <>
+        <label style={labelStyle}>{props.label}</label>
+        <select
+          id={props.listName}
+          value={props.value}
+          onChange={props.onChange}
+          style={inputStyle}
+        >
+          {props.children}
+        </select>
+      </>
+    );
+  } else {
+    return (
+      <div>
+        <label style={labelStyle}>{props.label}</label>
+        <input
+          list={props.listName}
+          value={props.value}
+          onChange={props.onChange}
+          style={inputStyle}
+        />
+        <datalist id={props.listName}>{props.children}</datalist>
+      </div>
+    );
+  }
 };
 
 export default SRDropDown;

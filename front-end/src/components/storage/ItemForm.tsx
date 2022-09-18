@@ -200,8 +200,9 @@ const ItemForm: React.FC<ItemFormProps> = (
         listName="containerList"
         onChange={onContainerChange}
         value={container}
-        options={getOptions()}
-      ></SRDropDown>
+      >
+        {getOptions()}
+      </SRDropDown>
       <SRDateInput
         label="Expiration:"
         value={formatDateInput(expiration)}

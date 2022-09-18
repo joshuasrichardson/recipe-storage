@@ -163,6 +163,29 @@ const getNutritionixV2Item = async (code: string): Promise<ItemAutofill> => {
     });
 };
 
+type OpenFoodsProductType = {
+  product_name: string;
+  image_url: string;
+  _keywords: string[];
+};
+
+const getOpenFoodFactsItem = async (code: string): Promise<ItemAutofill> => {
+  const response = await axios.get(
+    "https://world.openfoodfacts.org/api/v2/product/" + code
+  );
+
+  const item: OpenFoodsProductType = response.data.product;
+
+  if (response.status) {
+    return {
+      name: item.product_name,
+      unit: "Grams",
+      tags: item._keywords.join(", "),
+      src: item.image_url,
+    };
+  }
+};
+
 const copyMissingFields = (
   item: ItemAutofill,
   detailedItem: ItemAutofill
@@ -189,6 +212,9 @@ const getProduct = async (code: string): Promise<ItemAutofill> => {
     if (code?.length === 12 && !item.src) {
       item2 = await getNutritionixV2Item(code);
       item = copyMissingFields(item, item2);
+    } else if (code?.length === 13) {
+      item2 = await getOpenFoodFactsItem(code);
+      item = copyMissingFields(item, item2);
     }
 
     return item;
@@ -196,8 +222,9 @@ const getProduct = async (code: string): Promise<ItemAutofill> => {
     try {
       console.log(err);
       if (item) return viewFormattedItem(item);
-      if (code?.length === 12) return await getNutritionixV2Item(code);
-      return null;
+      if (code?.length === 12) item = await getNutritionixV2Item(code);
+      if (item) return item;
+      return await getOpenFoodFactsItem(code);
     } catch (error) {
       console.log(error);
       return null;
