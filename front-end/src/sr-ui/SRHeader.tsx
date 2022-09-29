@@ -6,6 +6,7 @@ import { Child, Size } from "../types.ts";
 import { headerSizes, paddingSizes, themeGreen } from "./styles.ts";
 
 type SRHeaderProps = {
+  id?: string;
   color?: string;
   size?: Size;
   padding?: Size;
@@ -44,7 +45,11 @@ const SRHeader: React.FC<SRHeaderProps> = (
     borderBottom: props.underlined ? "1px solid" : "none",
   };
 
-  return <h3 style={headerStyle}>{props.children}</h3>;
+  return (
+    <h3 id={props.id} style={headerStyle}>
+      {props.children}
+    </h3>
+  );
 };
 
 export default SRHeader;

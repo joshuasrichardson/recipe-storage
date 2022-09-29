@@ -66,6 +66,7 @@ describe("Intro", () => {
           style="text-decoration: none;"
         >
           <button
+            name="Login"
             style="color: rgb(224, 214, 206); background-color: rgb(139, 0, 0); font-weight: bold; border-radius: 5px; border-width: 1.5px; border-style: solid; border-color: #003815; display: flex; align-items: center; justify-content: center; padding: 20px; width: 200px; max-width: 300px; margin: 12px;"
             type="button"
           >
@@ -77,6 +78,7 @@ describe("Intro", () => {
           style="text-decoration: none;"
         >
           <button
+            name="Create Account"
             style="color: rgb(224, 214, 206); background-color: rgb(139, 0, 0); font-weight: bold; border-radius: 5px; border-width: 1.5px; border-style: solid; border-color: #003815; display: flex; align-items: center; justify-content: center; padding: 20px; width: 200px; max-width: 300px; margin: 12px;"
             type="button"
           >
@@ -88,6 +90,7 @@ describe("Intro", () => {
           style="text-decoration: none;"
         >
           <button
+            name="See Recipes"
             style="color: rgb(224, 214, 206); background-color: rgb(139, 0, 0); font-weight: bold; border-radius: 5px; border-width: 1.5px; border-style: solid; border-color: #003815; display: flex; align-items: center; justify-content: center; padding: 20px; width: 200px; max-width: 300px; margin: 12px;"
             type="button"
           >

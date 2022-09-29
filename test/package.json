@@ -1,0 +1,55 @@
+{
+  "name": "storage-recipe-integrated-tests",
+  "version": "0.1.0",
+  "description": "",
+  "keywords": [
+    "javascript",
+    "selenium",
+    "local",
+    "test",
+    "jest"
+  ],
+  "scripts": {
+    "test": "jest",
+    "test-dev": "concurrently -k -s first \"cd ../front-end && npm start\" \"cd ../back-end && npm run start-test\" \"sleep 10 && jest\""
+  },
+  "author": "Joshua Richardson",
+  "devDependencies": {
+    "babel-eslint": "^10.0.1",
+    "babel-jest": "^27.2.5",
+    "babel-plugin-external-helpers": "^6.22.0",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "chromedriver": "^105.0.0",
+    "eslint": "^8.0.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-config-prettier": "^4.3.0",
+    "eslint-plugin-import": "^2.17.3",
+    "eslint-plugin-jest": "^22.6.4",
+    "eslint-plugin-prettier": "^3.1.0",
+    "jasmin": "0.0.2",
+    "jasmine": "^3.4.0",
+    "jest": "^27.5.1",
+    "jest-environment-webdriver": "^0.2.0",
+    "jsdom": "^15.1.1",
+    "prettier": "^1.17.1",
+    "rimraf": "^2.6.3",
+    "selenium-webdriver": "^4.0.0-alpha.1"
+  },
+  "jest": {
+    "globals": {
+      "driver": null
+    },
+    "setupTestFrameworkScriptFile": "./jest.config.js",
+    "testEnvironment": "jest-environment-webdriver",
+    "testEnvironmentOptions": {
+      "browser": "chrome"
+    }
+  },
+  "dependencies": {
+    "@lambdatest/node-rest-client": "^1.0.0",
+    "axios": "^0.27.2",
+    "concurrently": "^7.4.0",
+    "mongoose": "^6.6.0"
+  }
+}

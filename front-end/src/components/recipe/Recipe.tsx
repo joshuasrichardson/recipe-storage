@@ -42,7 +42,7 @@ const RecipeComponent: React.FC<RecipeComponentProps> = ({
       }
     };
     updateScreen();
-  }, [state, id, recipe, setRecipe, ServerFacade.getRecipe]);
+  }, [state, id, recipe, setRecipe]);
 
   const deleteRecipe = () => {
     ServerFacade.deleteRecipe(id);

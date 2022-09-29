@@ -1,4 +1,4 @@
-const DEV_MONGODB_URL = require("./mongo-url");
+const { DEV_MONGODB_URL, TEST_MONGODB_URL } = require("./mongo-url");
 
 const prod = {
   MONGODB_URL: "mongodb://localhost:27017/recipe-storage",
@@ -8,5 +8,20 @@ const dev = {
   MONGODB_URL: DEV_MONGODB_URL,
   IMAGES_DIR: "../front-end/public",
 };
+const test = {
+  MONGODB_URL: TEST_MONGODB_URL,
+  IMAGES_DIR: "../front-end/public",
+};
 
-module.exports = process.env.NODE_ENV?.trim() === "development" ? dev : prod;
+const constants = () => {
+  switch (process.env.NODE_ENV?.trim()) {
+    case "development":
+      return dev;
+    case "test":
+      return test;
+    default:
+      return prod;
+  }
+};
+
+module.exports = constants();
