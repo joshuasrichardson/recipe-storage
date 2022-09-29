@@ -26,5 +26,7 @@ front-end/yarn-debug.log*
 front-end/yarn-error.log*
 back-end/mongo-url.js
 
+test/tests/constants.js
+
 deploy.sh
 practice.sh

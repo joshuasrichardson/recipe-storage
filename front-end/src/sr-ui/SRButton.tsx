@@ -72,6 +72,7 @@ const SRButton: React.FC<SRButtonProps> = (
 
   return (
     <button
+      name={props.children}
       style={buttonStyle}
       type={props.type}
       disabled={props.disabled}

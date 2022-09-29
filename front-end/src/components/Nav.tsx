@@ -34,7 +34,7 @@ const Navigation: React.FC<NavParams> = ({
     <Navbar collapseOnSelect expand="sm" variant="dark" style={navStyle}>
       <Container aria-controls="responsive-navbar-nav">
         <Navbar.Brand href="/">
-          <SRHeader color={lightTextColor}>
+          <SRHeader id="logo-text" color={lightTextColor}>
             {user !== null ? user.username : "Storage Recipe"}
           </SRHeader>
         </Navbar.Brand>

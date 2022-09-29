@@ -66,6 +66,7 @@ describe("Nav", () => {
         href="/"
       >
         <h3
+          id="logo-text"
           style="font-family: Architects Daughter; font-size: 22px; font-weight: normal; color: rgb(224, 214, 206); text-align: center; padding: 10px;"
         >
           Storage Recipe
@@ -134,6 +135,7 @@ describe("Nav", () => {
         href="/"
       >
         <h3
+          id="logo-text"
           style="font-family: Architects Daughter; font-size: 22px; font-weight: normal; color: rgb(224, 214, 206); text-align: center; padding: 10px;"
         >
           testuser
