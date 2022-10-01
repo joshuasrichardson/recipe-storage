@@ -65,11 +65,15 @@ export type ItemAutofill = {
 };
 
 export type Recipe = {
-  firstName: string;
-  lastName: string;
-  username: string;
-  password: string;
-  role?: string;
+  name: string;
+  numServings?: number;
+  ingredients: string[];
+  steps?: string[];
+  description?: string;
+  link?: string;
+  imageUrl?: string;
+  minutes?: number;
+  materials?: string[];
 };
 
 export type Size =

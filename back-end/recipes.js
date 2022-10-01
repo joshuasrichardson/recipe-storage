@@ -10,6 +10,8 @@ const recipeSchema = new mongoose.Schema({
     ref: "User",
   },
   name: String,
+  minutes: Number,
+  materials: Array,
   numServings: Number,
   ingredients: Array,
   steps: Array,
@@ -27,12 +29,16 @@ const parseIngredients = (ingredientsString) => ingredientsString.split("\n");
 
 const parseSteps = (stepsString) => stepsString.split("\n");
 
+const parseMaterials = (materialsString) => materialsString.split("\n");
+
 router.post("/", validUser, async (req, res) => {
   try {
     const recipeAttributes = {
       user: req.user,
       name: req.body.name,
+      minutes: req.body.minutes,
       numServings: req.body.numServings,
+      materials: parseMaterials(req.body.materials),
       ingredients: parseIngredients(req.body.ingredients),
       steps: parseSteps(req.body.steps),
       description: req.body.description,
@@ -47,15 +53,39 @@ router.post("/", validUser, async (req, res) => {
   }
 });
 
-router.get("/:ingredient", async (req, res) => {
-  res.send([
-    {
-      name: "Cookies",
-      ingredients: ["stuff"],
-      estimatedTime: "5 minutes",
-      calories: "500",
-    },
-  ]);
+router.get("/withingredient/:ingredient", async (req, res) => {
+  try {
+    const recipes = await Recipe.aggregate(
+      [
+        {
+          $match: {
+            $or: [
+              { name: { $regex: req.params.ingredient, $options: "i" } },
+              { ingredients: { $regex: req.params.ingredient, $options: "i" } },
+            ],
+          },
+        },
+      ],
+      function (err, results) {}
+    );
+    if (recipes.length == 0) {
+      return res.sendStatus(404);
+    }
+    return res.send(recipes);
+  } catch (error) {
+    console.log(error);
+    return res.sendStatus(500);
+  }
+});
+
+router.get("/:id", async (req, res) => {
+  try {
+    const recipe = await Recipe.findById(req.params.id);
+    return res.send(recipe);
+  } catch (error) {
+    console.log(error);
+    return res.sendStatus(500);
+  }
 });
 
 router.get("/", async (req, res) => {
