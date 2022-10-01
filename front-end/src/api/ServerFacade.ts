@@ -384,7 +384,7 @@ const addContainer = async (container) => {
 
 const getRecipes = async (itemName: string): Promise<any> => {
   try {
-    let response = await axios.get("/api/recipes/" + itemName);
+    const response = await axios.get("/api/recipes/withingredient/" + itemName);
     return response.data;
     // This function will work if we call getEdamamRecipes(itemName, setItems),
     // but I don't want to go over the free limit.
@@ -394,9 +394,21 @@ const getRecipes = async (itemName: string): Promise<any> => {
   }
 };
 
+const getRecipe = async (id: string): Promise<any> => {
+  try {
+    const response = await axios.get("/api/recipes/" + id);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    return {};
+  }
+};
+
 export type AddRecipeParams = {
   userId: string;
   name: string;
+  minutes: string;
+  materials: string;
   description: string;
   ingredients: string;
   steps: string;
@@ -430,6 +442,7 @@ const ServerFacade = {
   getContainers,
   addContainer,
   getRecipes,
+  getRecipe,
   addRecipe,
 };
 

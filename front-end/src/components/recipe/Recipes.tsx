@@ -1,5 +1,6 @@
 import React from "react";
 import { useState, ReactElement } from "react";
+import { useNavigate } from "react-router-dom";
 // @ts-ignore
 import ServerFacade from "../../api/ServerFacade.ts";
 // @ts-ignore
@@ -37,9 +38,11 @@ const Recipes: React.FC = (): ReactElement => {
   // };
 
   const getRecipesHTML = (recipes: Recipe[]): JSX.Element[] => {
-    return recipes.map((recipe: Recipe, index: number) => (
-      <RecipeComponent key={index} recipe={recipe} />
-    ));
+    return recipes
+      .filter((recipe: Recipe) => recipe.name)
+      .map((recipe: Recipe, index: number) => (
+        <RecipeComponent key={index} recipe={recipe} />
+      ));
   };
 
   const getRecipes = async (
@@ -70,21 +73,26 @@ const Recipes: React.FC = (): ReactElement => {
 export default Recipes;
 
 const RecipeComponent = ({ recipe }) => {
-  const getRecipeAttributes = (recipe) => {
+  const navigate = useNavigate();
+
+  const getRecipeAttributes = (recipe: Recipe) => {
     return [
       { key: "Servings", value: recipe.numServings },
-      { key: "Ingredients", value: recipe.ingredients?.join("\n") },
-      { key: "Steps", value: recipe.steps?.join("\n") },
-      { key: "Calories", value: recipe.calories },
-      { key: "Link", value: recipe.link },
+      {
+        key: "Time",
+        value: recipe?.minutes ? recipe?.minutes + " minutes" : undefined,
+      },
     ];
   };
 
   return (
     <SRBoxView
+      onClick={() => {
+        navigate("/recipes/" + recipe._id);
+      }}
       key={recipe._id}
       src={recipe.image}
-      label={recipe.label || recipe.name}
+      label={recipe.name}
       attributes={getRecipeAttributes(recipe)}
     />
   );

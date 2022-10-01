@@ -25,6 +25,8 @@ import ServerFacade from "./api/ServerFacade.ts";
 import { User } from "./types";
 // @ts-ignore
 import AddRecipe from "./components/recipe/AddRecipe.tsx";
+// @ts-ignore
+import RecipeComponent from "./components/recipe/Recipe.tsx";
 
 export type AllRoutesParams = {
   user: User;
@@ -50,6 +52,7 @@ const AllRoutes: React.FC<AllRoutesParams> = ({
         <Route path="/storage/history" element={<StorageHistory />} />
         <Route path="/item/update" element={<DiffChecker />} />
         <Route path="/recipes/add" element={<AddRecipe />} />
+        <Route path="/recipes/:id" element={<RecipeComponent />} />
         <Route path="/recipes" element={<Recipes />} />
         <Route
           path="/login"
@@ -64,6 +67,7 @@ const AllRoutes: React.FC<AllRoutesParams> = ({
   const getLoggedOutRoutes = () => {
     return (
       <Routes>
+        <Route path="/recipes/:id" element={<RecipeComponent />} />
         <Route path="/recipes" element={<Recipes />} />
         <Route
           path="/login"
