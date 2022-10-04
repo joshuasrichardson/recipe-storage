@@ -98,33 +98,53 @@ const logout = async (): Promise<void> => {
   await axios.delete("/api/users");
 };
 
-// const getNutritionixV1Item = async (code: string) => {
-//   const data = await fetch(
-//     "https://nutritionix-api.p.rapidapi.com/v1_1/item?upc=" + code,
-//     {
-//       method: "GET",
-//       headers: {
-//         "x-rapidapi-host": keys.X_RAPIDAPI_HOST,
-//         "x-rapidapi-key": keys.X_RAPIDAPI_KEY,
-//       },
-//     }
-//   );
-//   let item = await data.json();
-//   if (item.item_name != null) {
-//     return {
-//       name: item.item_name,
-//       brand: item.brand_name,
-//       description: item.item_description,
-//     };
-//   }
-// };
-
 type APIKeychain = {
   X_API_KEY: string;
   X_APP_KEY: string;
+  X_RAPIDAPI_HOST: string;
+  X_RAPIDAPI_KEY: string;
+};
+
+const getNutritionixV1Item = async (code: string): Promise<ItemAutofill> => {
+  let keys: APIKeychain;
+  // @ts-ignore
+  return import("./constants.ts").then(async (data) => {
+    keys = data.keys;
+
+    const response = await fetch(
+      "https://nutritionix-api.p.rapidapi.com/v1_1/item?upc=" + code,
+      {
+        method: "GET",
+        headers: {
+          "x-rapidapi-host": keys.X_RAPIDAPI_HOST,
+          "x-rapidapi-key": keys.X_RAPIDAPI_KEY,
+        },
+      }
+    );
+    let item = await response.json();
+    if (item.item_name != null) {
+      return {
+        name: item.item_name,
+        brand: item.brand_name,
+        description: item.item_description,
+      };
+    }
+  });
+};
+
+const canAccessNutritionixV2 = async (): Promise<boolean> => {
+  try {
+    const response = await axios.get("/api/calls/nutritionixV2");
+    console.log("Calls:", response.data.numCalls);
+    return response.data.numCalls < 50;
+  } catch (err) {
+    console.log(err);
+    return false;
+  }
 };
 
 const getNutritionixV2Item = async (code: string): Promise<ItemAutofill> => {
+  if (!(await canAccessNutritionixV2())) return getNutritionixV1Item(code);
   let keys: APIKeychain;
   // @ts-ignore
   return import("./constants.ts")
@@ -139,6 +159,7 @@ const getNutritionixV2Item = async (code: string): Promise<ItemAutofill> => {
           },
         }
       );
+      axios.post("/api/calls/nutritionixV2");
       const item = response.data.foods[0];
       if (item.food_name != null) {
         return {
