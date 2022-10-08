@@ -53,21 +53,38 @@ router.post("/", validUser, async (req, res) => {
   }
 });
 
-router.get("/withingredient/:ingredient", async (req, res) => {
+router.get("/withingredient/:ingredients", async (req, res) => {
   try {
-    const recipes = await Recipe.aggregate(
-      [
-        {
-          $match: {
+    const ingredients = req.params.ingredients;
+    if (ingredients === "all") {
+      const recipes = await Recipe.find({}).sort({
+        name: 1,
+      });
+      return res.send(recipes);
+    }
+
+    const ors = ingredients.split("|").map((exp) => {
+      return {
+        $and: exp.split("&").map((exp) => {
+          return {
             $or: [
-              { name: { $regex: req.params.ingredient, $options: "i" } },
-              { ingredients: { $regex: req.params.ingredient, $options: "i" } },
+              { name: { $regex: exp, $options: "i" } },
+              { ingredients: { $regex: exp, $options: "i" } },
             ],
-          },
+          };
+        }),
+      };
+    });
+
+    const filters = [
+      {
+        $match: {
+          $or: ors,
         },
-      ],
-      function (err, results) {}
-    );
+      },
+    ];
+
+    const recipes = await Recipe.aggregate(filters, function (err, results) {});
     if (recipes.length == 0) {
       return res.sendStatus(404);
     }
@@ -90,7 +107,7 @@ router.get("/:id", async (req, res) => {
 
 router.get("/", async (req, res) => {
   try {
-    let recipes = await Recipe.find({}).sort({
+    const recipes = await Recipe.find({}).sort({
       name: 1,
     });
     return res.send(recipes);

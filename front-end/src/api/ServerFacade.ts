@@ -409,6 +409,7 @@ const addContainer = async (container) => {
 
 const getRecipes = async (itemName: string): Promise<any> => {
   try {
+    if (!itemName) itemName = "all";
     const response = await axios.get("/api/recipes/withingredient/" + itemName);
     return response.data;
     // This function will work if we call getEdamamRecipes(itemName, setItems),

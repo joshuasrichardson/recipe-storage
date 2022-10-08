@@ -78,7 +78,11 @@ const ItemComponent: React.FC<ItemComponentProps> = ({
         <SRFlex>
           <SRButton
             size="small"
-            onClick={() => navigate("/recipes", { state: item })}
+            onClick={() =>
+              navigate("/recipes", {
+                state: { name: item.name, tags: item.tags },
+              })
+            }
           >
             <FontAwesomeIcon icon={solid("search")} />
           </SRButton>
