@@ -30,7 +30,7 @@ type GroupDisplayState = {
 
 type GroupDisplayProps = {
   title: string;
-  getAllObjects: Function;
+  initialSearch: Function;
   singleViewUrl: string;
   getObjectsHTML: Function;
   objectType: string;
@@ -43,7 +43,7 @@ type GroupDisplayProps = {
 
 const GroupDisplay: React.FC<GroupDisplayProps> = ({
   title,
-  getAllObjects,
+  initialSearch,
   getObjectsHTML,
   objectType,
   objectTypePlural,
@@ -75,9 +75,9 @@ const GroupDisplay: React.FC<GroupDisplayProps> = ({
     }
     if (firstRender) {
       setFirstRender(false);
-      getAllObjects(setAllObjects);
+      initialSearch(setAllObjects, setSearchString);
     }
-  }, [firstRender, state, setAllObjects, getAllObjects]);
+  }, [firstRender, state, setAllObjects, initialSearch, setSearchString]);
 
   useEffect(() => {
     setMatchingObjects(allObjects);

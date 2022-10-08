@@ -6,6 +6,10 @@
             "jest",
             "@testing-library/jest-dom"
         ],
+        "lib": [
+            "ES2021",
+            "DOM"
+        ],
         "esModuleInterop": true,
     }
 }

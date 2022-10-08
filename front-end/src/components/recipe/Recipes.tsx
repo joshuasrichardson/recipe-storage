@@ -1,41 +1,17 @@
 import React from "react";
 import { useState, ReactElement } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 // @ts-ignore
 import ServerFacade from "../../api/ServerFacade.ts";
 // @ts-ignore
 import SRBoxView from "../../sr-ui/SRBoxView.tsx";
-import { Recipe } from "../../types";
+import { Item, Recipe } from "../../types";
 // @ts-ignore
 import SRGroupDisplay from "../../sr-ui/SRGroupDisplay.tsx";
 
 const Recipes: React.FC = (): ReactElement => {
-  // const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [useImageView, setUseImageView] = useState(false);
-  // const location = useLocation();
-
-  // useEffect(() => {
-  //   const getRecipesFromState = async (): Promise<void> => {
-  //     const state = location.state as Item;
-  //     if (state) {
-  //       if (state.tags.length > 0) {
-  //         await ServerFacade.getRecipes(state.tags, setRecipes);
-  //       } else if (state.name) {
-  //         await ServerFacade.getRecipes(state.name, setRecipes);
-  //       }
-  //       location.state = null;
-  //     }
-  //   };
-  //   getRecipesFromState();
-  // }, [location]);
-
-  // const onSearchChange = async (e: ChangeEvent<HTMLInputElement>): Promise<any> => {
-  //   return ServerFacade.getRecipes(e.currentTarget.value.trim(), setRecipes);
-  // };
-
-  // const getAllRecipes = async (e: ChangeEvent<HTMLInputElement>): Promise<any> => {
-  //   return ServerFacade.getRecipes(e.currentTarget.value.trim(), setRecipes);
-  // };
+  const location = useLocation();
 
   const getRecipesHTML = (recipes: Recipe[]): JSX.Element[] => {
     return recipes
@@ -45,10 +21,27 @@ const Recipes: React.FC = (): ReactElement => {
       ));
   };
 
+  const formatSearchString = (name: string, tags: string): string => {
+    let searchString: string = name + (tags ? ", " + tags : "");
+    searchString = searchString.replaceAll(", ", "|");
+
+    // TODO: Add anchors (^...$) after we separate the amount from the ingredient names in the backend.
+    return searchString;
+  };
+
   const getRecipes = async (
-    setRecipes: (recipes: Recipe[]) => void
+    setRecipes: (recipes: Recipe[]) => void,
+    setSearchString: (searchString: string) => void
   ): Promise<void> => {
-    setRecipes(await ServerFacade.getRecipes(""));
+    const state = location.state as Item;
+    if (state) {
+      let searchString = formatSearchString(state.name, state.tags);
+      if (searchString) {
+        setSearchString(searchString);
+        setRecipes(await ServerFacade.getRecipes(searchString));
+      } else setRecipes(await ServerFacade.getRecipes(""));
+      location.state = null;
+    } else setRecipes(await ServerFacade.getRecipes(""));
   };
 
   const search = async (searchString: string): Promise<Recipe[]> => {
@@ -58,7 +51,7 @@ const Recipes: React.FC = (): ReactElement => {
   return (
     <SRGroupDisplay
       title={"Recipes"}
-      getAllObjects={getRecipes}
+      initialSearch={getRecipes}
       getObjectsHTML={getRecipesHTML}
       objectType={"Recipe"}
       objectTypePlural={"Recipes"}

@@ -179,7 +179,7 @@ const ItemGroup: React.FC<ItemGroupProps> = ({
   return (
     <SRGroupDisplay
       title={title}
-      getAllObjects={getItemGroup}
+      initialSearch={getItemGroup}
       getObjectsHTML={getItemsHTML}
       objectType={itemType}
       objectTypePlural={itemTypePlural}
