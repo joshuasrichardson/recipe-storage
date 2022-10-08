@@ -287,7 +287,6 @@ const addProduct = async (item: Item) => {
         oldTags: data.product.tags,
         oldAmount: data.product.amount,
         oldUnit: data.product.unit,
-        oldContainer: data.product.container,
         newCode: item.code,
         newName: item.name,
         newBrand: item.brand,
@@ -295,7 +294,6 @@ const addProduct = async (item: Item) => {
         newTags: item.tags,
         newAmount: item.amount,
         newUnit: item.unit,
-        newContainer: item.container,
       },
     };
   } catch (error) {
@@ -317,6 +315,12 @@ const getHistoryItem = async (id: string): Promise<Item> => {
   const res = await axios.get("/api/storage/history/" + id);
   const item = viewFormattedItem(res.data);
   return item;
+};
+
+const getItemContainer = async (code: string): Promise<string> => {
+  const res = await axios.get("/api/storage/history/code/" + code);
+  console.log("Location data:", res.data);
+  return res.data[0]?.container;
 };
 
 const deleteItem = async (id: string): Promise<void> => {
@@ -384,7 +388,7 @@ const getContainers = async (setContainers) => {
     setContainers(response.data[0].containers);
   } catch (error) {
     console.log(error);
-    setContainers([]);
+    setContainers(["Refrigerator"]);
   }
 };
 
@@ -461,6 +465,7 @@ const ServerFacade = {
   addFoodStorage,
   updateItem,
   getContainers,
+  getItemContainer,
   addContainer,
   getRecipes,
   getRecipe,

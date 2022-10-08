@@ -26,7 +26,6 @@ type DiffState = {
   oldTags: string;
   oldAmount: number;
   oldUnit: string;
-  oldContainer: string;
   newCode: number;
   newName: string;
   newBrand: string;
@@ -34,7 +33,6 @@ type DiffState = {
   newTags: string;
   newAmount: number;
   newUnit: string;
-  newContainer: string;
 };
 
 const DiffChecker: React.FC = (): ReactElement => {
@@ -44,8 +42,8 @@ const DiffChecker: React.FC = (): ReactElement => {
   const { innerWidth } = window;
 
   const getColor = (attribute) => {
-    return JSON.stringify(state["old" + attribute]) ===
-      JSON.stringify(state["new" + attribute])
+    return JSON.stringify(state["old" + attribute]).trim() ===
+      JSON.stringify(state["new" + attribute]).trim()
       ? darkTextColor
       : themeRed;
   };
@@ -67,11 +65,6 @@ const DiffChecker: React.FC = (): ReactElement => {
         color: getColor("Amount"),
       },
       { key: "Unit", value: state.oldUnit || " ", color: getColor("Unit") },
-      {
-        key: "Container",
-        value: state.oldContainer || " ",
-        color: getColor("Container"),
-      },
     ];
   };
 
@@ -92,11 +85,6 @@ const DiffChecker: React.FC = (): ReactElement => {
         color: getColor("Amount"),
       },
       { key: "Unit", value: state.newUnit || " ", color: getColor("Unit") },
-      {
-        key: "Container",
-        value: state.newContainer || " ",
-        color: getColor("Container"),
-      },
     ];
   };
 
@@ -130,7 +118,6 @@ const DiffChecker: React.FC = (): ReactElement => {
                   tags: state.newTags,
                   amount: state.newAmount,
                   unit: state.newUnit,
-                  container: state.newContainer,
                 });
                 navigate("/storage/add");
               }}

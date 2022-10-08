@@ -59,10 +59,24 @@ router.post("/", validUser, async (req, res) => {
   }
 });
 
+// get my history items using a barcode
+router.get("/history/code/:code", validUser, async (req, res) => {
+  try {
+    const items = await ItemHistory.find({
+      user: req.user,
+      code: req.params.code,
+    }).sort({ added: -1 }); // replace the user ids with objects representing the users
+    return res.send(items);
+  } catch (error) {
+    console.log(error);
+    return res.sendStatus(500);
+  }
+});
+
 // get my history item
 router.get("/history/:id", validUser, async (req, res) => {
   try {
-    let items = await ItemHistory.find({
+    const items = await ItemHistory.find({
       user: req.user,
       _id: req.params.id,
     }).populate("user"); // replace the user ids with objects representing the users
