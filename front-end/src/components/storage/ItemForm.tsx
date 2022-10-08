@@ -59,13 +59,18 @@ const ItemForm: React.FC<ItemFormProps> = (
       setName(item.name || "");
       setBrand(item.brand || "");
       setDescription(item.description || "");
-      setContainer(item.container || "");
       setTags(item.tags || "");
       setAmount(item.amount || "");
       setUnit(item.unit || "");
       props.setImageUrl(item.src || "");
+      if (containers?.includes(item.container)) {
+        setContainer(item.container || "");
+      } else {
+        const cont = await ServerFacade.getItemContainer(item.code);
+        setContainer(cont || containers[0] || "");
+      }
     }
-  }, [props]);
+  }, [props, containers]);
 
   useEffect(() => {
     const setItem = async () => {
@@ -158,13 +163,13 @@ const ItemForm: React.FC<ItemFormProps> = (
         onChange={(e) => props.setCode(e.target.value)}
       ></SRTextInput>
       <SRTextInput
-        label="Item Name:"
+        label="Name:"
         value={name}
         placeholder={name === "" && props.code !== "" ? "No results" : ""}
         onChange={(e) => setName(e.target.value)}
       ></SRTextInput>
       <SRTextInput
-        label="Brand Name:"
+        label="Brand:"
         value={brand}
         onChange={(e) => setBrand(e.target.value)}
       ></SRTextInput>
@@ -174,7 +179,7 @@ const ItemForm: React.FC<ItemFormProps> = (
         onChange={(e) => setDescription(e.target.value)}
       ></SRTextInput>
       <SRTextInput
-        label="Tags:"
+        label="Keywords:"
         value={tags}
         onChange={(e) => setTags(e.target.value)}
       ></SRTextInput>
@@ -196,7 +201,7 @@ const ItemForm: React.FC<ItemFormProps> = (
         </SRFlexItem>
       </SRFlex>
       <SRDropDown
-        label="Container:"
+        label="Location:"
         listName="containerList"
         onChange={onContainerChange}
         value={container}

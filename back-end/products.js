@@ -85,7 +85,6 @@ router.post("/", upload.single("image"), async (req, res) => {
         product.name != req.body.name ||
         product.brand != req.body.brand ||
         product.description != req.body.description ||
-        product.container != req.body.container ||
         product.tags != req.body.tags ||
         product.amount != req.body.amount ||
         product.unit != req.body.unit)
