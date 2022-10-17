@@ -1,4 +1,5 @@
-import React, { useContext, useState, useEffect, ReactElement } from "react";
+import React, { useContext, useState, useEffect, useMemo, ReactElement } from "react";
+import _ from "lodash";
 import { useLocation } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
@@ -92,6 +93,10 @@ const GroupDisplay: React.FC<GroupDisplayProps> = ({
     setSearchString(e.target?.value || "");
     doSearch(searchValue);
   };
+
+  // const doSearch = useMemo(() => _.debounce (async (searchValue: string): Promise<void> => {
+  //   setMatchingObjects(await search(searchValue, allObjects));
+  // }, 300), [allObjects, search]);
 
   const doSearch = async (searchValue: string): Promise<void> => {
     setMatchingObjects(await search(searchValue, allObjects));
