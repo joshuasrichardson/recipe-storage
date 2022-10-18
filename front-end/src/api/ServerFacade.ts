@@ -404,18 +404,22 @@ const getEdamamRecipes = async (itemName) => {
       "&app_id=3a833dd2&app_key=688beca46c7ed7483c41a629c1c183a3"
   )
     .then((data) => data.json())
-    .then((response) => response.hits.map((hit) => {
-      const recipe = hit.recipe;
-      return {
-        _id: recipe.uri.substring(recipe.uri.indexOf("#recipe_") + "#recipe_".length),
-        name: recipe.label,
-        numServings: recipe.yield,
-        ingredients: recipe.ingredientLines,
-        link: recipe.url,
-        imageUrl: recipe.image,
-        minutes: recipe.totalTime
-      }
-    }));
+    .then((response) =>
+      response.hits.map((hit) => {
+        const recipe = hit.recipe;
+        return {
+          _id: recipe.uri.substring(
+            recipe.uri.indexOf("#recipe_") + "#recipe_".length
+          ),
+          name: recipe.label,
+          numServings: recipe.yield,
+          ingredients: recipe.ingredientLines,
+          link: recipe.url,
+          imageUrl: recipe.image,
+          minutes: recipe.totalTime,
+        };
+      })
+    );
 };
 
 const getEdamamRecipe = async (id) => {
@@ -428,26 +432,31 @@ const getEdamamRecipe = async (id) => {
     .then((response) => {
       const recipe = response.recipe;
       return {
-        _id: recipe.uri.substring(recipe.uri.indexOf("#recipe_") + "#recipe_".length),
+        _id: recipe.uri.substring(
+          recipe.uri.indexOf("#recipe_") + "#recipe_".length
+        ),
         name: recipe.label,
         numServings: recipe.yield,
         ingredients: recipe.ingredientLines,
         link: recipe.url,
         imageUrl: recipe.image,
-        minutes: recipe.totalTime
-      }
+        minutes: recipe.totalTime,
+      };
     });
 };
 
 const getRecipes = async (itemName: string): Promise<any> => {
   try {
-    if (!itemName) {
-      return [];
+    if (!itemName) itemName = "all";
+    if (itemName.includes("|") || itemName === "all") {
+      const response = await axios.get(
+        "/api/recipes/withingredient/" + itemName
+      );
+      return response.data;
     }
     return await getEdamamRecipes(itemName);
     // This function will work if we call getEdamamRecipes(itemName, setItems),
     // but I don't want to go over the free limit.
-
   } catch (error) {
     console.log(error);
     return [];
