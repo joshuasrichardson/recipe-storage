@@ -398,7 +398,7 @@ const addContainer = async (container) => {
 };
 
 const getEdamamRecipes = async (itemName) => {
-  await fetch(
+  return await fetch(
     "https://api.edamam.com/api/recipes/v2?type=public&q=" +
       itemName +
       "&app_id=3a833dd2&app_key=688beca46c7ed7483c41a629c1c183a3"
@@ -407,6 +407,7 @@ const getEdamamRecipes = async (itemName) => {
     .then((response) => response.hits.map((hit) => {
       const recipe = hit.recipe;
       return {
+        _id: recipe.uri.substring(recipe.uri.indexOf("#recipe_") + "#recipe_".length),
         name: recipe.label,
         numServings: recipe.yield,
         ingredients: recipe.ingredientLines,
@@ -415,6 +416,27 @@ const getEdamamRecipes = async (itemName) => {
         minutes: recipe.totalTime
       }
     }));
+};
+
+const getEdamamRecipe = async (id) => {
+  return await fetch(
+    "https://api.edamam.com/api/recipes/v2/" +
+      id +
+      "?type=public&app_id=3a833dd2&app_key=688beca46c7ed7483c41a629c1c183a3"
+  )
+    .then((data) => data.json())
+    .then((response) => {
+      const recipe = response.recipe;
+      return {
+        _id: recipe.uri.substring(recipe.uri.indexOf("#recipe_") + "#recipe_".length),
+        name: recipe.label,
+        numServings: recipe.yield,
+        ingredients: recipe.ingredientLines,
+        link: recipe.url,
+        imageUrl: recipe.image,
+        minutes: recipe.totalTime
+      }
+    });
 };
 
 const getRecipes = async (itemName: string): Promise<any> => {
@@ -434,8 +456,7 @@ const getRecipes = async (itemName: string): Promise<any> => {
 
 const getRecipe = async (id: string): Promise<any> => {
   try {
-    const response = await axios.get("/api/recipes/" + id);
-    return response.data;
+    return await getEdamamRecipe(id);
   } catch (error) {
     console.log(error);
     return {};

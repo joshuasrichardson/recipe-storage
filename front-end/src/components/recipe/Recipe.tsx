@@ -64,6 +64,10 @@ const RecipeComponent: React.FC<RecipeComponentProps> = ({
     ];
   };
 
+  const launchRecipe = () => {
+    window.open(recipe?.link, "_blank");
+  }
+
   const getOptions = () => {
     if (canEdit) {
       return (
@@ -90,7 +94,7 @@ const RecipeComponent: React.FC<RecipeComponentProps> = ({
 
   return (
     <SRFlex justifyContent="center" padding="large">
-      <SRBoxView
+      <SRBoxView onClick={launchRecipe}
         key={recipe?._id}
         label={recipe?.name}
         src={recipe?.imageUrl}

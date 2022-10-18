@@ -65,6 +65,7 @@ export type ItemAutofill = {
 };
 
 export type Recipe = {
+  _id: string;
   name: string;
   numServings?: number;
   ingredients: string[];
