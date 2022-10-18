@@ -42,6 +42,7 @@ const SRTextInput: React.FC<SRTextInputProps> = (
 
   const inputStyle: React.CSSProperties = {
     padding: "5px",
+    marginBottom: "5px",
     fontSize: "1.1em",
     width: "100%",
     backgroundColor: props.fillBackground ? themeGray : props.backgroundColor,
@@ -78,9 +79,11 @@ const SRTextInput: React.FC<SRTextInputProps> = (
 
   return (
     <div>
-      <label style={labelStyle} htmlFor={props.id}>
-        {props.label}
-      </label>
+      {props.label && 
+        <label style={labelStyle} htmlFor={props.id}>
+          {props.label}
+        </label>
+      }
       {inputField()}
     </div>
   );
