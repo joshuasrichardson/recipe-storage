@@ -61,9 +61,6 @@ const GroupDisplay: React.FC<GroupDisplayProps> = ({
   const [objectStyleIcon, setObjectStyleIcon] = useState(
     <FontAwesomeIcon icon={solid("image")} />
   );
-  const [searchIcon, setSearchIcon] = useState(
-    <FontAwesomeIcon icon={solid("search")} />
-  );
   const [unusedIcon, setUnusedIcon] = useState(
     <FontAwesomeIcon icon={solid("list")} />
   );
@@ -105,7 +102,6 @@ const GroupDisplay: React.FC<GroupDisplayProps> = ({
   const changeView = () => {
     let temp = objectStyleIcon;
     setObjectStyleIcon(unusedIcon);
-    setSearchIcon(searchIcon);
     setUnusedIcon(temp);
     setUseImageView(!useImageView);
   };
@@ -128,8 +124,8 @@ const GroupDisplay: React.FC<GroupDisplayProps> = ({
               onChange={onSearchChange}
               fillBackground
             />
-            <SRButton onClick={onSearchClick} size="small" >
-                {searchIcon}
+            <SRButton onClick={onSearchClick} size="small">
+              <FontAwesomeIcon icon={solid("search")} />
             </SRButton>
           </SRFlex>
           <SRFlex margin="large" width="xlarge">
