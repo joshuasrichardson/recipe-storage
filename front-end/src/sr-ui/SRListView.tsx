@@ -38,6 +38,7 @@ const SRListView: React.FC<SRListViewProps> = (
   props = { ...defaultProps, ...props };
 
   const divStyle: React.CSSProperties = {
+    cursor: "pointer",
     borderTop: "solid",
     borderWidth: "1px",
     borderColor: themeGreen,

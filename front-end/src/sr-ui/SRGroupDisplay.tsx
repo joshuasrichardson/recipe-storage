@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect, useMemo, ReactElement } from "react";
+import React, { useContext, useState, useEffect, ReactElement } from "react";
 import { useLocation } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";

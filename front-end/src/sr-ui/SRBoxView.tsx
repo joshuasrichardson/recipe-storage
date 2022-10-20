@@ -34,6 +34,7 @@ type SRBoxViewProps = {
   marginVertical?: Size;
   marginHorizontal?: Size;
   maxWidth?: Size;
+  link?: string;
 };
 
 const defaultProps: SRBoxViewProps = {
@@ -91,7 +92,8 @@ const SRBoxView: React.FC<SRBoxViewProps> = (
     <div key={props.key} style={itemViewStyle} onClick={props.onClick}>
       {props.src && <SRImage src={props.src} alt={props.label} />}
       <SRHeader padding="xsmall">{props.label}</SRHeader>
-      <ul style={{ paddingLeft: "none" }}>{itemAttributes()}</ul>
+      <ul style={{ paddingLeft: "none" }}>{itemAttributes()}
+      {props.link && <a href={props.link} target="_blank" rel="noreferrer">Click here to view full recipe!</a>}</ul>
       {props.children}
     </div>
   );
