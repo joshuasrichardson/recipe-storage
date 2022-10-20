@@ -465,7 +465,12 @@ const getRecipes = async (itemName: string): Promise<any> => {
 
 const getRecipe = async (id: string): Promise<any> => {
   try {
-    return await getEdamamRecipe(id);
+    try {
+      const response = await axios.get("/api/recipes/" + id);
+      return response.data;
+    } catch {
+      return await getEdamamRecipe(id);
+    }
   } catch (error) {
     console.log(error);
     return {};

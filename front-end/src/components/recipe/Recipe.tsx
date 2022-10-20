@@ -60,7 +60,6 @@ const RecipeComponent: React.FC<RecipeComponentProps> = ({
       { key: "Ingredients", value: recipe?.ingredients?.join(", ") },
       { key: "Steps", value: recipe?.steps?.join(", ") },
       { key: "Description", value: recipe?.description },
-      //{ key: "Link", value: recipe?.link },
     ];
   };
 

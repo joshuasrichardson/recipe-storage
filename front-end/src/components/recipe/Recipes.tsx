@@ -45,7 +45,6 @@ const Recipes: React.FC = (): ReactElement => {
   };
 
   const search = async (searchString: string): Promise<Recipe[]> => {
-    
     return ServerFacade.getRecipes(searchString);
   };
 
