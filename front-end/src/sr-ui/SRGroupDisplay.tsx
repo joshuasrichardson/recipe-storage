@@ -18,11 +18,11 @@ import SRHeader from "./SRHeader.tsx";
 // @ts-ignore
 import SRText from "./SRText.tsx";
 // @ts-ignore
-import SRTextInput from "./SRTextInput.tsx";
-// @ts-ignore
 import { Context } from "../App.tsx";
 // @ts-ignore
 import { ContextType } from "../types.ts";
+// @ts-ignore
+import SRSearchBar from "./SRSearchBar.tsx";
 
 type GroupDisplayState = {
   deleted: boolean;
@@ -37,6 +37,7 @@ type GroupDisplayProps = {
   objectTypePlural: string;
   addUrl: string;
   search: (searchString: string, allObjects: Object[]) => Promise<Object[]>;
+  searchImmediately: boolean;
   useImageView: boolean;
   setUseImageView: (shouldUse: boolean) => boolean;
 };
@@ -49,6 +50,7 @@ const GroupDisplay: React.FC<GroupDisplayProps> = ({
   objectTypePlural,
   addUrl,
   search,
+  searchImmediately,
   useImageView,
   setUseImageView,
 }: GroupDisplayProps): ReactElement => {
@@ -88,12 +90,13 @@ const GroupDisplay: React.FC<GroupDisplayProps> = ({
   }, [matchingObjects]);
 
   const onSearchChange = async (e) => {
-    setSearchString(e.target?.value?.trim() || "");
+    setSearchString(e.target.value || "");
+    if (searchImmediately) doSearch(e.target.value);
   };
 
-  const onSearchClick = async (e) => {
-    doSearch(searchString);
-  };
+  const onSearchClick = searchImmediately
+    ? undefined
+    : async () => doSearch(searchString);
 
   const doSearch = async (searchValue: string): Promise<void> => {
     setMatchingObjects(await search(searchValue, allObjects));
@@ -113,21 +116,12 @@ const GroupDisplay: React.FC<GroupDisplayProps> = ({
           <SRHeader size="large" underlined>
             {title}
           </SRHeader>
-          <SRFlex direction="row" alignItems="flex-end" justifyContent="center">
-            <SRTextInput
-              id="object-search-bar"
-              type="search"
-              value={searchString}
-              placeholder={
-                "Search " + objectTypePlural.toLocaleLowerCase() + "..."
-              }
-              onChange={onSearchChange}
-              fillBackground
-            />
-            <SRButton onClick={onSearchClick} size="small">
-              <FontAwesomeIcon icon={solid("search")} />
-            </SRButton>
-          </SRFlex>
+          <SRSearchBar
+            searchString={searchString}
+            searchCategory={objectTypePlural}
+            onSearchChange={onSearchChange}
+            onSearchClick={onSearchClick}
+          />
           <SRFlex margin="large" width="xlarge">
             <SRButtonLink to={addUrl} size="small" disabled={!user}>
               +

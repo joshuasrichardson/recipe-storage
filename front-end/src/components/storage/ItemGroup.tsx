@@ -185,6 +185,7 @@ const ItemGroup: React.FC<ItemGroupProps> = ({
       objectTypePlural={itemTypePlural}
       addUrl="/storage/add"
       search={search}
+      searchImmediately={true}
       useImageView={useImageView}
       setUseImageView={setUseImageView}
     />
