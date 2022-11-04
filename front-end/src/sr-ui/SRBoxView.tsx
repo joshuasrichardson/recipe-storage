@@ -16,8 +16,9 @@ import {
 
 type Attribute = {
   key: string;
-  value: string;
+  value: string[] | string;
   color: string;
+  ol?: boolean;
 };
 
 type SRBoxViewProps = {
@@ -25,6 +26,7 @@ type SRBoxViewProps = {
   src?: string;
   label?: string;
   onClick?: MouseEventHandler<HTMLDivElement>;
+  titleSize?: Size;
   attributes: Attribute[];
   direction?: "row" | "column";
   alignItems?: "flex-start" | "flex-end" | "center";
@@ -40,6 +42,7 @@ type SRBoxViewProps = {
 const defaultProps: SRBoxViewProps = {
   key: "default",
   label: "",
+  titleSize: "medium",
   attributes: [],
   onClick: undefined,
   direction: "column",
@@ -75,25 +78,72 @@ const SRBoxView: React.FC<SRBoxViewProps> = (
     width: containerWidthSizes[props.maxWidth],
   };
 
-  const listItemStyle: React.CSSProperties = {
+  const listStyle: React.CSSProperties = {
     listStyleType: "none",
+    paddingLeft: 0,
+  };
+
+  const listItemStyle = (
+    useDefaultStyle: boolean,
+    ol: boolean
+  ): React.CSSProperties => {
+    return {
+      listStyleType: useDefaultStyle ? (ol ? undefined : "square") : "none",
+      paddingLeft: useDefaultStyle ? undefined : 14,
+    };
+  };
+
+  const shouldUseDefaultListStyle = (val: string[]): boolean => {
+    for (let i = 0; i < val.length; i++) {
+      if (!val[i].includes(`${i + 1}`) && !val[i].includes("-")) return true;
+    }
+    return false;
+  };
+
+  const itemAttrLI = (arr: string[]) => {
+    return arr
+      .filter((str) => !!str)
+      .map((val: string, index: number) => <li key={index + val}>{val}</li>);
   };
 
   const itemAttributes = () => {
     return props.attributes
-      .filter((a: Attribute) => a.value)
-      .map((a: Attribute) => (
-        <li key={a.key} style={{ ...listItemStyle, color: a.color }}>
-          {a.key + ": " + a.value}
-        </li>
-      ));
+      .filter(
+        (a: Attribute) =>
+          a?.value &&
+          (typeof a.value !== "object" || (a.value.length && a.value[0]))
+      )
+      .map((a: Attribute) => {
+        let useDefaultStyle =
+          typeof a.value == "object"
+            ? shouldUseDefaultListStyle(a.value)
+            : false;
+        return (
+          <li key={a.key} style={{ color: a.color }}>
+            <strong>{a.key + ": "}</strong>
+            {(typeof a.value == "object" && a.ol && (
+              <ol style={listItemStyle(useDefaultStyle, true)}>
+                {itemAttrLI(a.value)}
+              </ol>
+            )) ||
+              (typeof a.value == "object" && (
+                <ul style={listItemStyle(useDefaultStyle, false)}>
+                  {itemAttrLI(a.value)}
+                </ul>
+              )) ||
+              a.value}
+          </li>
+        );
+      });
   };
 
   return (
     <div key={props.key} style={itemViewStyle} onClick={props.onClick}>
       {props.src && <SRImage src={props.src} alt={props.label} />}
-      <SRHeader padding="xsmall">{props.label}</SRHeader>
-      <ul style={{ paddingLeft: "none" }}>
+      <SRHeader padding="xsmall" size={props.titleSize}>
+        {props.label}
+      </SRHeader>
+      <ul style={listStyle}>
         {itemAttributes()}
         {props.link && (
           <a href={props.link} target="_blank" rel="noreferrer">
