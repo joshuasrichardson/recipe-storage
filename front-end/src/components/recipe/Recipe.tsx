@@ -56,9 +56,9 @@ const RecipeComponent: React.FC<RecipeComponentProps> = ({
         value: recipe?.minutes ? recipe?.minutes + " minutes" : undefined,
       },
       { key: "Servings", value: recipe?.numServings },
-      { key: "Materials", value: recipe?.materials?.join(", ") },
-      { key: "Ingredients", value: recipe?.ingredients?.join(", ") },
-      { key: "Steps", value: recipe?.steps?.join(", ") },
+      { key: "Materials", value: recipe?.materials },
+      { key: "Ingredients", value: recipe?.ingredients },
+      { key: "Steps", value: recipe?.steps, ol: true },
       { key: "Description", value: recipe?.description },
     ];
   };
@@ -92,6 +92,7 @@ const RecipeComponent: React.FC<RecipeComponentProps> = ({
       <SRBoxView
         key={recipe?._id}
         label={recipe?.name}
+        titleSize="large"
         src={recipe?.imageUrl}
         link={recipe?.link}
         attributes={getAttributes()}

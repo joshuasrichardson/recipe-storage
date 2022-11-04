@@ -105,6 +105,7 @@ const ItemComponent: React.FC<ItemComponentProps> = ({
       <SRBoxView
         key={item?._id}
         label={item?.label || item?.name}
+        titleSize="large"
         src={item?.src}
         attributes={getAttributes()}
         maxWidth="xlarge"
