@@ -11,7 +11,12 @@ type SRFlexProps = {
   wrap?: "nowrap" | "wrap" | "wrap-reverse";
   width?: Size;
   children?: Child;
-  justifyContent?: "space-between" | "space-around" | "center";
+  justifyContent?:
+    | "space-between"
+    | "space-around"
+    | "center"
+    | "flex-start"
+    | "flex-end";
   marginVertical?: Size;
   marginHorizontal?: Size;
   margin?: Size;
