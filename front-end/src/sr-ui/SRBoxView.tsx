@@ -13,6 +13,10 @@ import {
   themeGray,
   themeGreen, // @ts-ignore
 } from "./styles.ts";
+// @ts-ignore
+import SRFlex from "./SRFlex.tsx";
+// @ts-ignore
+import SRCheckBox from "./SRCheckBox.tsx";
 
 type Attribute = {
   key: string;
@@ -37,6 +41,7 @@ type SRBoxViewProps = {
   marginHorizontal?: Size;
   maxWidth?: Size;
   link?: string;
+  useCheckBoxes?: boolean;
 };
 
 const defaultProps: SRBoxViewProps = {
@@ -52,6 +57,7 @@ const defaultProps: SRBoxViewProps = {
   marginVertical: "medium",
   marginHorizontal: "medium",
   maxWidth: "small",
+  useCheckBoxes: false,
 };
 
 const SRBoxView: React.FC<SRBoxViewProps> = (
@@ -103,7 +109,12 @@ const SRBoxView: React.FC<SRBoxViewProps> = (
   const itemAttrLI = (arr: string[]) => {
     return arr
       .filter((str) => !!str)
-      .map((val: string, index: number) => <li key={index + val}>{val}</li>);
+      .map((val: string, index: number) => (
+        <SRFlex justifyContent="flex-start">
+          {props.useCheckBoxes && <SRCheckBox />}
+          <li key={index + val}>{val}</li>
+        </SRFlex>
+      ));
   };
 
   const itemAttributes = () => {
@@ -114,19 +125,19 @@ const SRBoxView: React.FC<SRBoxViewProps> = (
           (typeof a.value !== "object" || (a.value.length && a.value[0]))
       )
       .map((a: Attribute) => {
-        let useDefaultStyle =
-          typeof a.value == "object"
-            ? shouldUseDefaultListStyle(a.value)
+        const useDefaultStyle =
+          typeof a.value === "object"
+            ? !props.useCheckBoxes && shouldUseDefaultListStyle(a.value)
             : false;
         return (
           <li key={a.key} style={{ color: a.color }}>
             <strong>{a.key + ": "}</strong>
-            {(typeof a.value == "object" && a.ol && (
+            {(typeof a.value === "object" && a.ol && (
               <ol style={listItemStyle(useDefaultStyle, true)}>
                 {itemAttrLI(a.value)}
               </ol>
             )) ||
-              (typeof a.value == "object" && (
+              (typeof a.value === "object" && (
                 <ul style={listItemStyle(useDefaultStyle, false)}>
                   {itemAttrLI(a.value)}
                 </ul>

@@ -69,9 +69,11 @@ const RecipeComponent: React.FC<RecipeComponentProps> = ({
         <SRFlex>
           <SRButton
             size="small"
-            onClick={() => navigate("/recipes", { state: recipe })}
+            onClick={() =>
+              navigate("/recipes/make/" + recipe._id, { state: recipe })
+            }
           >
-            <FontAwesomeIcon icon={solid("search")} />
+            <FontAwesomeIcon icon={solid("burger")} />
           </SRButton>
           <SRButton
             size="small"
