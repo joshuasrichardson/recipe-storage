@@ -40,7 +40,7 @@ router.put("/", validUser, async (req, res) => {
         user: req.user,
         containers: [req.body.container],
       });
-    } else if (!userContainers.containers?.includes(req.body.container)) {
+    } else if (!userContainers || !userContainers.containers.includes(req.body.container)) {
       userContainers.containers.push(req.body.container);
     }
     await userContainers.save();

@@ -80,7 +80,7 @@ router.post("/", upload.single("image"), async (req, res) => {
       });
       await product.save();
     } else if (
-      (product?.code || product?.name) &&
+      product && (product.code || product.name) &&
       (product.code != req.body.code ||
         product.name != req.body.name ||
         product.brand != req.body.brand ||

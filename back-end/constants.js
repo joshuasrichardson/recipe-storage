@@ -13,8 +13,10 @@ const test = {
   IMAGES_DIR: "../front-end/public",
 };
 
+const env = process.env.NODE_ENV ? process.env.NODE_ENV.trim() : "";
+
 const constants = () => {
-  switch (process.env.NODE_ENV?.trim()) {
+  switch (env) {
     case "development":
       return dev;
     case "test":
