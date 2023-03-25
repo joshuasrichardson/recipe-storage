@@ -18,10 +18,19 @@ app.use(
 
 console.log("Mongodb url:", config.MONGODB_URL);
 // connect to the mongodb database
-mongoose.connect(config.MONGODB_URL, {
-  useUnifiedTopology: true,
-  useNewUrlParser: true,
+
+const { MongoClient, ServerApiVersion } = require('mongodb');
+const client = new MongoClient(config.MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
+client.connect(err => {
+  const collection = client.db("test").collection("devices");
+  // perform actions on the collection object
+  client.close();
 });
+
+//mongoose.connect(config.MONGODB_URL, {
+//  useUnifiedTopology: true,
+//  useNewUrlParser: true,
+//});
 
 const cookieParser = require("cookie-parser");
 app.use(cookieParser());
