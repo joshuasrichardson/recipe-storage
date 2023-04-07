@@ -134,9 +134,7 @@ const AddRecipe: React.FC = (): ReactElement => {
                 onChange={(e) => setLink(e.target.value)}
               ></SRTextInput>
               <SRFlex justifyContent="center">
-                <SRButton type="submit" onClick={addRecipe}>
-                  Add to Recipe Book
-                </SRButton>
+                <SRButton type="submit">Save</SRButton>
               </SRFlex>
             </SRForm>
           </SRFlex>

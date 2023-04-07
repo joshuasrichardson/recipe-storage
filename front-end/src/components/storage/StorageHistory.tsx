@@ -15,6 +15,7 @@ const StorageHistory: React.FC = (): ReactElement => {
       itemType="Action"
       itemTypePlural="Actions"
       dateFormatter={formatDateTime}
+      showExpiration={false}
     />
   );
 };

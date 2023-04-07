@@ -35,7 +35,7 @@ const Navigation: React.FC<NavParams> = ({
       <Container aria-controls="responsive-navbar-nav">
         <Navbar.Brand href="/">
           <SRHeader id="logo-text" color={lightTextColor}>
-            {user !== null ? user.username : "Storage Recipe"}
+            {!!user ? user.username : "Storage Recipe"}
           </SRHeader>
         </Navbar.Brand>
         <Navbar.Collapse className="justify-content-end">

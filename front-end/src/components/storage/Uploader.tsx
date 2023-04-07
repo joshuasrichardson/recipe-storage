@@ -2,7 +2,7 @@ import React, { useState, ReactElement } from "react";
 // @ts-ignore
 import SRButton from "../../sr-ui/SRButton.tsx";
 // @ts-ignore
-import SRImage from "../../sr-ui/SRButton.tsx";
+import SRImage from "../../sr-ui/SRImage.tsx";
 
 type UploaderProps = {
   setImage: Function;

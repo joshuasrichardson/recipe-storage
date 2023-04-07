@@ -1,19 +1,15 @@
 import React, { ReactElement } from "react";
 // @ts-ignore
-import { Child } from "../types.ts";
-// @ts-ignore
 import { borderWidthSizes, marginSizes, themeGreen } from "./styles.ts";
 
 type SRImageProps = {
   src: string;
   label: string;
-  children: Child;
 };
 
 const defaultProps: SRImageProps = {
   src: "",
   label: "",
-  children: [<></>],
 };
 
 const SRImage: React.FC<SRImageProps> = (

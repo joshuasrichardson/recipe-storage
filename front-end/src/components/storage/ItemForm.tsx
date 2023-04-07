@@ -34,22 +34,22 @@ type ItemFormProps = {
   onSubmit: (item: Item) => void;
   setImageUrl: (url: string) => void;
   shouldShowQuantityField?: boolean;
-  onChange: ChangeEventHandler<HTMLInputElement>;
+  onChange?: ChangeEventHandler<HTMLInputElement>;
 };
 
 const ItemForm: React.FC<ItemFormProps> = (
   props: ItemFormProps
 ): ReactElement => {
-  const [name, setName] = useState("");
-  const [brand, setBrand] = useState("");
-  const [description, setDescription] = useState("");
-  const [containers, setContainers] = useState([]);
-  const [container, setContainer] = useState("");
+  const [name, setName] = useState<string>("");
+  const [brand, setBrand] = useState<string>("");
+  const [description, setDescription] = useState<string>("");
+  const [containers, setContainers] = useState<string[]>([]);
+  const [container, setContainer] = useState<string>("");
   const [expiration, setExpiration] = useState(srDate());
-  const [tags, setTags] = useState("");
-  const [amount, setAmount] = useState("");
-  const [unit, setUnit] = useState("");
-  const [quantity, setQuantity] = useState(1);
+  const [tags, setTags] = useState<string>("");
+  const [amount, setAmount] = useState<string | number>("");
+  const [unit, setUnit] = useState<string>("");
+  const [quantity, setQuantity] = useState<string | number>(1);
 
   const autofillWithProductInfo = useCallback(async () => {
     if (props?.code) {

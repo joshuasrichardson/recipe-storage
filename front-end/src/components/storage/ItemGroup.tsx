@@ -31,8 +31,8 @@ const ItemGroup: React.FC<ItemGroupProps> = ({
   getItemGroup,
   itemViewDir,
   showExpiration,
-  itemType = "Item",
-  itemTypePlural = "Items",
+  itemType,
+  itemTypePlural,
   dateFormatter = Utils.formatDate,
 }: ItemGroupProps): ReactElement => {
   const [useImageView, setUseImageView] = useState(false);

@@ -11,6 +11,8 @@ const Storage: React.FC = (): ReactElement => {
       getItemGroup={ServerFacade.getStorage}
       itemViewDir="/storage/"
       showExpiration
+      itemType="Item"
+      itemTypePlural="Items"
     />
   );
 };

@@ -11,10 +11,10 @@ import SRFlex from "../../sr-ui/SRFlex.tsx";
 import SRDropDown from "../../sr-ui/SRDropDown.tsx";
 
 type ScannerProps = {
-  onDetected: Function;
+  onDetected: (newBarCode: string) => void;
 };
 
-const Scanner: React.FC = (props: ScannerProps): ReactElement => {
+const Scanner: React.FC<ScannerProps> = (props: ScannerProps): ReactElement => {
   const { onDetected } = props;
   const [showCamera, setShowCamera] = useState(false);
   const [barcodeConfig, setBarcodeConfig] = useState(config);

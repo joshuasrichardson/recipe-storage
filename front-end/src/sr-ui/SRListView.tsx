@@ -6,14 +6,14 @@ import SRFlex from "./SRFlex.tsx";
 // @ts-ignore
 import SRText from "./SRText.tsx";
 // @ts-ignore
-import { darkTextColor, themeGreen, themeRed } from "./styles.ts";
+import { darkTextColor, themeGreen } from "./styles.ts";
 // @ts-ignore
 import { SRDate } from "../types.ts";
 
 type SRListViewProps = {
   key: string;
   name: string;
-  nameColor: themeGreen | darkTextColor | themeRed;
+  nameColor: string;
   info?: string;
   date?: SRDate;
   dateFormatter?: (date: SRDate) => string;

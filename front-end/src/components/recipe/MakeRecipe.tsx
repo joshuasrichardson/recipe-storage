@@ -6,6 +6,7 @@ import ServerFacade from "../../api/ServerFacade.ts";
 import SRFlex from "../../sr-ui/SRFlex.tsx";
 // @ts-ignore
 import SRBoxView from "../../sr-ui/SRBoxView.tsx";
+import { Attribute } from "../../types.js";
 
 const MakeRecipe: React.FC = (): ReactElement => {
   const { id } = useParams();
@@ -20,7 +21,7 @@ const MakeRecipe: React.FC = (): ReactElement => {
     updateScreen();
   }, [id, recipe, setRecipe]);
 
-  const getAttributes = () => {
+  const getAttributes = (): Attribute[] => {
     return [
       {
         key: "Time",

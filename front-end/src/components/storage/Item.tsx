@@ -15,6 +15,7 @@ import SRFlex from "../../sr-ui/SRFlex.tsx";
 import SRBoxView from "../../sr-ui/SRBoxView.tsx";
 // @ts-ignore
 import { formatDate } from "../../utils/utils.ts";
+import { Attribute } from "../../types.js";
 
 type ItemComponentState = {
   updated: boolean;
@@ -38,7 +39,7 @@ const ItemComponent: React.FC<ItemComponentProps> = ({
   useEffect(() => {
     const updateScreen = async () => {
       if (state?.updated) {
-        toast.success("Updated " + state.updated + "!", toastEmitter);
+        toast.success("Updated " + state.updated + "!", toastEmitter());
         state.updated = false;
       }
       if (item == null) {
@@ -54,7 +55,7 @@ const ItemComponent: React.FC<ItemComponentProps> = ({
     navigate("/storage", { state: { deleted: item.name } });
   };
 
-  const getAttributes = () => {
+  const getAttributes = (): Attribute[] => {
     return [
       { key: "Brand", value: item?.brand },
       { key: "Container", value: item?.container },

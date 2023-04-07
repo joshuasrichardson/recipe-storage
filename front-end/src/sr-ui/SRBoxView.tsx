@@ -6,7 +6,7 @@ import SRHeader from "./SRHeader.tsx";
 // @ts-ignore
 import { borderWidthSizes, paddingSizes } from "./styles.ts";
 // @ts-ignore
-import { Size, Child } from "../types.ts";
+import { Size, Child, Attribute } from "../types.ts";
 import {
   containerWidthSizes,
   marginSizes,
@@ -17,13 +17,6 @@ import {
 import SRFlex from "./SRFlex.tsx";
 // @ts-ignore
 import SRCheckBox from "./SRCheckBox.tsx";
-
-type Attribute = {
-  key: string;
-  value: string[] | string;
-  color: string;
-  ol?: boolean;
-};
 
 type SRBoxViewProps = {
   key: string;
@@ -150,7 +143,7 @@ const SRBoxView: React.FC<SRBoxViewProps> = (
 
   return (
     <div key={props.key} style={itemViewStyle} onClick={props.onClick}>
-      {props.src && <SRImage src={props.src} alt={props.label} />}
+      {props.src && <SRImage src={props.src} label={props.label} />}
       <SRHeader padding="xsmall" size={props.titleSize}>
         {props.label}
       </SRHeader>

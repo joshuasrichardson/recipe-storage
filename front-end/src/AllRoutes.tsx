@@ -49,13 +49,25 @@ const AllRoutes: React.FC<AllRoutesParams> = ({
         />
         <Route
           path="/storage/history/:id"
-          element={<ItemComponent getItem={ServerFacade.getHistoryItem} />}
+          element={
+            <ItemComponent
+              canEdit={false}
+              getItem={ServerFacade.getHistoryItem}
+            />
+          }
         />
         <Route path="/storage/history" element={<StorageHistory />} />
         <Route path="/item/update" element={<DiffChecker />} />
         <Route path="/recipes/add" element={<AddRecipe />} />
         <Route path="/recipes/make/:id" element={<MakeRecipe />} />
-        <Route path="/recipes/:id" element={<RecipeComponent />} />
+        <Route
+          path="/recipes/:id"
+          element={
+            <RecipeComponent
+              canEdit={["joshumi", "testuser"].includes(user.username)}
+            />
+          }
+        />
         <Route path="/recipes" element={<Recipes />} />
         <Route
           path="/login"
@@ -71,7 +83,10 @@ const AllRoutes: React.FC<AllRoutesParams> = ({
     return (
       <Routes>
         <Route path="/recipes/make/:id" element={<MakeRecipe />} />
-        <Route path="/recipes/:id" element={<RecipeComponent />} />
+        <Route
+          path="/recipes/:id"
+          element={<RecipeComponent canEdit={false} />}
+        />
         <Route path="/recipes" element={<Recipes />} />
         <Route
           path="/login"

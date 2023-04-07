@@ -5,11 +5,11 @@ import { borderWidthSizes, themeGreen, themeGray } from "./styles.ts";
 type SRTextInputProps = {
   id?: string;
   label?: string;
-  value?: string;
+  value?: string | number;
   backgroundColor?: string;
   fillBackground?: boolean;
-  placeholder: string;
-  onChange: ChangeEventHandler;
+  placeholder?: string;
+  onChange: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>;
   type?: string;
   textarea?: boolean;
   color?: string;
@@ -79,11 +79,11 @@ const SRTextInput: React.FC<SRTextInputProps> = (
 
   return (
     <div>
-      {props.label && 
+      {props.label && (
         <label style={labelStyle} htmlFor={props.id}>
           {props.label}
         </label>
-      }
+      )}
       {inputField()}
     </div>
   );

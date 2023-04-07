@@ -117,6 +117,18 @@ router.get("/", async (req, res) => {
   }
 });
 
+router.delete("/:id", validUser, async (req, res) => {
+  try {
+    await Recipe.deleteOne({
+      _id: req.params.id,
+    });
+    return res.sendStatus(200);
+  } catch (error) {
+    console.log(error);
+    return res.sendStatus(500);
+  }
+});
+
 module.exports = {
   routes: router,
 };

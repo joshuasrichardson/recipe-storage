@@ -51,7 +51,7 @@ const AddFoodStorage: React.FC = (): ReactElement => {
     if (response.message === "Item already exists with different attributes.") {
       navigate("/item/update", { state: response.state });
     }
-    toast.success("Added " + item.name + "!", toastEmitter);
+    toast.success("Added " + item.name + "!", toastEmitter());
     setImage(null);
     setImageUrl("");
   };
@@ -79,7 +79,7 @@ const AddFoodStorage: React.FC = (): ReactElement => {
         <SRContainer backgroundColor={themeGray} borderWidth="small">
           <Scanner onDetected={onCodeDetection} />
           <SRFlex direction="column">
-            {imageUrl && <SRImage src={imageUrl} />}
+            {imageUrl && <SRImage src={imageUrl} label={"Recipe"} />}
             <ItemForm
               code={code}
               setCode={setCode}

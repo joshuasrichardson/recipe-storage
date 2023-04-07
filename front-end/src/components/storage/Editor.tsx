@@ -1,5 +1,4 @@
-// @ts-ignore
-import { SRDate } from "../../types";
+import { Item } from "../../types";
 import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 // @ts-ignore
@@ -20,20 +19,7 @@ const Editor = () => {
   const { id } = useParams();
   const [code, setCode] = useState("");
 
-  type UpdateParams = {
-    id: string;
-    code: number;
-    name: string;
-    brand: string;
-    description: string;
-    container: string;
-    expiration: SRDate;
-    tags: string;
-    amount: number;
-    unit: string;
-  };
-
-  const update = async (item: UpdateParams): Promise<void> => {
+  const update = async (item: Item): Promise<void> => {
     await ServerFacade.updateItem(item);
     navigate("/storage/" + id, { state: { updated: item.name } });
   };

@@ -6,7 +6,7 @@ import { Child } from "../types.ts";
 
 type SRFlexProps = {
   direction?: "row" | "column";
-  alignItems?: "flex-start" | "flex-end" | "center";
+  alignItems?: "flex-start" | "flex-end" | "center" | "stretch";
   padding?: Size;
   wrap?: "nowrap" | "wrap" | "wrap-reverse";
   width?: Size;

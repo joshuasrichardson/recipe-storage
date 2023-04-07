@@ -5,7 +5,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import ServerFacade from "../../api/ServerFacade.ts";
 // @ts-ignore
 import SRBoxView from "../../sr-ui/SRBoxView.tsx";
-import { Item, Recipe } from "../../types";
+import { Attribute, Item, Recipe } from "../../types";
 // @ts-ignore
 import SRGroupDisplay from "../../sr-ui/SRGroupDisplay.tsx";
 
@@ -21,7 +21,7 @@ const Recipes: React.FC = (): ReactElement => {
       ));
   };
 
-  const formatSearchString = (name: string, tags: string): string => {
+  const formatSearchString = (name: string, tags?: string): string => {
     let searchString: string = name + (tags ? ", " + tags : "");
     searchString = searchString.replaceAll(", ", "|");
 
@@ -34,7 +34,7 @@ const Recipes: React.FC = (): ReactElement => {
     setSearchString: (searchString: string) => void
   ): Promise<void> => {
     const state = location.state as Item;
-    if (state) {
+    if (state && state.name) {
       let searchString = formatSearchString(state.name, state.tags);
       if (searchString) {
         setSearchString(searchString);
@@ -45,6 +45,7 @@ const Recipes: React.FC = (): ReactElement => {
   };
 
   const search = async (searchString: string): Promise<Recipe[]> => {
+    debugger;
     return ServerFacade.getRecipes(searchString);
   };
 
@@ -59,6 +60,7 @@ const Recipes: React.FC = (): ReactElement => {
       search={search}
       useImageView={useImageView}
       setUseImageView={setUseImageView}
+      searchImmediately={false}
     />
   );
 };
@@ -68,9 +70,9 @@ export default Recipes;
 const RecipeComponent = ({ recipe }) => {
   const navigate = useNavigate();
 
-  const getRecipeAttributes = (recipe: Recipe) => {
+  const getRecipeAttributes = (recipe: Recipe): Attribute[] => {
     return [
-      { key: "Servings", value: recipe.numServings },
+      { key: "Servings", value: `${recipe.numServings}` },
       {
         key: "Time",
         value: recipe?.minutes ? recipe?.minutes + " minutes" : undefined,

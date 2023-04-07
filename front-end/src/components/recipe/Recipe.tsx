@@ -34,7 +34,7 @@ const RecipeComponent: React.FC<RecipeComponentProps> = ({
   useEffect(() => {
     const updateScreen = async () => {
       if (state?.updated) {
-        toast.success("Updated " + state.updated + "!", toastEmitter);
+        toast.success("Updated " + state.updated + "!", toastEmitter());
         state.updated = false;
       }
       if (recipe == null) {

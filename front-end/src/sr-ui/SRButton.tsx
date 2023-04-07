@@ -1,6 +1,6 @@
 import React, { useState, MouseEventHandler, ReactElement } from "react";
 // @ts-ignore
-import { Child } from "../types.ts";
+import { Child, Size } from "../types.ts";
 import {
   borderWidthSizes,
   disabledButtonColor,
@@ -11,7 +11,7 @@ import {
 } from "./styles.ts";
 
 type SRButtonProps = {
-  size?: "large" | "small";
+  size?: Size;
   type?: "button" | "submit";
   disabled?: boolean;
   onClick?: MouseEventHandler<HTMLButtonElement>;
@@ -72,7 +72,7 @@ const SRButton: React.FC<SRButtonProps> = (
 
   return (
     <button
-      name={props.children}
+      name={`${props.children}`}
       style={buttonStyle}
       type={props.type}
       disabled={props.disabled}

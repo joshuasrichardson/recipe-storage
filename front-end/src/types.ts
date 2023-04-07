@@ -6,6 +6,7 @@ export type ContextType = {
 };
 
 export type User = {
+  _id?: string;
   firstName: string;
   lastName: string;
   username: string;
@@ -16,7 +17,7 @@ export type User = {
 export type Item = {
   _id?: string;
   id?: string;
-  user: string;
+  user?: string;
   code: string;
   name: string;
   brand: string;
@@ -24,19 +25,19 @@ export type Item = {
   container: string;
   expiration: SRDate;
   tags: string;
-  amount: number;
+  amount: number | string;
   unit: string;
-  src: string;
-  added: SRDate;
-  deleted: boolean;
-  quantity?: number;
+  src?: string;
+  added?: SRDate;
+  deleted?: boolean;
+  quantity?: number | string;
   image?: any;
 };
 
 export type APIFormattedItem = {
   _id?: string;
   id?: string;
-  user: string;
+  user?: string;
   code: string;
   name: string;
   brand: string;
@@ -44,21 +45,23 @@ export type APIFormattedItem = {
   container: string;
   expiration: string;
   tags: string[];
-  amount: string;
+  amount: string | number;
   unit: string;
-  src: string;
+  src?: string;
   added: string;
-  deleted: boolean;
-  quantity?: string;
+  deleted?: boolean;
+  quantity?: string | number;
   image?: any;
 };
 
 export type ItemAutofill = {
   id?: string;
   name: string;
+  code?: string;
+  container?: string;
   brand?: string;
   description?: string;
-  amount?: number;
+  amount?: number | string;
   unit?: string;
   tags?: string;
   src?: string;
@@ -77,6 +80,13 @@ export type Recipe = {
   materials?: string[];
 };
 
+export type Attribute = {
+  key: string;
+  value: string[] | string;
+  color?: string;
+  ol?: boolean;
+};
+
 export type Size =
   | "none"
   | "xsmall"
@@ -84,6 +94,7 @@ export type Size =
   | "medium"
   | "large"
   | "xlarge"
+  | "xxlarge"
   | "max";
 
 export type Child = JSX.Element | JSX.Element[] | string;

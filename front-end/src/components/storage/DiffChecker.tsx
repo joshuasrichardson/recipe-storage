@@ -16,6 +16,7 @@ import SRText from "../../sr-ui/SRText.tsx";
 import SRHeader from "../../sr-ui/SRHeader.tsx";
 // @ts-ignore
 import { darkTextColor, themeRed } from "../../sr-ui/styles.ts";
+import { Attribute } from "../../types.js";
 
 type DiffState = {
   id: string;
@@ -48,9 +49,13 @@ const DiffChecker: React.FC = (): ReactElement => {
       : themeRed;
   };
 
-  const getOldAttributes = () => {
+  const getOldAttributes = (): Attribute[] => {
     return [
-      { key: "Code", value: state.oldCode || " ", color: getColor("Code") },
+      {
+        key: "Code",
+        value: `${state.oldCode}` || " ",
+        color: getColor("Code"),
+      },
       { key: "Name", value: state.oldName || " ", color: getColor("Name") },
       { key: "Brand", value: state.oldBrand || " ", color: getColor("Brand") },
       {
@@ -61,18 +66,30 @@ const DiffChecker: React.FC = (): ReactElement => {
       { key: "Tags", value: state.oldTags || " ", color: getColor("Tags") },
       {
         key: "Amount",
-        value: state.oldAmount || " ",
+        value: `${state.oldAmount}` || " ",
         color: getColor("Amount"),
       },
       { key: "Unit", value: state.oldUnit || " ", color: getColor("Unit") },
     ];
   };
 
-  const getNewAttributes = () => {
+  const getNewAttributes = (): Attribute[] => {
     return [
-      { key: "Code", value: state.newCode || " ", color: getColor("Code") },
-      { key: "Name", value: state.newName || " ", color: getColor("Name") },
-      { key: "Brand", value: state.newBrand || " ", color: getColor("Brand") },
+      {
+        key: "Code",
+        value: `${state.newCode}` || " ",
+        color: getColor("Code"),
+      },
+      {
+        key: "Name",
+        value: `${state.newName}` || " ",
+        color: getColor("Name"),
+      },
+      {
+        key: "Brand",
+        value: `${state.newBrand}` || " ",
+        color: getColor("Brand"),
+      },
       {
         key: "Description",
         value: state.newDescription || " ",
@@ -81,7 +98,7 @@ const DiffChecker: React.FC = (): ReactElement => {
       { key: "Tags", value: state.newTags || " ", color: getColor("Tags") },
       {
         key: "Amount",
-        value: state.newAmount || " ",
+        value: `${state.newAmount}` || " ",
         color: getColor("Amount"),
       },
       { key: "Unit", value: state.newUnit || " ", color: getColor("Unit") },
@@ -111,7 +128,7 @@ const DiffChecker: React.FC = (): ReactElement => {
               onClick={() => {
                 ServerFacade.updateProduct({
                   id: state.id,
-                  code: state.newCode,
+                  code: `${state.newCode}`,
                   name: state.newName,
                   brand: state.newBrand,
                   description: state.newDescription,

@@ -242,7 +242,7 @@ const getProduct = async (code: string): Promise<ItemAutofill> => {
   } catch (err) {
     try {
       console.log(err);
-      if (item) return viewFormattedItem(item);
+      if (item) return viewFormattedItem(item as unknown as APIFormattedItem);
       if (code?.length === 12) item = await getNutritionixV2Item(code);
       if (item) return item;
       return await getOpenFoodFactsItem(code);
@@ -269,7 +269,7 @@ const addProduct = async (item: Item) => {
     formData.append("container", apiItem.container);
     // @ts-ignore
     formData.append("tags", apiItem.tags);
-    formData.append("amount", apiItem.amount);
+    formData.append("amount", apiItem.amount as string);
     formData.append("unit", apiItem.unit);
     formData.append("exipration", apiItem.expiration);
     if (apiItem.src) formData.append("src", apiItem.src);
@@ -455,8 +455,6 @@ const getRecipes = async (itemName: string): Promise<any> => {
       return response.data;
     }
     return await getEdamamRecipes(itemName);
-    // This function will work if we call getEdamamRecipes(itemName, setItems),
-    // but I don't want to go over the free limit.
   } catch (error) {
     console.log(error);
     return [];
@@ -497,6 +495,13 @@ const addRecipe = async (addRecipeParams: AddRecipeParams): Promise<void> => {
   console.log(response);
 };
 
+const deleteRecipe = async (id: string): Promise<void> => {
+  const response: AxiosResponse<any, string> = await axios.delete(
+    `/api/recipes/${id}`
+  );
+  console.log(response);
+};
+
 const ServerFacade = {
   login,
   register,
@@ -518,6 +523,7 @@ const ServerFacade = {
   getRecipes,
   getRecipe,
   addRecipe,
+  deleteRecipe,
 };
 
 export default ServerFacade;

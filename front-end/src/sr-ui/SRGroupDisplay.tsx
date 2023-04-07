@@ -31,7 +31,6 @@ type GroupDisplayState = {
 type GroupDisplayProps = {
   title: string;
   initialSearch: Function;
-  singleViewUrl: string;
   getObjectsHTML: Function;
   objectType: string;
   objectTypePlural: string;
@@ -39,7 +38,7 @@ type GroupDisplayProps = {
   search: (searchString: string, allObjects: Object[]) => Promise<Object[]>;
   searchImmediately: boolean;
   useImageView: boolean;
-  setUseImageView: (shouldUse: boolean) => boolean;
+  setUseImageView: (shouldUse: boolean) => void;
 };
 
 const GroupDisplay: React.FC<GroupDisplayProps> = ({
@@ -72,7 +71,7 @@ const GroupDisplay: React.FC<GroupDisplayProps> = ({
 
   useEffect(() => {
     if (state?.deleted) {
-      toast.success("Deleted " + state.deleted + "!", toastEmitter);
+      toast.success("Deleted " + state.deleted + "!", toastEmitter());
       state.deleted = false;
     }
     if (firstRender) {
@@ -127,7 +126,9 @@ const GroupDisplay: React.FC<GroupDisplayProps> = ({
               +
             </SRButtonLink>
             <SRText>
-              {numObjects} {numObjects === 1 ? objectType : objectTypePlural}
+              {`${numObjects} ${
+                numObjects === 1 ? objectType : objectTypePlural
+              }`}
             </SRText>
             <SRButton onClick={changeView} size="small">
               {objectStyleIcon}
