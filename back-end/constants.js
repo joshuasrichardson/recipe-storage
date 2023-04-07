@@ -6,7 +6,7 @@ const {
 
 const prod = {
   MONGODB_URL: PROD_MONGODB_URL,
-  IMAGES_DIR: "../../../../var/www/foodstorage.joshuasrichardson.com",
+  IMAGES_DIR: "../../../../var/www/foodstorage.joshuasrichardson.com/html",
 };
 const dev = {
   MONGODB_URL: DEV_MONGODB_URL,

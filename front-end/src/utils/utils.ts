@@ -7,8 +7,8 @@ export const viewFormattedItem = (apiItem: APIFormattedItem): Item => {
     tags: arrayToString(apiItem.tags),
     expiration: apiItem.expiration ? srDate(apiItem.expiration) : undefined,
     added: apiItem.added ? srDate(apiItem.added) : undefined,
-    amount: apiItem.amount ? parseFloat(apiItem.amount) : 1,
-    quantity: apiItem.amount ? parseInt(apiItem.quantity) : 1,
+    amount: apiItem.amount ? parseFloat(apiItem.amount as string) : 1,
+    quantity: apiItem.amount ? parseInt(apiItem.quantity as string) : 1,
   };
   return item;
 };
