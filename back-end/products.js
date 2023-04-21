@@ -20,9 +20,8 @@ const Product = mongoose.model("Product", productSchema);
 
 // Configure multer so that it will upload to '/public/images'
 const multer = require("multer");
-const { IMAGES_DIR } = require("./constants");
 const upload = multer({
-  dest: IMAGES_DIR + "/images/",
+  dest: process.env.IMAGES_DIR + "/images/",
   limits: {
     fileSize: 1048576,
   },
@@ -45,8 +44,8 @@ router.post("/", upload.single("image"), async (req, res) => {
       let imagePath = "/images/" + req.file.filename;
       if (product.src) {
         fs.copyFile(
-          IMAGES_DIR + imagePath,
-          IMAGES_DIR + product.src,
+          process.env.IMAGES_DIR + imagePath,
+          process.env.IMAGES_DIR + product.src,
           0,
           function (err) {
             if (err) console.log(err);
