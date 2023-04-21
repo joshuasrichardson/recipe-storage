@@ -25,6 +25,7 @@ front-end/npm-debug.log*
 front-end/yarn-debug.log*
 front-end/yarn-error.log*
 back-end/mongo-url.js
+back-end/.env
 
 test/tests/constants.js
 
