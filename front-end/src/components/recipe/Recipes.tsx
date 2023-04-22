@@ -8,6 +8,11 @@ import SRBoxView from "../../sr-ui/SRBoxView.tsx";
 import { Attribute, Item, Recipe } from "../../types";
 // @ts-ignore
 import SRGroupDisplay from "../../sr-ui/SRGroupDisplay.tsx";
+// @ts-ignore
+import SRButton from "../../sr-ui/SRButton.tsx";
+import { toast } from "react-toastify";
+// @ts-ignore
+import { toastEmitter } from "../../sr-ui/Toaster.tsx";
 
 const Recipes: React.FC = (): ReactElement => {
   const [useImageView, setUseImageView] = useState(false);
@@ -45,9 +50,57 @@ const Recipes: React.FC = (): ReactElement => {
   };
 
   const search = async (searchString: string): Promise<Recipe[]> => {
-    debugger;
     return ServerFacade.getRecipes(searchString);
   };
+
+  const AutogenerateIcon = (props) => {
+    return (
+      <svg
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+        {...props}
+      >
+        <path
+          d="M4.5 19.5L19.5 4.5"
+          stroke="#FFF"
+          strokeWidth="2"
+          strokeLinecap="round"
+        />
+        <rect x="11" y="8" width="2" height="8" fill="#FFF" />
+        <rect x="8" y="11" width="8" height="2" fill="#FFF" />
+        <circle cx="5" cy="5" r="2" fill="#FFF" />
+        <circle cx="19" cy="19" r="2" fill="#FFF" />
+      </svg>
+    );
+  };
+
+  const showSuccess = ({ usedIngredients, recipeNames }) => {
+    toast.success(
+      `Generated new recipes: ${recipeNames.join(",")}!`,
+      toastEmitter()
+    );
+    console.log(`Used ${usedIngredients}`);
+  };
+
+  const showError = () => {
+    toast.error("Failed to generate new recipe.", toastEmitter());
+  };
+
+  const GenerateButton = () => (
+    <SRButton
+      size="small"
+      onClick={() =>
+        ServerFacade.generateRecipeWithOldestIngredients({
+          onSuccess: showSuccess,
+          onFailure: showError,
+        })
+      }
+    >
+      <AutogenerateIcon />
+    </SRButton>
+  );
 
   return (
     <SRGroupDisplay
@@ -57,6 +110,7 @@ const Recipes: React.FC = (): ReactElement => {
       objectType={"Recipe"}
       objectTypePlural={"Recipes"}
       addUrl="/recipes/add"
+      GenerateButton={GenerateButton}
       search={search}
       useImageView={useImageView}
       setUseImageView={setUseImageView}

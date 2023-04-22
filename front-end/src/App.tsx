@@ -15,12 +15,10 @@ const App: React.FC = (): ReactElement => {
 
   useEffect(() => {
     const tryLoggingIn = async (): Promise<void> => {
-      if (!user) {
-        const currentUser = await ServerFacade.getLoggedInUser();
-        setUser(currentUser);
-      }
+      const currentUser = await ServerFacade.getLoggedInUser();
+      setUser(currentUser);
     };
-    tryLoggingIn();
+    if (!user) tryLoggingIn();
   }, [user, setUser]);
 
   return (

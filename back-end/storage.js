@@ -147,13 +147,20 @@ router.delete("/:id", validUser, async (req, res) => {
 // get my items
 router.get("/", validUser, async (req, res) => {
   try {
-    let items = await Item.find({
+    let query = Item.find({
       user: req.user,
     })
       .sort({
         expiration: 1,
       })
-      .populate("user"); // replace the user ids with objects representing the users
+      .populate("user");
+
+    if (req.query.limit) {
+      const limit = parseInt(req.query.limit);
+      query = query.limit(limit);
+    }
+
+    const items = await query;
     return res.send(items);
   } catch (error) {
     console.log(error);

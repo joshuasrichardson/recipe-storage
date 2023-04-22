@@ -331,9 +331,14 @@ const deleteItem = async (id: string): Promise<void> => {
   }
 };
 
-const getStorage = async (setItems: (items: Item[]) => void): Promise<void> => {
+const getStorage = async (
+  setItems: (items: Item[]) => void,
+  limit?: number
+): Promise<void> => {
   try {
-    let response: AxiosResponse<any, any> = await axios.get("/api/storage/");
+    const response: AxiosResponse<any, any> = await axios.get(
+      `/api/storage?limit=${limit}`
+    );
     const apiItems: APIFormattedItem[] = response.data;
     const items: Item[] = apiItems.map((item: APIFormattedItem) =>
       viewFormattedItem(item)
@@ -475,6 +480,38 @@ const getRecipe = async (id: string): Promise<any> => {
   }
 };
 
+const generateRecipe = async (ingredients: Array<string>) => {
+  const response: AxiosResponse<any, AddRecipeParams> = await axios.post(
+    "/api/recipes/generate",
+    { ingredients }
+  );
+  console.log(response);
+  return response.data;
+};
+
+const generateRecipeWithOldestIngredients = async ({
+  onSuccess,
+  onFailure,
+}) => {
+  const maxItems = 15;
+  const useItemsInRecipe = async (items: Array<Item>) => {
+    try {
+      const ingredients = items
+        .map((item) => item.name)
+        .filter((value, index, self) => self.indexOf(value) === index)
+        .slice(0, 4);
+      const recipes = await generateRecipe(ingredients);
+      onSuccess({
+        usedIngredients: ingredients,
+        recipeNames: recipes.map((recipe) => recipe.name),
+      });
+    } catch (err) {
+      onFailure(err);
+    }
+  };
+  getStorage(useItemsInRecipe, maxItems);
+};
+
 export type AddRecipeParams = {
   userId: string;
   name: string;
@@ -522,6 +559,8 @@ const ServerFacade = {
   addContainer,
   getRecipes,
   getRecipe,
+  generateRecipe,
+  generateRecipeWithOldestIngredients,
   addRecipe,
   deleteRecipe,
 };

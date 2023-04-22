@@ -103,9 +103,9 @@ const SRBoxView: React.FC<SRBoxViewProps> = (
     return arr
       .filter((str) => !!str)
       .map((val: string, index: number) => (
-        <SRFlex justifyContent="flex-start">
+        <SRFlex key={val + index} justifyContent="flex-start">
           {props.useCheckBoxes && <SRCheckBox />}
-          <li key={index + val}>{val}</li>
+          <li>{val}</li>
         </SRFlex>
       ));
   };
