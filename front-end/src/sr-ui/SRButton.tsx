@@ -7,7 +7,10 @@ import {
   mainButtonColor,
   brightButtonColor,
   lightTextColor,
-  themeGreen, // @ts-ignore
+  themeGreen,
+  secondaryButtonColor,
+  brightSecondaryButtonColor,
+  disabledSecondaryButtonColor, // @ts-ignore
 } from "./styles.ts";
 
 type SRButtonProps = {
@@ -16,6 +19,8 @@ type SRButtonProps = {
   disabled?: boolean;
   onClick?: MouseEventHandler<HTMLButtonElement>;
   children?: Child;
+  style?: React.CSSProperties;
+  variant?: "primary" | "secondary";
 };
 
 const defaultProps: SRButtonProps = {
@@ -24,6 +29,7 @@ const defaultProps: SRButtonProps = {
   disabled: false,
   onClick: () => {},
   children: <></>,
+  variant: "primary",
 };
 
 const SRButton: React.FC<SRButtonProps> = (
@@ -32,13 +38,25 @@ const SRButton: React.FC<SRButtonProps> = (
   props = { ...defaultProps, ...props };
   const [isHover, setHover] = useState(false);
 
-  const general: React.CSSProperties = {
-    color: lightTextColor,
-    backgroundColor: props.disabled
-      ? disabledButtonColor
-      : isHover
+  const regularButtonColor =
+    props.variant === "primary" ? mainButtonColor : secondaryButtonColor;
+  const hoveredButtonColor =
+    props.variant === "primary"
       ? brightButtonColor
-      : mainButtonColor,
+      : brightSecondaryButtonColor;
+  const blockedButtonColor =
+    props.variant === "primary"
+      ? disabledButtonColor
+      : disabledSecondaryButtonColor;
+  const textColor = props.variant === "primary" ? lightTextColor : themeGreen;
+
+  const general: React.CSSProperties = {
+    color: textColor,
+    backgroundColor: props.disabled
+      ? blockedButtonColor
+      : isHover
+      ? hoveredButtonColor
+      : regularButtonColor,
     fontWeight: "bold",
     borderRadius: "5px",
     borderWidth: borderWidthSizes["small"],
@@ -67,8 +85,8 @@ const SRButton: React.FC<SRButtonProps> = (
 
   const buttonStyle =
     props.size === "small"
-      ? { ...general, ...small }
-      : { ...general, ...large };
+      ? { ...general, ...small, ...props.style }
+      : { ...general, ...large, ...props.style };
 
   return (
     <button

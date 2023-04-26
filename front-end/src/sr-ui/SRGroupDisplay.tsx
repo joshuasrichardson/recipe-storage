@@ -35,7 +35,6 @@ type GroupDisplayProps = {
   objectType: string;
   objectTypePlural: string;
   addUrl: string;
-  GenerateButton?: React.FC;
   search: (searchString: string, allObjects: Object[]) => Promise<Object[]>;
   searchImmediately: boolean;
   useImageView: boolean;
@@ -49,7 +48,6 @@ const GroupDisplay: React.FC<GroupDisplayProps> = ({
   objectType,
   objectTypePlural,
   addUrl,
-  GenerateButton,
   search,
   searchImmediately,
   useImageView,
@@ -127,7 +125,6 @@ const GroupDisplay: React.FC<GroupDisplayProps> = ({
             <SRButtonLink to={addUrl} size="small" disabled={!user}>
               +
             </SRButtonLink>
-            {GenerateButton && <GenerateButton />}
             <SRText>
               {`${numObjects} ${
                 numObjects === 1 ? objectType : objectTypePlural

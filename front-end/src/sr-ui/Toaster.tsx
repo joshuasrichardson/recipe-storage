@@ -1,12 +1,16 @@
-import React, { ReactElement } from "react";
+import React from "react";
 import { ToastContainer, ToastOptions } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const Toaster: React.FC = (): ReactElement => {
+interface ToasterProps {
+  autoClose?: number;
+}
+
+const Toaster: React.FC<ToasterProps> = ({ autoClose = 2000 }) => {
   return (
     <ToastContainer
       position="bottom-center"
-      autoClose={2000}
+      autoClose={autoClose}
       hideProgressBar
       newestOnTop={false}
       closeOnClick
@@ -18,10 +22,10 @@ const Toaster: React.FC = (): ReactElement => {
   );
 };
 
-export const toastEmitter = (): ToastOptions<{}> => {
+export const toastEmitter = ({ autoClose = 2000 }): ToastOptions<{}> => {
   return {
     position: "bottom-center",
-    autoClose: 2000,
+    autoClose: autoClose,
     hideProgressBar: true,
     closeOnClick: true,
     pauseOnHover: true,

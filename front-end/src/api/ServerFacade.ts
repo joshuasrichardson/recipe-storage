@@ -402,64 +402,64 @@ const addContainer = async (container) => {
   await axios.put("/api/containers", { container: container });
 };
 
-const getEdamamRecipes = async (itemName) => {
-  return await fetch(
-    "https://api.edamam.com/api/recipes/v2?type=public&q=" +
-      itemName +
-      "&app_id=3a833dd2&app_key=688beca46c7ed7483c41a629c1c183a3"
-  )
-    .then((data) => data.json())
-    .then((response) =>
-      response.hits.map((hit) => {
-        const recipe = hit.recipe;
-        return {
-          _id: recipe.uri.substring(
-            recipe.uri.indexOf("#recipe_") + "#recipe_".length
-          ),
-          name: recipe.label,
-          numServings: recipe.yield,
-          ingredients: recipe.ingredientLines,
-          link: recipe.url,
-          imageUrl: recipe.image,
-          minutes: recipe.totalTime,
-        };
-      })
-    );
-};
+// const getEdamamRecipes = async (itemName) => {
+//   return await fetch(
+//     "https://api.edamam.com/api/recipes/v2?type=public&q=" +
+//       itemName +
+//       "&app_id=3a833dd2&app_key=688beca46c7ed7483c41a629c1c183a3"
+//   )
+//     .then((data) => data.json())
+//     .then((response) =>
+//       response.hits.map((hit) => {
+//         const recipe = hit.recipe;
+//         return {
+//           _id: recipe.uri.substring(
+//             recipe.uri.indexOf("#recipe_") + "#recipe_".length
+//           ),
+//           name: recipe.label,
+//           numServings: recipe.yield,
+//           ingredients: recipe.ingredientLines,
+//           link: recipe.url,
+//           imageUrl: recipe.image,
+//           minutes: recipe.totalTime,
+//         };
+//       })
+//     );
+// };
 
-const getEdamamRecipe = async (id) => {
-  return await fetch(
-    "https://api.edamam.com/api/recipes/v2/" +
-      id +
-      "?type=public&app_id=3a833dd2&app_key=688beca46c7ed7483c41a629c1c183a3"
-  )
-    .then((data) => data.json())
-    .then((response) => {
-      const recipe = response.recipe;
-      return {
-        _id: recipe.uri.substring(
-          recipe.uri.indexOf("#recipe_") + "#recipe_".length
-        ),
-        name: recipe.label,
-        numServings: recipe.yield,
-        ingredients: recipe.ingredientLines,
-        link: recipe.url,
-        imageUrl: recipe.image,
-        minutes: recipe.totalTime,
-      };
-    });
-};
+// const getEdamamRecipe = async (id) => {
+//   return await fetch(
+//     "https://api.edamam.com/api/recipes/v2/" +
+//       id +
+//       "?type=public&app_id=3a833dd2&app_key=688beca46c7ed7483c41a629c1c183a3"
+//   )
+//     .then((data) => data.json())
+//     .then((response) => {
+//       const recipe = response.recipe;
+//       return {
+//         _id: recipe.uri.substring(
+//           recipe.uri.indexOf("#recipe_") + "#recipe_".length
+//         ),
+//         name: recipe.label,
+//         numServings: recipe.yield,
+//         ingredients: recipe.ingredientLines,
+//         link: recipe.url,
+//         imageUrl: recipe.image,
+//         minutes: recipe.totalTime,
+//       };
+//     });
+// };
 
 const getRecipes = async (itemName: string): Promise<any> => {
   try {
     if (!itemName) itemName = "all";
-    if (itemName.includes("|") || itemName === "all") {
+    if (true || itemName.includes("|") || itemName === "all") {
       const response = await axios.get(
         "/api/recipes/withingredient/" + itemName
       );
       return response.data;
     }
-    return await getEdamamRecipes(itemName);
+    // return await getEdamamRecipes(itemName);
   } catch (error) {
     console.log(error);
     return [];
@@ -472,7 +472,7 @@ const getRecipe = async (id: string): Promise<any> => {
       const response = await axios.get("/api/recipes/" + id);
       return response.data;
     } catch {
-      return await getEdamamRecipe(id);
+      // return await getEdamamRecipe(id);
     }
   } catch (error) {
     console.log(error);
@@ -480,13 +480,29 @@ const getRecipe = async (id: string): Promise<any> => {
   }
 };
 
-const generateRecipe = async (ingredients: Array<string>) => {
-  const response: AxiosResponse<any, AddRecipeParams> = await axios.post(
-    "/api/recipes/generate",
-    { ingredients }
-  );
-  console.log(response);
-  return response.data;
+interface generateRecipeProps {
+  ingredients: Array<string>;
+  onSuccess: (a: any) => void;
+  onFailure: (a: any) => void;
+}
+
+const generateRecipe = async ({
+  ingredients,
+  onSuccess,
+  onFailure,
+}: generateRecipeProps) => {
+  try {
+    const response: AxiosResponse<any, AddRecipeParams> = await axios.post(
+      "/api/recipes/generate",
+      { ingredients }
+    );
+    onSuccess({
+      usedIngredients: ingredients,
+      recipe: response.data,
+    });
+  } catch (err) {
+    onFailure(err);
+  }
 };
 
 const generateRecipeWithOldestIngredients = async ({
@@ -495,19 +511,11 @@ const generateRecipeWithOldestIngredients = async ({
 }) => {
   const maxItems = 15;
   const useItemsInRecipe = async (items: Array<Item>) => {
-    try {
-      const ingredients = items
-        .map((item) => item.name)
-        .filter((value, index, self) => self.indexOf(value) === index)
-        .slice(0, 4);
-      const recipes = await generateRecipe(ingredients);
-      onSuccess({
-        usedIngredients: ingredients,
-        recipeNames: recipes.map((recipe) => recipe.name),
-      });
-    } catch (err) {
-      onFailure(err);
-    }
+    const ingredients = items
+      .map((item) => item.name)
+      .filter((value, index, self) => self.indexOf(value) === index)
+      .slice(0, 4);
+    generateRecipe({ ingredients, onSuccess, onFailure });
   };
   getStorage(useItemsInRecipe, maxItems);
 };
