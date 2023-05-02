@@ -27,12 +27,15 @@ import SRImage from "../../sr-ui/SRImage.tsx";
 import { themeGray } from "../../sr-ui/styles.ts";
 // @ts-ignore
 import { ContextType, Item } from "../../types.ts";
+// @ts-ignore
+import { useTranslation } from "react-i18next";
 
 const AddFoodStorage: React.FC = (): ReactElement => {
   const [code, setCode] = useState("");
   const [image, setImage] = useState(null);
   const [imageUrl, setImageUrl] = useState("");
   const { user } = useContext<ContextType>(Context);
+  const { t } = useTranslation();
 
   const navigate = useNavigate();
 
@@ -51,7 +54,7 @@ const AddFoodStorage: React.FC = (): ReactElement => {
     if (response.message === "Item already exists with different attributes.") {
       navigate("/item/update", { state: response.state });
     }
-    toast.success("Added " + item.name + "!", toastEmitter());
+    toast.success("Added " + item.name + "!", toastEmitter({}));
     setImage(null);
     setImageUrl("");
   };
@@ -66,7 +69,7 @@ const AddFoodStorage: React.FC = (): ReactElement => {
     <SRFlex wrap="wrap" direction="column">
       <SRContainer maxWidth="medium">
         <SRHeader size="large" underlined>
-          Add Food Storage
+          {t("Add Food Storage")}
         </SRHeader>
         <SRFlex padding="medium">
           <SRButtonLink to="/storage" size="small">
@@ -79,12 +82,12 @@ const AddFoodStorage: React.FC = (): ReactElement => {
         <SRContainer backgroundColor={themeGray} borderWidth="small">
           <Scanner onDetected={onCodeDetection} />
           <SRFlex direction="column">
-            {imageUrl && <SRImage src={imageUrl} label={"Recipe"} />}
+            {imageUrl && <SRImage src={imageUrl} label={t("Recipe")} />}
             <ItemForm
               code={code}
               setCode={setCode}
               onSubmit={addItem}
-              submitLabel="Add to Storage"
+              submitLabel={t("Add to Storage")}
               setImageUrl={setImageUrl}
               shouldShowQuantityField={true}
             ></ItemForm>

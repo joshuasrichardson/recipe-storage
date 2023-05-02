@@ -13,27 +13,30 @@ import SRButtonGroup from "../../sr-ui/SRButtonGroup.tsx";
 import ManuallyAddRecipe from "./ManuallyAddRecipe.tsx";
 // @ts-ignore
 import AutoAddRecipe from "./AutoAddRecipe.tsx";
+// @ts-ignore
+import { useTranslation } from "react-i18next";
 
 const AddRecipe: React.FC = (): ReactElement => {
   const [shouldAutogenerate, setShouldAutogenerate] = useState<boolean>(true);
+  const { t } = useTranslation();
 
   return (
     <SRFlex wrap="wrap" direction="column">
       <SRContainer maxWidth="medium">
         <SRHeader size="large" underlined>
-          Add Recipe
+          {t("Add Recipe")}
         </SRHeader>
         <SRContainer backgroundColor={themeGray} borderWidth="small">
           <SRButtonGroup
             size="medium"
             buttonsProps={[
               {
-                label: "Auto",
+                label: t("Auto"),
                 variant: shouldAutogenerate ? "primary" : "secondary",
                 onClick: () => setShouldAutogenerate(true),
               },
               {
-                label: "Manual",
+                label: t("Manual"),
                 variant: shouldAutogenerate ? "secondary" : "primary",
                 onClick: () => setShouldAutogenerate(false),
               },

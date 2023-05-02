@@ -8,10 +8,13 @@ import SRBoxView from "../../sr-ui/SRBoxView.tsx";
 import { Attribute, Item, Recipe } from "../../types";
 // @ts-ignore
 import SRGroupDisplay from "../../sr-ui/SRGroupDisplay.tsx";
+// @ts-ignore
+import { useTranslation } from "react-i18next";
 
 const Recipes: React.FC = (): ReactElement => {
   const [useImageView, setUseImageView] = useState(false);
   const location = useLocation();
+  const { t } = useTranslation();
 
   const getRecipesHTML = (recipes: Recipe[]): JSX.Element[] => {
     return recipes
@@ -50,11 +53,11 @@ const Recipes: React.FC = (): ReactElement => {
 
   return (
     <SRGroupDisplay
-      title={"Recipes"}
+      title={t("Recipes")}
       initialSearch={getRecipes}
       getObjectsHTML={getRecipesHTML}
-      objectType={"Recipe"}
-      objectTypePlural={"Recipes"}
+      objectType={t("Recipe")}
+      objectTypePlural={t("Recipes")}
       addUrl="/recipes/add"
       search={search}
       useImageView={useImageView}
@@ -68,13 +71,14 @@ export default Recipes;
 
 const RecipeComponent = ({ recipe }) => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const getRecipeAttributes = (recipe: Recipe): Attribute[] => {
     return [
-      { key: "Servings", value: `${recipe.numServings}` },
+      { key: t("Servings"), value: `${recipe.numServings}` },
       {
-        key: "Time",
-        value: recipe?.minutes ? recipe?.minutes + " minutes" : undefined,
+        key: t("Time"),
+        value: recipe?.minutes ? recipe?.minutes + t(" minutes") : undefined,
       },
     ];
   };

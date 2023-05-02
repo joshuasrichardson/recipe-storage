@@ -9,6 +9,8 @@ import SRButton from "../../sr-ui/SRButton.tsx";
 import SRFlex from "../../sr-ui/SRFlex.tsx";
 // @ts-ignore
 import SRDropDown from "../../sr-ui/SRDropDown.tsx";
+// @ts-ignore
+import { useTranslation } from "react-i18next";
 
 type ScannerProps = {
   onDetected: (newBarCode: string) => void;
@@ -18,6 +20,7 @@ const Scanner: React.FC<ScannerProps> = (props: ScannerProps): ReactElement => {
   const { onDetected } = props;
   const [showCamera, setShowCamera] = useState(false);
   const [barcodeConfig, setBarcodeConfig] = useState(config);
+  const { t } = useTranslation();
 
   const detected = useCallback(
     (result) => {
@@ -54,13 +57,13 @@ const Scanner: React.FC<ScannerProps> = (props: ScannerProps): ReactElement => {
   const getOptions = () => {
     return [
       <option key="upc_reader" value="upc_reader">
-        UPC (12 digits)
+        {t("UPC (12 digits)")}
       </option>,
       <option key="ean_reader" value="ean_reader">
-        EAN (13 digits)
+        {t("EAN (13 digits)")}
       </option>,
       <option key="ean_8_reader" value="ean_8_reader">
-        EAN 8 (8 digits)
+        {t("EAN 8 (8 digits)")}
       </option>,
     ];
   };
@@ -68,7 +71,7 @@ const Scanner: React.FC<ScannerProps> = (props: ScannerProps): ReactElement => {
   return (
     <SRFlex direction="column" marginVertical="10px">
       <SRDropDown
-        label="Barcode Type:"
+        label={t("Barcode Type")}
         fixedOptions
         onChange={(e) => onTypeChange(e.target.value)}
         value={barcodeConfig.decoder.readers[0]}
@@ -79,7 +82,7 @@ const Scanner: React.FC<ScannerProps> = (props: ScannerProps): ReactElement => {
       </SRDropDown>
       {showCamera && <div id="interactive" className="viewport"></div>}
       <SRButton onClick={setCamera}>
-        {showCamera ? "Done Scanning" : "Start Scanning"}
+        {showCamera ? t("Done Scanning") : t("Start Scanning")}
       </SRButton>
     </SRFlex>
   );

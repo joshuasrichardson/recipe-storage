@@ -8,7 +8,7 @@ import { Child } from "../types.ts";
 
 type ButtonLinkProps = {
   to: string;
-  size: Size;
+  size?: Size;
   disabled?: boolean;
   children?: Child;
 };

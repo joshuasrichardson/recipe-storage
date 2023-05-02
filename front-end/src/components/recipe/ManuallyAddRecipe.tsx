@@ -13,6 +13,8 @@ import SRTextInput from "../../sr-ui/SRTextInput.tsx";
 import SRForm from "../../sr-ui/SRForm.tsx";
 // @ts-ignore
 import { ContextType } from "../../types.ts";
+// @ts-ignore
+import { useTranslation } from "react-i18next";
 
 const ManuallyAddRecipe = (): ReactElement => {
   const [name, setName] = useState<string>("");
@@ -24,6 +26,7 @@ const ManuallyAddRecipe = (): ReactElement => {
   const [numServings, setNumServings] = useState<string>("");
   const [link, setLink] = useState("");
   const { user } = useContext<ContextType>(Context);
+  const { t } = useTranslation();
 
   const addRecipe = async (
     e: React.FormEvent<HTMLFormElement>
@@ -58,68 +61,68 @@ const ManuallyAddRecipe = (): ReactElement => {
       <SRForm onSubmit={addRecipe}>
         <SRTextInput
           type="text"
-          label="Name:"
+          label={t("Name")}
           value={name}
-          placeholder="Chocolate Chip Cookies"
+          placeholder={t("Chocolate Chip Cookies")}
           onChange={(e) => setName(e.target.value)}
         ></SRTextInput>
         <SRTextInput
           type="number"
-          label="Minutes to Make:"
+          label={t("Minutes to Make")}
           value={minutes}
           placeholder="20"
           onChange={(e) => setMinutes(e.target.value)}
         ></SRTextInput>
         <SRTextInput
           type="number"
-          label="Servings:"
+          label={t("Servings")}
           value={numServings}
           placeholder="12"
           onChange={(e) => setNumServings(e.target.value)}
         ></SRTextInput>
         <SRTextInput
-          label="Ingredients:"
+          label={t("Ingredients")}
           value={ingredients}
-          placeholder=" 0.5 pounds butter
+          placeholder={t(` 0.5 pounds butter
                 1 cup white sugar
-                ..."
+                ...`)}
           onChange={(e) => setIngredients(e.target.value)}
           textarea
         ></SRTextInput>
         <SRTextInput
-          label="Required Materials:"
+          label={t("Required Materials:")}
           value={materials}
-          placeholder=" measuring cups
+          placeholder={t(` measuring cups
                 mixing bowl
                 oven
-                ..."
+                ...`)}
           onChange={(e) => setMaterials(e.target.value)}
           textarea
         ></SRTextInput>
         <SRTextInput
-          label="Steps:"
+          label={t("Steps:")}
           value={steps}
-          placeholder=" 1. Mix butter and white sugar in the mixing bowl
-                2. ..."
+          placeholder={t(` 1. Mix butter and white sugar in the mixing bowl
+                2. ...`)}
           onChange={(e) => setSteps(e.target.value)}
           textarea
         ></SRTextInput>
         <SRTextInput
-          label="Extra Notes:"
+          label={t("Extra Notes")}
           value={description}
-          placeholder="These cookies won the 'Best Cookies Award' at ..."
+          placeholder={t("These cookies won the 'Best Cookies Award' at ...")}
           onChange={(e) => setDescription(e.target.value)}
           textarea
         ></SRTextInput>
         <SRTextInput
-          label="Link:"
+          label={t("Link:")}
           type="url"
           value={link}
-          placeholder="https://www.thefullrecipe.com"
+          placeholder={t("https://www.thefullrecipe.com")}
           onChange={(e) => setLink(e.target.value)}
         ></SRTextInput>
         <SRFlex justifyContent="center">
-          <SRButton type="submit">Save</SRButton>
+          <SRButton type="submit">{t("Save")}</SRButton>
         </SRFlex>
       </SRForm>
     </SRFlex>

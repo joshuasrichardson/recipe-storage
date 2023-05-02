@@ -14,7 +14,7 @@ import SRTextInput from "./SRTextInput.tsx";
 
 type SRSearchBarProps = {
   searchString: string;
-  searchCategory: string;
+  placeholder: string;
   onSearchChange: ChangeEventHandler<Element>;
   onSearchClick: MouseEventHandler<HTMLButtonElement>;
 };
@@ -28,9 +28,7 @@ const SRSearchBar: React.FC<SRSearchBarProps> = (
         id="object-search-bar"
         type="search"
         value={props.searchString}
-        placeholder={
-          "Search " + props.searchCategory.toLocaleLowerCase() + "..."
-        }
+        placeholder={props.placeholder}
         onChange={props.onSearchChange}
         fillBackground
       />

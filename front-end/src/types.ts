@@ -1,8 +1,12 @@
 import { Moment } from "moment-timezone";
 
+export type Language = "en" | "ja";
+
 export type ContextType = {
   user: User;
-  setUser: (user: User) => void;
+  setUser: React.Dispatch<React.SetStateAction<User>>;
+  language: Language;
+  setLanguage: React.Dispatch<React.SetStateAction<Language>>;
 };
 
 export type User = {
@@ -12,6 +16,7 @@ export type User = {
   username: string;
   password: string;
   role?: string;
+  language?: "en" | "ja";
 };
 
 export type Item = {

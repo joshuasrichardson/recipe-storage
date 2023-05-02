@@ -71,7 +71,7 @@ const GroupDisplay: React.FC<GroupDisplayProps> = ({
 
   useEffect(() => {
     if (state?.deleted) {
-      toast.success("Deleted " + state.deleted + "!", toastEmitter());
+      toast.success("Deleted " + state.deleted + "!", toastEmitter({}));
       state.deleted = false;
     }
     if (firstRender) {
@@ -117,7 +117,9 @@ const GroupDisplay: React.FC<GroupDisplayProps> = ({
           </SRHeader>
           <SRSearchBar
             searchString={searchString}
-            searchCategory={objectTypePlural}
+            placeholder={
+              "Search " + objectTypePlural.toLocaleLowerCase() + "..."
+            }
             onSearchChange={onSearchChange}
             onSearchClick={onSearchClick}
           />

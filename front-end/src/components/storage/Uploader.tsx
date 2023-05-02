@@ -3,6 +3,8 @@ import React, { useState, ReactElement } from "react";
 import SRButton from "../../sr-ui/SRButton.tsx";
 // @ts-ignore
 import SRImage from "../../sr-ui/SRImage.tsx";
+// @ts-ignore
+import { useTranslation } from "react-i18next";
 
 type UploaderProps = {
   setImage: Function;
@@ -11,18 +13,19 @@ type UploaderProps = {
 const Uploader: React.FC = (props: UploaderProps): ReactElement => {
   const { setImage } = props;
   const [selectedImage, setSelectedImage] = useState(null);
+  const { t } = useTranslation();
 
   return (
     <div>
       {selectedImage && (
         <div>
           <SRImage
-            label="Image not found"
+            label={t("Image not found")}
             src={URL.createObjectURL(selectedImage)}
           />
           <br />
           <SRButton onClick={() => setSelectedImage(null)}>
-            Remove Image
+            {t("Remove Image")}
           </SRButton>
         </div>
       )}

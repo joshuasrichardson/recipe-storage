@@ -1,10 +1,10 @@
-import React, { ReactElement, useState } from "react";
+import React, { ReactElement, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 // @ts-ignore
 import ServerFacade from "../api/ServerFacade.ts";
 // @ts-ignore
 import SRButton from "../sr-ui/SRButton.tsx";
-import { User } from "../types";
+import { Language, User } from "../types";
 // @ts-ignore
 import SRHeader from "../sr-ui/SRHeader.tsx";
 // @ts-ignore
@@ -19,15 +19,19 @@ import SRTextInput from "../sr-ui/SRTextInput.tsx";
 import SRForm from "../sr-ui/SRForm.tsx";
 // @ts-ignore
 import { isMobile, themeRed } from "../sr-ui/styles.ts";
+// @ts-ignore
+import SRDropDown from "../sr-ui/SRDropDown.tsx";
+// @ts-ignore
+import { useTranslation } from "react-i18next";
+// @ts-ignore
+import { Context } from "../App.tsx";
 
 export type LoginProps = {
   hasAccount?: boolean;
-  setUser: (user: User) => void;
 };
 
 const Login: React.FC<LoginProps> = ({
   hasAccount,
-  setUser,
 }: LoginProps): ReactElement => {
   const [firstName, setFirstName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
@@ -36,6 +40,8 @@ const Login: React.FC<LoginProps> = ({
   const [password2, setPassword2] = useState<string>("");
   const [err, setErr] = useState<string>("");
   const navigate = useNavigate();
+  const { t } = useTranslation();
+  const { setUser, language, setLanguage } = useContext(Context);
 
   const onLoggedIn = (user: User): void => {
     setUser(user);
@@ -58,14 +64,13 @@ const Login: React.FC<LoginProps> = ({
       password2,
       firstName,
       lastName,
+      language,
       onSuccess: onLoggedIn,
       onFailure: setErr,
     });
   };
 
-  const useAccount = async (
-    e: React.FormEvent<HTMLFormElement>
-  ): Promise<void> => {
+  const useAccount = async (e): Promise<void> => {
     e.preventDefault();
     hasAccount ? login() : register();
   };
@@ -78,69 +83,83 @@ const Login: React.FC<LoginProps> = ({
     >
       <SRContainer maxWidth="large" margin={isMobile ? "medium" : "xxlarge"}>
         <SRHeader size="xlarge" padding="xlarge" underlined>
-          Storage Recipe
+          {t("Storage Recipe")}
         </SRHeader>
         <SRForm onSubmit={useAccount} padding="large">
           {!hasAccount && (
             <>
               <SRTextInput
                 id="first-name"
-                label="First Name:"
+                label={t("First Name")}
                 type="text"
                 value={firstName}
                 onChange={(e) => setFirstName(e.target.value)}
                 fillBackground
-              ></SRTextInput>
+              />
               <SRTextInput
                 id="last-name"
-                label="Last Name:"
+                label={t("Last Name")}
                 type="text"
                 value={lastName}
                 onChange={(e) => setLastName(e.target.value)}
                 fillBackground
-              ></SRTextInput>
+              />
             </>
           )}
           <SRTextInput
             id="username"
-            label="Username:"
+            label={t("Username")}
             type="text"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             fillBackground
-          ></SRTextInput>
+          />
           <SRTextInput
             id="password"
-            label="Password:"
+            label={t("Password")}
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             fillBackground
-          ></SRTextInput>
+          />
           {!hasAccount && (
-            <SRTextInput
-              id="password2"
-              label="Confirm Password:"
-              type="password"
-              value={password2}
-              onChange={(e) => setPassword2(e.target.value)}
-              fillBackground
-            ></SRTextInput>
+            <>
+              <SRTextInput
+                id="password2"
+                label={t("Confirm Password")}
+                type="password"
+                value={password2}
+                onChange={(e) => setPassword2(e.target.value)}
+                fillBackground
+              />
+              <SRDropDown
+                label={t("Language")}
+                value={language}
+                onChange={(e) => setLanguage(e.target.value as Language)}
+                fillBackground
+                listName="language"
+                fixedOptions={true}
+              >
+                <option value="en">English</option>
+                <option value="ja">日本語</option>
+              </SRDropDown>
+            </>
           )}
           <SRText style={{ textAlign: "center" }} color={themeRed}>
             {err}
           </SRText>
           <SRFlex direction="column">
             <SRButton dataTestid="login-button" onClick={useAccount}>
-              {hasAccount && "Login"}
-              {!hasAccount && "Create"}
+              {hasAccount && t("Login")}
+              {!hasAccount && t("Create")}
             </SRButton>
             <a
               href={hasAccount ? "/register" : "/login"}
               style={{ margin: "15px" }}
             >
-              {hasAccount && "Don't have an account? Click here to create one."}
-              {!hasAccount && "Have an account? Click here to login."}
+              {hasAccount
+                ? t("Don't have an account? Click here to create one.")
+                : t("Have an account? Click here to login.")}
             </a>
           </SRFlex>
         </SRForm>

@@ -14,12 +14,15 @@ import SRText from "../sr-ui/SRText.tsx";
 import SRFlex from "../sr-ui/SRFlex.tsx";
 // @ts-ignore
 import { isMobile } from "../sr-ui/styles.ts";
+// @ts-ignore
+import { useTranslation } from "react-i18next";
 
 export type IntroProps = {
   user?: User;
 };
 
 const Intro: React.FC<IntroProps> = ({ user }: IntroProps): ReactElement => {
+  const { t } = useTranslation();
   if (user == null) {
     return (
       <SRFlex
@@ -29,17 +32,18 @@ const Intro: React.FC<IntroProps> = ({ user }: IntroProps): ReactElement => {
       >
         <SRContainer maxWidth="large" margin={isMobile ? "medium" : "xxlarge"}>
           <SRHeader size="xlarge" padding="xlarge" underlined>
-            Storage Recipe
+            {t("Storage Recipe")}
           </SRHeader>
-          <SRHeader>The recipe for better storage management</SRHeader>
+          <SRHeader>{t("The recipe for better storage management")}</SRHeader>
           <SRText fontSize="large" padding="medium" margin="xlarge">
-            Get started by viewing recipes, logging in, or creating your own
-            account.
+            {t(
+              "Get started by viewing recipes, logging in, or creating your own account."
+            )}
           </SRText>
           <SRFlex wrap="wrap" justifyContent="space-around">
-            <SRButtonLink to="/login">Login</SRButtonLink>
-            <SRButtonLink to="/register">Create Account</SRButtonLink>
-            <SRButtonLink to="/recipes">See Recipes</SRButtonLink>
+            <SRButtonLink to="/login">{t("Login")}</SRButtonLink>
+            <SRButtonLink to="/register">{t("Create Account")}</SRButtonLink>
+            <SRButtonLink to="/recipes">{t("See Recipes")}</SRButtonLink>
           </SRFlex>
         </SRContainer>
       </SRFlex>

@@ -15,6 +15,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: "",
   },
+  language: String,
 });
 
 // This is a hook that will be called before a user record is saved,
@@ -128,6 +129,7 @@ router.post("/", async (req, res) => {
       username: req.body.username,
       password: req.body.password,
       role: req.body.role,
+      language: req.body.language || "en",
     });
     // Because of the methods we declared above, this will salt and hash the password before it is saved.
     await user.save();

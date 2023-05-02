@@ -16,6 +16,8 @@ import SRBoxView from "../../sr-ui/SRBoxView.tsx";
 // @ts-ignore
 import { formatDate } from "../../utils/utils.ts";
 import { Attribute } from "../../types.js";
+// @ts-ignore
+import { useTranslation } from "react-i18next";
 
 type ItemComponentState = {
   updated: boolean;
@@ -35,11 +37,12 @@ const ItemComponent: React.FC<ItemComponentProps> = ({
   const navigate = useNavigate();
   const { id } = useParams();
   const [item, setItem] = useState(null);
+  const { t } = useTranslation();
 
   useEffect(() => {
     const updateScreen = async () => {
       if (state?.updated) {
-        toast.success("Updated " + state.updated + "!", toastEmitter());
+        toast.success("Updated " + state.updated + "!", toastEmitter({}));
         state.updated = false;
       }
       if (item == null) {
@@ -57,19 +60,19 @@ const ItemComponent: React.FC<ItemComponentProps> = ({
 
   const getAttributes = (): Attribute[] => {
     return [
-      { key: "Brand", value: item?.brand },
-      { key: "Container", value: item?.container },
-      { key: "Expiration", value: formatDate(item?.expiration) },
-      { key: "Description", value: item?.description },
-      { key: "Tags", value: item?.tags },
+      { key: t("Brand"), value: item?.brand },
+      { key: t("Container"), value: item?.container },
+      { key: t("Expiration"), value: formatDate(item?.expiration) },
+      { key: t("Description"), value: item?.description },
+      { key: t("Tags"), value: item?.tags },
       {
-        key: "Amount",
+        key: t("Amount"),
         value: item?.amount
           ? item.amount + " " + (item.unit ? item.unit : "")
           : "",
       },
-      { key: "Bar Code", value: item?.code },
-      { key: "Added", value: formatDate(item?.added) },
+      { key: t("Barcode"), value: item?.code },
+      { key: t("Added"), value: formatDate(item?.added) },
     ];
   };
 

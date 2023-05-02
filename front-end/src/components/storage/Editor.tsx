@@ -13,11 +13,14 @@ import SRHeader from "../../sr-ui/SRHeader.tsx";
 import { themeGray } from "../../sr-ui/styles.ts";
 // @ts-ignore
 import ItemForm from "./ItemForm.tsx";
+// @ts-ignore
+import { useTranslation } from "react-i18next";
 
 const Editor = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const [code, setCode] = useState("");
+  const { t } = useTranslation();
 
   const update = async (item: Item): Promise<void> => {
     await ServerFacade.updateItem(item);
@@ -29,13 +32,13 @@ const Editor = () => {
       <SRContainer maxWidth="medium">
         <SRFlex wrap="wrap" justifyContent="space-around">
           <SRHeader size="large" underlined>
-            Edit Item
+            {t("Edit Item")}
           </SRHeader>
           <SRContainer backgroundColor={themeGray} borderWidth="small">
             <ItemForm
               itemId={id}
               onSubmit={update}
-              submitLabel="Update"
+              submitLabel={t("Update")}
               code={code}
               setCode={setCode}
               setImageUrl={() => {}}

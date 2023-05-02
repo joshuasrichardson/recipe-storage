@@ -7,9 +7,12 @@ import SRFlex from "../../sr-ui/SRFlex.tsx";
 // @ts-ignore
 import SRBoxView from "../../sr-ui/SRBoxView.tsx";
 import { Attribute } from "../../types.js";
+// @ts-ignore
+import { useTranslation } from "react-i18next";
 
 const MakeRecipe: React.FC = (): ReactElement => {
   const { id } = useParams();
+  const { t } = useTranslation();
   const [recipe, setRecipe] = useState(null);
 
   useEffect(() => {
@@ -24,14 +27,14 @@ const MakeRecipe: React.FC = (): ReactElement => {
   const getAttributes = (): Attribute[] => {
     return [
       {
-        key: "Time",
-        value: recipe?.minutes ? recipe?.minutes + " minutes" : undefined,
+        key: t("Time"),
+        value: recipe?.minutes ? recipe?.minutes + t(" minutes") : undefined,
       },
-      { key: "Servings", value: recipe?.numServings },
-      { key: "Materials", value: recipe?.materials },
-      { key: "Ingredients", value: recipe?.ingredients },
-      { key: "Steps", value: recipe?.steps, ol: true },
-      { key: "Description", value: recipe?.description },
+      { key: t("Servings"), value: recipe?.numServings },
+      { key: t("Materials"), value: recipe?.materials },
+      { key: t("Ingredients"), value: recipe?.ingredients },
+      { key: t("Steps"), value: recipe?.steps, ol: true },
+      { key: t("Description"), value: recipe?.description },
     ];
   };
 

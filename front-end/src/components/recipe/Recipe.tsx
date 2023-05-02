@@ -13,6 +13,8 @@ import SRButton from "../../sr-ui/SRButton.tsx";
 import SRFlex from "../../sr-ui/SRFlex.tsx";
 // @ts-ignore
 import SRBoxView from "../../sr-ui/SRBoxView.tsx";
+// @ts-ignore
+import { useTranslation } from "react-i18next";
 
 type RecipeComponentState = {
   updated: boolean;
@@ -30,11 +32,12 @@ const RecipeComponent: React.FC<RecipeComponentProps> = ({
   const navigate = useNavigate();
   const { id } = useParams();
   const [recipe, setRecipe] = useState(null);
+  const { t } = useTranslation();
 
   useEffect(() => {
     const updateScreen = async () => {
       if (state?.updated) {
-        toast.success("Updated " + state.updated + "!", toastEmitter());
+        toast.success("Updated " + state.updated + "!", toastEmitter({}));
         state.updated = false;
       }
       if (recipe == null) {
@@ -52,14 +55,14 @@ const RecipeComponent: React.FC<RecipeComponentProps> = ({
   const getAttributes = () => {
     return [
       {
-        key: "Time",
-        value: recipe?.minutes ? recipe?.minutes + " minutes" : undefined,
+        key: t("Time"),
+        value: recipe?.minutes ? recipe?.minutes + t(" minutes") : undefined,
       },
-      { key: "Servings", value: recipe?.numServings },
-      { key: "Materials", value: recipe?.materials },
-      { key: "Ingredients", value: recipe?.ingredients },
-      { key: "Steps", value: recipe?.steps, ol: true },
-      { key: "Description", value: recipe?.description },
+      { key: t("Servings"), value: recipe?.numServings },
+      { key: t("Materials"), value: recipe?.materials },
+      { key: t("Ingredients"), value: recipe?.ingredients },
+      { key: t("Steps"), value: recipe?.steps, ol: true },
+      { key: t("Description"), value: recipe?.description },
     ];
   };
 

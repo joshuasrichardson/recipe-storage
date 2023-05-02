@@ -15,6 +15,8 @@ import {
 // @ts-ignore
 import Utils, { srDate } from "../../utils/utils.ts";
 import { SRDate, Item } from "../../types";
+// @ts-ignore
+import { useTranslation } from "react-i18next";
 
 type ItemGroupProps = {
   title: string;
@@ -36,6 +38,7 @@ const ItemGroup: React.FC<ItemGroupProps> = ({
   dateFormatter = Utils.formatDate,
 }: ItemGroupProps): ReactElement => {
   const [useImageView, setUseImageView] = useState(false);
+  const { t } = useTranslation();
 
   const getItemsHTML = (items) => {
     if (useImageView) {
@@ -110,13 +113,13 @@ const ItemGroup: React.FC<ItemGroupProps> = ({
   }: ItemViewParams) => {
     const getItemAttributes = () => {
       return [
-        { key: "Container", value: item.container },
+        { key: t("Container"), value: item.container },
         {
           key: showExpiration
-            ? "Expiration"
+            ? t("Expiration")
             : item.deleted
-            ? "Deleted"
-            : "Added",
+            ? t("Deleted")
+            : t("Added"),
           value: showExpiration
             ? dateFormatter(item.expiration)
             : dateFormatter(item.added),

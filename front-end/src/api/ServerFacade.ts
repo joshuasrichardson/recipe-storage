@@ -43,6 +43,7 @@ export type RegisterParams = {
   password2: string;
   firstName: string;
   lastName: string;
+  language: string;
   onSuccess: (user: User) => any;
   onFailure: (err: string) => any;
 };
@@ -52,6 +53,7 @@ type RegisterRequest = {
   password: string;
   firstName: string;
   lastName: string;
+  language: string;
 };
 
 const register = async ({
@@ -60,6 +62,7 @@ const register = async ({
   password2,
   firstName,
   lastName,
+  language,
   onSuccess,
   onFailure,
 }: RegisterParams): Promise<void> => {
@@ -75,6 +78,7 @@ const register = async ({
         lastName,
         username,
         password,
+        language,
       });
     onSuccess(response.data.user);
   } catch (err) {

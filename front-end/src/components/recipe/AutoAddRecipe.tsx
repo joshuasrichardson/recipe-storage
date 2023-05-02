@@ -15,9 +15,12 @@ import SRTextInputList from "../../sr-ui/SRTextInputList.tsx";
 // @ts-ignore
 import SRText from "../../sr-ui/SRText.tsx";
 import { useNavigate } from "react-router-dom";
+// @ts-ignore
+import { useTranslation } from "react-i18next";
 
 const AutoAddRecipe = (): ReactElement => {
   const [ingredients, setIngredients] = useState<string[]>([""]);
+  const { t } = useTranslation();
 
   const navigate = useNavigate();
 
@@ -33,7 +36,9 @@ const AutoAddRecipe = (): ReactElement => {
   const generateRecipe = async (e): Promise<void> => {
     e.preventDefault();
     toast.info(
-      `Considering possibilities using ${toEnglishList(ingredients)}...`,
+      `${t("Considering possibilities using")} ${toEnglishList(
+        ingredients
+      )}...`,
       toastEmitter({ autoClose: 15000 })
     );
     ServerFacade.generateRecipe({
@@ -48,7 +53,7 @@ const AutoAddRecipe = (): ReactElement => {
     setTimeout(
       () =>
         toast.success(
-          `Generated new recipe: ${recipe.name}!`,
+          `${t("Generated new recipe:")} ${recipe.name}!`,
           toastEmitter({ autoClose: 7000 })
         ),
       50
@@ -58,7 +63,9 @@ const AutoAddRecipe = (): ReactElement => {
 
   const showError = () => {
     toast.error(
-      "Failed to generate new recipe. Try again. If the error persists, give up.",
+      t(
+        "Failed to generate new recipe. Try again. If the error persists, give up."
+      ),
       toastEmitter({ autoClose: 10000 })
     );
   };
@@ -67,15 +74,17 @@ const AutoAddRecipe = (): ReactElement => {
     <SRFlex direction="column">
       <SRForm>
         <SRTextInputList
-          label="Ingredients:"
+          label={t("Ingredients:")}
           values={ingredients}
           setValues={setIngredients}
         />
         <SRFlex justifyContent="center">
-          <SRText fontSize="small">This will take about 15 seconds</SRText>
+          <SRText fontSize="small">
+            {t("This will take about 15 seconds")}
+          </SRText>
         </SRFlex>
         <SRFlex justifyContent="center">
-          <SRButton onClick={generateRecipe}>Generate</SRButton>
+          <SRButton onClick={generateRecipe}>{t("Generate")}</SRButton>
         </SRFlex>
       </SRForm>
     </SRFlex>

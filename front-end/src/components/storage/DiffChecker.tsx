@@ -17,6 +17,8 @@ import SRHeader from "../../sr-ui/SRHeader.tsx";
 // @ts-ignore
 import { darkTextColor, themeRed } from "../../sr-ui/styles.ts";
 import { Attribute } from "../../types.js";
+// @ts-ignore
+import { useTranslation } from "react-i18next";
 
 type DiffState = {
   id: string;
@@ -41,6 +43,7 @@ const DiffChecker: React.FC = (): ReactElement => {
   const state = location.state as DiffState;
   const navigate = useNavigate();
   const { innerWidth } = window;
+  const { t } = useTranslation();
 
   const getColor = (attribute) => {
     return JSON.stringify(state["old" + attribute]).trim() ===
@@ -52,65 +55,69 @@ const DiffChecker: React.FC = (): ReactElement => {
   const getOldAttributes = (): Attribute[] => {
     return [
       {
-        key: "Code",
+        key: t("Code"),
         value: `${state.oldCode}` || " ",
         color: getColor("Code"),
       },
-      { key: "Name", value: state.oldName || " ", color: getColor("Name") },
-      { key: "Brand", value: state.oldBrand || " ", color: getColor("Brand") },
+      { key: t("Name"), value: state.oldName || " ", color: getColor("Name") },
       {
-        key: "Description",
+        key: t("Brand"),
+        value: state.oldBrand || " ",
+        color: getColor("Brand"),
+      },
+      {
+        key: t("Description"),
         value: state.oldDescription || " ",
         color: getColor("Description"),
       },
-      { key: "Tags", value: state.oldTags || " ", color: getColor("Tags") },
+      { key: t("Tags"), value: state.oldTags || " ", color: getColor("Tags") },
       {
-        key: "Amount",
+        key: t("Amount"),
         value: `${state.oldAmount}` || " ",
         color: getColor("Amount"),
       },
-      { key: "Unit", value: state.oldUnit || " ", color: getColor("Unit") },
+      { key: t("Unit"), value: state.oldUnit || " ", color: getColor("Unit") },
     ];
   };
 
   const getNewAttributes = (): Attribute[] => {
     return [
       {
-        key: "Code",
+        key: t("Code"),
         value: `${state.newCode}` || " ",
         color: getColor("Code"),
       },
       {
-        key: "Name",
+        key: t("Name"),
         value: `${state.newName}` || " ",
         color: getColor("Name"),
       },
       {
-        key: "Brand",
+        key: t("Brand"),
         value: `${state.newBrand}` || " ",
         color: getColor("Brand"),
       },
       {
-        key: "Description",
+        key: t("Description"),
         value: state.newDescription || " ",
         color: getColor("Description"),
       },
-      { key: "Tags", value: state.newTags || " ", color: getColor("Tags") },
+      { key: t("Tags"), value: state.newTags || " ", color: getColor("Tags") },
       {
-        key: "Amount",
+        key: t("Amount"),
         value: `${state.newAmount}` || " ",
         color: getColor("Amount"),
       },
-      { key: "Unit", value: state.newUnit || " ", color: getColor("Unit") },
+      { key: t("Unit"), value: state.newUnit || " ", color: getColor("Unit") },
     ];
   };
 
   return (
     <SRFlex wrap="wrap" direction="column">
       <SRContainer padding="xlarge" maxWidth="xlarge">
-        <SRHeader size="large">Change detected</SRHeader>
+        <SRHeader size="large">{t("Change detected")}</SRHeader>
         <SRText fontSize="large">
-          Would you like to update the autofill for this item?
+          {t("Would you like to update the autofill for this item?")}
         </SRText>
         <SRFlex
           wrap={innerWidth < 600 ? "wrap" : "nowrap"}
@@ -121,7 +128,9 @@ const DiffChecker: React.FC = (): ReactElement => {
             label="Before"
             attributes={getOldAttributes()}
           >
-            <SRButton onClick={() => navigate("/storage/add")}>Keep</SRButton>
+            <SRButton onClick={() => navigate("/storage/add")}>
+              {t("Keep")}
+            </SRButton>
           </SRBoxView>
           <SRBoxView key="After" label="After" attributes={getNewAttributes()}>
             <SRButton
@@ -139,7 +148,7 @@ const DiffChecker: React.FC = (): ReactElement => {
                 navigate("/storage/add");
               }}
             >
-              Update
+              {t("Update")}
             </SRButton>
           </SRBoxView>
         </SRFlex>

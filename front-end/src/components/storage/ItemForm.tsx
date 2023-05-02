@@ -25,6 +25,8 @@ import ServerFacade from "../../api/ServerFacade.ts";
 import { formatDateInput, srDate } from "../../utils/utils.ts";
 // @ts-ignore
 import { Item } from "../../types.ts";
+// @ts-ignore
+import { useTranslation } from "react-i18next";
 
 type ItemFormProps = {
   code: string;
@@ -50,6 +52,7 @@ const ItemForm: React.FC<ItemFormProps> = (
   const [amount, setAmount] = useState<string | number>("");
   const [unit, setUnit] = useState<string>("");
   const [quantity, setQuantity] = useState<string | number>(1);
+  const { t } = useTranslation();
 
   const autofillWithProductInfo = useCallback(async () => {
     if (props?.code) {
@@ -76,7 +79,6 @@ const ItemForm: React.FC<ItemFormProps> = (
     const setItem = async () => {
       if (name === "") {
         const i = await ServerFacade.getItem(props.itemId);
-        console.log("Item:", i);
         props.setCode(i.code);
         setName(i.name);
         setBrand(i.brand);
@@ -157,36 +159,36 @@ const ItemForm: React.FC<ItemFormProps> = (
   return (
     <SRForm onSubmit={onSubmit}>
       <SRTextInput
-        label="Barcode Number:"
+        label={t("Barcode Number")}
         type="number"
         value={props.code}
         onChange={(e) => props.setCode(e.target.value)}
       ></SRTextInput>
       <SRTextInput
-        label="Name:"
+        label={t("Name")}
         value={name}
-        placeholder={name === "" && props.code !== "" ? "No results" : ""}
+        placeholder={name === "" && props.code !== "" ? t("No results") : ""}
         onChange={(e) => setName(e.target.value)}
       ></SRTextInput>
       <SRTextInput
-        label="Brand:"
+        label={t("Brand")}
         value={brand}
         onChange={(e) => setBrand(e.target.value)}
       ></SRTextInput>
       <SRTextInput
-        label="Description:"
+        label={t("Description")}
         value={description}
         onChange={(e) => setDescription(e.target.value)}
       ></SRTextInput>
       <SRTextInput
-        label="Keywords:"
+        label={t("Keywords")}
         value={tags}
         onChange={(e) => setTags(e.target.value)}
       ></SRTextInput>
       <SRFlex>
         <SRFlexItem numItems={2}>
           <SRTextInput
-            label="Amount:"
+            label={t("Amount")}
             type="number"
             value={amount}
             onChange={(e) => setAmount(e.target.value)}
@@ -194,14 +196,14 @@ const ItemForm: React.FC<ItemFormProps> = (
         </SRFlexItem>
         <SRFlexItem numItems={2}>
           <SRTextInput
-            label="Unit:"
+            label={t("Unit")}
             value={unit}
             onChange={(e) => setUnit(e.target.value)}
           ></SRTextInput>
         </SRFlexItem>
       </SRFlex>
       <SRDropDown
-        label="Location:"
+        label={t("Location")}
         listName="containerList"
         onChange={onContainerChange}
         value={container}
@@ -209,13 +211,13 @@ const ItemForm: React.FC<ItemFormProps> = (
         {getOptions()}
       </SRDropDown>
       <SRDateInput
-        label="Expiration:"
+        label={t("Expiration")}
         value={formatDateInput(expiration)}
         onChange={(e) => setExpiration(srDate(e.target.value))}
       ></SRDateInput>
       {props.shouldShowQuantityField && (
         <SRTextInput
-          label="Quantity:"
+          label={t("Quantity")}
           type="number"
           value={quantity}
           onChange={(e) => setQuantity(e.target.value)}
