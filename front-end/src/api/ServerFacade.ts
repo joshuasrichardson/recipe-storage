@@ -87,6 +87,22 @@ const register = async ({
   }
 };
 
+const updateUser = async (
+  user: User,
+  onSuccess = (message) => console.log(message),
+  onFailure = (message) => console.log(message)
+) => {
+  if (!user) return onFailure("No user to update");
+  try {
+    const response: AxiosResponse<{ user: User }, RegisterRequest> =
+      await axios.put("/api/users", { user });
+    onSuccess(response.data.user);
+  } catch (err) {
+    onFailure(err.response?.data?.message || "Unknown error occurred");
+    if (!err.response) console.log(err);
+  }
+};
+
 const getLoggedInUser = async (): Promise<User> => {
   try {
     const response: AxiosResponse<{ user: User }, any> = await axios.get(
@@ -139,7 +155,6 @@ const getNutritionixV1Item = async (code: string): Promise<ItemAutofill> => {
 const canAccessNutritionixV2 = async (): Promise<boolean> => {
   try {
     const response = await axios.get("/api/calls/nutritionixV2");
-    console.log("Calls:", response.data.numCalls);
     return response.data.numCalls < 50;
   } catch (err) {
     console.log(err);
@@ -323,7 +338,6 @@ const getHistoryItem = async (id: string): Promise<Item> => {
 
 const getItemContainer = async (code: string): Promise<string> => {
   const res = await axios.get("/api/storage/history/code/" + code);
-  console.log("Location data:", res.data);
   return res.data[0]?.container;
 };
 
@@ -554,6 +568,7 @@ const deleteRecipe = async (id: string): Promise<void> => {
 const ServerFacade = {
   login,
   register,
+  updateUser,
   getLoggedInUser,
   logout,
   getProduct,

@@ -54,7 +54,10 @@ const AddFoodStorage: React.FC = (): ReactElement => {
     if (response.message === "Item already exists with different attributes.") {
       navigate("/item/update", { state: response.state });
     }
-    toast.success("Added " + item.name + "!", toastEmitter({}));
+    toast.success(
+      t("Added placeholder", { placeholder: item.name }),
+      toastEmitter({})
+    );
     setImage(null);
     setImageUrl("");
   };

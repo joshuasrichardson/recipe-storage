@@ -33,7 +33,6 @@ const App: React.FC = (): ReactElement => {
       const currentUser = await ServerFacade.getLoggedInUser();
       if (!currentUser) return;
       setUser(currentUser);
-      console.log("User:", currentUser);
       setLanguage(currentUser.language);
     };
     if (!user) tryLoggingIn();

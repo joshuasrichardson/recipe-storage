@@ -1,4 +1,4 @@
-import React, { useState, ReactElement } from "react";
+import React, { useState, ReactElement, useContext } from "react";
 // @ts-ignore
 import ServerFacade from "../../api/ServerFacade.ts";
 import { toast } from "react-toastify";
@@ -17,28 +17,24 @@ import SRText from "../../sr-ui/SRText.tsx";
 import { useNavigate } from "react-router-dom";
 // @ts-ignore
 import { useTranslation } from "react-i18next";
+// @ts-ignore
+import { formatList } from "../../utils/language-utils.ts";
+// @ts-ignore
+import { Context } from "../../App.tsx";
 
 const AutoAddRecipe = (): ReactElement => {
   const [ingredients, setIngredients] = useState<string[]>([""]);
   const { t } = useTranslation();
+  const { language } = useContext(Context);
 
   const navigate = useNavigate();
-
-  const toEnglishList = (codeList: string[]): string => {
-    if (codeList?.length === 0) return "nothing";
-    if (codeList.length === 1) return codeList[0];
-    if (codeList.length === 2) return `${codeList[0]} and ${codeList[1]}`;
-    return `${codeList.slice(0, codeList.length - 1).join(", ")}, and ${
-      codeList[codeList.length - 1]
-    }`;
-  };
 
   const generateRecipe = async (e): Promise<void> => {
     e.preventDefault();
     toast.info(
-      `${t("Considering possibilities using")} ${toEnglishList(
-        ingredients
-      )}...`,
+      t("Considering possibilities using", {
+        ingredients: formatList(ingredients, language),
+      }),
       toastEmitter({ autoClose: 15000 })
     );
     ServerFacade.generateRecipe({
@@ -74,7 +70,7 @@ const AutoAddRecipe = (): ReactElement => {
     <SRFlex direction="column">
       <SRForm>
         <SRTextInputList
-          label={t("Ingredients:")}
+          label={t("Ingredients")}
           values={ingredients}
           setValues={setIngredients}
         />

@@ -3,6 +3,7 @@
 
   "Food Storage": "食料貯蔵庫",
   "Recipes": "レシピ",
+  "Recipe": "レシピ",
   "Storage": "蔵庫",
   "History": "蔵庫履歴",
   "Logout": "ログアウト",
@@ -23,7 +24,7 @@
   "Manual": "マニュアル",
   "This will take about 15 seconds": "15秒ぐらいかかるだろう",
   "Generate": "作る",
-  "Considering possibilities using": "可能のレシピを考えている: ",
+  "Considering possibilities using": "{{ingredients}}を使うレシピを考えている...",
   "Generated new recipe:": "新しいレシピを作った: ",
   "Failed to generate new recipe. Try again. If the error persists, give up.": "レシピが作れなかった。もう一度やってみて、ダメだったら諦めよう。",
 
@@ -69,5 +70,27 @@
 
   "The recipe for better storage management": "より良い食料貯蔵庫のためのレシピ",
   "Get started by viewing recipes, logging in, or creating your own account.": "ようこそ！",
-  "Create Account": "アカウントを作る"
+  "Create Account": "アカウントを作る",
+
+  "Search placeholder": "{{placeholder}}を検索する...",
+  "Updated placeholder": "{{placeholder}}を更新した",
+  "Deleted placeholder": "{{placeholder}}を消した",
+  "Added placeholder": "{{placeholder}}を追加した",
+
+  "No results": "バーコードのアイテムがわからない",
+
+  "See Recipes": "レシピを見る",
+
+  "Chocolate Chip Cookies": "チョコチップクッキー",
+  "Minutes to Make": "作る時間",
+  "0.5 pounds butter\n1 cup white sugar\n...": "バター 0.5 ポンド\n白砂糖 1 カップ\n...",
+  "Required Materials": "必要な道具",
+  "measuring cups\nmixing bowl\noven\n...": "計量カップ\nミキシングボウル\nオーブン\n...",
+  "1. Mix butter and white sugar in the mixing bowl\n2. ...": "1. ボウルにバターと白砂糖を入れて混ぜる\n2. ...",
+  "Extra Notes": "説明",
+  "These cookies won the 'Best Cookies Award' at ...": "このクッキーは...",
+  "Link": "リンク",
+
+  "placeholder Profile": "{{user}}のプロフィル",
+  "Profile": "プロフィル"
 }

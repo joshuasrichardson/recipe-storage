@@ -83,27 +83,23 @@ const ManuallyAddRecipe = (): ReactElement => {
         <SRTextInput
           label={t("Ingredients")}
           value={ingredients}
-          placeholder={t(` 0.5 pounds butter
-                1 cup white sugar
-                ...`)}
+          placeholder={t("0.5 pounds butter\n1 cup white sugar\n...")}
           onChange={(e) => setIngredients(e.target.value)}
           textarea
         ></SRTextInput>
         <SRTextInput
-          label={t("Required Materials:")}
+          label={t("Required Materials")}
           value={materials}
-          placeholder={t(` measuring cups
-                mixing bowl
-                oven
-                ...`)}
+          placeholder={t("measuring cups\nmixing bowl\noven\n...")}
           onChange={(e) => setMaterials(e.target.value)}
           textarea
         ></SRTextInput>
         <SRTextInput
-          label={t("Steps:")}
+          label={t("Steps")}
           value={steps}
-          placeholder={t(` 1. Mix butter and white sugar in the mixing bowl
-                2. ...`)}
+          placeholder={t(
+            "1. Mix butter and white sugar in the mixing bowl\n2. ..."
+          )}
           onChange={(e) => setSteps(e.target.value)}
           textarea
         ></SRTextInput>
@@ -115,10 +111,10 @@ const ManuallyAddRecipe = (): ReactElement => {
           textarea
         ></SRTextInput>
         <SRTextInput
-          label={t("Link:")}
+          label={t("Link")}
           type="url"
           value={link}
-          placeholder={t("https://www.thefullrecipe.com")}
+          placeholder="https://www.thefullrecipe.com"
           onChange={(e) => setLink(e.target.value)}
         ></SRTextInput>
         <SRFlex justifyContent="center">

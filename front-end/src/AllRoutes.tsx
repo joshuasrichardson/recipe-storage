@@ -1,5 +1,7 @@
 import React, { ReactElement } from "react";
 // @ts-ignore
+import Profile from "./components/profile/Profile.tsx";
+// @ts-ignore
 import AddItem from "./components/storage/AddItem.tsx";
 // @ts-ignore
 import Storage from "./components/storage/Storage.tsx";
@@ -42,6 +44,7 @@ const AllRoutes: React.FC<AllRoutesParams> = ({
   const getLoggedInRoutes = () => {
     return (
       <Routes>
+        <Route path="/profile" element={<Profile />} />
         <Route path="/storage/add" element={<AddItem />} />
         <Route
           path="/storage/:id"
@@ -69,10 +72,7 @@ const AllRoutes: React.FC<AllRoutesParams> = ({
           }
         />
         <Route path="/recipes" element={<Recipes />} />
-        <Route
-          path="/login"
-          element={<Login hasAccount={true} setUser={setUser} />}
-        />
+        <Route path="/login" element={<Login hasAccount={true} />} />
         <Route path="/storage/edit/:id" element={<Editor />} />
         <Route path="/*" element={<Storage />} />
       </Routes>
@@ -88,14 +88,8 @@ const AllRoutes: React.FC<AllRoutesParams> = ({
           element={<RecipeComponent canEdit={false} />}
         />
         <Route path="/recipes" element={<Recipes />} />
-        <Route
-          path="/login"
-          element={<Login hasAccount={true} setUser={setUser} />}
-        />
-        <Route
-          path="/register"
-          element={<Login hasAccount={false} setUser={setUser} />}
-        />
+        <Route path="/login" element={<Login hasAccount={true} />} />
+        <Route path="/register" element={<Login hasAccount={false} />} />
         <Route path="/*" element={<Intro user={user} />} />
       </Routes>
     );

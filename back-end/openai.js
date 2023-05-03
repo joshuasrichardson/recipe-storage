@@ -63,7 +63,11 @@ const queryRecipes = async (ingredients) => {
   const completion = await openai.createChatCompletion({
     model: "gpt-3.5-turbo",
     messages: [
-      { role: "system", content: "You are a helpful assistant." },
+      {
+        role: "system",
+        content:
+          "You are a helpful assistant that enjoys sharing delicious and nutritious recipes.",
+      },
       { role: "user", content: prompt },
     ],
   });

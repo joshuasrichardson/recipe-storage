@@ -23,6 +23,7 @@ import { Context } from "../App.tsx";
 import { ContextType } from "../types.ts";
 // @ts-ignore
 import SRSearchBar from "./SRSearchBar.tsx";
+import { useTranslation } from "react-i18next";
 
 type GroupDisplayState = {
   deleted: boolean;
@@ -65,13 +66,17 @@ const GroupDisplay: React.FC<GroupDisplayProps> = ({
   const [unusedIcon, setUnusedIcon] = useState(
     <FontAwesomeIcon icon={solid("list")} />
   );
+  const { t } = useTranslation();
 
   const location = useLocation();
   const state = location.state as GroupDisplayState;
 
   useEffect(() => {
     if (state?.deleted) {
-      toast.success("Deleted " + state.deleted + "!", toastEmitter({}));
+      toast.success(
+        t("Deleted placeholder", { placeholder: state.deleted }),
+        toastEmitter({})
+      );
       state.deleted = false;
     }
     if (firstRender) {
@@ -117,9 +122,9 @@ const GroupDisplay: React.FC<GroupDisplayProps> = ({
           </SRHeader>
           <SRSearchBar
             searchString={searchString}
-            placeholder={
-              "Search " + objectTypePlural.toLocaleLowerCase() + "..."
-            }
+            placeholder={t("Search placeholder", {
+              placeholder: objectTypePlural.toLocaleLowerCase(),
+            })}
             onSearchChange={onSearchChange}
             onSearchClick={onSearchClick}
           />

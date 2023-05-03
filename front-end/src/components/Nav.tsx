@@ -43,9 +43,12 @@ const Navigation: React.FC<NavParams> = ({
         </Navbar.Brand>
         <Navbar.Collapse className="justify-content-end">
           <Nav id="responsive-navbar-nav">
-            {user && <Nav.Link href="/storage">{t("Storage")}</Nav.Link>}
             {user && (
-              <Nav.Link href="/storage/history">{t("History")}</Nav.Link>
+              <>
+                <Nav.Link href="/profile">{t("Profile")}</Nav.Link>
+                <Nav.Link href="/storage">{t("Storage")}</Nav.Link>
+                <Nav.Link href="/storage/history">{t("History")}</Nav.Link>
+              </>
             )}
             <Nav.Link href="/recipes">{t("Recipes")}</Nav.Link>
             <Nav.Link href="/login" onClick={logout}>

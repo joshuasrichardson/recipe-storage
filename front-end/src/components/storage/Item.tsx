@@ -42,7 +42,10 @@ const ItemComponent: React.FC<ItemComponentProps> = ({
   useEffect(() => {
     const updateScreen = async () => {
       if (state?.updated) {
-        toast.success("Updated " + state.updated + "!", toastEmitter({}));
+        toast.success(
+          t("Updated placeholder", { placeholder: state.updated }),
+          toastEmitter({})
+        );
         state.updated = false;
       }
       if (item == null) {

@@ -69,6 +69,7 @@ jest.mock("../../api/ServerFacade.ts", () => {
           lastName,
           onSuccess,
           onFailure,
+          language,
         }) =>
           mockRegister({
             username,
@@ -78,6 +79,7 @@ jest.mock("../../api/ServerFacade.ts", () => {
             lastName,
             onSuccess,
             onFailure,
+            language,
           })
       ),
   };
@@ -114,30 +116,30 @@ const expectFailedWithMessage = (component: RenderResult, message: string) => {
 
 describe("Login", () => {
   it("renders with a username and password field", () => {
-    const loginPage = render(<Login hasAccount setUser={mockSetUser} />, root);
+    const loginPage = render(<Login hasAccount={true} />, root);
     expect(mockSetUser).not.toHaveBeenCalled();
     expect(mockNavigate).not.toHaveBeenCalled();
-    expect(loginPage.getByText("Username:")).toBeInTheDocument();
-    expect(loginPage.getByText("Password:")).toBeInTheDocument();
+    expect(loginPage.getByText("Username")).toBeInTheDocument();
+    expect(loginPage.getByText("Password")).toBeInTheDocument();
     expect(
       loginPage.getByText("Don't have an account? Click here to create one.")
     ).toBeInTheDocument();
-    expect(loginPage.queryByText("First Name:")).not.toBeInTheDocument();
-    expect(loginPage.queryByText("Last Name:")).not.toBeInTheDocument();
-    expect(loginPage.queryByText("Confirm Password:")).not.toBeInTheDocument();
+    expect(loginPage.queryByText("First Name")).not.toBeInTheDocument();
+    expect(loginPage.queryByText("Last Name")).not.toBeInTheDocument();
+    expect(loginPage.queryByText("Confirm Password")).not.toBeInTheDocument();
     expect(
       loginPage.queryByText("Have an account? Click here to login.")
     ).not.toBeInTheDocument();
   });
 
   it("cannot login without a username", () => {
-    const loginPage = render(<Login hasAccount setUser={mockSetUser} />, root);
+    const loginPage = render(<Login hasAccount={true} />, root);
     act(() => {
       loginPage.getByRole("button", { name: "Login" }).click();
     });
     const err = "Must enter a username and password";
     expectFailedWithMessage(loginPage, err);
-    changeField(loginPage, "Username:", testUser.username);
+    changeField(loginPage, "Username", testUser.username);
     act(() => {
       loginPage.getByRole("button", { name: "Login" }).click();
     });
@@ -147,9 +149,9 @@ describe("Login", () => {
   });
 
   it("can login with correct username and password", () => {
-    const loginPage = render(<Login hasAccount setUser={mockSetUser} />, root);
-    changeField(loginPage, "Username:", testUser.username);
-    changeField(loginPage, "Password:", testUser.password);
+    const loginPage = render(<Login hasAccount={true} />, root);
+    changeField(loginPage, "Username", testUser.username);
+    changeField(loginPage, "Password", testUser.password);
     act(() => {
       loginPage.getByRole("button", { name: "Login" }).click();
     });
@@ -160,12 +162,12 @@ describe("Login", () => {
 
 describe("Register", () => {
   it("renders with all registration fields", () => {
-    const registrationPage = render(<Login setUser={mockSetUser} />, root);
-    expect(registrationPage.getByText("First Name:")).toBeInTheDocument();
-    expect(registrationPage.getByText("Last Name:")).toBeInTheDocument();
-    expect(registrationPage.getByText("Username:")).toBeInTheDocument();
-    expect(registrationPage.getByText("Password:")).toBeInTheDocument();
-    expect(registrationPage.getByText("Confirm Password:")).toBeInTheDocument();
+    const registrationPage = render(<Login />, root);
+    expect(registrationPage.getByText("First Name")).toBeInTheDocument();
+    expect(registrationPage.getByText("Last Name")).toBeInTheDocument();
+    expect(registrationPage.getByText("Username")).toBeInTheDocument();
+    expect(registrationPage.getByText("Password")).toBeInTheDocument();
+    expect(registrationPage.getByText("Confirm Password")).toBeInTheDocument();
     expect(
       registrationPage.getByText("Have an account? Click here to login.")
     ).toBeInTheDocument();
@@ -179,14 +181,14 @@ describe("Register", () => {
   });
 
   it("cannot register with missing fields", () => {
-    const registerPage = render(<Login setUser={mockSetUser} />, root);
+    const registerPage = render(<Login />, root);
     act(() => {
       registerPage.getByRole("button", { name: "Create" }).click();
     });
     const err = "Must enter all information";
     expect(registerPage.getByText(err)).toBeInTheDocument();
     // missing password confirmation
-    const fieldNames = ["First Name:", "Last Name:", "Username:", "Password:"];
+    const fieldNames = ["First Name", "Last Name", "Username", "Password"];
     for (let fieldName of fieldNames) {
       changeField(registerPage, fieldName, "anything");
       act(() => registerPage.getByRole("button", { name: "Create" }).click());
@@ -197,13 +199,13 @@ describe("Register", () => {
   });
 
   it("can register with all information filled in", () => {
-    const registrationPage = render(<Login setUser={mockSetUser} />, root);
+    const registrationPage = render(<Login />, root);
     const registrationInfo = [
-      { field: "First Name:", value: newUser.firstName },
-      { field: "Last Name:", value: newUser.lastName },
-      { field: "Username:", value: newUser.username },
-      { field: "Password:", value: newUser.password },
-      { field: "Confirm Password:", value: newUser.password },
+      { field: "First Name", value: newUser.firstName },
+      { field: "Last Name", value: newUser.lastName },
+      { field: "Username", value: newUser.username },
+      { field: "Password", value: newUser.password },
+      { field: "Confirm Password", value: newUser.password },
     ];
     for (let info of registrationInfo) {
       changeField(registrationPage, info.field, info.value);
@@ -216,8 +218,8 @@ describe("Register", () => {
   });
 
   it("can handle unknown server errors", () => {
-    const registrationPage = render(<Login setUser={mockSetUser} />, root);
-    changeField(registrationPage, "Username:", serverErrorName);
+    const registrationPage = render(<Login />, root);
+    changeField(registrationPage, "Username", serverErrorName);
     act(() => registrationPage.getByRole("button", { name: "Create" }).click());
     const err = "Unknown error occurred";
     expect(registrationPage.queryByText(err)).toBeInTheDocument();

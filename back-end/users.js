@@ -145,6 +145,24 @@ router.post("/", async (req, res) => {
   }
 });
 
+router.put("/", async (req, res) => {
+  if (!req || !req.body || !req.body.user) {
+    return res.status(400).send({
+      message: "user is required",
+    });
+  }
+
+  const user = req.body.user;
+
+  try {
+    await User.findByIdAndUpdate(user._id, user);
+    return res.send({ user });
+  } catch (error) {
+    console.log(error);
+    return res.sendStatus(500);
+  }
+});
+
 // login a user
 router.post("/login", async (req, res) => {
   // Make sure that the form coming from the browser includes a username and a

@@ -151,7 +151,9 @@ const ItemGroup: React.FC<ItemGroupProps> = ({
     const getName = () =>
       showExpiration
         ? item.name
-        : (item.deleted ? "Deleted " : "Added ") + item.name;
+        : t(item.deleted ? "Deleted placeholder" : "Added placeholder", {
+            placeholder: item.name,
+          });
 
     const getDateColor = (expiration: SRDate): string => {
       if (!showExpiration || !expiration || typeof expiration === "string")

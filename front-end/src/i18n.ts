@@ -9,7 +9,7 @@ i18n
   .use(LanguageDetector)
   .init({
     fallbackLng: "en",
-    debug: true,
+    debug: process.env.NODE_ENV === "development",
     interpolation: {
       escapeValue: false,
     },

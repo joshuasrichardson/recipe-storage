@@ -60,7 +60,7 @@ const SRTextInput: React.FC<SRTextInputProps> = (
           value={props.value}
           placeholder={props.placeholder}
           onChange={props.onChange}
-          style={{ ...inputStyle, height: "200px" }}
+          style={{ ...inputStyle, height: "200px", padding: "8px" }}
         ></textarea>
       );
     } else {
