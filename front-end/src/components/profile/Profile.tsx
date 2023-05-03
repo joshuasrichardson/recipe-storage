@@ -8,15 +8,13 @@ import SRHeader from "../../sr-ui/SRHeader.tsx";
 // @ts-ignore
 import { Context } from "../../App.tsx";
 // @ts-ignore
-import { ContextType, Language } from "../../types.ts";
+import { ContextType } from "../../types.ts";
 import { useTranslation } from "react-i18next";
 // @ts-ignore
-import SRDropDown from "../../sr-ui/SRDropDown.tsx";
-// @ts-ignore
-import ServerFacade from "../../api/ServerFacade.ts";
+import SRLanguageSelector from "../../sr-ui/SRLanguageSelector.tsx";
 
 const Profile: React.FC = (): ReactElement => {
-  const { user, language, setLanguage } = useContext<ContextType>(Context);
+  const { user } = useContext<ContextType>(Context);
   const { t } = useTranslation();
 
   return (
@@ -33,22 +31,7 @@ const Profile: React.FC = (): ReactElement => {
           justifyContent="space-around"
           alignItems="stretch"
         >
-          <SRDropDown
-            label={t("Language")}
-            listName={"language"}
-            value={language}
-            fixedOptions={true}
-            onChange={(e) => {
-              ServerFacade.updateUser({
-                ...user,
-                language: e.target.value as Language,
-              });
-              setLanguage(e.target.value as Language);
-            }}
-          >
-            <option value="en">English</option>
-            <option value="ja">日本語</option>
-          </SRDropDown>
+          <SRLanguageSelector />
         </SRFlex>
       </SRContainer>
     </SRFlex>

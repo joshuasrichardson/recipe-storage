@@ -5,6 +5,8 @@ import { User } from "../types";
 // @ts-ignore
 import SRButtonLink from "../sr-ui/SRButtonLink.tsx";
 // @ts-ignore
+import SRLanguageSelector from "../sr-ui/SRLanguageSelector.tsx";
+// @ts-ignore
 import SRHeader from "../sr-ui/SRHeader.tsx";
 // @ts-ignore
 import SRContainer from "../sr-ui/SRContainer.tsx";
@@ -35,6 +37,14 @@ const Intro: React.FC<IntroProps> = ({ user }: IntroProps): ReactElement => {
             {t("Storage Recipe")}
           </SRHeader>
           <SRHeader>{t("The recipe for better storage management")}</SRHeader>
+          <SRFlex
+            direction="column"
+            width="small"
+            wrap="nowrap"
+            justifyContent="center"
+          >
+            <SRLanguageSelector saveToDb={false} />
+          </SRFlex>
           <SRText fontSize="large" padding="medium" margin="xlarge">
             {t(
               "Get started by viewing recipes, logging in, or creating your own account."

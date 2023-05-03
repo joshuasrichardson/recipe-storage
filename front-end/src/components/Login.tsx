@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import ServerFacade from "../api/ServerFacade.ts";
 // @ts-ignore
 import SRButton from "../sr-ui/SRButton.tsx";
-import { Language, User } from "../types";
+import { User } from "../types";
 // @ts-ignore
 import SRHeader from "../sr-ui/SRHeader.tsx";
 // @ts-ignore
@@ -20,7 +20,7 @@ import SRForm from "../sr-ui/SRForm.tsx";
 // @ts-ignore
 import { isMobile, themeRed } from "../sr-ui/styles.ts";
 // @ts-ignore
-import SRDropDown from "../sr-ui/SRDropDown.tsx";
+import SRLanguageSelector from "../sr-ui/SRLanguageSelector.tsx";
 // @ts-ignore
 import { useTranslation } from "react-i18next";
 // @ts-ignore
@@ -132,17 +132,7 @@ const Login: React.FC<LoginProps> = ({
                 onChange={(e) => setPassword2(e.target.value)}
                 fillBackground
               />
-              <SRDropDown
-                label={t("Language")}
-                value={language}
-                onChange={(e) => setLanguage(e.target.value as Language)}
-                fillBackground
-                listName="language"
-                fixedOptions={true}
-              >
-                <option value="en">English</option>
-                <option value="ja">日本語</option>
-              </SRDropDown>
+              <SRLanguageSelector saveToDb={false} />
             </>
           )}
           <SRText style={{ textAlign: "center" }} color={themeRed}>
