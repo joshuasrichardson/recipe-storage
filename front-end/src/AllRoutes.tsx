@@ -101,7 +101,7 @@ const AllRoutes: React.FC<AllRoutesParams> = ({
 
   return (
     <BrowserRouter>
-      <Nav user={user} setUser={setUser} />
+      <Nav user={user} />
       {getRoutes()}
     </BrowserRouter>
   );

@@ -4,8 +4,6 @@ import Container from "react-bootstrap/Container";
 import { useTranslation } from "react-i18next";
 import Nav from "react-bootstrap/Nav";
 // @ts-ignore
-import ServerFacade from "../api/ServerFacade.ts";
-// @ts-ignore
 import SRHeader from "../sr-ui/SRHeader.tsx";
 // @ts-ignore
 import { lightTextColor, themeGreen } from "../sr-ui/styles.ts";
@@ -13,24 +11,13 @@ import { User } from "../types";
 
 export type NavParams = {
   user: User;
-  setUser: (user: User) => void;
 };
 
-const Navigation: React.FC<NavParams> = ({
-  user,
-  setUser,
-}: NavParams): ReactElement => {
+const Navigation: React.FC<NavParams> = ({ user }: NavParams): ReactElement => {
   const { t } = useTranslation();
 
   const navStyle: React.CSSProperties = {
     backgroundColor: themeGreen,
-  };
-
-  const logout = async (): Promise<void> => {
-    if (user) {
-      await ServerFacade.logout();
-      setUser(null);
-    }
   };
 
   return (
@@ -51,9 +38,6 @@ const Navigation: React.FC<NavParams> = ({
               </>
             )}
             <Nav.Link href="/recipes">{t("Recipes")}</Nav.Link>
-            <Nav.Link href="/login" onClick={logout}>
-              {user ? t("Logout") : t("Login")}
-            </Nav.Link>
           </Nav>
         </Navbar.Collapse>
         <Navbar.Toggle />

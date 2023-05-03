@@ -44,7 +44,7 @@ describe("Nav", () => {
   it("renders Home, Recipes, and Login Links when the user is logged out", () => {
     const nav = render(
       <BrowserRouter>
-        <Nav user={null} setUser={mockSetUser} />
+        <Nav user={null} />
       </BrowserRouter>,
       root
     );
@@ -113,7 +113,7 @@ describe("Nav", () => {
   it("renders username and Home, Storage, History Recipes, and Login Links when the user is logged in", () => {
     const nav = render(
       <BrowserRouter>
-        <Nav user={testUser} setUser={mockSetUser} />
+        <Nav user={testUser} />
       </BrowserRouter>,
       root
     );
@@ -196,7 +196,7 @@ describe("Nav", () => {
   it("logs out when the user is logged in and clicks Logout", () => {
     const nav = render(
       <BrowserRouter>
-        <Nav user={testUser} setUser={mockSetUser} />
+        <Nav user={testUser} />
       </BrowserRouter>,
       root
     );
@@ -212,7 +212,7 @@ describe("Nav", () => {
   it("does not log out when the user is logged out and clicks Login", () => {
     const nav = render(
       <BrowserRouter>
-        <Nav user={null} setUser={mockSetUser} />
+        <Nav user={null} />
       </BrowserRouter>,
       root
     );
