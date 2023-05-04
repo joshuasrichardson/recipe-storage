@@ -25,7 +25,7 @@ const ManuallyAddRecipe = (): ReactElement => {
   const [steps, setSteps] = useState<string>("");
   const [numServings, setNumServings] = useState<string>("");
   const [link, setLink] = useState("");
-  const { user } = useContext<ContextType>(Context);
+  const { user, language } = useContext<ContextType>(Context);
   const { t } = useTranslation();
 
   const addRecipe = async (
@@ -42,6 +42,7 @@ const ManuallyAddRecipe = (): ReactElement => {
       steps,
       numServings,
       link,
+      language,
     };
 
     await ServerFacade.addRecipe(params);

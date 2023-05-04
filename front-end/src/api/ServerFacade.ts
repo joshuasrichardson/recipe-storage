@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from "axios";
-import { APIFormattedItem, Item, ItemAutofill, User } from "../types";
+import { APIFormattedItem, Item, ItemAutofill, Language, User } from "../types";
 // @ts-ignore
 import { apiFormattedItem, viewFormattedItem } from "../utils/utils.ts";
 
@@ -548,6 +548,7 @@ export type AddRecipeParams = {
   steps: string;
   numServings: string;
   link: string;
+  language: Language;
 };
 
 const addRecipe = async (addRecipeParams: AddRecipeParams): Promise<void> => {

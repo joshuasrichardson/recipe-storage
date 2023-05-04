@@ -31,6 +31,8 @@
   "Time": "Time",
   " minutes": " minutes",
   "Servings": "Servings",
+  "Number of people": "Servings",
+  "servings counter": "{{count}}",
   "Materials": "Materials",
   "Ingredients": "Ingredients",
   "Steps": "Steps",

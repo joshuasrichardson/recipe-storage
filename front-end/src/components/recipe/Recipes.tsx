@@ -75,7 +75,10 @@ const RecipeComponent = ({ recipe }) => {
 
   const getRecipeAttributes = (recipe: Recipe): Attribute[] => {
     return [
-      { key: t("Servings"), value: `${recipe.numServings}` },
+      {
+        key: t("Number of people"),
+        value: t("servings counter", { count: recipe?.numServings }),
+      },
       {
         key: t("Time"),
         value: recipe?.minutes ? recipe?.minutes + t(" minutes") : undefined,

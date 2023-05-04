@@ -12,6 +12,7 @@
     "cookie-session": "^2.0.0",
     "cors": "^2.8.5",
     "cross-env": "^7.0.3",
+    "deepl-node": "^1.9.0",
     "dotenv": "^16.0.3",
     "express": "~4.16.1",
     "mongoose": "^6.2.7",

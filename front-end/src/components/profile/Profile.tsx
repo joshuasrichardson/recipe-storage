@@ -43,7 +43,7 @@ const Profile: React.FC = (): ReactElement => {
           justifyContent="flex-start"
           alignItems="stretch"
         >
-          <SRLanguageSelector />
+          <SRLanguageSelector saveToDb={true} />
           <SRButton
             style={{ marginLeft: 0, marginRight: 0 }}
             variant="secondary"

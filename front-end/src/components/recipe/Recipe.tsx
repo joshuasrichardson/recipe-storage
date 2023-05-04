@@ -61,7 +61,10 @@ const RecipeComponent: React.FC<RecipeComponentProps> = ({
         key: t("Time"),
         value: recipe?.minutes ? recipe?.minutes + t(" minutes") : undefined,
       },
-      { key: t("Servings"), value: recipe?.numServings },
+      {
+        key: t("Number of people"),
+        value: t("servings counter", { count: recipe?.numServings }),
+      },
       { key: t("Materials"), value: recipe?.materials },
       { key: t("Ingredients"), value: recipe?.ingredients },
       { key: t("Steps"), value: recipe?.steps, ol: true },

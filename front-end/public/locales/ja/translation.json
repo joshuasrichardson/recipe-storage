@@ -30,10 +30,12 @@
 
   "Time": "時間",
   " minutes": "分",
-  "Servings": "サービング",
+  "Servings": "食べれる人数",
+  "Number of people": "人数",
+  "servings counter": "{{count}}人分",
   "Materials": "必要な道具",
   "Ingredients": "材料",
-  "Steps": "インストラクション",
+  "Steps": "手順",
   "Description": "説明",
 
   "Item": "アイテム",

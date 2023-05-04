@@ -13,6 +13,7 @@ import ServerFacade from "./api/ServerFacade.ts";
 // @ts-ignore
 import Toaster from "./sr-ui/Toaster.tsx";
 import { ContextType, Language, User } from "./types";
+// @ts-ignore
 import "./i18n.ts";
 import { useTranslation } from "react-i18next";
 
@@ -21,7 +22,7 @@ export const Context = createContext<ContextType>(undefined);
 const App: React.FC = (): ReactElement => {
   const { i18n } = useTranslation();
 
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<User>(null);
   const [language, setLanguage] = useState<Language>("en");
 
   useEffect(() => {
@@ -36,6 +37,7 @@ const App: React.FC = (): ReactElement => {
       setLanguage(currentUser.language);
     };
     if (!user) tryLoggingIn();
+    else setLanguage(user.language);
   }, [user, setUser]);
 
   return (
