@@ -559,6 +559,17 @@ const addRecipe = async (addRecipeParams: AddRecipeParams): Promise<void> => {
   console.log(response);
 };
 
+const updateRecipe = async (
+  id: string,
+  updateRecipeParams: AddRecipeParams
+): Promise<void> => {
+  const response: AxiosResponse<any, AddRecipeParams> = await axios.put(
+    `/api/recipes/${id}`,
+    updateRecipeParams
+  );
+  console.log(response);
+};
+
 const deleteRecipe = async (id: string): Promise<void> => {
   const response: AxiosResponse<any, string> = await axios.delete(
     `/api/recipes/${id}`
@@ -590,6 +601,7 @@ const ServerFacade = {
   generateRecipe,
   generateRecipeWithOldestIngredients,
   addRecipe,
+  updateRecipe,
   deleteRecipe,
 };
 

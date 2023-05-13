@@ -43,7 +43,7 @@ const App: React.FC = (): ReactElement => {
   return (
     <Suspense fallback="loading">
       <Context.Provider value={{ user, setUser, language, setLanguage }}>
-        <AllRoutes user={user} setUser={setUser} />
+        <AllRoutes user={user} />
         <Toaster />
       </Context.Provider>
     </Suspense>

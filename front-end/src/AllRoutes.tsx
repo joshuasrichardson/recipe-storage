@@ -30,16 +30,16 @@ import AddRecipe from "./components/recipe/AddRecipe.tsx";
 // @ts-ignore
 import RecipeComponent from "./components/recipe/Recipe.tsx";
 // @ts-ignore
+import EditRecipe from "./components/recipe/EditRecipe.tsx";
+// @ts-ignore
 import MakeRecipe from "./components/recipe/MakeRecipe.tsx";
 
 export type AllRoutesParams = {
   user: User;
-  setUser: (user: User) => void;
 };
 
 const AllRoutes: React.FC<AllRoutesParams> = ({
   user,
-  setUser,
 }: AllRoutesParams): ReactElement => {
   const getLoggedInRoutes = () => {
     return (
@@ -63,6 +63,7 @@ const AllRoutes: React.FC<AllRoutesParams> = ({
         <Route path="/item/update" element={<DiffChecker />} />
         <Route path="/recipes/add" element={<AddRecipe />} />
         <Route path="/recipes/make/:id" element={<MakeRecipe />} />
+        <Route path="/recipes/edit/:id" element={<EditRecipe />} />
         <Route
           path="/recipes/:id"
           element={

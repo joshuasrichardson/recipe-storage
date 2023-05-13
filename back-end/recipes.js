@@ -128,6 +128,34 @@ router.post("/", validUser, async (req, res) => {
   }
 });
 
+router.put("/:id", validUser, async (req, res) => {
+  try {
+    const recipeAttributes = {
+      user: req.user,
+      name: req.body.name,
+      minutes: req.body.minutes,
+      numServings: req.body.numServings,
+      materials: parseMaterials(req.body.materials),
+      ingredients: parseIngredients(req.body.ingredients),
+      steps: parseSteps(req.body.steps),
+      description: req.body.description,
+      link: req.body.link,
+      language: req.body.language,
+    };
+
+    const recipe = await Recipe.findByIdAndUpdate(
+      {
+        _id: req.params.id,
+      },
+      recipeAttributes
+    );
+    return res.send(recipe);
+  } catch (error) {
+    console.log(error);
+    return res.sendStatus(500);
+  }
+});
+
 router.get("/withingredient/:ingredients", async (req, res) => {
   try {
     const ingredients = req.params.ingredients;

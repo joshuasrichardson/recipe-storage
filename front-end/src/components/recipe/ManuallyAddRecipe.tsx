@@ -1,4 +1,4 @@
-import React, { useState, useContext, ReactElement } from "react";
+import React, { useState, useContext, ReactElement, useEffect } from "react";
 // @ts-ignore
 import { Context } from "../../App.tsx";
 // @ts-ignore
@@ -12,25 +12,75 @@ import SRTextInput from "../../sr-ui/SRTextInput.tsx";
 // @ts-ignore
 import SRForm from "../../sr-ui/SRForm.tsx";
 // @ts-ignore
-import { ContextType } from "../../types.ts";
+import { ContextType, Recipe } from "../../types.ts";
 // @ts-ignore
 import { useTranslation } from "react-i18next";
+import { toast } from "react-toastify";
+// @ts-ignore
+import { toastEmitter } from "../../sr-ui/Toaster.tsx";
+import { useNavigate } from "react-router-dom";
 
-const ManuallyAddRecipe = (): ReactElement => {
-  const [name, setName] = useState<string>("");
-  const [minutes, setMinutes] = useState<string>("");
-  const [materials, setMaterials] = useState<string>("");
-  const [description, setDescription] = useState<string>("");
-  const [ingredients, setIngredients] = useState<string>("");
-  const [steps, setSteps] = useState<string>("");
-  const [numServings, setNumServings] = useState<string>("");
-  const [link, setLink] = useState("");
+interface ManuallyAddRecipeProps {
+  recipe?: Recipe;
+}
+
+const ManuallyAddRecipe = ({
+  recipe,
+}: ManuallyAddRecipeProps): ReactElement => {
+  const [name, setName] = useState<string>(recipe?.name || "");
+  const [minutes, setMinutes] = useState<string>(`${recipe?.minutes || ""}`);
+  const [materials, setMaterials] = useState<string>(
+    recipe?.materials?.join("\n") || ""
+  );
+  const [description, setDescription] = useState<string>(
+    recipe?.description || ""
+  );
+  const [ingredients, setIngredients] = useState<string>(
+    recipe?.ingredients?.join("\n") || ""
+  );
+  const [steps, setSteps] = useState<string>(recipe?.steps?.join("\n") || "");
+  const [numServings, setNumServings] = useState<string>(
+    `${recipe?.numServings || ""}`
+  );
+  const [link, setLink] = useState(recipe?.link || "");
   const { user, language } = useContext<ContextType>(Context);
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
-  const addRecipe = async (
-    e: React.FormEvent<HTMLFormElement>
-  ): Promise<void> => {
+  useEffect(() => {
+    if (recipe) {
+      setName(recipe.name);
+      setMinutes(`${recipe.minutes || ""}`);
+      setMaterials(recipe.materials?.join("\n") || "");
+      setDescription(recipe.description || "");
+      setIngredients(recipe.ingredients?.join("\n") || "");
+      setSteps(recipe.steps?.join("\n") || "");
+      setNumServings(`${recipe.numServings || ""}`);
+      setLink(recipe.link || "");
+    }
+  }, [recipe]);
+
+  const showSuccess = ({ recipe, action }) => {
+    toast.dismiss();
+    setTimeout(
+      () =>
+        toast.success(
+          `${t(`${action} new recipe:`)} ${recipe.name}!`,
+          toastEmitter({ autoClose: 7000 })
+        ),
+      50
+    );
+    navigate("/recipes/" + recipe._id);
+  };
+
+  const showError = ({ action }) => {
+    toast.error(
+      t(`Failed to ${action} recipe.`),
+      toastEmitter({ autoClose: 10000 })
+    );
+  };
+
+  const addRecipe = async (e): Promise<void> => {
     e.preventDefault();
     const params: AddRecipeParams = {
       userId: user?._id,
@@ -45,21 +95,49 @@ const ManuallyAddRecipe = (): ReactElement => {
       language,
     };
 
-    await ServerFacade.addRecipe(params);
-    setName("");
-    setMinutes("");
-    setMaterials("");
-    setDescription("");
-    setIngredients("");
-    setSteps("");
-    setNumServings("1");
-    setLink("");
+    try {
+      await ServerFacade.addRecipe(params);
+      setName("");
+      setMinutes("");
+      setMaterials("");
+      setDescription("");
+      setIngredients("");
+      setSteps("");
+      setNumServings("1");
+      setLink("");
+      showSuccess({ recipe, action: "Added" });
+    } catch (err) {
+      showError({ action: "add new" });
+    }
     window.scrollTo({ top: 200, behavior: "smooth" });
+  };
+
+  const updateRecipe = async (e): Promise<void> => {
+    e.preventDefault();
+    const params: AddRecipeParams = {
+      userId: user?._id,
+      name,
+      minutes,
+      materials,
+      description,
+      ingredients,
+      steps,
+      numServings,
+      link,
+      language,
+    };
+
+    try {
+      await ServerFacade.updateRecipe(recipe._id, params);
+      showSuccess({ recipe, action: "Updated" });
+    } catch (e) {
+      showError({ action: "update" });
+    }
   };
 
   return (
     <SRFlex direction="column">
-      <SRForm onSubmit={addRecipe}>
+      <SRForm>
         <SRTextInput
           type="text"
           label={t("Name")}
@@ -119,7 +197,12 @@ const ManuallyAddRecipe = (): ReactElement => {
           onChange={(e) => setLink(e.target.value)}
         ></SRTextInput>
         <SRFlex justifyContent="center">
-          <SRButton type="submit">{t("Save")}</SRButton>
+          <SRButton
+            onClick={recipe?._id ? updateRecipe : addRecipe}
+            type="button"
+          >
+            {t("Save")}
+          </SRButton>
         </SRFlex>
       </SRForm>
     </SRFlex>

@@ -62,6 +62,9 @@
   "Quantity": "数量",
   "Add to Storage": "追加する",
   "Added": "追加した",
+  "Added new recipe:": "新しいレシピを追加した:",
+  "Updated new recipe:": "レシピを編集できた:",
+  "Failed to add new recipe.": "新しいレシピを追加できなかった",
 
   "Edit Item": "アイテムの変更",
   "Update": "更新する",
@@ -94,5 +97,8 @@
   "Link": "リンク",
 
   "placeholder Profile": "{{user}}のプロフィル",
-  "Profile": "プロフィル"
+  "Profile": "プロフィル",
+
+  "Save": "保存する",
+  "Edit Recipe": "レシピの編集"
 }

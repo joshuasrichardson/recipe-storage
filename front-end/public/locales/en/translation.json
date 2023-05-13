@@ -62,6 +62,9 @@
   "Quantity": "Quantity",
   "Add to Storage": "Add to Storage",
   "Added": "Added",
+  "Added new recipe:": "Added new recipe:",
+  "Updated new recipe:": "Updated recipe:",
+  "Failed to add new recipe.": "Failed to add new recipe.",
 
   "Edit Item": "Edit Item",
   "Update": "Update",
@@ -94,5 +97,8 @@
   "Link": "Link",
 
   "placeholder Profile": "{{user}}'s Profile",
-  "Profile": "Profile"
+  "Profile": "Profile",
+
+  "Save": "Save",
+  "Edit Recipe": "Edit Recipe"
 }

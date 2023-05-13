@@ -1,4 +1,4 @@
-import React, { useState, useEffect, ReactElement } from "react";
+import React, { useState, useEffect, ReactElement, useContext } from "react";
 import { useParams, useLocation, useNavigate } from "react-router-dom";
 // @ts-ignore
 import ServerFacade from "../../api/ServerFacade.ts";
@@ -15,6 +15,8 @@ import SRFlex from "../../sr-ui/SRFlex.tsx";
 import SRBoxView from "../../sr-ui/SRBoxView.tsx";
 // @ts-ignore
 import { useTranslation } from "react-i18next";
+// @ts-ignore
+import { Context } from "../../App.tsx";
 
 type RecipeComponentState = {
   updated: boolean;
@@ -33,6 +35,7 @@ const RecipeComponent: React.FC<RecipeComponentProps> = ({
   const { id } = useParams();
   const [recipe, setRecipe] = useState(null);
   const { t } = useTranslation();
+  const { user } = useContext(Context);
 
   useEffect(() => {
     const updateScreen = async () => {
@@ -73,29 +76,31 @@ const RecipeComponent: React.FC<RecipeComponentProps> = ({
   };
 
   const getOptions = () => {
-    if (canEdit) {
-      return (
-        <SRFlex>
-          <SRButton
-            size="small"
-            onClick={() =>
-              navigate("/recipes/make/" + recipe._id, { state: recipe })
-            }
-          >
-            <FontAwesomeIcon icon={solid("burger")} />
-          </SRButton>
-          <SRButton
-            size="small"
-            onClick={() => navigate("/recipes/edit/" + recipe._id)}
-          >
-            <FontAwesomeIcon icon={solid("edit")} />
-          </SRButton>
-          <SRButton size="small" onClick={deleteRecipe}>
-            <FontAwesomeIcon icon={solid("trash")} />
-          </SRButton>
-        </SRFlex>
-      );
-    }
+    return (
+      <SRFlex>
+        <SRButton
+          size="small"
+          onClick={() =>
+            navigate("/recipes/make/" + recipe._id, { state: recipe })
+          }
+        >
+          <FontAwesomeIcon icon={solid("burger")} />
+        </SRButton>
+        {(recipe?.user === user?._id || canEdit) && (
+          <>
+            <SRButton
+              size="small"
+              onClick={() => navigate("/recipes/edit/" + recipe._id)}
+            >
+              <FontAwesomeIcon icon={solid("edit")} />
+            </SRButton>
+            <SRButton size="small" onClick={deleteRecipe}>
+              <FontAwesomeIcon icon={solid("trash")} />
+            </SRButton>
+          </>
+        )}
+      </SRFlex>
+    );
   };
 
   return (
