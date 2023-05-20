@@ -4,8 +4,7 @@ import User from "../models/users";
 const getUserIfValid = async (userId: string) => {
   try {
     if (!userId) return null;
-    const user = await User.findOne({ _id: userId });
-    if (!user) return null;
+    return await User.findOne({ _id: userId });
   } catch (err) {
     return null;
   }

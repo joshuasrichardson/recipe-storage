@@ -3,37 +3,42 @@ import { queryRecipes } from "../helpers/openai";
 import { translate } from "../helpers/translation";
 
 export const translateRecipe = async (recipe, fromLanguage) => {
-  const translatedName = await translate(recipe.name, fromLanguage);
-  const translatedMaterials = await Promise.all(
-    recipe.materials.map(
-      async (material) => await translate(material, fromLanguage)
-    )
-  );
-  const translatedIngredients = await Promise.all(
-    recipe.ingredients.map(
-      async (ingredient) => await translate(ingredient, fromLanguage)
-    )
-  );
-  const translatedSteps = await Promise.all(
-    recipe.steps.map(async (step) => await translate(step, fromLanguage))
-  );
-  const translatedDescription = await translate(
-    recipe.description,
-    fromLanguage
-  );
+  try {
+    const translatedName = await translate(recipe.name, fromLanguage);
+    const translatedMaterials = await Promise.all(
+      recipe.materials.map(
+        async (material) => await translate(material, fromLanguage)
+      )
+    );
+    const translatedIngredients = await Promise.all(
+      recipe.ingredients.map(
+        async (ingredient) => await translate(ingredient, fromLanguage)
+      )
+    );
+    const translatedSteps = await Promise.all(
+      recipe.steps.map(async (step) => await translate(step, fromLanguage))
+    );
+    const translatedDescription = await translate(
+      recipe.description,
+      fromLanguage
+    );
 
-  const translatedRecipe = new Recipe({
-    ...recipe,
-    name: translatedName,
-    materials: translatedMaterials,
-    ingredients: translatedIngredients,
-    steps: translatedSteps,
-    description: translatedDescription,
-    language: "ja",
-  });
+    const translatedRecipe = new Recipe({
+      ...recipe,
+      name: translatedName,
+      materials: translatedMaterials,
+      ingredients: translatedIngredients,
+      steps: translatedSteps,
+      description: translatedDescription,
+      language: "ja",
+    });
 
-  translatedRecipe.save();
-  return translatedRecipe;
+    translatedRecipe.save();
+    return translatedRecipe;
+  } catch (error) {
+    console.log(error);
+    return {};
+  }
 };
 
 export const generateRecipe = async (ingredients, user) => {

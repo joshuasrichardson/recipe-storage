@@ -25,7 +25,7 @@ router.post("/", upload.single("image"), async (req, res) => {
         ? req.body.src
         : "",
     };
-    const response = await addProduct(newProduct);
+    const response = await addProduct(newProduct, req.file);
     return res.send(response);
   } catch (error) {
     console.log(error);
@@ -34,7 +34,6 @@ router.post("/", upload.single("image"), async (req, res) => {
 });
 
 router.put("/:id", async (req, res) => {
-  console.log(req.body);
   try {
     const product = {
       id: req.params.id,

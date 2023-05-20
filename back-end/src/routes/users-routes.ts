@@ -60,9 +60,7 @@ router.post("/login", async (req, res) => {
 // get logged in user
 router.get("/", checkUserValidity, async (req, res) => {
   try {
-    res.send({
-      user: req.user,
-    });
+    res.send({ user: req.user });
   } catch (error) {
     console.log(error);
     return res.sendStatus(500);

@@ -35,13 +35,13 @@ const saveImage = (file, product) => {
   }
 };
 
-export const addProduct = async (newProduct, file, src) => {
+export const addProduct = async (newProduct, file) => {
   const products = await Product.find({ code: newProduct.code });
   const product = products.length
     ? products[0]
     : new Product({
         ...newProduct,
-        src: file ? "/images/" + file.filename : src ? src : "",
+        src: file ? "/images/" + file.filename : newProduct.src ?? "",
       });
 
   if (file && product) saveImage(file, product);
@@ -53,7 +53,7 @@ export const addProduct = async (newProduct, file, src) => {
     };
   }
 
-  if (src) product.src = src;
+  if (newProduct.src) product.src = newProduct.src;
 
   product.save();
   return { product };
