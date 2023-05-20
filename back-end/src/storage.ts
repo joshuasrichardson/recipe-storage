@@ -1,12 +1,12 @@
-const mongoose = require("mongoose");
-var express = require("express");
-var router = express.Router();
-const users = require("./users.js");
-const validUser = users.valid;
+import mongoose from "mongoose";
+import express from "express";
+import { checkUserValidity } from "./helpers/user-session";
+
+const router = express.Router();
 
 const itemSchema = new mongoose.Schema({
   user: {
-    type: mongoose.Schema.ObjectId,
+    type: mongoose.Types.ObjectId,
     ref: "User",
   },
   code: String,
@@ -30,7 +30,7 @@ const Item = mongoose.model("Item", itemSchema);
 
 const ItemHistory = mongoose.model("ItemHistory", itemSchema);
 
-router.post("/", validUser, async (req, res) => {
+router.post("/", checkUserValidity, async (req, res) => {
   console.log(req.body);
   try {
     const itemAttributes = {
@@ -60,7 +60,7 @@ router.post("/", validUser, async (req, res) => {
 });
 
 // get my history items using a barcode
-router.get("/history/code/:code", validUser, async (req, res) => {
+router.get("/history/code/:code", checkUserValidity, async (req, res) => {
   try {
     const items = await ItemHistory.find({
       user: req.user,
@@ -74,7 +74,7 @@ router.get("/history/code/:code", validUser, async (req, res) => {
 });
 
 // get my history item
-router.get("/history/:id", validUser, async (req, res) => {
+router.get("/history/:id", checkUserValidity, async (req, res) => {
   try {
     const items = await ItemHistory.find({
       user: req.user,
@@ -88,7 +88,7 @@ router.get("/history/:id", validUser, async (req, res) => {
 });
 
 // get my adding and deleting history
-router.get("/history", validUser, async (req, res) => {
+router.get("/history", checkUserValidity, async (req, res) => {
   try {
     const items = await ItemHistory.find({
       user: req.user,
@@ -105,7 +105,7 @@ router.get("/history", validUser, async (req, res) => {
 });
 
 // get my item
-router.get("/:id", validUser, async (req, res) => {
+router.get("/:id", checkUserValidity, async (req, res) => {
   try {
     let items = await Item.find({
       user: req.user,
@@ -119,7 +119,7 @@ router.get("/:id", validUser, async (req, res) => {
 });
 
 // delete my item
-router.delete("/:id", validUser, async (req, res) => {
+router.delete("/:id", checkUserValidity, async (req, res) => {
   try {
     const doc = await Item.findById(req.params.id);
     // add the item deletion to the food storage history
@@ -145,7 +145,7 @@ router.delete("/:id", validUser, async (req, res) => {
 });
 
 // get my items
-router.get("/", validUser, async (req, res) => {
+router.get("/", checkUserValidity, async (req, res) => {
   try {
     let query = Item.find({
       user: req.user,
@@ -197,6 +197,4 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-module.exports = {
-  routes: router,
-};
+export default router;

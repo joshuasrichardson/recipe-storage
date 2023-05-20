@@ -4,7 +4,7 @@ import { APIFormattedItem, Item, SRDate } from "../types";
 export const viewFormattedItem = (apiItem: APIFormattedItem): Item => {
   const item: Item = {
     ...apiItem,
-    tags: arrayToString(apiItem.tags),
+    tags: arrayToString(apiItem.tags || []),
     expiration: apiItem.expiration ? srDate(apiItem.expiration) : undefined,
     added: apiItem.added ? srDate(apiItem.added) : undefined,
     amount: apiItem.amount ? parseFloat(apiItem.amount as string) : 1,

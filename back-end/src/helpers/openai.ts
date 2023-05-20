@@ -1,4 +1,4 @@
-const { Configuration, OpenAIApi } = require("openai");
+import { Configuration, OpenAIApi } from "openai";
 
 // Creating an instance of OpenAIApi with API key from the environment variables
 const openai = new OpenAIApi(
@@ -57,7 +57,7 @@ const extractJSON = (str) => {
   return str.substring(startIndex, endIndex + 2);
 };
 
-const queryRecipes = async (ingredients) => {
+export const queryRecipes = async (ingredients) => {
   const prompt = getRecipeQuery(ingredients);
 
   const completion = await openai.createChatCompletion({
@@ -83,6 +83,4 @@ const queryRecipes = async (ingredients) => {
   return recipe;
 };
 
-module.exports = {
-  queryRecipes,
-};
+export default queryRecipes;
