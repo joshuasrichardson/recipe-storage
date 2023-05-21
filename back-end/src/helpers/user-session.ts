@@ -11,7 +11,7 @@ const getUserIfValid = async (userId: string) => {
 };
 
 export const checkUserValidity = async (req, res, next) => {
-  const user = await getUserIfValid(req?.session?.userID);
+  const user = await getUserIfValid(req.session.userID);
   if (user) {
     req.user = user;
     next();
