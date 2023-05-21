@@ -9,12 +9,12 @@ const router = Router();
 router.post("/", async (req: GetUserAuthInfoRequest, res) => {
   try {
     const userAttributes = {
-      firstName: req?.body?.firstName,
-      lastName: req?.body?.lastName,
-      username: req?.body?.username,
-      password: req?.body?.password,
-      role: req?.body?.role,
-      language: req?.body?.language || "en",
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      username: req.body.username,
+      password: req.body.password,
+      role: req.body.role,
+      language: req.body.language || "en",
     };
 
     const user = await createUser(userAttributes);
@@ -30,7 +30,7 @@ router.post("/", async (req: GetUserAuthInfoRequest, res) => {
 });
 
 router.put("/", async (req, res) => {
-  const user = req?.body?.user;
+  const user = req.body.user;
 
   try {
     const updatedUser = await updateUser(user);
