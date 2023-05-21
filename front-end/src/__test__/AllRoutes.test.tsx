@@ -3,7 +3,6 @@ import { render, act } from "@testing-library/react";
 import AllRoutes from "../AllRoutes";
 import { createRoot } from "react-dom/client";
 import { testUser } from "../../testUtils/mocks";
-import { User } from "../types";
 
 let container: HTMLElement = null;
 let root = null;
@@ -44,10 +43,7 @@ afterEach(() => {
 
 describe("AllRoutes", () => {
   it("renders an Intro when the user is logged out", () => {
-    const allRoutes = render(
-      <AllRoutes user={null} setUser={(user: User) => {}} />,
-      root
-    );
+    const allRoutes = render(<AllRoutes user={null} />, root);
 
     expect(allRoutes.container).toMatchInlineSnapshot(`
 <div>
@@ -58,10 +54,7 @@ describe("AllRoutes", () => {
   });
 
   it("renders a storage page when the user is logged in", () => {
-    const allRoutes = render(
-      <AllRoutes user={testUser} setUser={(user: User) => {}} />,
-      root
-    );
+    const allRoutes = render(<AllRoutes user={testUser} />, root);
 
     expect(allRoutes.container).toMatchInlineSnapshot(`
 <div>

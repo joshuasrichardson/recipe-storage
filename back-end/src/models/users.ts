@@ -1,7 +1,8 @@
 import mongoose from "mongoose";
 import argon2 from "argon2";
+import { user } from "../types";
 
-const userSchema = new mongoose.Schema({
+const userSchema = new mongoose.Schema<user>({
   firstName: String,
   lastName: String,
   username: String,
@@ -14,11 +15,11 @@ const userSchema = new mongoose.Schema({
 });
 
 userSchema.pre(/save/, async function (next) {
-  if (!this.isModified("password")) return next();
+  if (!(this as any).isModified("password")) return next();
 
   try {
-    const hash = await argon2.hash(this.password);
-    this.password = hash;
+    const hash = await argon2.hash((this as any).password);
+    (this as any).password = hash;
     next();
   } catch (error) {
     console.log(error);
@@ -41,6 +42,6 @@ userSchema.methods.toJSON = function () {
   return obj;
 };
 
-const User = mongoose.model("User", userSchema);
+const User = mongoose.model<user>("User", userSchema);
 
 export default User;

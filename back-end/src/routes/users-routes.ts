@@ -2,10 +2,11 @@ import { Router } from "express";
 import { createUser, updateUser, login } from "../services/users-service";
 import { ErrorMessage } from "../constants";
 import { checkUserValidity } from "../helpers/user-session";
+import { GetUserAuthInfoRequest } from "../types";
 
 const router = Router();
 
-router.post("/", async (req, res) => {
+router.post("/", async (req: GetUserAuthInfoRequest, res) => {
   try {
     const userAttributes = {
       firstName: req?.body?.firstName,
@@ -42,7 +43,7 @@ router.put("/", async (req, res) => {
   }
 });
 
-router.post("/login", async (req, res) => {
+router.post("/login", async (req: GetUserAuthInfoRequest, res) => {
   try {
     const user = await login(req.body.username, req.body.password);
 
@@ -58,7 +59,7 @@ router.post("/login", async (req, res) => {
 });
 
 // get logged in user
-router.get("/", checkUserValidity, async (req, res) => {
+router.get("/", checkUserValidity, async (req: GetUserAuthInfoRequest, res) => {
   try {
     res.send({ user: req.user });
   } catch (error) {
@@ -68,14 +69,18 @@ router.get("/", checkUserValidity, async (req, res) => {
 });
 
 // logout
-router.delete("/", checkUserValidity, async (req, res) => {
-  try {
-    req.session = null;
-    res.sendStatus(200);
-  } catch (error) {
-    console.log(error);
-    return res.sendStatus(500);
+router.delete(
+  "/",
+  checkUserValidity,
+  async (req: GetUserAuthInfoRequest, res) => {
+    try {
+      req.session = null;
+      res.sendStatus(200);
+    } catch (error) {
+      console.log(error);
+      return res.sendStatus(500);
+    }
   }
-});
+);
 
 export default router;

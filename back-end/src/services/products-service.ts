@@ -67,8 +67,6 @@ export const updateProduct = async (product) => {
   updatedProduct.save();
 };
 
-export const getProductsByCode = async (code) => {
-  const p = await Product.find({ code });
-  console.log(p);
-  return p;
+export const getProductByCode = async (code: string) => {
+  return await Product.findOne({ code });
 };

@@ -26,6 +26,7 @@ type ItemGroupProps = {
   itemType: string;
   itemTypePlural: string;
   dateFormatter?: (date: SRDate) => string;
+  children?: JSX.Element;
 };
 
 const ItemGroup: React.FC<ItemGroupProps> = ({
@@ -36,6 +37,7 @@ const ItemGroup: React.FC<ItemGroupProps> = ({
   itemType,
   itemTypePlural,
   dateFormatter = Utils.formatDate,
+  children,
 }: ItemGroupProps): ReactElement => {
   const [useImageView, setUseImageView] = useState(false);
   const { t } = useTranslation();
@@ -193,7 +195,9 @@ const ItemGroup: React.FC<ItemGroupProps> = ({
       searchImmediately={true}
       useImageView={useImageView}
       setUseImageView={setUseImageView}
-    />
+    >
+      {children}
+    </SRGroupDisplay>
   );
 };
 

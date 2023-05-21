@@ -2,26 +2,19 @@ import Recipe from "../models/recipes";
 import { queryRecipes } from "../helpers/openai";
 import { translate } from "../helpers/translation";
 
-export const translateRecipe = async (recipe, fromLanguage) => {
+export const translateRecipe = async (recipe) => {
   try {
-    const translatedName = await translate(recipe.name, fromLanguage);
+    const translatedName = await translate(recipe.name);
     const translatedMaterials = await Promise.all(
-      recipe.materials.map(
-        async (material) => await translate(material, fromLanguage)
-      )
+      recipe.materials.map(async (material) => await translate(material))
     );
     const translatedIngredients = await Promise.all(
-      recipe.ingredients.map(
-        async (ingredient) => await translate(ingredient, fromLanguage)
-      )
+      recipe.ingredients.map(async (ingredient) => await translate(ingredient))
     );
     const translatedSteps = await Promise.all(
-      recipe.steps.map(async (step) => await translate(step, fromLanguage))
+      recipe.steps.map(async (step) => await translate(step))
     );
-    const translatedDescription = await translate(
-      recipe.description,
-      fromLanguage
-    );
+    const translatedDescription = await translate(recipe.description);
 
     const translatedRecipe = new Recipe({
       ...recipe,
@@ -50,7 +43,7 @@ export const generateRecipe = async (ingredients, user) => {
     generatedWith: ingredients,
   };
 
-  const translatedRecipePromise = translateRecipe(generatedRecipe, "en");
+  const translatedRecipePromise = translateRecipe(generatedRecipe);
 
   const recipe = new Recipe(generatedRecipe);
 
@@ -59,8 +52,8 @@ export const generateRecipe = async (ingredients, user) => {
   return user.language !== "ja" ? recipe : await translatedRecipePromise;
 };
 
-export const addRecipe = async (recipe, language) => {
-  translateRecipe(recipe, language);
+export const addRecipe = async (recipe, language: "en" | "ja") => {
+  if (language === "en") translateRecipe(recipe);
 
   const newRecipe = new Recipe(recipe);
   await newRecipe.save();

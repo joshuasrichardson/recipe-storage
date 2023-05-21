@@ -242,13 +242,13 @@ const copyMissingFields = (
 
 const getProduct = async (code: string): Promise<ItemAutofill> => {
   // TODO: Move more logic to the backend
-  let res: AxiosResponse<ItemAutofill>;
+  let res: AxiosResponse<{ product: APIFormattedItem }>;
   let item: ItemAutofill;
   let item2: ItemAutofill;
 
   try {
     res = await axios.get("/api/products/" + code);
-    item = viewFormattedItem(res.data[0]); // TODO: handle case where the barcode isn't unique
+    item = viewFormattedItem(res.data.product); // TODO: handle case where the barcode isn't unique
     if (code?.length === 12 && !item.src) {
       item2 = await getNutritionixV2Item(code);
       item = copyMissingFields(item, item2);
@@ -344,6 +344,14 @@ const getItemContainer = async (code: string): Promise<string> => {
 const deleteItem = async (id: string): Promise<void> => {
   try {
     await axios.delete("/api/storage/" + id);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const clearStorage = async (): Promise<void> => {
+  try {
+    await axios.delete("/api/storage/");
   } catch (error) {
     console.log(error);
   }
@@ -589,6 +597,7 @@ const ServerFacade = {
   getItem,
   getHistoryItem,
   deleteItem,
+  clearStorage,
   getStorage,
   getStorageHistory,
   addFoodStorage,

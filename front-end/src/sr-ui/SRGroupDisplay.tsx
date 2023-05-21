@@ -40,6 +40,7 @@ type GroupDisplayProps = {
   searchImmediately: boolean;
   useImageView: boolean;
   setUseImageView: (shouldUse: boolean) => void;
+  children?: JSX.Element;
 };
 
 const GroupDisplay: React.FC<GroupDisplayProps> = ({
@@ -53,6 +54,7 @@ const GroupDisplay: React.FC<GroupDisplayProps> = ({
   searchImmediately,
   useImageView,
   setUseImageView,
+  children,
 }: GroupDisplayProps): ReactElement => {
   const { user } = useContext<ContextType>(Context);
   const [searchString, setSearchString] = useState("");
@@ -107,7 +109,7 @@ const GroupDisplay: React.FC<GroupDisplayProps> = ({
   };
 
   const changeView = () => {
-    let temp = objectStyleIcon;
+    const temp = objectStyleIcon;
     setObjectStyleIcon(unusedIcon);
     setUnusedIcon(temp);
     setUseImageView(!useImageView);
@@ -145,6 +147,7 @@ const GroupDisplay: React.FC<GroupDisplayProps> = ({
         <SRFlex wrap="wrap" justifyContent="space-around" alignItems="stretch">
           {getObjectsHTML(matchingObjects)}
         </SRFlex>
+        {children}
       </SRContainer>
     </SRFlex>
   );

@@ -148,6 +148,7 @@ describe("ServerFacade", () => {
         username: newUser.username,
         password: newUser.password,
         password2: newUser.password,
+        language: "en",
         onSuccess: mockSuccess,
         onFailure: mockFailure,
       };
@@ -165,6 +166,7 @@ describe("ServerFacade", () => {
         username: "Server Error Guy",
         password: "Server Error Guy",
         password2: "Server Error Guy",
+        language: "en",
         onSuccess: mockSuccess,
         onFailure: mockFailure,
       };
@@ -182,6 +184,7 @@ describe("ServerFacade", () => {
         username: mockUser.username,
         password: mockUser.password,
         password2: mockUser.password,
+        language: "en",
         onSuccess: mockSuccess,
         onFailure: mockFailure,
       };
@@ -199,6 +202,7 @@ describe("ServerFacade", () => {
         username: null,
         password: newUser.password,
         password2: newUser.password,
+        language: "en",
         onSuccess: mockSuccess,
         onFailure: mockFailure,
       };
@@ -216,6 +220,7 @@ describe("ServerFacade", () => {
         username: newUser.username,
         password: newUser.password,
         password2: "Different Password",
+        language: "en",
         onSuccess: mockSuccess,
         onFailure: mockFailure,
       };

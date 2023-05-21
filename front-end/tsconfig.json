@@ -1,5 +1,8 @@
 {
   "compilerOptions": {
+    "jsx": "react",
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
     /* Visit https://aka.ms/tsconfig to read more about this file */
     /* Projects */
     // "incremental": true,                              /* Save .tsbuildinfo files to allow for incremental compilation of projects. */
@@ -96,3 +99,18 @@
     "src/**/*"
   ]
 }
+// {
+//     "compilerOptions": {
+//         "jsx": "react",
+//         "types": [
+//             "node",
+//             "jest",
+//             "@testing-library/jest-dom"
+//         ],
+//         "lib": [
+//             "ES2021",
+//             "DOM"
+//         ],
+//         "esModuleInterop": true,
+//     }
+// }
