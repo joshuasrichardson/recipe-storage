@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
+import { ProductI } from "../types";
 
-const productSchema = new mongoose.Schema({
+const productSchema = new mongoose.Schema<ProductI>({
   code: String,
   name: String,
   brand: String,
@@ -13,6 +14,6 @@ const productSchema = new mongoose.Schema({
   avgDaysToExpiration: Number,
 });
 
-const Product = mongoose.model("Product", productSchema);
+const Product = mongoose.model<ProductI>("Product", productSchema);
 
 export default Product;

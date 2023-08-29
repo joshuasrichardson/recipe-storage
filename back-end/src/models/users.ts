@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
 import argon2 from "argon2";
-import { user } from "../types";
+import { UserModel } from "../types";
 
-const userSchema = new mongoose.Schema<user>({
+const userSchema = new mongoose.Schema<UserModel>({
   firstName: String,
   lastName: String,
   username: String,
@@ -12,6 +12,10 @@ const userSchema = new mongoose.Schema<user>({
     default: "",
   },
   language: String,
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
 userSchema.pre(/save/, async function (next) {
@@ -42,6 +46,6 @@ userSchema.methods.toJSON = function () {
   return obj;
 };
 
-const User = mongoose.model<user>("User", userSchema);
+const User = mongoose.model<UserModel>("User", userSchema);
 
 export default User;

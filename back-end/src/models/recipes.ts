@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
+import { RecipeI } from "../types";
 
-const recipeSchema = new mongoose.Schema({
+const recipeSchema = new mongoose.Schema<RecipeI>({
   user: {
     type: mongoose.Types.ObjectId,
     ref: "User",
@@ -28,6 +29,6 @@ const recipeSchema = new mongoose.Schema({
   },
 });
 
-const Recipe = mongoose.model("Recipe", recipeSchema);
+const Recipe = mongoose.model<RecipeI>("Recipe", recipeSchema);
 
 export default Recipe;

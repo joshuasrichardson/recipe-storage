@@ -46,7 +46,7 @@ const RecipeComponent: React.FC<RecipeComponentProps> = ({
         );
         state.updated = false;
       }
-      if (recipe == null) {
+      if (!!recipe) {
         setRecipe(await ServerFacade.getRecipe(id));
       }
     };

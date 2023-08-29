@@ -1,40 +1,40 @@
 import Recipe from "../models/recipes";
 import { queryRecipes } from "../helpers/openai";
 import { translate } from "../helpers/translation";
+import { RecipeI, SupportedLanguage, UserI } from "../types";
+import { ObjectId } from "mongoose";
 
-export const translateRecipe = async (recipe) => {
-  try {
-    const translatedName = await translate(recipe.name);
-    const translatedMaterials = await Promise.all(
-      recipe.materials.map(async (material) => await translate(material))
-    );
-    const translatedIngredients = await Promise.all(
-      recipe.ingredients.map(async (ingredient) => await translate(ingredient))
-    );
-    const translatedSteps = await Promise.all(
-      recipe.steps.map(async (step) => await translate(step))
-    );
-    const translatedDescription = await translate(recipe.description);
+export const translateRecipe = async (recipe: RecipeI): Promise<RecipeI> => {
+  const translatedName = await translate(recipe.name);
+  const translatedMaterials = await Promise.all(
+    recipe.materials.map(async (material) => await translate(material))
+  );
+  const translatedIngredients = await Promise.all(
+    recipe.ingredients.map(async (ingredient) => await translate(ingredient))
+  );
+  const translatedSteps = await Promise.all(
+    recipe.steps.map(async (step) => await translate(step))
+  );
+  const translatedDescription = await translate(recipe.description);
 
-    const translatedRecipe = new Recipe({
-      ...recipe,
-      name: translatedName,
-      materials: translatedMaterials,
-      ingredients: translatedIngredients,
-      steps: translatedSteps,
-      description: translatedDescription,
-      language: "ja",
-    });
+  const translatedRecipe = new Recipe({
+    ...recipe,
+    name: translatedName,
+    materials: translatedMaterials,
+    ingredients: translatedIngredients,
+    steps: translatedSteps,
+    description: translatedDescription,
+    language: "ja",
+  });
 
-    translatedRecipe.save();
-    return translatedRecipe;
-  } catch (error) {
-    console.log(error);
-    return {};
-  }
+  translatedRecipe.save();
+  return translatedRecipe;
 };
 
-export const generateRecipe = async (ingredients, user) => {
+export const generateRecipe = async (
+  ingredients: Array<string>,
+  user: UserI
+): Promise<RecipeI> => {
   const recipeQueryResult = await queryRecipes(ingredients);
   const generatedRecipe = {
     ...recipeQueryResult,
@@ -52,14 +52,17 @@ export const generateRecipe = async (ingredients, user) => {
   return user.language !== "ja" ? recipe : await translatedRecipePromise;
 };
 
-export const addRecipe = async (recipe, language: "en" | "ja") => {
+export const addRecipe = async (
+  recipe: RecipeI,
+  language: SupportedLanguage
+): Promise<RecipeI> => {
   if (language === "en") translateRecipe(recipe);
 
   const newRecipe = new Recipe(recipe);
-  await newRecipe.save();
+  return await newRecipe.save();
 };
 
-export const updateRecipe = async (recipe) => {
+export const updateRecipe = async (recipe: RecipeI): Promise<RecipeI> => {
   const updatedRecipe = await Recipe.findByIdAndUpdate(
     { _id: recipe.id },
     recipe
@@ -67,7 +70,9 @@ export const updateRecipe = async (recipe) => {
   return updatedRecipe;
 };
 
-export const findRecipesWithIngredients = async (ingredients) => {
+export const findRecipesWithIngredients = async (
+  ingredients: string
+): Promise<Array<RecipeI>> => {
   if (ingredients === "all") {
     const recipes = await Recipe.find({}).sort({
       name: 1,
@@ -96,14 +101,16 @@ export const findRecipesWithIngredients = async (ingredients) => {
     },
   ];
 
-  const recipes = await Recipe.aggregate(filters, function (err, results) {});
+  const recipes = await Recipe.aggregate(filters);
   return recipes;
 };
 
-export const getRecipeById = async (id) => await Recipe.findById(id);
+export const getRecipeById = async (id: ObjectId): Promise<RecipeI> =>
+  await Recipe.findById(id);
 
-export const getRecipes = async () => await Recipe.find({}).sort({ name: 1 });
+export const getRecipes = async (): Promise<Array<RecipeI>> =>
+  await Recipe.find({}).sort({ name: 1 });
 
-export const deleteRecipe = async (id) => {
+export const deleteRecipe = async (id: ObjectId): Promise<void> => {
   await Recipe.deleteOne({ _id: id });
 };

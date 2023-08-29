@@ -25,7 +25,7 @@ export type IntroProps = {
 
 const Intro: React.FC<IntroProps> = ({ user }: IntroProps): ReactElement => {
   const { t } = useTranslation();
-  if (user == null) {
+  if (!!user) {
     return (
       <SRFlex
         direction="column"

@@ -30,4 +30,5 @@ back-end/dist
 test/tests/constants.js
 
 deploy.sh
+update.sh
 practice.sh

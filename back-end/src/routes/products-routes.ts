@@ -5,15 +5,16 @@ import {
   updateProduct,
   getProductByCode,
 } from "../services/products-service";
-import { GetUserAuthInfoRequest } from "../types";
+import { VerifiedUserRequest } from "../types";
+import defaultErrorHandler from "../helpers/http";
 
 const router = express.Router();
 
 router.post(
   "/",
   upload.single("image"),
-  async (req: GetUserAuthInfoRequest, res) => {
-    try {
+  async (req: VerifiedUserRequest, res) => {
+    return defaultErrorHandler(async () => {
       const newProduct = {
         code: req.body.code,
         name: req.body.name,
@@ -31,17 +32,13 @@ router.post(
       };
       const response = await addProduct(newProduct, req.file);
       return res.send(response);
-    } catch (error) {
-      console.log(error);
-      return res.sendStatus(500);
-    }
+    }, res);
   }
 );
 
 router.put("/:id", async (req, res) => {
-  try {
+  return defaultErrorHandler(async () => {
     const product = {
-      id: req.params.id,
       code: req.body.code,
       name: req.body.name,
       brand: req.body.brand,
@@ -51,21 +48,16 @@ router.put("/:id", async (req, res) => {
       amount: req.body.amount,
       unit: req.body.unit,
     };
-    await updateProduct(product);
+    await updateProduct(req.params.id, product);
     return res.sendStatus(200);
-  } catch (error) {
-    console.log(error);
-    return res.sendStatus(500);
-  }
+  }, res);
 });
 
 router.get("/:code", async (req, res) => {
-  try {
-    return res.send({ product: await getProductByCode(req.params.code) });
-  } catch (error) {
-    console.log(error);
-    return res.sendStatus(500);
-  }
+  return defaultErrorHandler(
+    async () => res.send({ product: await getProductByCode(req.params.code) }),
+    res
+  );
 });
 
 export default router;

@@ -1,4 +1,5 @@
 import { Configuration, OpenAIApi } from "openai";
+import { RecipeI } from "../types";
 
 // Creating an instance of OpenAIApi with API key from the environment variables
 const openai = new OpenAIApi(
@@ -7,7 +8,7 @@ const openai = new OpenAIApi(
   })
 );
 
-const getRecipeQuery = (ingredients) =>
+const getRecipeQuery = (ingredients: Array<string>): string =>
   `What is a recipe I can make with ${ingredients
     .slice(0, ingredients.length - 1)
     .join(", ")}, and ${
@@ -46,7 +47,7 @@ const getRecipeQuery = (ingredients) =>
         "description": "Simple but amazing cookies that your family will love."
     }`;
 
-const extractJSON = (str) => {
+const extractJSON = (str: string): string => {
   const startIndex = str.indexOf("{");
   const endIndex = str.lastIndexOf("}");
 
@@ -57,7 +58,7 @@ const extractJSON = (str) => {
   return str.substring(startIndex, endIndex + 2);
 };
 
-export const queryRecipes = async (ingredients) => {
+export const queryRecipes = async (ingredients: string[]): Promise<RecipeI> => {
   const prompt = getRecipeQuery(ingredients);
 
   const completion = await openai.createChatCompletion({
@@ -78,7 +79,7 @@ export const queryRecipes = async (ingredients) => {
     completionText[completionText.length - 1] === "}"
       ? completionText
       : extractJSON(completionText);
-  const recipe = JSON.parse(recipeJson);
+  const recipe: RecipeI = JSON.parse(recipeJson);
 
   return recipe;
 };

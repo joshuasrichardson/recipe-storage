@@ -48,7 +48,7 @@ const ItemComponent: React.FC<ItemComponentProps> = ({
         );
         state.updated = false;
       }
-      if (item == null) {
+      if (!!item) {
         const i = await getItem(id);
         setItem(i);
       }

@@ -1,26 +1,27 @@
 import Product from "../models/products";
-import fs from "fs";
+import fs, { NoParamCallback } from "fs";
+import { File, ProductI, ProductModel } from "../types";
 
-const onCopy = (err) => {
+const onCopy: NoParamCallback = (err?: NodeJS.ErrnoException): void => {
   if (err) console.log(err);
   else console.log("Old file replaced!");
 };
 
-const productChanged = (product, newProduct) => {
+const productChanged = (product: ProductI, newProduct: ProductI): boolean => {
   return (
     product &&
     (product.code || product.name) &&
-    (product.code != newProduct.code ||
-      product.name != newProduct.name ||
-      product.brand != newProduct.brand ||
-      product.description != newProduct.description ||
-      product.tags != newProduct.tags ||
-      product.amount != newProduct.amount ||
-      product.unit != newProduct.unit)
+    (product.code !== newProduct.code ||
+      product.name !== newProduct.name ||
+      product.brand !== newProduct.brand ||
+      product.description !== newProduct.description ||
+      product.tags !== newProduct.tags ||
+      product.amount !== newProduct.amount ||
+      product.unit !== newProduct.unit)
   );
 };
 
-const saveImage = (file, product) => {
+const saveImage = (file: File, product: ProductModel): void => {
   const imagePath = "/images/" + file.filename;
   if (product.src) {
     fs.copyFile(
@@ -35,13 +36,16 @@ const saveImage = (file, product) => {
   }
 };
 
-export const addProduct = async (newProduct, file) => {
+export const addProduct = async (
+  newProduct: ProductI,
+  file: File
+): Promise<{ message?: string; product?: ProductI }> => {
   const products = await Product.find({ code: newProduct.code });
   const product = products.length
     ? products[0]
     : new Product({
         ...newProduct,
-        src: file ? "/images/" + file.filename : newProduct.src ?? "",
+        src: file ? "/images/" + file.filename : newProduct.src || "",
       });
 
   if (file && product) saveImage(file, product);
@@ -59,14 +63,17 @@ export const addProduct = async (newProduct, file) => {
   return { product };
 };
 
-export const updateProduct = async (product) => {
+export const updateProduct = async (
+  id: string,
+  product: ProductI
+): Promise<void> => {
   const updatedProduct = await Product.findByIdAndUpdate(
-    { _id: product.id },
+    { _id: id },
     { ...product }
   );
   updatedProduct.save();
 };
 
-export const getProductByCode = async (code: string) => {
+export const getProductByCode = async (code: string): Promise<ProductI> => {
   return await Product.findOne({ code });
 };

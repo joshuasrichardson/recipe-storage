@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
+import { CallModel } from "../types";
 
-const callSchema = new mongoose.Schema({
+const callSchema = new mongoose.Schema<CallModel>({
   name: String,
   createdAt: {
     type: Date,
@@ -9,6 +10,6 @@ const callSchema = new mongoose.Schema({
   },
 });
 
-const Call = mongoose.model("Call", callSchema);
+const Call = mongoose.model<CallModel>("Call", callSchema);
 
 export default Call;

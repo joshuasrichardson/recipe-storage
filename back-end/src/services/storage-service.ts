@@ -1,7 +1,11 @@
 import { ObjectId } from "mongoose";
 import Item, { ItemHistory } from "../models/storage";
+import { ItemI } from "../types";
 
-export const addItems = async (itemAttributes: object, numItems: number) => {
+export const addItems = async (
+  itemAttributes: ItemI,
+  numItems: number
+): Promise<void> => {
   for (let i = 0; i < numItems; i += 1) {
     const item = new Item(itemAttributes);
     console.log(item);
@@ -11,14 +15,17 @@ export const addItems = async (itemAttributes: object, numItems: number) => {
   }
 };
 
-export const getItem = async (user: ObjectId, id: string) => {
+export const getItem = async (user: ObjectId, id: string): Promise<ItemI> => {
   return await Item.findOne({
     user,
     _id: id,
   }).populate("user");
 };
 
-export const getItems = async (user: ObjectId, limit?: number) => {
+export const getItems = async (
+  user: ObjectId,
+  limit?: number
+): Promise<Array<ItemI>> => {
   let query = Item.find({
     user,
     $or: [{ deleted: false }, { deleted: { $exists: false } }],
@@ -29,7 +36,7 @@ export const getItems = async (user: ObjectId, limit?: number) => {
   return await query;
 };
 
-export const updateItem = async (itemAttributes) => {
+export const updateItem = async (itemAttributes: ItemI): Promise<ItemI> => {
   const item = await Item.findByIdAndUpdate(
     { _id: itemAttributes.id },
     itemAttributes
@@ -38,7 +45,7 @@ export const updateItem = async (itemAttributes) => {
   return item;
 };
 
-export const deleteItem = async (user: ObjectId, id: string) => {
+export const deleteItem = async (user: ObjectId, id: string): Promise<void> => {
   const doc = await Item.findById(id);
   if (doc) {
     const obj = doc.toObject();
@@ -52,24 +59,30 @@ export const deleteItem = async (user: ObjectId, id: string) => {
   await Item.updateOne({ user, _id: id }, { deleted: true });
 };
 
-export const clearStorage = async (user: ObjectId) => {
+export const clearStorage = async (user: ObjectId): Promise<void> => {
   if (!user) return;
   await Item.updateMany({ user }, { deleted: true });
   await new ItemHistory({ name: "All Items", user });
 };
 
-export const getItemHistoryRecords = async (user: ObjectId, code: string) => {
+export const getItemHistoryRecords = async (
+  user: ObjectId,
+  code: string
+): Promise<Array<ItemI>> => {
   return await ItemHistory.find({ user, code }).sort({ added: -1 });
 };
 
-export const getItemHistoryRecord = async (user: ObjectId, id: string) => {
+export const getItemHistoryRecord = async (
+  user: ObjectId,
+  id: string
+): Promise<ItemI> => {
   return await ItemHistory.findOne({
     user,
     id,
   }).populate("user");
 };
 
-export const getItemHistory = async (user: ObjectId) => {
+export const getItemHistory = async (user: ObjectId): Promise<Array<ItemI>> => {
   return await ItemHistory.find({
     user,
   })

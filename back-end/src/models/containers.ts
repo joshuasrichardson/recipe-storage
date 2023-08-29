@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
+import { ContainersModel } from "../types";
 
-const containersSchema = new mongoose.Schema({
+const containersSchema = new mongoose.Schema<ContainersModel>({
   user: {
     type: mongoose.Types.ObjectId,
     ref: "User",
@@ -8,6 +9,9 @@ const containersSchema = new mongoose.Schema({
   containers: Array,
 });
 
-const Containers = mongoose.model("Containers", containersSchema);
+const Containers = mongoose.model<ContainersModel>(
+  "Containers",
+  containersSchema
+);
 
 export default Containers;

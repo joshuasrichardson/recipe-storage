@@ -142,7 +142,7 @@ const getNutritionixV1Item = async (code: string): Promise<ItemAutofill> => {
       }
     );
     let item = await response.json();
-    if (item.item_name != null) {
+    if (!!item.item_name) {
       return {
         name: item.item_name,
         brand: item.brand_name,
@@ -180,7 +180,7 @@ const getNutritionixV2Item = async (code: string): Promise<ItemAutofill> => {
       );
       axios.post("/api/calls/nutritionixV2");
       const item = response.data.foods[0];
-      if (item.food_name != null) {
+      if (!!item.food_name) {
         return {
           name: item.food_name,
           brand: item.brand_name,

@@ -9,84 +9,75 @@ import {
   deleteRecipe,
   generateRecipe,
 } from "../services/recipes-service";
-import { GetUserAuthInfoRequest } from "../types";
+import { VerifiedUserRequest } from "../types";
+import defaultErrorHandler, { handleRequest } from "../helpers/http";
 
 const router = express.Router();
 
-const parseIngredients = (ingredientsString) => ingredientsString.split("\n");
+const parseIngredients = (ingredients: string): string[] =>
+  ingredients.split("\n");
 
-const parseSteps = (stepsString) => stepsString.split("\n");
+const parseSteps = (steps: string): string[] => steps.split("\n");
 
-const parseMaterials = (materialsString) => materialsString.split("\n");
+const parseMaterials = (materials: string): string[] => materials.split("\n");
 
 router.post(
   "/generate",
   checkUserValidity,
-  async (req: GetUserAuthInfoRequest, res) => {
-    try {
-      const recipe = await generateRecipe(req.body.ingredients, req.user);
-      return res.send(recipe);
-    } catch (error) {
-      console.log(error);
-      return res.sendStatus(500);
-    }
+  async (req: VerifiedUserRequest, res) => {
+    return await handleRequest(
+      async () => await generateRecipe(req.body.ingredients, req.user),
+      res
+    );
   }
 );
 
-router.post(
-  "/",
-  checkUserValidity,
-  async (req: GetUserAuthInfoRequest, res) => {
-    try {
-      const recipeAttributes = {
-        user: req.user,
-        name: req.body.name,
-        minutes: req.body.minutes,
-        numServings: req.body.numServings,
-        materials: parseMaterials(req.body.materials),
-        ingredients: parseIngredients(req.body.ingredients),
-        steps: parseSteps(req.body.steps),
-        description: req.body.description,
-        link: req.body.link,
-        language: req.body.language,
-      };
+router.post("/", checkUserValidity, async (req: VerifiedUserRequest, res) => {
+  try {
+    const recipeAttributes = {
+      user: req.user,
+      name: req.body.name,
+      minutes: req.body.minutes,
+      numServings: req.body.numServings,
+      materials: parseMaterials(req.body.materials),
+      ingredients: parseIngredients(req.body.ingredients),
+      steps: parseSteps(req.body.steps),
+      description: req.body.description,
+      link: req.body.link,
+      language: req.body.language,
+    };
 
-      const recipe = await addRecipe(recipeAttributes, req.body.language);
-      return res.send(recipe);
-    } catch (error) {
-      console.log(error);
-      return res.sendStatus(500);
-    }
+    const recipe = await addRecipe(recipeAttributes, req.body.language);
+    return res.send(recipe);
+  } catch (error) {
+    console.log(error);
+    return res.sendStatus(500);
   }
-);
+});
 
-router.put(
-  "/:id",
-  checkUserValidity,
-  async (req: GetUserAuthInfoRequest, res) => {
-    try {
-      const recipeAttributes = {
-        id: req.params.id,
-        user: req.user,
-        name: req.body.name,
-        minutes: req.body.minutes,
-        numServings: req.body.numServings,
-        materials: parseMaterials(req.body.materials),
-        ingredients: parseIngredients(req.body.ingredients),
-        steps: parseSteps(req.body.steps),
-        description: req.body.description,
-        link: req.body.link,
-        language: req.body.language,
-      };
+router.put("/:id", checkUserValidity, async (req: VerifiedUserRequest, res) => {
+  try {
+    const recipeAttributes = {
+      id: req.params.id,
+      user: req.user,
+      name: req.body.name,
+      minutes: req.body.minutes,
+      numServings: req.body.numServings,
+      materials: parseMaterials(req.body.materials),
+      ingredients: parseIngredients(req.body.ingredients),
+      steps: parseSteps(req.body.steps),
+      description: req.body.description,
+      link: req.body.link,
+      language: req.body.language,
+    };
 
-      const recipe = await updateRecipe(recipeAttributes);
-      return res.send(recipe);
-    } catch (error) {
-      console.log(error);
-      return res.sendStatus(500);
-    }
+    const recipe = await updateRecipe(recipeAttributes);
+    return res.send(recipe);
+  } catch (error) {
+    console.log(error);
+    return res.sendStatus(500);
   }
-);
+});
 
 router.get("/withingredient/:ingredients", async (req, res) => {
   try {
