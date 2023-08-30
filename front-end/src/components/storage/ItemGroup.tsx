@@ -181,7 +181,7 @@ const ItemGroup: React.FC<ItemGroupProps> = ({
   return (
     <SRGroupDisplay
       title={title}
-      initialSearch={getItemGroup}
+      initialSearch={(setAllItems) => getItemGroup(setAllItems)}
       getObjectsHTML={getItemsHTML}
       objectType={itemType}
       objectTypePlural={itemTypePlural}

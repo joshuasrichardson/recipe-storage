@@ -28,12 +28,13 @@ const App: React.FC = (): ReactElement => {
   useEffect(() => {
     const tryLoggingIn = async (): Promise<void> => {
       const currentUser = await ServerFacade.getLoggedInUser();
-      if (!currentUser) return;
-      setUser(currentUser);
-      setLanguage(currentUser.language);
+      if (currentUser) {
+        setUser(currentUser);
+        setLanguage(currentUser.language);
+      }
     };
-    if (!user) tryLoggingIn();
-    else setLanguage(user.language);
+    if (user) setLanguage(user.language);
+    else tryLoggingIn();
   }, [user, setUser]);
 
   return (

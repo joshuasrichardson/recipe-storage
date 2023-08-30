@@ -9,6 +9,7 @@ var urlsToCache = [
   "/storage/history",
   "/item/update",
   "/recipes",
+  "/recipes/:id",
   "/recipes/add",
   "/recipes/make",
   "/recipes/edit",
