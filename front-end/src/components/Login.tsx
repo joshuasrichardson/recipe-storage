@@ -41,7 +41,7 @@ const Login: React.FC<LoginProps> = ({
   const [err, setErr] = useState<string>("");
   const navigate = useNavigate();
   const { t } = useTranslation();
-  const { setUser, language, setLanguage } = useContext(Context);
+  const { setUser, language } = useContext(Context);
 
   const onLoggedIn = (user: User): void => {
     setUser(user);

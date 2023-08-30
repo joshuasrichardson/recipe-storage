@@ -25,7 +25,7 @@ const AddRecipe: React.FC = (): ReactElement => {
       setRecipe(await ServerFacade.getRecipe(id));
     };
     initRecipe();
-  }, []);
+  }, [id]);
 
   return (
     <SRFlex wrap="wrap" direction="column">

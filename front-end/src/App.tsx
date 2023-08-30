@@ -27,7 +27,7 @@ const App: React.FC = (): ReactElement => {
 
   useEffect(() => {
     i18n.changeLanguage(language);
-  }, [language]);
+  }, [language, i18n]);
 
   useEffect(() => {
     const tryLoggingIn = async (): Promise<void> => {
