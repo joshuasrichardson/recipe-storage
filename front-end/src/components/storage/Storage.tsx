@@ -1,15 +1,10 @@
 import React, { ReactElement } from "react";
-// @ts-ignore
-import ServerFacade from "../../api/ServerFacade.ts";
+import ServerFacade from "../../api/ServerFacade";
 import ItemGroup from "./ItemGroup";
-// @ts-ignore
 import { useTranslation } from "react-i18next";
-// @ts-ignore
-import SRButton from "../../sr-ui/SRButton.tsx";
-// @ts-ignore
-import { themeGreen } from "../../sr-ui/styles.ts";
-// @ts-ignore
-import useConfirm from "../../hooks/useConfirm.ts";
+import SRButton from "../../sr-ui/SRButton";
+import { themeGreen } from "../../sr-ui/styles";
+import useConfirm from "../../hooks/useConfirm";
 
 const Storage: React.FC = (): ReactElement => {
   const { t } = useTranslation();

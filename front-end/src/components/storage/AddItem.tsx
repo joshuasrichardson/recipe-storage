@@ -1,33 +1,20 @@
 import React, { useState, useContext, ReactElement } from "react";
-// @ts-ignore
-import { Context } from "../../App.tsx";
-// @ts-ignore
-import Scanner from "./BarcodeScanner.tsx";
+import { Context } from "../../App";
+import Scanner from "./BarcodeScanner";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
 import { useNavigate } from "react-router-dom";
-// @ts-ignore
-import ServerFacade from "../../api/ServerFacade.ts";
+import ServerFacade from "../../api/ServerFacade";
 import { toast } from "react-toastify";
-// @ts-ignore
-import ItemForm from "./ItemForm.tsx";
-// @ts-ignore
-import { toastEmitter } from "../../sr-ui/Toaster.tsx";
-// @ts-ignore
-import SRContainer from "../../sr-ui/SRContainer.tsx";
-// @ts-ignore
-import SRHeader from "../../sr-ui/SRHeader.tsx";
-// @ts-ignore
-import SRButtonLink from "../../sr-ui/SRButtonLink.tsx";
-// @ts-ignore
-import SRFlex from "../../sr-ui/SRFlex.tsx";
-// @ts-ignore
-import SRImage from "../../sr-ui/SRImage.tsx";
-// @ts-ignore
-import { themeGray } from "../../sr-ui/styles.ts";
-// @ts-ignore
-import { ContextType, Item } from "../../types.ts";
-// @ts-ignore
+import ItemForm from "./ItemForm";
+import { toastEmitter } from "../../sr-ui/Toaster";
+import SRContainer from "../../sr-ui/SRContainer";
+import SRHeader from "../../sr-ui/SRHeader";
+import SRButtonLink from "../../sr-ui/SRButtonLink";
+import SRFlex from "../../sr-ui/SRFlex";
+import SRImage from "../../sr-ui/SRImage";
+import { themeGray } from "../../sr-ui/styles";
+import { ContextType, Item } from "../../types";
 import { useTranslation } from "react-i18next";
 
 const AddFoodStorage: React.FC = (): ReactElement => {

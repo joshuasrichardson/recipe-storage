@@ -1,19 +1,12 @@
 import React, { ReactElement, useEffect, useState } from "react";
-// @ts-ignore
-import SRFlex from "../../sr-ui/SRFlex.tsx";
-// @ts-ignore
-import SRHeader from "../../sr-ui/SRHeader.tsx";
-// @ts-ignore
-import SRContainer from "../../sr-ui/SRContainer.tsx";
-// @ts-ignore
-import { themeGray } from "../../sr-ui/styles.ts";
-// @ts-ignore
-import ManuallyAddRecipe from "./ManuallyAddRecipe.tsx";
-// @ts-ignore
+import SRFlex from "../../sr-ui/SRFlex";
+import SRHeader from "../../sr-ui/SRHeader";
+import SRContainer from "../../sr-ui/SRContainer";
+import { themeGray } from "../../sr-ui/styles";
+import ManuallyAddRecipe from "./ManuallyAddRecipe";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
-// @ts-ignore
-import ServerFacade from "../../api/ServerFacade.ts";
+import ServerFacade from "../../api/ServerFacade";
 
 const AddRecipe: React.FC = (): ReactElement => {
   const { id } = useParams();

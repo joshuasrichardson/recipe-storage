@@ -5,12 +5,9 @@ import React, {
   MouseEventHandler,
   ReactElement,
 } from "react";
-// @ts-ignore
-import SRButton from "./SRButton.tsx";
-// @ts-ignore
-import SRFlex from "./SRFlex.tsx";
-// @ts-ignore
-import SRTextInput from "./SRTextInput.tsx";
+import SRButton from "./SRButton";
+import SRFlex from "./SRFlex";
+import SRTextInput from "./SRTextInput";
 
 type SRSearchBarProps = {
   searchString: string;

@@ -1,15 +1,10 @@
 import React, { useEffect, useState, ReactElement, useCallback } from "react";
-// @ts-ignore
-import config from "./BarcodeConfig.ts";
+import config from "./BarcodeConfig";
 import Quagga from "quagga";
 import "../../App.css";
-// @ts-ignore
-import SRButton from "../../sr-ui/SRButton.tsx";
-// @ts-ignore
-import SRFlex from "../../sr-ui/SRFlex.tsx";
-// @ts-ignore
-import SRDropDown from "../../sr-ui/SRDropDown.tsx";
-// @ts-ignore
+import SRButton from "../../sr-ui/SRButton";
+import SRFlex from "../../sr-ui/SRFlex";
+import SRDropDown from "../../sr-ui/SRDropDown";
 import { useTranslation } from "react-i18next";
 
 type ScannerProps = {

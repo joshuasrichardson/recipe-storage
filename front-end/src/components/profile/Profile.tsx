@@ -1,22 +1,14 @@
 import React, { useContext, ReactElement } from "react";
 import { useNavigate } from "react-router-dom";
-// @ts-ignore
-import SRFlex from "../../sr-ui/SRFlex.tsx";
-// @ts-ignore
-import SRContainer from "../../sr-ui/SRContainer.tsx";
-// @ts-ignore
-import ServerFacade from "../../api/ServerFacade.ts";
-// @ts-ignore
-import SRHeader from "../../sr-ui/SRHeader.tsx";
-// @ts-ignore
-import { Context } from "../../App.tsx";
-// @ts-ignore
-import { ContextType } from "../../types.ts";
+import SRFlex from "../../sr-ui/SRFlex";
+import SRContainer from "../../sr-ui/SRContainer";
+import ServerFacade from "../../api/ServerFacade";
+import SRHeader from "../../sr-ui/SRHeader";
+import { Context } from "../../App";
+import { ContextType } from "../../types";
 import { useTranslation } from "react-i18next";
-// @ts-ignore
-import SRLanguageSelector from "../../sr-ui/SRLanguageSelector.tsx";
-// @ts-ignore
-import SRButton from "../../sr-ui/SRButton.tsx";
+import SRLanguageSelector from "../../sr-ui/SRLanguageSelector";
+import SRButton from "../../sr-ui/SRButton";
 
 const Profile: React.FC = (): ReactElement => {
   const { user, setUser } = useContext<ContextType>(Context);

@@ -1,14 +1,9 @@
 import React, { MouseEventHandler, ReactElement } from "react";
-// @ts-ignore
-import Utils, { srDate } from "../utils/utils.ts";
-// @ts-ignore
-import SRFlex from "./SRFlex.tsx";
-// @ts-ignore
-import SRText from "./SRText.tsx";
-// @ts-ignore
-import { darkTextColor, themeGreen } from "./styles.ts";
-// @ts-ignore
-import { SRDate } from "../types.ts";
+import Utils, { srDate } from "../utils/utils";
+import SRFlex from "./SRFlex";
+import SRText from "./SRText";
+import { darkTextColor, themeGreen } from "./styles";
+import { SRDate } from "../types";
 
 type SRListViewProps = {
   key: string;

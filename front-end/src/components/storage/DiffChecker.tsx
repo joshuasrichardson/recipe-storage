@@ -1,23 +1,14 @@
 import React, { ReactElement } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-// @ts-ignore
-import ServerFacade from "../../api/ServerFacade.ts";
-// @ts-ignore
-import SRButton from "../../sr-ui/SRButton.tsx";
-// @ts-ignore
-import SRBoxView from "../../sr-ui/SRBoxView.tsx";
-// @ts-ignore
-import SRFlex from "../../sr-ui/SRFlex.tsx";
-// @ts-ignore
-import SRContainer from "../../sr-ui/SRContainer.tsx";
-// @ts-ignore
-import SRText from "../../sr-ui/SRText.tsx";
-// @ts-ignore
-import SRHeader from "../../sr-ui/SRHeader.tsx";
-// @ts-ignore
-import { darkTextColor, themeRed } from "../../sr-ui/styles.ts";
+import ServerFacade from "../../api/ServerFacade";
+import SRButton from "../../sr-ui/SRButton";
+import SRBoxView from "../../sr-ui/SRBoxView";
+import SRFlex from "../../sr-ui/SRFlex";
+import SRContainer from "../../sr-ui/SRContainer";
+import SRText from "../../sr-ui/SRText";
+import SRHeader from "../../sr-ui/SRHeader";
+import { darkTextColor, themeRed } from "../../sr-ui/styles";
 import { Attribute } from "../../types.js";
-// @ts-ignore
 import { useTranslation } from "react-i18next";
 
 type DiffState = {

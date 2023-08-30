@@ -1,19 +1,12 @@
 import { Item } from "../../types";
 import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-// @ts-ignore
-import ServerFacade from "../../api/ServerFacade.ts";
-// @ts-ignore
-import SRContainer from "../../sr-ui/SRContainer.tsx";
-// @ts-ignore
-import SRFlex from "../../sr-ui/SRFlex.tsx";
-// @ts-ignore
-import SRHeader from "../../sr-ui/SRHeader.tsx";
-// @ts-ignore
-import { themeGray } from "../../sr-ui/styles.ts";
-// @ts-ignore
-import ItemForm from "./ItemForm.tsx";
-// @ts-ignore
+import ServerFacade from "../../api/ServerFacade";
+import SRContainer from "../../sr-ui/SRContainer";
+import SRFlex from "../../sr-ui/SRFlex";
+import SRHeader from "../../sr-ui/SRHeader";
+import { themeGray } from "../../sr-ui/styles";
+import ItemForm from "./ItemForm";
 import { useTranslation } from "react-i18next";
 
 const Editor = () => {

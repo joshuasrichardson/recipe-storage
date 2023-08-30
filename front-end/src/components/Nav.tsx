@@ -3,10 +3,8 @@ import Navbar from "react-bootstrap/Navbar";
 import Container from "react-bootstrap/Container";
 import { useTranslation } from "react-i18next";
 import Nav from "react-bootstrap/Nav";
-// @ts-ignore
-import SRHeader from "../sr-ui/SRHeader.tsx";
-// @ts-ignore
-import { lightTextColor, themeGreen } from "../sr-ui/styles.ts";
+import SRHeader from "../sr-ui/SRHeader";
+import { lightTextColor, themeGreen } from "../sr-ui/styles";
 import { User } from "../types";
 
 export type NavParams = {

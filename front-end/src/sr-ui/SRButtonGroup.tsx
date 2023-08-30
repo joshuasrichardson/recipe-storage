@@ -1,10 +1,7 @@
 import React, { MouseEventHandler, ReactElement } from "react";
-// @ts-ignore
-import { Size } from "../types.js";
-// @ts-ignore
-import SRFlex from "./SRFlex.tsx";
-// @ts-ignore
-import SRButton from "./SRButton.tsx";
+import { Size } from "../types";
+import SRFlex from "./SRFlex";
+import SRButton from "./SRButton";
 
 type SRButtonGroupProps = {
   buttonsProps: Array<{

@@ -1,13 +1,9 @@
 import React, { useState, useEffect, ReactElement } from "react";
 import { useParams } from "react-router-dom";
-// @ts-ignore
-import ServerFacade from "../../api/ServerFacade.ts";
-// @ts-ignore
-import SRFlex from "../../sr-ui/SRFlex.tsx";
-// @ts-ignore
-import SRBoxView from "../../sr-ui/SRBoxView.tsx";
-import { Attribute } from "../../types.js";
-// @ts-ignore
+import ServerFacade from "../../api/ServerFacade";
+import SRFlex from "../../sr-ui/SRFlex";
+import SRBoxView from "../../sr-ui/SRBoxView";
+import { Attribute } from "../../types";
 import { useTranslation } from "react-i18next";
 
 const MakeRecipe: React.FC = (): ReactElement => {

@@ -1,10 +1,8 @@
 import React, { ReactElement } from "react";
 import { Link } from "react-router-dom";
 import { Size } from "../types";
-// @ts-ignore
-import SRButton from "./SRButton.tsx";
-// @ts-ignore
-import { Child } from "../types.ts";
+import SRButton from "./SRButton";
+import { Child } from "../types";
 
 type ButtonLinkProps = {
   to: string;

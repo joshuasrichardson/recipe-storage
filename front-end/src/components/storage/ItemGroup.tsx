@@ -1,21 +1,16 @@
 import React, { useState, ReactElement } from "react";
 import { useNavigate } from "react-router-dom";
-// @ts-ignore
-import SRBoxView from "../../sr-ui/SRBoxView.tsx";
-// @ts-ignore
-import SRListView from "../../sr-ui/SRListView.tsx";
-// @ts-ignore
-import SRGroupDisplay from "../../sr-ui/SRGroupDisplay.tsx";
+import SRBoxView from "../../sr-ui/SRBoxView";
+import SRListView from "../../sr-ui/SRListView";
+import SRGroupDisplay from "../../sr-ui/SRGroupDisplay";
 import {
   darkTextColor,
   expiringSoonColor,
   themeRed,
-  themeGreen, // @ts-ignore
-} from "../../sr-ui/styles.ts";
-// @ts-ignore
-import Utils, { srDate } from "../../utils/utils.ts";
+  themeGreen,
+} from "../../sr-ui/styles";
+import Utils, { srDate } from "../../utils/utils";
 import { SRDate, Item } from "../../types";
-// @ts-ignore
 import { useTranslation } from "react-i18next";
 
 type ItemGroupProps = {

@@ -1,11 +1,7 @@
 import React, { ReactElement } from "react";
-// @ts-ignore
-import ServerFacade from "../../api/ServerFacade.ts";
-// @ts-ignore
-import { formatDateTime } from "../../utils/utils.ts";
-// @ts-ignore
-import ItemGroup from "./ItemGroup.tsx";
-// @ts-ignore
+import ServerFacade from "../../api/ServerFacade";
+import { formatDateTime } from "../../utils/utils";
+import ItemGroup from "./ItemGroup";
 import { useTranslation } from "react-i18next";
 
 const StorageHistory: React.FC = (): ReactElement => {

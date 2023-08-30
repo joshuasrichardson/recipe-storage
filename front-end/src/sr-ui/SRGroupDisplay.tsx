@@ -3,26 +3,16 @@ import { useLocation } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
 import { toast } from "react-toastify";
-// @ts-ignore
-import { toastEmitter } from "./Toaster.tsx";
-// @ts-ignore
-import SRButton from "./SRButton.tsx";
-// @ts-ignore
-import SRButtonLink from "./SRButtonLink.tsx";
-// @ts-ignore
-import SRFlex from "./SRFlex.tsx";
-// @ts-ignore
-import SRContainer from "./SRContainer.tsx";
-// @ts-ignore
-import SRHeader from "./SRHeader.tsx";
-// @ts-ignore
-import SRText from "./SRText.tsx";
-// @ts-ignore
-import { Context } from "../App.tsx";
-// @ts-ignore
-import { ContextType } from "../types.ts";
-// @ts-ignore
-import SRSearchBar from "./SRSearchBar.tsx";
+import { toastEmitter } from "./Toaster";
+import SRButton from "./SRButton";
+import SRButtonLink from "./SRButtonLink";
+import SRFlex from "./SRFlex";
+import SRContainer from "./SRContainer";
+import SRHeader from "./SRHeader";
+import SRText from "./SRText";
+import { Context } from "../App";
+import { ContextType } from "../types";
+import SRSearchBar from "./SRSearchBar";
 import { useTranslation } from "react-i18next";
 
 type GroupDisplayState = {

@@ -1,14 +1,10 @@
 import React from "react";
 import { useState, ReactElement } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-// @ts-ignore
-import ServerFacade from "../../api/ServerFacade.ts";
-// @ts-ignore
-import SRBoxView from "../../sr-ui/SRBoxView.tsx";
+import ServerFacade from "../../api/ServerFacade";
+import SRBoxView from "../../sr-ui/SRBoxView";
 import { Attribute, Item, Recipe } from "../../types";
-// @ts-ignore
-import SRGroupDisplay from "../../sr-ui/SRGroupDisplay.tsx";
-// @ts-ignore
+import SRGroupDisplay from "../../sr-ui/SRGroupDisplay";
 import { useTranslation } from "react-i18next";
 
 const Recipes: React.FC = (): ReactElement => {

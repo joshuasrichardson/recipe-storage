@@ -1,7 +1,6 @@
 import React from "react";
 import { render, act } from "@testing-library/react";
-// @ts-ignore
-import BarcodeScanner from "../BarcodeScanner.tsx";
+import BarcodeScanner from "../BarcodeScanner";
 import { createRoot } from "react-dom/client";
 
 let container: HTMLElement = null;

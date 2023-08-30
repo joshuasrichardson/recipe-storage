@@ -1,9 +1,6 @@
 import React, { useState, ReactElement } from "react";
-// @ts-ignore
-import SRButton from "../../sr-ui/SRButton.tsx";
-// @ts-ignore
-import SRImage from "../../sr-ui/SRImage.tsx";
-// @ts-ignore
+import SRButton from "../../sr-ui/SRButton";
+import SRImage from "../../sr-ui/SRImage";
 import { useTranslation } from "react-i18next";
 
 type UploaderProps = {

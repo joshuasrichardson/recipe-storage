@@ -1,22 +1,16 @@
 import React, { MouseEventHandler, ReactElement } from "react";
-// @ts-ignore
-import SRImage from "./SRImage.tsx";
-// @ts-ignore
-import SRHeader from "./SRHeader.tsx";
-// @ts-ignore
-import { borderWidthSizes, paddingSizes } from "./styles.ts";
-// @ts-ignore
-import { Size, Child, Attribute } from "../types.ts";
+import SRImage from "./SRImage";
+import SRHeader from "./SRHeader";
+import { borderWidthSizes, paddingSizes } from "./styles";
+import { Size, Child, Attribute } from "../types";
 import {
   containerWidthSizes,
   marginSizes,
   themeGray,
-  themeGreen, // @ts-ignore
-} from "./styles.ts";
-// @ts-ignore
-import SRFlex from "./SRFlex.tsx";
-// @ts-ignore
-import SRCheckBox from "./SRCheckBox.tsx";
+  themeGreen,
+} from "./styles";
+import SRFlex from "./SRFlex";
+import SRCheckBox from "./SRCheckBox";
 
 type SRBoxViewProps = {
   key: string;

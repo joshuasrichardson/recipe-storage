@@ -5,27 +5,16 @@ import React, {
   ChangeEventHandler,
   ReactElement,
 } from "react";
-// @ts-ignore
-import SRButton from "../../sr-ui/SRButton.tsx";
-// @ts-ignore
-import SRTextInput from "../../sr-ui/SRTextInput.tsx";
-// @ts-ignore
-import SRFlex from "../../sr-ui/SRFlex.tsx";
-// @ts-ignore
-import SRFlexItem from "../../sr-ui/SRFlexItem.tsx";
-// @ts-ignore
-import SRDropDown from "../../sr-ui/SRDropDown.tsx";
-// @ts-ignore
-import SRDateInput from "../../sr-ui/SRDateInput.tsx";
-// @ts-ignore
-import SRForm from "../../sr-ui/SRForm.tsx";
-// @ts-ignore
-import ServerFacade from "../../api/ServerFacade.ts";
-// @ts-ignore
-import { formatDateInput, srDate } from "../../utils/utils.ts";
-// @ts-ignore
-import { Item } from "../../types.ts";
-// @ts-ignore
+import SRButton from "../../sr-ui/SRButton";
+import SRTextInput from "../../sr-ui/SRTextInput";
+import SRFlex from "../../sr-ui/SRFlex";
+import SRFlexItem from "../../sr-ui/SRFlexItem";
+import SRDropDown from "../../sr-ui/SRDropDown";
+import SRDateInput from "../../sr-ui/SRDateInput";
+import SRForm from "../../sr-ui/SRForm";
+import ServerFacade from "../../api/ServerFacade";
+import { formatDateInput, srDate } from "../../utils/utils";
+import { Item } from "../../types";
 import { useTranslation } from "react-i18next";
 
 type ItemFormProps = {

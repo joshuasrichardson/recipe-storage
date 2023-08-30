@@ -6,15 +6,11 @@ import React, {
   Suspense,
 } from "react";
 import "./App.css";
-// @ts-ignore
-import AllRoutes from "./AllRoutes.tsx";
-// @ts-ignore
-import ServerFacade from "./api/ServerFacade.ts";
-// @ts-ignore
-import Toaster from "./sr-ui/Toaster.tsx";
+import AllRoutes from "./AllRoutes";
+import ServerFacade from "./api/ServerFacade";
+import Toaster from "./sr-ui/Toaster";
 import { ContextType, Language, User } from "./types";
-// @ts-ignore
-import "./i18n.ts";
+import "./i18n";
 import { useTranslation } from "react-i18next";
 
 export const Context = createContext<ContextType>(undefined);

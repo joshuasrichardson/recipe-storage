@@ -1,47 +1,29 @@
-import React, { ReactElement } from "react";
-// @ts-ignore
-import Profile from "./components/profile/Profile.tsx";
-// @ts-ignore
-import AddItem from "./components/storage/AddItem.tsx";
-// @ts-ignore
-import Storage from "./components/storage/Storage.tsx";
-// @ts-ignore
-import StorageHistory from "./components/storage/StorageHistory.tsx";
-// @ts-ignore
-import ItemComponent from "./components/storage/Item.tsx";
-// @ts-ignore
-import Recipes from "./components/recipe/Recipes.tsx";
-// @ts-ignore
-import Login from "./components/Login.tsx";
-// @ts-ignore
-import Editor from "./components/storage/Editor.tsx";
-// @ts-ignore
-import DiffChecker from "./components/storage/DiffChecker.tsx";
-// @ts-ignore
-import Intro from "./components/Intro.tsx";
+import React, { ReactElement, useCallback, useEffect, useState } from "react";
+import Profile from "./components/profile/Profile";
+import AddItem from "./components/storage/AddItem";
+import Storage from "./components/storage/Storage";
+import StorageHistory from "./components/storage/StorageHistory";
+import ItemComponent from "./components/storage/Item";
+import Recipes from "./components/recipe/Recipes";
+import Login from "./components/Login";
+import Editor from "./components/storage/Editor";
+import DiffChecker from "./components/storage/DiffChecker";
+import Intro from "./components/Intro";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-// @ts-ignore
-import Nav from "./components/Nav.tsx";
-// @ts-ignore
-import ServerFacade from "./api/ServerFacade.ts";
+import Nav from "./components/Nav";
+import ServerFacade from "./api/ServerFacade";
 import { User } from "./types";
-// @ts-ignore
-import AddRecipe from "./components/recipe/AddRecipe.tsx";
-// @ts-ignore
-import RecipeComponent from "./components/recipe/Recipe.tsx";
-// @ts-ignore
-import EditRecipe from "./components/recipe/EditRecipe.tsx";
-// @ts-ignore
-import MakeRecipe from "./components/recipe/MakeRecipe.tsx";
+import AddRecipe from "./components/recipe/AddRecipe";
+import RecipeComponent from "./components/recipe/Recipe";
+import EditRecipe from "./components/recipe/EditRecipe";
+import MakeRecipe from "./components/recipe/MakeRecipe";
 
 export type AllRoutesParams = {
   user: User;
 };
 
-const AllRoutes: React.FC<AllRoutesParams> = ({
-  user,
-}: AllRoutesParams): ReactElement => {
-  const getLoggedInRoutes = () => {
+const AllRoutes: React.FC<AllRoutesParams> = ({ user }): ReactElement => {
+  const LoggedInRoutes = useCallback(() => {
     return (
       <Routes>
         <Route path="/profile" element={<Profile />} />
@@ -78,9 +60,9 @@ const AllRoutes: React.FC<AllRoutesParams> = ({
         <Route path="/*" element={<Storage />} />
       </Routes>
     );
-  };
+  }, [user]);
 
-  const getLoggedOutRoutes = () => {
+  const LoggedOutRoutes = useCallback(() => {
     return (
       <Routes>
         <Route path="/recipes/make/:id" element={<MakeRecipe />} />
@@ -94,16 +76,20 @@ const AllRoutes: React.FC<AllRoutesParams> = ({
         <Route path="/*" element={<Intro user={user} />} />
       </Routes>
     );
-  };
+  }, [user]);
 
-  const getRoutes = () => {
-    return user ? getLoggedInRoutes() : getLoggedOutRoutes();
-  };
+  const [routes, setRoutes] = useState(
+    user ? <LoggedInRoutes /> : <LoggedOutRoutes />
+  );
+
+  useEffect(() => {
+    setRoutes(user ? <LoggedInRoutes /> : <LoggedOutRoutes />);
+  }, [user, LoggedInRoutes, LoggedOutRoutes]);
 
   return (
     <BrowserRouter>
       <Nav user={user} />
-      {getRoutes()}
+      {routes}
     </BrowserRouter>
   );
 };

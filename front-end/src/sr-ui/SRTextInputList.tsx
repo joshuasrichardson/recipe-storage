@@ -1,8 +1,6 @@
 import React, { ReactElement } from "react";
-// @ts-ignore
-import SRTextInput from "./SRTextInput.tsx";
-// @ts-ignore
-import SRButton from "./SRButton.tsx";
+import SRTextInput from "./SRTextInput";
+import SRButton from "./SRButton";
 
 type setValueFunction = (prev: string[]) => string[];
 

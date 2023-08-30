@@ -1,13 +1,9 @@
 import React, { useContext, ReactElement } from "react";
-// @ts-ignore
-import { Context } from "../App.tsx";
-// @ts-ignore
-import { ContextType, Language } from "../types.ts";
+import { Context } from "../App";
+import { ContextType, Language } from "../types";
 import { useTranslation } from "react-i18next";
-// @ts-ignore
-import SRDropDown from "./SRDropDown.tsx";
-// @ts-ignore
-import ServerFacade from "../api/ServerFacade.ts";
+import SRDropDown from "./SRDropDown";
+import ServerFacade from "../api/ServerFacade";
 
 interface LanguageSelectorProps {
   saveToDb?: boolean;

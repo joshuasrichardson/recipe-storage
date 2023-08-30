@@ -1,23 +1,14 @@
 import React, { useState, useContext, ReactElement, useEffect } from "react";
-// @ts-ignore
-import { Context } from "../../App.tsx";
-// @ts-ignore
-import ServerFacade, { AddRecipeParams } from "../../api/ServerFacade.ts";
-// @ts-ignore
-import SRButton from "../../sr-ui/SRButton.tsx";
-// @ts-ignore
-import SRFlex from "../../sr-ui/SRFlex.tsx";
-// @ts-ignore
-import SRTextInput from "../../sr-ui/SRTextInput.tsx";
-// @ts-ignore
-import SRForm from "../../sr-ui/SRForm.tsx";
-// @ts-ignore
-import { ContextType, Recipe } from "../../types.ts";
-// @ts-ignore
+import { Context } from "../../App";
+import ServerFacade, { AddRecipeParams } from "../../api/ServerFacade";
+import SRButton from "../../sr-ui/SRButton";
+import SRFlex from "../../sr-ui/SRFlex";
+import SRTextInput from "../../sr-ui/SRTextInput";
+import SRForm from "../../sr-ui/SRForm";
+import { ContextType, Recipe } from "../../types";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
-// @ts-ignore
-import { toastEmitter } from "../../sr-ui/Toaster.tsx";
+import { toastEmitter } from "../../sr-ui/Toaster";
 import { useNavigate } from "react-router-dom";
 
 interface ManuallyAddRecipeProps {

@@ -1,30 +1,18 @@
 import React, { ReactElement, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-// @ts-ignore
-import ServerFacade from "../api/ServerFacade.ts";
-// @ts-ignore
-import SRButton from "../sr-ui/SRButton.tsx";
+import ServerFacade from "../api/ServerFacade";
+import SRButton from "../sr-ui/SRButton";
 import { User } from "../types";
-// @ts-ignore
-import SRHeader from "../sr-ui/SRHeader.tsx";
-// @ts-ignore
-import SRContainer from "../sr-ui/SRContainer.tsx";
-// @ts-ignore
-import SRFlex from "../sr-ui/SRFlex.tsx";
-// @ts-ignore
-import SRText from "../sr-ui/SRText.tsx";
-// @ts-ignore
-import SRTextInput from "../sr-ui/SRTextInput.tsx";
-// @ts-ignore
-import SRForm from "../sr-ui/SRForm.tsx";
-// @ts-ignore
-import { isMobile, themeRed } from "../sr-ui/styles.ts";
-// @ts-ignore
-import SRLanguageSelector from "../sr-ui/SRLanguageSelector.tsx";
-// @ts-ignore
+import SRHeader from "../sr-ui/SRHeader";
+import SRContainer from "../sr-ui/SRContainer";
+import SRFlex from "../sr-ui/SRFlex";
+import SRText from "../sr-ui/SRText";
+import SRTextInput from "../sr-ui/SRTextInput";
+import SRForm from "../sr-ui/SRForm";
+import { isMobile, themeRed } from "../sr-ui/styles";
+import SRLanguageSelector from "../sr-ui/SRLanguageSelector";
 import { useTranslation } from "react-i18next";
-// @ts-ignore
-import { Context } from "../App.tsx";
+import { Context } from "../App";
 
 export type LoginProps = {
   hasAccount?: boolean;
@@ -139,17 +127,18 @@ const Login: React.FC<LoginProps> = ({
             {err}
           </SRText>
           <SRFlex direction="column">
-            <SRButton dataTestid="login-button" onClick={useAccount}>
-              {hasAccount && t("Login")}
-              {!hasAccount && t("Create")}
+            <SRButton onClick={useAccount}>
+              {hasAccount && t(hasAccount ? "Login" : "Create")}
             </SRButton>
             <a
               href={hasAccount ? "/register" : "/login"}
               style={{ margin: "15px" }}
             >
-              {hasAccount
-                ? t("Don't have an account? Click here to create one.")
-                : t("Have an account? Click here to login.")}
+              {t(
+                hasAccount
+                  ? "Don't have an account? Click here to create one."
+                  : "Have an account? Click here to login."
+              )}
             </a>
           </SRFlex>
         </SRForm>

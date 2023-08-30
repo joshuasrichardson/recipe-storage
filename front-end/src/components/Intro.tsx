@@ -1,22 +1,13 @@
 import React, { ReactElement } from "react";
-// @ts-ignore
-import Storage from "./storage/Storage.tsx";
+import Storage from "./storage/Storage";
 import { User } from "../types";
-// @ts-ignore
-import SRButtonLink from "../sr-ui/SRButtonLink.tsx";
-// @ts-ignore
-import SRLanguageSelector from "../sr-ui/SRLanguageSelector.tsx";
-// @ts-ignore
-import SRHeader from "../sr-ui/SRHeader.tsx";
-// @ts-ignore
-import SRContainer from "../sr-ui/SRContainer.tsx";
-// @ts-ignore
-import SRText from "../sr-ui/SRText.tsx";
-// @ts-ignore
-import SRFlex from "../sr-ui/SRFlex.tsx";
-// @ts-ignore
-import { isMobile } from "../sr-ui/styles.ts";
-// @ts-ignore
+import SRButtonLink from "../sr-ui/SRButtonLink";
+import SRLanguageSelector from "../sr-ui/SRLanguageSelector";
+import SRHeader from "../sr-ui/SRHeader";
+import SRContainer from "../sr-ui/SRContainer";
+import SRText from "../sr-ui/SRText";
+import SRFlex from "../sr-ui/SRFlex";
+import { isMobile } from "../sr-ui/styles";
 import { useTranslation } from "react-i18next";
 
 export type IntroProps = {

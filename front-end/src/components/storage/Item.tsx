@@ -1,22 +1,15 @@
 import React, { useState, useEffect, ReactElement } from "react";
 import { useParams, useLocation, useNavigate } from "react-router-dom";
-// @ts-ignore
-import ServerFacade from "../../api/ServerFacade.ts";
+import ServerFacade from "../../api/ServerFacade";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
 import { toast } from "react-toastify";
-// @ts-ignore
-import { toastEmitter } from "../../sr-ui/Toaster.tsx";
-// @ts-ignore
-import SRButton from "../../sr-ui/SRButton.tsx";
-// @ts-ignore
-import SRFlex from "../../sr-ui/SRFlex.tsx";
-// @ts-ignore
-import SRBoxView from "../../sr-ui/SRBoxView.tsx";
-// @ts-ignore
-import { formatDate } from "../../utils/utils.ts";
+import { toastEmitter } from "../../sr-ui/Toaster";
+import SRButton from "../../sr-ui/SRButton";
+import SRFlex from "../../sr-ui/SRFlex";
+import SRBoxView from "../../sr-ui/SRBoxView";
+import { formatDate } from "../../utils/utils";
 import { Attribute } from "../../types.js";
-// @ts-ignore
 import { useTranslation } from "react-i18next";
 
 type ItemComponentState = {
