@@ -39,7 +39,7 @@ const RecipeComponent: React.FC<RecipeComponentProps> = ({
         );
         state.updated = false;
       }
-      if (!!recipe) {
+      if (!recipe) {
         setRecipe(await ServerFacade.getRecipe(id));
       }
     };
