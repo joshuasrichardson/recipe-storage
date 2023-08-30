@@ -1,8 +1,7 @@
 import Recipe from "../models/recipes";
 import { queryRecipes } from "../helpers/openai";
 import { translate } from "../helpers/translation";
-import { RecipeI, SupportedLanguage, UserI } from "../types";
-import { ObjectId } from "mongoose";
+import { RecipeI, SupportedLanguage, UserRef } from "../types";
 
 export const translateRecipe = async (recipe: RecipeI): Promise<RecipeI> => {
   const translatedName = await translate(recipe.name);
@@ -33,7 +32,7 @@ export const translateRecipe = async (recipe: RecipeI): Promise<RecipeI> => {
 
 export const generateRecipe = async (
   ingredients: Array<string>,
-  user: UserI
+  user: UserRef
 ): Promise<RecipeI> => {
   const recipeQueryResult = await queryRecipes(ingredients);
   const generatedRecipe = {
@@ -49,7 +48,9 @@ export const generateRecipe = async (
 
   recipe.save();
 
-  return user.language !== "ja" ? recipe : await translatedRecipePromise;
+  return (user as any).language !== "ja" // TODO: fix type
+    ? recipe
+    : await translatedRecipePromise;
 };
 
 export const addRecipe = async (
@@ -105,12 +106,12 @@ export const findRecipesWithIngredients = async (
   return recipes;
 };
 
-export const getRecipeById = async (id: ObjectId): Promise<RecipeI> =>
+export const getRecipeById = async (id: string): Promise<RecipeI> =>
   await Recipe.findById(id);
 
 export const getRecipes = async (): Promise<Array<RecipeI>> =>
   await Recipe.find({}).sort({ name: 1 });
 
-export const deleteRecipe = async (id: ObjectId): Promise<void> => {
+export const deleteRecipe = async (id: string): Promise<void> => {
   await Recipe.deleteOne({ _id: id });
 };

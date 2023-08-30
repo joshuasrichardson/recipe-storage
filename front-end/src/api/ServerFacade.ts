@@ -247,7 +247,7 @@ const getProduct = async (code: string): Promise<ItemAutofill> => {
   let item2: ItemAutofill;
 
   try {
-    res = await axios.get("/api/products/" + code);
+    res = await axios.get(`/api/products/${code}`);
     item = viewFormattedItem(res.data.product); // TODO: handle case where the barcode isn't unique
     if (code?.length === 12 && !item.src) {
       item2 = await getNutritionixV2Item(code);
@@ -321,29 +321,29 @@ const addProduct = async (item: Item) => {
 };
 
 const updateProduct = async (product: ItemAutofill): Promise<void> => {
-  await axios.put("/api/products/" + product.id, product);
+  await axios.put(`/api/products/${product.id}`, product);
 };
 
 const getItem = async (id: string): Promise<Item> => {
-  const res: AxiosResponse<any, any> = await axios.get("/api/storage/" + id);
+  const res: AxiosResponse<any, any> = await axios.get(`/api/storage/${id}`);
   const item = viewFormattedItem(res.data);
   return item;
 };
 
 const getHistoryItem = async (id: string): Promise<Item> => {
-  const res = await axios.get("/api/storage/history/" + id);
+  const res = await axios.get(`/api/storage/history/${id}`);
   const item = viewFormattedItem(res.data);
   return item;
 };
 
 const getItemContainer = async (code: string): Promise<string> => {
-  const res = await axios.get("/api/storage/history/code/" + code);
+  const res = await axios.get(`/api/storage/history/code/${code}`);
   return res.data[0]?.container;
 };
 
 const deleteItem = async (id: string): Promise<void> => {
   try {
-    await axios.delete("/api/storage/" + id);
+    await axios.delete(`/api/storage/${id}`);
   } catch (error) {
     console.log(error);
   }
@@ -431,12 +431,8 @@ const addContainer = async (container) => {
 const getRecipes = async (itemName: string): Promise<any> => {
   try {
     if (!itemName) itemName = "all";
-    if (true || itemName.includes("|") || itemName === "all") {
-      const response = await axios.get(
-        "/api/recipes/withingredient/" + itemName
-      );
-      return response.data;
-    }
+    const response = await axios.get(`/api/recipes/withingredient/${itemName}`);
+    return response.data;
   } catch (error) {
     console.log(error);
     return [];
@@ -445,7 +441,7 @@ const getRecipes = async (itemName: string): Promise<any> => {
 
 const getRecipe = async (id: string): Promise<any> => {
   try {
-    const response = await axios.get("/api/recipes/" + id);
+    const response = await axios.get(`/api/recipes/${id}`);
     return response.data;
   } catch (error) {
     console.log(error);

@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { RecipeI } from "../types";
+import { RecipeI, RecipeModel } from "../types";
 
 const recipeSchema = new mongoose.Schema<RecipeI>({
   user: {
@@ -29,6 +29,6 @@ const recipeSchema = new mongoose.Schema<RecipeI>({
   },
 });
 
-const Recipe = mongoose.model<RecipeI>("Recipe", recipeSchema);
+const Recipe = mongoose.model<RecipeModel>("Recipe", recipeSchema);
 
 export default Recipe;

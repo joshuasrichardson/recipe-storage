@@ -29,8 +29,10 @@ router.post("/", checkUserValidity, async (req: VerifiedUserRequest, res) => {
       amount: req.body.amount,
       unit: req.body.unit,
       src: req.body.src,
+      added: new Date(),
+      deleted: false,
     };
-    await addItems(itemAttributes, req.body.quantity);
+    await addItems(itemAttributes as any, req.body.quantity); // TODO: fix type
     return res.sendStatus(200);
   } catch (error) {
     console.log(error);
@@ -127,11 +129,13 @@ router.get("/", checkUserValidity, async (req: VerifiedUserRequest, res) => {
   }
 });
 
-router.put("/:id", async (req, res) => {
+router.put("/:id", checkUserValidity, async (req: VerifiedUserRequest, res) => {
   if (req.body.expiration === "Unknown") req.body.expiration = null;
   try {
     const itemAttributes = {
       id: req.params.id,
+      user: req.user._id,
+      src: req.body.src,
       code: req.body.code,
       name: req.body.name,
       brand: req.body.brand,
@@ -141,8 +145,10 @@ router.put("/:id", async (req, res) => {
       amount: req.body.amount,
       unit: req.body.unit,
       expiration: req.body.expiration,
+      added: req.body.added,
+      deleted: req.body.deleted,
     };
-    const item = await updateItem(itemAttributes);
+    const item = await updateItem(itemAttributes as any); // TODO: fix type
     return res.send(item);
   } catch (error) {
     console.log(error);

@@ -24,11 +24,7 @@ router.post(
         tags: req.body.tags,
         amount: req.body.amount,
         unit: req.body.unit,
-        src: req.file
-          ? "/images/" + req.file.filename
-          : req.body.src
-          ? req.body.src
-          : "",
+        src: req.file ? "/images/" + req.file.filename : req.body.src || "",
       };
       const response = await addProduct(newProduct, req.file);
       return res.send(response);

@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { ItemI } from "../types";
+import { ItemI, ItemModel } from "../types";
 
 const itemSchema = new mongoose.Schema<ItemI>({
   user: {
@@ -23,7 +23,7 @@ const itemSchema = new mongoose.Schema<ItemI>({
   deleted: Boolean,
 });
 
-const Item = mongoose.model<ItemI>("Item", itemSchema);
+const Item = mongoose.model<ItemModel>("Item", itemSchema);
 
 export const ItemHistory = mongoose.model("ItemHistory", itemSchema);
 
