@@ -13,7 +13,7 @@ const MakeRecipe: React.FC = (): ReactElement => {
 
   useEffect(() => {
     const updateScreen = async () => {
-      if (!!recipe) {
+      if (!recipe) {
         setRecipe(await ServerFacade.getRecipe(id));
       }
     };
