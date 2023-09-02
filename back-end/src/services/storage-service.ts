@@ -80,12 +80,18 @@ export const getItemHistoryRecord = async (
   }).populate("user");
 };
 
-export const getItemHistory = async (user: string): Promise<Array<ItemI>> => {
+export const getItemHistory = async (
+  user: string,
+  limit: number,
+  offset: number
+): Promise<Array<ItemI>> => {
   return await ItemHistory.find({
     user,
   })
     .sort({
       added: -1,
     })
+    .skip(offset)
+    .limit(limit)
     .populate("user");
 };

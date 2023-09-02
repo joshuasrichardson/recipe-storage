@@ -10,7 +10,7 @@ import Editor from "./components/storage/Editor";
 import DiffChecker from "./components/storage/DiffChecker";
 import Intro from "./components/Intro";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Nav from "./components/Nav";
+import NavBar from "./components/NavBar";
 import ServerFacade from "./api/ServerFacade";
 import { User } from "./types";
 import AddRecipe from "./components/recipe/AddRecipe";
@@ -88,7 +88,7 @@ const AllRoutes: React.FC<AllRoutesParams> = ({ user }): ReactElement => {
 
   return (
     <BrowserRouter>
-      <Nav user={user} />
+      <NavBar user={user} />
       {routes}
     </BrowserRouter>
   );

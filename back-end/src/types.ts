@@ -105,10 +105,15 @@ export interface ItemI {
 
 export type ItemModel = ItemI & mongoose.Document;
 
-export interface VerifiedUserRequest extends Request {
+export interface VerifiedUserRequest<T> extends Request<any, any, any, T> {
   user: UserI;
   session: { userID: any };
   file: { filename: string };
+}
+
+export interface StorageHistoryParams {
+  limit: number;
+  offset: number;
 }
 
 export interface Route {

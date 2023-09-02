@@ -8,7 +8,7 @@ let container: HTMLElement = null;
 let root = null;
 
 jest.mock("../components/Intro", () => () => "Intro");
-jest.mock("../components/Nav", () => () => "Nav");
+jest.mock("../components/NavBar", () => () => "NavBar");
 jest.mock("../components/Login", () => () => "Login");
 jest.mock("../components/storage/Item", () => () => "Item");
 jest.mock("../components/storage/Editor", () => () => "Editor");
@@ -47,7 +47,7 @@ describe("AllRoutes", () => {
 
     expect(allRoutes.container).toMatchInlineSnapshot(`
 <div>
-  Nav
+  NavBar
   Intro
 </div>
 `);
@@ -58,7 +58,7 @@ describe("AllRoutes", () => {
 
     expect(allRoutes.container).toMatchInlineSnapshot(`
 <div>
-  Nav
+  NavBar
   Storage
 </div>
 `);

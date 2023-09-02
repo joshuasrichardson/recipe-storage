@@ -58,7 +58,7 @@ const Recipes: React.FC = (): ReactElement => {
       search={search}
       useImageView={useImageView}
       setUseImageView={setUseImageView}
-      searchImmediately={false}
+      searchImmediately={true}
     />
   );
 };

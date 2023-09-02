@@ -25,20 +25,20 @@ export const translucentBackground = "rgb(240, 227, 208, 0.85)";
 export const paddingSizes = {
   none: "0px",
   xsmall: "2px",
-  small: "5px",
-  medium: "10px",
-  large: "15px",
-  xlarge: "20px",
+  small: "4px",
+  medium: "8px",
+  large: "16px",
+  xlarge: "24px",
   max: "100%",
 };
 export const marginSizes = {
   none: "0px",
   xsmall: "2px",
-  small: "5px",
-  medium: "10px",
-  large: "15px",
-  xlarge: "20px",
-  xxlarge: "60px",
+  small: "4px",
+  medium: "8px",
+  large: "16px",
+  xlarge: "24px",
+  xxlarge: "64px",
 };
 export const containerWidthSizes = {
   none: "0px",

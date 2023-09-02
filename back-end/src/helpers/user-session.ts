@@ -13,7 +13,7 @@ const getUserIfValid = async (userId: string): Promise<UserModel | null> => {
 };
 
 export const checkUserValidity = async (
-  req: VerifiedUserRequest,
+  req: VerifiedUserRequest<any>,
   res: Response,
   next: () => void
 ) => {

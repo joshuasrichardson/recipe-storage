@@ -6,7 +6,7 @@ import { VerifiedUserRequest } from "../types";
 
 const router = Router();
 
-router.post("/", async (req: VerifiedUserRequest, res) => {
+router.post("/", async (req: VerifiedUserRequest<any>, res) => {
   try {
     const userAttributes = {
       firstName: req.body.firstName,
@@ -43,7 +43,7 @@ router.put("/", async (req, res) => {
   }
 });
 
-router.post("/login", async (req: VerifiedUserRequest, res) => {
+router.post("/login", async (req: VerifiedUserRequest<any>, res) => {
   try {
     const user = await login(req.body.username, req.body.password);
 
@@ -59,24 +59,32 @@ router.post("/login", async (req: VerifiedUserRequest, res) => {
 });
 
 // get logged in user
-router.get("/", checkUserValidity, async (req: VerifiedUserRequest, res) => {
-  try {
-    res.send({ user: req.user });
-  } catch (error) {
-    console.log(error);
-    return res.sendStatus(500);
+router.get(
+  "/",
+  checkUserValidity,
+  async (req: VerifiedUserRequest<any>, res) => {
+    try {
+      res.send({ user: req.user });
+    } catch (error) {
+      console.log(error);
+      return res.sendStatus(500);
+    }
   }
-});
+);
 
 // logout
-router.delete("/", checkUserValidity, async (req: VerifiedUserRequest, res) => {
-  try {
-    req.session = null;
-    res.sendStatus(200);
-  } catch (error) {
-    console.log(error);
-    return res.sendStatus(500);
+router.delete(
+  "/",
+  checkUserValidity,
+  async (req: VerifiedUserRequest<any>, res) => {
+    try {
+      req.session = null;
+      res.sendStatus(200);
+    } catch (error) {
+      console.log(error);
+      return res.sendStatus(500);
+    }
   }
-});
+);
 
 export default router;

@@ -13,7 +13,7 @@ const router = express.Router();
 router.post(
   "/",
   upload.single("image"),
-  async (req: VerifiedUserRequest, res) => {
+  async (req: VerifiedUserRequest<any>, res) => {
     return defaultErrorHandler(async () => {
       const newProduct = {
         code: req.body.code,

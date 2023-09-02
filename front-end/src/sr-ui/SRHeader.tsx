@@ -12,6 +12,7 @@ type SRHeaderProps = {
   padding?: Size;
   underlined?: boolean;
   children: Child;
+  style?: object;
 };
 
 const defaultProps: SRHeaderProps = {
@@ -20,6 +21,7 @@ const defaultProps: SRHeaderProps = {
   padding: "medium",
   underlined: false,
   children: "",
+  style: {},
 };
 
 const SRHeader: React.FC<SRHeaderProps> = (
@@ -43,6 +45,7 @@ const SRHeader: React.FC<SRHeaderProps> = (
     textAlign: "center",
     padding: paddingSizes[props.padding],
     borderBottom: props.underlined ? "1px solid" : "none",
+    ...(props.style || {}),
   };
 
   return (

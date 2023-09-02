@@ -23,7 +23,7 @@ type SRContainerProps = {
 const defaultProps: SRContainerProps = {
   maxWidth: "max",
   padding: "large",
-  margin: "small",
+  margin: "medium",
   backgroundColor: translucentBackground,
   borderWidth: "large",
 };

@@ -1,6 +1,6 @@
 import React from "react";
 import { render, act } from "@testing-library/react";
-import Nav from "../Nav";
+import NavBar from "../NavBar";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import { testUser } from "../../../testUtils/mocks";
@@ -40,11 +40,11 @@ afterEach(() => {
   root = null;
 });
 
-describe("Nav", () => {
+describe("NavBar", () => {
   it("renders Home, Recipes, and Login Links when the user is logged out", () => {
     const nav = render(
       <BrowserRouter>
-        <Nav user={null} />
+        <NavBar user={null} />
       </BrowserRouter>,
       root
     );
@@ -113,7 +113,7 @@ describe("Nav", () => {
   it("renders username and Home, Storage, History Recipes, and Login Links when the user is logged in", () => {
     const nav = render(
       <BrowserRouter>
-        <Nav user={testUser} />
+        <NavBar user={testUser} />
       </BrowserRouter>,
       root
     );
@@ -196,7 +196,7 @@ describe("Nav", () => {
   it("logs out when the user is logged in and clicks Logout", () => {
     const nav = render(
       <BrowserRouter>
-        <Nav user={testUser} />
+        <NavBar user={testUser} />
       </BrowserRouter>,
       root
     );
@@ -212,7 +212,7 @@ describe("Nav", () => {
   it("does not log out when the user is logged out and clicks Login", () => {
     const nav = render(
       <BrowserRouter>
-        <Nav user={null} />
+        <NavBar user={null} />
       </BrowserRouter>,
       root
     );

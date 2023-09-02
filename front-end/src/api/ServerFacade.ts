@@ -381,7 +381,8 @@ const getStorageHistory = async (
 ): Promise<void> => {
   try {
     let response: AxiosResponse<any, any> = await axios.get(
-      "/api/storage/history"
+      "/api/storage/history",
+      { params: { limit: 150, offset: 0 } }
     );
     const apiItems: APIFormattedItem[] = response.data;
     const items: Item[] = apiItems.map((item: APIFormattedItem) =>

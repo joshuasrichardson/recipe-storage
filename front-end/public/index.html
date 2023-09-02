@@ -52,27 +52,37 @@
       color: #E0D6CE;
       background-color: #003815;
       text-align: left;
-      display: inline-block;
-      padding: 10px;
       text-decoration: none;
       font-family: "Architects Daughter";
       font-size: 22px;
       font-weight: bold;
       text-align: "center";
       width: 100vw;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px;
     }
-    .page-info {
-      padding: 10px;
+    .loading-image-container {
+      width: 100vw;
+      height: 85vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .loading-header {
+      margin: 0;
     }
   </style>
 
   <div id="root">
     <div class="loading-navbar">
-      <h3>Storage Recipe</h3>
+      <h3 class="loading-header">Storage Recipe</h3>
     </div>
-    <p class="page-info">
-      Loading...
-    </p>
+    <div class="loading-image-container">
+      <img src="images/favicon-512x512.png" width="256" height="256">
+    </div>
   </div>
   <script>
     if ('serviceWorker' in navigator) {
