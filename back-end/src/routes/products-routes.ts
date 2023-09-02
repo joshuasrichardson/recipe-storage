@@ -26,8 +26,7 @@ router.post(
         unit: req.body.unit,
         src: req.file ? "/images/" + req.file.filename : req.body.src || "",
       };
-      const response = await addProduct(newProduct, req.file);
-      return res.send(response);
+      return await addProduct(newProduct, req.file);
     }, res);
   }
 );
@@ -44,14 +43,13 @@ router.put("/:id", async (req, res) => {
       amount: req.body.amount,
       unit: req.body.unit,
     };
-    await updateProduct(req.params.id, product);
-    return res.sendStatus(200);
+    return await updateProduct(req.params.id, product);
   }, res);
 });
 
 router.get("/:code", async (req, res) => {
   return defaultErrorHandler(
-    async () => res.send({ product: await getProductByCode(req.params.code) }),
+    async () => ({ product: await getProductByCode(req.params.code) }),
     res
   );
 });

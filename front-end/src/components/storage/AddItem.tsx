@@ -30,7 +30,7 @@ const AddFoodStorage: React.FC = (): ReactElement => {
     const response = await ServerFacade.addProduct({
       ...item,
       image: image,
-      src: imageUrl || undefined,
+      src: imageUrl,
     });
 
     window.scrollTo({ top: 100, behavior: "smooth" });

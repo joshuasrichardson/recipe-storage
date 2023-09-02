@@ -47,7 +47,7 @@ const ItemForm: React.FC<ItemFormProps> = (
     if (props?.code) {
       const item = await ServerFacade.getProduct(props.code);
 
-      if (!!item) return;
+      if (!item) return;
       setName(item.name || "");
       setBrand(item.brand || "");
       setDescription(item.description || "");
