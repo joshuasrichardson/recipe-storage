@@ -1,4 +1,4 @@
-import React, { ReactElement } from "react";
+import React, { ReactElement, useState } from "react";
 import { useTranslation } from "react-i18next";
 import SRHeader from "../sr-ui/SRHeader";
 import { lightTextColor, themeGreen } from "../sr-ui/styles";
@@ -6,13 +6,26 @@ import { User } from "../types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
 import { Link } from "react-router-dom";
+import NavBarLink from "./NavBarLink";
 
-export type NavParams = {
+export interface NavBarParams {
   user: User;
+}
+
+const getInitialSelectedLink = (): string => {
+  if (window.location.href.includes("/recipes")) return "/recipes";
+  if (window.location.href.includes("/storage/history"))
+    return "/storage/history";
+  if (window.location.href.includes("/storage")) return "/storage";
+  return "";
 };
 
-const NavBar: React.FC<NavParams> = ({ user }: NavParams): ReactElement => {
+const NavBar: React.FC<NavBarParams> = ({ user }): ReactElement => {
   const { t } = useTranslation();
+
+  const [selectedLink, setSelectedLink] = useState<string>(
+    getInitialSelectedLink()
+  );
 
   const navStyle: React.CSSProperties = {
     backgroundColor: themeGreen,
@@ -25,40 +38,42 @@ const NavBar: React.FC<NavParams> = ({ user }: NavParams): ReactElement => {
 
   return (
     <div style={navStyle}>
-      <div>
-        <Link to={user ? "/profile" : "/"} style={{ textDecoration: "none" }}>
-          <SRHeader
-            id="logo-text"
-            color={lightTextColor}
-            style={{ marginBottom: 0 }}
-          >
-            {user ? user.username : t("Storage Recipe")}
-          </SRHeader>
-        </Link>
-      </div>
-      <div style={{ display: "flex", gap: 24, marginRight: 8 }}>
+      <Link
+        to={user ? "/profile" : "/"}
+        style={{ textDecoration: "none" }}
+        onClick={() => setSelectedLink("")}
+      >
+        <SRHeader
+          id="logo-text"
+          color={lightTextColor}
+          style={{ marginBottom: 0 }}
+        >
+          {user ? user.username : t("Storage Recipe")}
+        </SRHeader>
+      </Link>
+      <div style={{ display: "flex", gap: 16, marginRight: 8 }}>
         {user && (
           <>
-            <Link to="/storage">
-              <FontAwesomeIcon
-                icon={solid("warehouse")}
-                style={{ color: lightTextColor }}
-              />
-            </Link>
-            <Link to="/storage/history">
-              <FontAwesomeIcon
-                icon={solid("history")}
-                style={{ color: lightTextColor }}
-              />
-            </Link>
+            <NavBarLink
+              to="/storage"
+              icon={solid("warehouse")}
+              selectedLink={selectedLink}
+              setSelectedLink={setSelectedLink}
+            />
+            <NavBarLink
+              to="/storage/history"
+              icon={solid("history")}
+              selectedLink={selectedLink}
+              setSelectedLink={setSelectedLink}
+            />
           </>
         )}
-        <Link to="/recipes">
-          <FontAwesomeIcon
-            icon={solid("burger")}
-            style={{ color: lightTextColor }}
-          />
-        </Link>
+        <NavBarLink
+          to="/recipes"
+          icon={solid("burger")}
+          selectedLink={selectedLink}
+          setSelectedLink={setSelectedLink}
+        />
       </div>
     </div>
   );
