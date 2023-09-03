@@ -16,7 +16,7 @@ const getInitialSelectedLink = (): string => {
   if (window.location.href.includes("/recipes")) return "/recipes";
   if (window.location.href.includes("/storage/history"))
     return "/storage/history";
-  if (window.location.href.includes("/storage")) return "/storage";
+  if (!window.location.href.includes("/profile")) return "/storage";
   return "";
 };
 
