@@ -107,6 +107,9 @@ const RecipeComponent = ({ recipe, useImageView }) => {
       name={recipe.name}
       nameColor={themeGreen}
       rightAlignedInfo={recipe.minutes ? `${recipe.minutes} minutues` : ""}
+      onClick={() => {
+        navigate("/recipes/" + recipe._id);
+      }}
     />
   );
 };
