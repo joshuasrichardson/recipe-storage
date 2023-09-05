@@ -6,6 +6,8 @@ import SRBoxView from "../../sr-ui/SRBoxView";
 import { Attribute, Item, Recipe } from "../../types";
 import SRGroupDisplay from "../../sr-ui/SRGroupDisplay";
 import { useTranslation } from "react-i18next";
+import SRListView from "../../sr-ui/SRListView";
+import { themeGreen } from "../../sr-ui/styles";
 
 const Recipes: React.FC = (): ReactElement => {
   const [useImageView, setUseImageView] = useState(false);
@@ -16,7 +18,11 @@ const Recipes: React.FC = (): ReactElement => {
     return recipes
       .filter((recipe: Recipe) => recipe.name)
       .map((recipe: Recipe, index: number) => (
-        <RecipeComponent key={index} recipe={recipe} />
+        <RecipeComponent
+          key={index}
+          recipe={recipe}
+          useImageView={useImageView}
+        />
       ));
   };
 
@@ -65,7 +71,7 @@ const Recipes: React.FC = (): ReactElement => {
 
 export default Recipes;
 
-const RecipeComponent = ({ recipe }) => {
+const RecipeComponent = ({ recipe, useImageView }) => {
   const navigate = useNavigate();
   const { t } = useTranslation();
 
@@ -82,15 +88,25 @@ const RecipeComponent = ({ recipe }) => {
     ];
   };
 
+  if (useImageView) {
+    return (
+      <SRBoxView
+        onClick={() => {
+          navigate("/recipes/" + recipe._id);
+        }}
+        key={recipe._id}
+        src={recipe.image}
+        label={recipe.name}
+        attributes={getRecipeAttributes(recipe)}
+      />
+    );
+  }
+
   return (
-    <SRBoxView
-      onClick={() => {
-        navigate("/recipes/" + recipe._id);
-      }}
-      key={recipe._id}
-      src={recipe.image}
-      label={recipe.name}
-      attributes={getRecipeAttributes(recipe)}
+    <SRListView
+      name={recipe.name}
+      nameColor={themeGreen}
+      rightAlignedInfo={recipe.minutes ? `${recipe.minutes} minutues` : ""}
     />
   );
 };

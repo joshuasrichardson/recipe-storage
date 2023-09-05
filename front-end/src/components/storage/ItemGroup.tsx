@@ -167,9 +167,10 @@ const ItemGroup: React.FC<ItemGroupProps> = ({
         key={item._id}
         name={getName()}
         nameColor={!showExpiration && item.deleted ? themeRed : themeGreen}
-        info={item.container}
-        date={showExpiration ? item.expiration : item.added}
-        dateFormatter={dateFormatter}
+        leftAlignedInfo={item.container}
+        rightAlignedInfo={dateFormatter(
+          showExpiration ? item.expiration : item.added
+        )}
         dateColor={getDateColor(item.expiration)}
         onClick={() => {
           navigate(itemViewDir + item._id);

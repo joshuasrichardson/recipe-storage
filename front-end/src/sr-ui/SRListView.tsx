@@ -1,28 +1,22 @@
 import React, { MouseEventHandler, ReactElement } from "react";
-import Utils, { srDate } from "../utils/utils";
 import SRFlex from "./SRFlex";
 import SRText from "./SRText";
 import { darkTextColor, themeGreen } from "./styles";
-import { SRDate } from "../types";
 
 type SRListViewProps = {
-  key: string;
   name: string;
   nameColor: string;
-  info?: string;
-  date?: SRDate;
-  dateFormatter?: (date: SRDate) => string;
+  leftAlignedInfo?: string;
+  rightAlignedInfo?: string;
   dateColor?: string;
   onClick?: MouseEventHandler<HTMLDivElement>;
 };
 
 const defaultProps: SRListViewProps = {
-  key: "default",
   name: "",
   nameColor: themeGreen,
-  info: "",
-  date: srDate(),
-  dateFormatter: Utils.formatDate,
+  leftAlignedInfo: "",
+  rightAlignedInfo: "",
   dateColor: darkTextColor,
   onClick: () => {},
 };
@@ -38,6 +32,10 @@ const SRListView: React.FC<SRListViewProps> = (
     borderWidth: "1px",
     borderColor: themeGreen,
     width: "100%",
+    paddingTop: 2,
+    paddingBottom: 2,
+    paddingLeft: 4,
+    paddingRight: 4,
   };
 
   const dateStyle: React.CSSProperties = {
@@ -53,10 +51,10 @@ const SRListView: React.FC<SRListViewProps> = (
           </SRText>
           <SRFlex>
             <div>
-              <em>{props.info}</em>
+              <em>{props.leftAlignedInfo}</em>
             </div>
             <div style={dateStyle}>
-              <em>{props.dateFormatter(props.date)}</em>
+              <em>{props.rightAlignedInfo}</em>
             </div>
           </SRFlex>
         </SRFlex>
