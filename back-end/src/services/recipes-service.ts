@@ -71,13 +71,19 @@ export const updateRecipe = async (recipe: RecipeI): Promise<RecipeI> => {
   return updatedRecipe;
 };
 
-export const findRecipesWithIngredients = async (
-  ingredients: string
-): Promise<Array<RecipeI>> => {
+interface FindRecipesWithIngredients {
+  ingredients: string;
+  language: SupportedLanguage;
+}
+
+export const findRecipesWithIngredients = async ({
+  ingredients,
+  language,
+}: FindRecipesWithIngredients): Promise<Array<RecipeI>> => {
   if (ingredients === "all") {
-    const recipes = await Recipe.find({}).sort({
-      name: 1,
-    });
+    const recipes = await Recipe.find({
+      $or: [{ language }, { language: undefined }],
+    }).sort({ language: -1, name: 1 });
     return recipes;
   }
 
@@ -109,8 +115,17 @@ export const findRecipesWithIngredients = async (
 export const getRecipeById = async (id: string): Promise<RecipeI> =>
   await Recipe.findById(id);
 
-export const getRecipes = async (): Promise<Array<RecipeI>> =>
-  await Recipe.find({}).sort({ name: 1 });
+interface GetRecipesProps {
+  language: SupportedLanguage;
+}
+
+export const getRecipes = async ({
+  language,
+}: GetRecipesProps): Promise<Array<RecipeI>> => {
+  return await Recipe.find({
+    $or: [{ language: language }, { language: undefined }],
+  }).sort({ language: 1, name: 1 });
+};
 
 export const deleteRecipe = async (id: string): Promise<void> => {
   await Recipe.deleteOne({ _id: id });

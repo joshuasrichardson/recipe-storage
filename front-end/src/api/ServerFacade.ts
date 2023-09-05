@@ -429,10 +429,13 @@ const addContainer = async (container) => {
   await axios.put("/api/containers", { container: container });
 };
 
-const getRecipes = async (itemName: string): Promise<any> => {
+const getRecipes = async (itemName: string, language: string): Promise<any> => {
   try {
     if (!itemName) itemName = "all";
-    const response = await axios.get(`/api/recipes/withingredient/${itemName}`);
+    const response = await axios.get(
+      `/api/recipes/withingredient/${itemName}`,
+      { params: { language } }
+    );
     return response.data;
   } catch (error) {
     console.log(error);

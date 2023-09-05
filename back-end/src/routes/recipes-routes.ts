@@ -9,7 +9,11 @@ import {
   deleteRecipe,
   generateRecipe,
 } from "../services/recipes-service";
-import { VerifiedUserRequest } from "../types";
+import {
+  AnyUserRequest,
+  SupportedLanguage,
+  VerifiedUserRequest,
+} from "../types";
 import defaultErrorHandler, { handleRequest } from "../helpers/http";
 
 const router = express.Router();
@@ -83,11 +87,17 @@ router.put(
   }
 );
 
-router.get("/withingredient/:ingredients", async (req, res) => {
-  return defaultErrorHandler(async () => {
-    return await findRecipesWithIngredients(req.params.ingredients);
-  }, res);
-});
+router.get(
+  "/withingredient/:ingredients",
+  async (req: AnyUserRequest<{ language: SupportedLanguage }>, res) => {
+    return defaultErrorHandler(async () => {
+      return await findRecipesWithIngredients({
+        ingredients: req.params.ingredients,
+        language: req.query.language,
+      });
+    }, res);
+  }
+);
 
 router.get("/:id", async (req, res) => {
   if (req.params.id === "add") return;
@@ -97,9 +107,14 @@ router.get("/:id", async (req, res) => {
   );
 });
 
-router.get("/", async (req, res) => {
-  return defaultErrorHandler(async () => await getRecipes(), res);
-});
+router.get(
+  "/",
+  async (req: AnyUserRequest<{ language: SupportedLanguage }>, res) => {
+    return defaultErrorHandler(async () => {
+      return await getRecipes({ language: req.query.language });
+    }, res);
+  }
+);
 
 router.delete("/:id", checkUserValidity, async (req, res) => {
   return defaultErrorHandler(

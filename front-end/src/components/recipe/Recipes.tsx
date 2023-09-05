@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useState, ReactElement } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import ServerFacade from "../../api/ServerFacade";
@@ -8,11 +8,13 @@ import SRGroupDisplay from "../../sr-ui/SRGroupDisplay";
 import { useTranslation } from "react-i18next";
 import SRListView from "../../sr-ui/SRListView";
 import { themeGreen } from "../../sr-ui/styles";
+import { Context } from "../../App";
 
 const Recipes: React.FC = (): ReactElement => {
   const [useImageView, setUseImageView] = useState(false);
   const location = useLocation();
   const { t } = useTranslation();
+  const { language } = useContext(Context);
 
   const getRecipesHTML = (recipes: Recipe[]): JSX.Element[] => {
     return recipes
@@ -43,14 +45,14 @@ const Recipes: React.FC = (): ReactElement => {
       let searchString = formatSearchString(state.name, state.tags);
       if (searchString) {
         setSearchString(searchString);
-        setRecipes(await ServerFacade.getRecipes(searchString));
-      } else setRecipes(await ServerFacade.getRecipes(""));
+        setRecipes(await ServerFacade.getRecipes(searchString, language));
+      } else setRecipes(await ServerFacade.getRecipes("", language));
       location.state = null;
-    } else setRecipes(await ServerFacade.getRecipes(""));
+    } else setRecipes(await ServerFacade.getRecipes("", language));
   };
 
   const search = async (searchString: string): Promise<Recipe[]> => {
-    return ServerFacade.getRecipes(searchString);
+    return ServerFacade.getRecipes(searchString, language);
   };
 
   return (
@@ -106,7 +108,9 @@ const RecipeComponent = ({ recipe, useImageView }) => {
     <SRListView
       name={recipe.name}
       nameColor={themeGreen}
-      rightAlignedInfo={recipe.minutes ? `${recipe.minutes} minutues` : ""}
+      rightAlignedInfo={
+        recipe.minutes ? `${recipe.minutes}${t(" minutes")}` : ""
+      }
       onClick={() => {
         navigate("/recipes/" + recipe._id);
       }}

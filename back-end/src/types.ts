@@ -111,6 +111,8 @@ export interface VerifiedUserRequest<T> extends Request<any, any, any, T> {
   file: { filename: string };
 }
 
+export interface AnyUserRequest<T> extends Request<any, any, any, T> {}
+
 export interface StorageHistoryParams {
   limit: number;
   offset: number;
