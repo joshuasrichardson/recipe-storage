@@ -1,12 +1,6 @@
 import React, { ChangeEventHandler, ReactElement } from "react";
-// @ts-ignore
-import { Size, Child } from "../types.ts";
-import {
-  borderWidthSizes,
-  marginSizes,
-  themeGray,
-  themeGreen, // @ts-ignore
-} from "./styles.ts";
+import { Size, Child } from "../types";
+import { borderWidthSizes, marginSizes, themeGray, themeGreen } from "./styles";
 
 type SRDropDownProps = {
   label: string;

@@ -1,7 +1,6 @@
 import { render, RenderResult } from "@testing-library/react";
 import React from "react";
 import { act } from "react-dom/test-utils";
-// @ts-ignore
 import App from "../App";
 import { testUser as mockUser } from "../../testUtils/mocks";
 import { User } from "../types";

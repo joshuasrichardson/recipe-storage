@@ -64,7 +64,7 @@ const Scanner: React.FC<ScannerProps> = (props: ScannerProps): ReactElement => {
   };
 
   return (
-    <SRFlex direction="column" marginVertical="10px">
+    <SRFlex direction="column" marginVertical="medium">
       <SRDropDown
         label={t("Barcode Type")}
         fixedOptions

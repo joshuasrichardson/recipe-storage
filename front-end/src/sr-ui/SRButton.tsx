@@ -1,6 +1,5 @@
 import React, { useState, MouseEventHandler, ReactElement } from "react";
-// @ts-ignore
-import { Child, Size } from "../types.ts";
+import { Child, Size } from "../types";
 import {
   borderWidthSizes,
   disabledButtonColor,
@@ -10,8 +9,8 @@ import {
   themeGreen,
   secondaryButtonColor,
   brightSecondaryButtonColor,
-  disabledSecondaryButtonColor, // @ts-ignore
-} from "./styles.ts";
+  disabledSecondaryButtonColor,
+} from "./styles";
 
 type SRButtonProps = {
   size?: Size;

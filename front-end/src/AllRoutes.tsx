@@ -17,6 +17,7 @@ import AddRecipe from "./components/recipe/AddRecipe";
 import RecipeComponent from "./components/recipe/Recipe";
 import EditRecipe from "./components/recipe/EditRecipe";
 import MakeRecipe from "./components/recipe/MakeRecipe";
+import MealPlanner from "./components/meal-planner/MealPlanner";
 
 export type AllRoutesParams = {
   user: User;
@@ -55,6 +56,7 @@ const AllRoutes: React.FC<AllRoutesParams> = ({ user }): ReactElement => {
           }
         />
         <Route path="/recipes" element={<Recipes />} />
+        <Route path="/meal-planner" element={<MealPlanner />} />
         <Route path="/login" element={<Login hasAccount={true} />} />
         <Route path="/storage/edit/:id" element={<Editor />} />
         <Route path="/*" element={<Storage />} />

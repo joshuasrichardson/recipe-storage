@@ -34,7 +34,17 @@ export const generateRecipe = async (
   ingredients: Array<string>,
   user: UserRef
 ): Promise<RecipeI> => {
-  const recipeQueryResult = await queryRecipes(ingredients);
+  const recipesWithIngredient = (
+    await findRecipesWithIngredients({
+      ingredients: ingredients.join("|"),
+      language: (user as any).language,
+    })
+  ).map((recipe) => recipe.name);
+
+  const recipeQueryResult = await queryRecipes(
+    ingredients,
+    recipesWithIngredient
+  );
   const generatedRecipe = {
     ...recipeQueryResult,
     user,

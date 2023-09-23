@@ -3,7 +3,6 @@ import { useTranslation } from "react-i18next";
 import SRHeader from "../sr-ui/SRHeader";
 import { lightTextColor, themeGreen } from "../sr-ui/styles";
 import { User } from "../types";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
 import { Link } from "react-router-dom";
 import NavBarLink from "./NavBarLink";
@@ -14,6 +13,7 @@ export interface NavBarParams {
 
 const getInitialSelectedLink = (): string => {
   if (window.location.href.includes("/recipes")) return "/recipes";
+  if (window.location.href.includes("/meal-planner")) return "/meal-planner";
   if (window.location.href.includes("/storage/history"))
     return "/storage/history";
   if (!window.location.href.includes("/profile")) return "/storage";
@@ -63,6 +63,12 @@ const NavBar: React.FC<NavBarParams> = ({ user }): ReactElement => {
             <NavBarLink
               to="/storage/history"
               icon={solid("history")}
+              selectedLink={selectedLink}
+              setSelectedLink={setSelectedLink}
+            />
+            <NavBarLink
+              to="/meal-planner"
+              icon={solid("calendar-alt")}
               selectedLink={selectedLink}
               setSelectedLink={setSelectedLink}
             />

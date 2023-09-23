@@ -1,8 +1,6 @@
 import React, { ReactElement } from "react";
-// @ts-ignore
-import { paddingSizes } from "./styles.ts";
-// @ts-ignore
-import { Child } from "../types.ts";
+import { paddingSizes } from "./styles";
+import { Child } from "../types";
 
 type SRFormProps = {
   onSubmit?: React.FormEventHandler<HTMLFormElement>;

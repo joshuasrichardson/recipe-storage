@@ -1,6 +1,5 @@
 import React, { ReactElement } from "react";
-// @ts-ignore
-import { Size, Child } from "../types.ts";
+import { Size, Child } from "../types";
 import {
   borderWidthSizes,
   containerWidthSizes,
@@ -8,8 +7,8 @@ import {
   marginSizes,
   paddingSizes,
   themeGreen,
-  translucentBackground, // @ts-ignore
-} from "./styles.ts";
+  translucentBackground,
+} from "./styles";
 
 type SRContainerProps = {
   maxWidth?: Size;
@@ -18,6 +17,7 @@ type SRContainerProps = {
   borderWidth?: Size;
   backgroundColor?: string;
   children?: Child;
+  style?: React.CSSProperties;
 };
 
 const defaultProps: SRContainerProps = {
@@ -45,6 +45,7 @@ const SRContainer: React.FC<SRContainerProps> = (
     border: "solid",
     borderColor: themeGreen,
     borderWidth: borderWidthSizes[props.borderWidth],
+    ...props.style,
   };
 
   return <div style={containerStyles}>{props.children}</div>;

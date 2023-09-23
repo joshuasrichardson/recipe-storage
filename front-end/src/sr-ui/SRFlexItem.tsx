@@ -1,6 +1,5 @@
 import React, { ReactElement } from "react";
-// @ts-ignore
-import { Child } from "../types.ts";
+import { Child } from "../types";
 
 type SRFlexItemProps = {
   numItems: number;

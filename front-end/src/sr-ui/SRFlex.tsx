@@ -1,8 +1,6 @@
 import React, { ReactElement } from "react";
-// @ts-ignore
-import { flexWidthSizes, marginSizes, paddingSizes, Size } from "./styles.ts";
-// @ts-ignore
-import { Child } from "../types.ts";
+import { flexWidthSizes, marginSizes, paddingSizes } from "./styles";
+import { Child, Size } from "../types";
 
 type SRFlexProps = {
   direction?: "row" | "column";
@@ -20,6 +18,7 @@ type SRFlexProps = {
   marginVertical?: Size;
   marginHorizontal?: Size;
   margin?: Size;
+  style?: React.CSSProperties;
 };
 
 const defaultProps: SRFlexProps = {
@@ -56,6 +55,7 @@ const SRFlex: React.FC<SRFlexProps> = (props: SRFlexProps): ReactElement => {
     marginRight: props.marginHorizontal
       ? marginSizes[props.marginHorizontal]
       : marginSizes[props.margin],
+    ...props.style,
   };
 
   return <div style={flexStyle}>{props.children}</div>;

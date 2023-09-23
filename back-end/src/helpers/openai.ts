@@ -1,5 +1,6 @@
 import { Configuration, OpenAIApi } from "openai";
 import { RecipeI } from "../types";
+import { toListString } from "./string-helper";
 
 // Creating an instance of OpenAIApi with API key from the environment variables
 const openai = new OpenAIApi(
@@ -8,12 +9,23 @@ const openai = new OpenAIApi(
   })
 );
 
-const getRecipeQuery = (ingredients: Array<string>): string =>
-  `What is a recipe I can make with ${ingredients
-    .slice(0, ingredients.length - 1)
-    .join(", ")}, and ${
-    ingredients[ingredients.length - 1]
-  }? If there are no recipes that only use these items, please suggest a recipe that at least uses some of these. Please do not give me any excuses. Please only respond in the following format with nothing before or after:
+const getRecipeQuery = (
+  ingredients: Array<string>,
+  recipesToAvoid?: Array<string>
+): string =>
+  `What is a recipe I can make with ${toListString(
+    ingredients,
+    "and"
+  )}? If there are no recipes that only use these items, please suggest a recipe that at least uses some of these. 
+  ${
+    recipesToAvoid?.length
+      ? `Please do not sugggest for me to make ${toListString(
+          recipesToAvoid,
+          "or"
+        )}`
+      : ""
+  }
+  Please do not give me any excuses. Please only respond in the following format with nothing before or after:
 
     {
         "name": "Chocolate Chip Cookies",
@@ -58,8 +70,11 @@ const extractJSON = (str: string): string => {
   return str.substring(startIndex, endIndex + 2);
 };
 
-export const queryRecipes = async (ingredients: string[]): Promise<RecipeI> => {
-  const prompt = getRecipeQuery(ingredients);
+export const queryRecipes = async (
+  ingredients: string[],
+  recipesToAvoid?: string[]
+): Promise<RecipeI> => {
+  const prompt = getRecipeQuery(ingredients, recipesToAvoid);
 
   const completion = await openai.createChatCompletion({
     model: "gpt-3.5-turbo",

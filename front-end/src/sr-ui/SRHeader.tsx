@@ -1,9 +1,7 @@
 import React, { ReactElement, useEffect } from "react";
 import WebFont from "webfontloader";
-// @ts-ignore
-import { Child, Size } from "../types.ts";
-// @ts-ignore
-import { headerSizes, paddingSizes, themeGreen } from "./styles.ts";
+import { Child, Size } from "../types";
+import { headerSizes, paddingSizes, themeGreen } from "./styles";
 
 type SRHeaderProps = {
   id?: string;

@@ -1,8 +1,6 @@
 import React, { ReactElement } from "react";
-// @ts-ignore
-import { Child, Size } from "../types.ts";
-// @ts-ignore
-import { fontSizes, marginSizes, paddingSizes } from "./styles.ts";
+import { Child, Size } from "../types";
+import { fontSizes, marginSizes, paddingSizes } from "./styles";
 
 type SRTextProps = {
   style?: React.CSSProperties;

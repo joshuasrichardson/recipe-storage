@@ -1,7 +1,6 @@
 import axios, { AxiosResponse } from "axios";
 import { APIFormattedItem, Item, ItemAutofill, Language, User } from "../types";
-// @ts-ignore
-import { apiFormattedItem, viewFormattedItem } from "../utils/utils.ts";
+import { apiFormattedItem, viewFormattedItem } from "../utils/utils";
 
 export type LoginParams = {
   username: string;
@@ -127,8 +126,7 @@ type APIKeychain = {
 
 const getNutritionixV1Item = async (code: string): Promise<ItemAutofill> => {
   let keys: APIKeychain;
-  // @ts-ignore
-  return import("./constants.ts").then(async (data) => {
+  return import("./constants").then(async (data) => {
     keys = data.keys;
 
     const response = await fetch(
@@ -165,8 +163,7 @@ const canAccessNutritionixV2 = async (): Promise<boolean> => {
 const getNutritionixV2Item = async (code: string): Promise<ItemAutofill> => {
   if (!(await canAccessNutritionixV2())) return getNutritionixV1Item(code);
   let keys: APIKeychain;
-  // @ts-ignore
-  return import("./constants.ts")
+  return import("./constants")
     .then(async (data) => {
       keys = data.keys;
       const response = await axios.get(
@@ -200,6 +197,14 @@ const getNutritionixV2Item = async (code: string): Promise<ItemAutofill> => {
       console.log(
         "If you need access to it (you are working with the owner), please contact the owner directly"
       );
+      return {
+        name: "",
+        brand: "",
+        description: "",
+        unit: "Grams",
+        tags: "",
+        src: "",
+      };
     });
 };
 

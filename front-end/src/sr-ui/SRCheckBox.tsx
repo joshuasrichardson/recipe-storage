@@ -1,14 +1,13 @@
 import React, { useState, MouseEventHandler, ReactElement } from "react";
-// @ts-ignore
-import { Child } from "../types.ts";
+import { Child } from "../types";
 import {
   borderWidthSizes,
   disabledCheckBoxColor,
   mainCheckBoxColor,
   brightCheckBoxColor,
   lightTextColor,
-  themeGreen, // @ts-ignore
-} from "./styles.ts";
+  themeGreen,
+} from "./styles";
 
 type SRCheckBoxProps = {
   size?: "large" | "small";

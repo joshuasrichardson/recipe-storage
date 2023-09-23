@@ -1,6 +1,5 @@
 import React, { ReactElement } from "react";
-// @ts-ignore
-import { borderWidthSizes, marginSizes, themeGreen } from "./styles.ts";
+import { borderWidthSizes, marginSizes, themeGreen } from "./styles";
 
 type SRImageProps = {
   src: string;

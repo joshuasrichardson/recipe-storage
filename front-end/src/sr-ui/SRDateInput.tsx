@@ -1,6 +1,5 @@
 import React, { ChangeEventHandler, ReactElement } from "react";
-// @ts-ignore
-import { borderWidthSizes, themeGreen, themeGray } from "./styles.ts";
+import { borderWidthSizes, themeGreen, themeGray } from "./styles";
 
 type SRDateInputProps = {
   label: string;
