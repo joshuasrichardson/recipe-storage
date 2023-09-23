@@ -11,14 +11,14 @@ const openai = new OpenAIApi(
 
 const getRecipeQuery = (
   ingredients: Array<string>,
-  recipesToAvoid?: Array<string>
+  recipesToAvoid: Array<string>
 ): string =>
   `What is a recipe I can make with ${toListString(
     ingredients,
     "and"
   )}? If there are no recipes that only use these items, please suggest a recipe that at least uses some of these. 
   ${
-    recipesToAvoid?.length
+    recipesToAvoid.length
       ? `Please do not sugggest for me to make ${toListString(
           recipesToAvoid,
           "or"
@@ -72,7 +72,7 @@ const extractJSON = (str: string): string => {
 
 export const queryRecipes = async (
   ingredients: string[],
-  recipesToAvoid?: string[]
+  recipesToAvoid: string[]
 ): Promise<RecipeI> => {
   const prompt = getRecipeQuery(ingredients, recipesToAvoid);
 
