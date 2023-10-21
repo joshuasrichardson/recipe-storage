@@ -1,4 +1,4 @@
-import React, { ReactElement } from "react";
+import React, { MouseEventHandler, ReactElement } from "react";
 import { flexWidthSizes, marginSizes, paddingSizes } from "./styles";
 import { Child, Size } from "../types";
 
@@ -8,7 +8,7 @@ type SRFlexProps = {
   padding?: Size;
   wrap?: "nowrap" | "wrap" | "wrap-reverse";
   width?: Size;
-  children?: Child;
+  children?: Child | Child[];
   justifyContent?:
     | "space-between"
     | "space-around"
@@ -18,6 +18,7 @@ type SRFlexProps = {
   marginVertical?: Size;
   marginHorizontal?: Size;
   margin?: Size;
+  onClick?: MouseEventHandler;
   style?: React.CSSProperties;
 };
 
@@ -58,7 +59,11 @@ const SRFlex: React.FC<SRFlexProps> = (props: SRFlexProps): ReactElement => {
     ...props.style,
   };
 
-  return <div style={flexStyle}>{props.children}</div>;
+  return (
+    <div onClick={props.onClick} style={flexStyle}>
+      {props.children}
+    </div>
+  );
 };
 
 export default SRFlex;

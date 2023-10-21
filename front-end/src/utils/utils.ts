@@ -54,6 +54,18 @@ export const srDate = (dateString?: string, timezone?: string): SRDate => {
   return moment.tz(dateString, timezone);
 };
 
+export const getNextNDates = (numDates: number): SRDate[] => {
+  return Array.from({ length: numDates }, (_, day) =>
+    srDate().add(day, "days")
+  );
+};
+
+export const getNDates = (startDate: SRDate, numDates: number): SRDate[] => {
+  return Array.from({ length: numDates }, (_, day) =>
+    srDate(startDate.toISOString()).add(day, "days")
+  );
+};
+
 const Utils = {
   viewFormattedItem,
   apiFormattedItem,

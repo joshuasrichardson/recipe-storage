@@ -18,6 +18,7 @@ type SRContainerProps = {
   backgroundColor?: string;
   children?: Child;
   style?: React.CSSProperties;
+  onClick?: (event: MouseEvent) => void;
 };
 
 const defaultProps: SRContainerProps = {
@@ -26,6 +27,7 @@ const defaultProps: SRContainerProps = {
   margin: "medium",
   backgroundColor: translucentBackground,
   borderWidth: "large",
+  onClick: () => {},
 };
 
 const SRContainer: React.FC<SRContainerProps> = (

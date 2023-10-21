@@ -1,0 +1,25 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"name": "test",
+			"path": "test"
+		},
+		{
+			"name": "front-end",
+			"path": "front-end"
+		},
+		{
+			"name": "back-end",
+			"path": "back-end"
+		}
+	],
+	"settings": {
+		"jest.disabledWorkspaceFolders": [
+			"recipe-storage",
+			"back-end"
+		]
+	}
+}

@@ -102,6 +102,19 @@ export type Size =
   | "xxlarge"
   | "max";
 
-export type Child = JSX.Element | JSX.Element[] | string;
+export type Child =
+  | JSX.Element
+  | JSX.Element[]
+  | string
+  | string[]
+  | (string | JSX.Element)[];
 
 export type SRDate = Moment;
+
+export interface MealPlan {
+  date: SRDate;
+  breakfast: Recipe[];
+  lunch: Recipe[];
+  dinner: Recipe[];
+  snacks: Recipe[];
+}

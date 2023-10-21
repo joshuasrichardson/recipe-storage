@@ -1,6 +1,14 @@
 import axios, { AxiosResponse } from "axios";
-import { APIFormattedItem, Item, ItemAutofill, Language, User } from "../types";
-import { apiFormattedItem, viewFormattedItem } from "../utils/utils";
+import {
+  APIFormattedItem,
+  Item,
+  ItemAutofill,
+  Language,
+  MealPlan,
+  SRDate,
+  User,
+} from "../types";
+import { apiFormattedItem, getNDates, viewFormattedItem } from "../utils/utils";
 
 export type LoginParams = {
   username: string;
@@ -537,6 +545,31 @@ const deleteRecipe = async (id: string): Promise<void> => {
   console.log(response);
 };
 
+const getMealPlans = async (
+  startDate: SRDate,
+  numDays: number
+): Promise<MealPlan[]> => {
+  // TODO
+
+  const days: SRDate[] = getNDates(startDate, numDays);
+
+  return days.map((day) => ({
+    date: day,
+    breakfast: [{ _id: "q", name: "cereal", ingredients: ["cereal", "milk"] }],
+    lunch: [
+      {
+        _id: "r",
+        name: "sandwich",
+        ingredients: ["bread", "peanut butter", "jam"],
+      },
+    ],
+    dinner: [
+      { _id: "s", name: "spaghetti", ingredients: ["noodles", "sauce"] },
+    ],
+    snacks: [{ _id: "t", name: "cheese", ingredients: ["cheese"] }],
+  }));
+};
+
 const ServerFacade = {
   login,
   register,
@@ -564,6 +597,7 @@ const ServerFacade = {
   addRecipe,
   updateRecipe,
   deleteRecipe,
+  getMealPlans,
 };
 
 export default ServerFacade;
