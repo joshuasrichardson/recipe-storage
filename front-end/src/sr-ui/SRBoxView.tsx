@@ -1,4 +1,4 @@
-import React, { MouseEventHandler, ReactElement } from "react";
+import React, { MouseEventHandler, ReactElement, useState } from "react";
 import SRImage from "./SRImage";
 import SRHeader from "./SRHeader";
 import { borderWidthSizes, paddingSizes } from "./styles";
@@ -93,15 +93,35 @@ const SRBoxView: React.FC<SRBoxViewProps> = (
     return false;
   };
 
-  const itemAttrLI = (arr: string[]) => {
-    return arr
-      .filter((str) => !!str)
-      .map((val: string, index: number) => (
-        <SRFlex key={val + index} justifyContent="flex-start">
-          {props.useCheckBoxes && <SRCheckBox />}
-          <li>{val}</li>
-        </SRFlex>
-      ));
+  const ItemAttr = ({ value, index }: { value: string; index: number }) => {
+    const [isChecked, setIsChecked] = useState(false);
+
+    return (
+      <SRFlex
+        key={value + index}
+        justifyContent="flex-start"
+        alignItems="flex-start"
+        marginVertical="medium"
+        style={{ gap: 12 }}
+      >
+        {props.useCheckBoxes && (
+          <SRCheckBox isChecked={isChecked} setIsChecked={setIsChecked} />
+        )}
+        <li>{value}</li>
+      </SRFlex>
+    );
+  };
+
+  const ItemAttrList = ({ arr }: { arr: string[] }) => {
+    return (
+      <>
+        {arr
+          .filter((str) => !!str)
+          .map((value: string, index: number) => (
+            <ItemAttr value={value} index={index} />
+          ))}
+      </>
+    );
   };
 
   const itemAttributes = () => {
@@ -121,12 +141,12 @@ const SRBoxView: React.FC<SRBoxViewProps> = (
             <strong>{a.key + ": "}</strong>
             {(typeof a.value === "object" && a.ol && (
               <ol style={listItemStyle(useDefaultStyle, true)}>
-                {itemAttrLI(a.value)}
+                <ItemAttrList arr={a.value} />
               </ol>
             )) ||
               (typeof a.value === "object" && (
                 <ul style={listItemStyle(useDefaultStyle, false)}>
-                  {itemAttrLI(a.value)}
+                  <ItemAttrList arr={a.value} />
                 </ul>
               )) ||
               a.value}

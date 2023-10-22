@@ -1,4 +1,11 @@
-import React, { useState, MouseEventHandler, ReactElement } from "react";
+import React, {
+  useState,
+  MouseEventHandler,
+  ReactElement,
+  ChangeEventHandler,
+  Dispatch,
+  SetStateAction,
+} from "react";
 import { Child } from "../types";
 import {
   borderWidthSizes,
@@ -8,21 +15,26 @@ import {
   lightTextColor,
   themeGreen,
 } from "./styles";
+import SRCheck from "./SRCheck";
 
 type SRCheckBoxProps = {
   size?: "large" | "small";
   type?: "button" | "submit";
   disabled?: boolean;
-  onClick?: MouseEventHandler<HTMLElement>;
+  isChecked?: boolean;
+  setIsChecked?: Dispatch<SetStateAction<boolean>>;
   children?: Child;
+  style?: React.CSSProperties;
 };
 
 const defaultProps: SRCheckBoxProps = {
   size: "large",
   type: "button",
   disabled: false,
-  onClick: () => {},
+  isChecked: false,
+  setIsChecked: () => {},
   children: <></>,
+  style: {},
 };
 
 const SRCheckBox: React.FC<SRCheckBoxProps> = (
@@ -31,53 +43,33 @@ const SRCheckBox: React.FC<SRCheckBoxProps> = (
   props = { ...defaultProps, ...props };
   const [isHover, setHover] = useState(false);
 
-  const general: React.CSSProperties = {
+  const checkboxStyle: React.CSSProperties = {
+    width: 24,
+    height: 24,
+    minWidth: 24,
+    minHeight: 24,
+    borderRadius: 4,
     color: lightTextColor,
-    backgroundColor: props.disabled
-      ? disabledCheckBoxColor
-      : isHover
-      ? brightCheckBoxColor
-      : mainCheckBoxColor,
-    fontWeight: "bold",
-    borderRadius: "5px",
+    backgroundColor: props.isChecked ? themeGreen : lightTextColor,
+    ...props.style,
     borderWidth: borderWidthSizes["small"],
     borderStyle: "solid",
     borderColor: themeGreen,
     display: "flex",
-    alignItems: "center",
     justifyContent: "center",
+    alignItems: "center",
   };
-
-  const large: React.CSSProperties = {
-    padding: "20px",
-    width: "200px",
-    maxWidth: "300px",
-    margin: "12px",
-  };
-
-  const small: React.CSSProperties = {
-    padding: "10px",
-    width: "40px",
-    maxWidth: "40px",
-    height: "40px",
-    maxHeight: "40px",
-    margin: "5px",
-  };
-
-  const buttonStyle =
-    props.size === "small"
-      ? { ...general, ...small }
-      : { ...general, ...large };
 
   return (
-    <input
-      type="checkbox"
-      // style={buttonStyle}
-      disabled={props.disabled}
-      onClick={!props.disabled ? props.onClick : undefined}
-      onMouseEnter={() => setHover(true)}
-      onMouseLeave={() => setHover(false)}
-    />
+    <button
+      type="button"
+      style={checkboxStyle}
+      onClick={
+        !props.disabled ? () => props.setIsChecked((prev) => !prev) : undefined
+      }
+    >
+      <SRCheck />
+    </button>
   );
 };
 

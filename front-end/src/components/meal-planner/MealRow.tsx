@@ -8,6 +8,7 @@ import { Recipe } from "../../types";
 import SRText from "../../sr-ui/SRText";
 import SRCheckBox from "../../sr-ui/SRCheckBox";
 import SRModal from "../../sr-ui/SRModal";
+import MealRecipe from "./MealRecipe";
 
 interface MealRowProps {
   mealName: string;
@@ -41,20 +42,10 @@ const MealRow = ({ mealName, meal }: MealRowProps): ReactElement => {
         style={{ marginLeft: 12, marginBottom: 12 }}
       >
         {meal?.map((recipe, index) => (
-          <>
-            <SRText key={`${recipe._id}-${recipe.name}-${index}`}>
-              {recipe.name}
-            </SRText>
-            {recipe.ingredients?.map((ingredient) => (
-              <SRFlex
-                justifyContent="flex-start"
-                style={{ marginLeft: 12, gap: 8 }}
-              >
-                <SRCheckBox></SRCheckBox>
-                <SRText key={ingredient}>{ingredient}</SRText>
-              </SRFlex>
-            ))}
-          </>
+          <MealRecipe
+            key={`${recipe._id}-${recipe.name}-${index}`}
+            recipe={recipe}
+          />
         ))}
       </SRFlex>
     </SRFlex>
