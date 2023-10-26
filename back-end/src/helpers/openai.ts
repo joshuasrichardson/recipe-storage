@@ -11,9 +11,10 @@ const openai = new OpenAIApi(
 
 const getRecipeQuery = (
   ingredients: Array<string>,
-  recipesToAvoid: Array<string>
+  recipesToAvoid: Array<string>,
+  category: string
 ): string =>
-  `What is a recipe I can make with ${toListString(
+  `What is a recipe for a ${category} I can make with ${toListString(
     ingredients,
     "and"
   )}? If there are no recipes that only use these items, please suggest a recipe that at least uses some of these. 
@@ -72,9 +73,10 @@ const extractJSON = (str: string): string => {
 
 export const queryRecipes = async (
   ingredients: string[],
-  recipesToAvoid: string[]
+  recipesToAvoid: string[],
+  category: string
 ): Promise<RecipeI> => {
-  const prompt = getRecipeQuery(ingredients, recipesToAvoid);
+  const prompt = getRecipeQuery(ingredients, recipesToAvoid, category);
 
   const completion = await openai.createChatCompletion({
     model: "gpt-3.5-turbo",

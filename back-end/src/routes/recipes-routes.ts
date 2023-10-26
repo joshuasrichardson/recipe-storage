@@ -30,7 +30,12 @@ router.post(
   checkUserValidity,
   async (req: VerifiedUserRequest<any>, res) => {
     return await handleRequest(
-      async () => await generateRecipe(req.body.ingredients, req.user as any), // TODO: fix type
+      async () =>
+        await generateRecipe(
+          req.body.ingredients,
+          req.user as any,
+          req.body.category
+        ), // TODO: fix type
       res
     );
   }

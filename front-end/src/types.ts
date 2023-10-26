@@ -118,3 +118,53 @@ export interface MealPlan {
   dinner: Recipe[];
   snacks: Recipe[];
 }
+
+export enum FoodCategoryDisplayName {
+  BREAKFAST = "Breakfast",
+  LUNCH = "Lunch",
+  DINNER = "Dinner",
+  SNACK = "Snack",
+  DRINK = "Drink",
+  DESSERT = "Dessert",
+}
+
+export enum FoodCategoryPhrase {
+  BREAKFAST = "breakfast item",
+  LUNCH = "lunch item",
+  DINNER = "dinner item",
+  SNACK = "snack",
+  DRINK = "drink",
+  DESSERT = "dessert",
+}
+
+export interface FoodCategory {
+  displayName: FoodCategoryDisplayName;
+  phrase: FoodCategoryPhrase;
+}
+
+export const allFoodCategories: { [key: string]: FoodCategory } = {
+  BREAKFAST: {
+    displayName: FoodCategoryDisplayName.BREAKFAST,
+    phrase: FoodCategoryPhrase.BREAKFAST,
+  },
+  LUNCH: {
+    displayName: FoodCategoryDisplayName.LUNCH,
+    phrase: FoodCategoryPhrase.LUNCH,
+  },
+  DINNER: {
+    displayName: FoodCategoryDisplayName.DINNER,
+    phrase: FoodCategoryPhrase.DINNER,
+  },
+  SNACK: {
+    displayName: FoodCategoryDisplayName.SNACK,
+    phrase: FoodCategoryPhrase.SNACK,
+  },
+  DRINK: {
+    displayName: FoodCategoryDisplayName.DRINK,
+    phrase: FoodCategoryPhrase.DRINK,
+  },
+  DESSERT: {
+    displayName: FoodCategoryDisplayName.DESSERT,
+    phrase: FoodCategoryPhrase.DESSERT,
+  },
+};

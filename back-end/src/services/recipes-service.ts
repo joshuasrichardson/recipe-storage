@@ -32,7 +32,8 @@ export const translateRecipe = async (recipe: RecipeI): Promise<RecipeI> => {
 
 export const generateRecipe = async (
   ingredients: Array<string>,
-  user: UserRef
+  user: UserRef,
+  category: string
 ): Promise<RecipeI> => {
   const recipesWithIngredient = (
     await findRecipesWithIngredients({
@@ -43,7 +44,8 @@ export const generateRecipe = async (
 
   const recipeQueryResult = await queryRecipes(
     ingredients,
-    recipesWithIngredient
+    recipesWithIngredient,
+    category
   );
   const generatedRecipe = {
     ...recipeQueryResult,

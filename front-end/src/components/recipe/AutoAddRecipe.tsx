@@ -11,9 +11,12 @@ import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { formatList } from "../../utils/language-utils";
 import { Context } from "../../App";
+import { FoodCategory, allFoodCategories } from "../../types";
+import SRDropDown from "../../sr-ui/SRDropDown";
 
 const AutoAddRecipe = (): ReactElement => {
   const [ingredients, setIngredients] = useState<string[]>([""]);
+  const [category, setCategory] = useState<FoodCategory>();
   const { t } = useTranslation();
   const { language } = useContext(Context);
 
@@ -29,6 +32,7 @@ const AutoAddRecipe = (): ReactElement => {
     );
     ServerFacade.generateRecipe({
       ingredients: ingredients,
+      category: category.phrase,
       onSuccess: showSuccess,
       onFailure: showError,
     });
@@ -59,6 +63,18 @@ const AutoAddRecipe = (): ReactElement => {
   return (
     <SRFlex direction="column">
       <SRForm>
+        <SRDropDown
+          value={category?.displayName}
+          onChange={(e) => setCategory(allFoodCategories[e.target.value])}
+          label={"Category"}
+          listName={"food-category"}
+        >
+          {Object.entries(allFoodCategories).map(([key, foodCategory]) => (
+            <option key={key} value={key}>
+              {t(foodCategory.displayName)}
+            </option>
+          ))}
+        </SRDropDown>
         <SRTextInputList
           label={t("Ingredients")}
           values={ingredients}

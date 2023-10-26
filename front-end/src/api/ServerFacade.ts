@@ -1,6 +1,7 @@
 import axios, { AxiosResponse } from "axios";
 import {
   APIFormattedItem,
+  FoodCategoryPhrase,
   Item,
   ItemAutofill,
   Language,
@@ -468,19 +469,21 @@ const getRecipe = async (id: string): Promise<any> => {
 
 interface generateRecipeProps {
   ingredients: Array<string>;
+  category: FoodCategoryPhrase;
   onSuccess: (a: any) => void;
   onFailure: (a: any) => void;
 }
 
 const generateRecipe = async ({
   ingredients,
+  category,
   onSuccess,
   onFailure,
 }: generateRecipeProps) => {
   try {
     const response: AxiosResponse<any, AddRecipeParams> = await axios.post(
       "/api/recipes/generate",
-      { ingredients }
+      { ingredients, category }
     );
     onSuccess({
       usedIngredients: ingredients,
@@ -501,7 +504,12 @@ const generateRecipeWithOldestIngredients = async ({
       .map((item) => item.name)
       .filter((value, index, self) => self.indexOf(value) === index)
       .slice(0, 4);
-    generateRecipe({ ingredients, onSuccess, onFailure });
+    generateRecipe({
+      ingredients,
+      category: FoodCategoryPhrase.DINNER,
+      onSuccess,
+      onFailure,
+    });
   };
   getStorage(useItemsInRecipe, maxItems);
 };
