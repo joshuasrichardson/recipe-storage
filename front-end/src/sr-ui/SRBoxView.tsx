@@ -11,6 +11,9 @@ import {
 } from "./styles";
 import SRFlex from "./SRFlex";
 import SRCheckBox from "./SRCheckBox";
+import SRButton from "./SRButton";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
 
 type SRBoxViewProps = {
   key: string;
@@ -29,6 +32,7 @@ type SRBoxViewProps = {
   maxWidth?: Size;
   link?: string;
   useCheckBoxes?: boolean;
+  back?: () => void;
 };
 
 const defaultProps: SRBoxViewProps = {
@@ -45,6 +49,7 @@ const defaultProps: SRBoxViewProps = {
   marginHorizontal: "medium",
   maxWidth: "small",
   useCheckBoxes: false,
+  back: () => null,
 };
 
 const SRBoxView: React.FC<SRBoxViewProps> = (
@@ -157,6 +162,22 @@ const SRBoxView: React.FC<SRBoxViewProps> = (
 
   return (
     <div key={props.key} style={itemViewStyle} onClick={props.onClick}>
+      {!!props.back ? (
+        <SRButton
+          size="small"
+          variant="secondary"
+          style={{
+            border: "none",
+            margin: "0px auto -32px -8px",
+            padding: 0,
+          }}
+          onClick={props.back}
+        >
+          <FontAwesomeIcon icon={solid("arrow-left")} />
+        </SRButton>
+      ) : (
+        <></>
+      )}
       {props.src && <SRImage src={props.src} label={props.label} />}
       <SRHeader padding="xsmall" size={props.titleSize}>
         {props.label}

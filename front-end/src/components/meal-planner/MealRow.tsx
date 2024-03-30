@@ -5,10 +5,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
 import SRHeader from "../../sr-ui/SRHeader";
 import { Recipe } from "../../types";
-import SRText from "../../sr-ui/SRText";
-import SRCheckBox from "../../sr-ui/SRCheckBox";
-import SRModal from "../../sr-ui/SRModal";
 import MealRecipe from "./MealRecipe";
+import AddMealModal from "./AddMealModal";
 
 interface MealRowProps {
   mealName: string;
@@ -23,9 +21,7 @@ const MealRow = ({ mealName, meal }: MealRowProps): ReactElement => {
 
   return (
     <SRFlex direction="column" alignItems="flex-start">
-      <SRModal isOpen={isOpen} onClose={() => setIsOpen(false)}>
-        Coming soon
-      </SRModal>
+      <AddMealModal mealName={mealName} isOpen={isOpen} setIsOpen={setIsOpen} />
       <SRFlex direction="row">
         <SRHeader padding="small" size="small">
           {mealName}

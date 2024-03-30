@@ -83,6 +83,7 @@ export type Recipe = {
   imageUrl?: string;
   minutes?: number;
   materials?: string[];
+  image?: string; // TODO: Is it this or imageUrl or both?
 };
 
 export type Attribute = {

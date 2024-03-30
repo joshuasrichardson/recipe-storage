@@ -29,12 +29,12 @@ interface MealRecipeProps {
 
 const MealRecipe = ({ recipe }: MealRecipeProps): ReactElement => {
   return (
-    <>
-      <SRText>{recipe.name}</SRText>
+    <div style={{ marginLeft: 4 }}>
+      <SRText fontSize="large">{recipe.name}</SRText>
       {recipe.ingredients?.map((ingredient) => (
-        <MealRecipeIngredient ingredient={ingredient} />
+        <MealRecipeIngredient key={ingredient} ingredient={ingredient} />
       ))}
-    </>
+    </div>
   );
 };
 

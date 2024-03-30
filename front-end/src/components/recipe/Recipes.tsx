@@ -10,7 +10,11 @@ import SRListView from "../../sr-ui/SRListView";
 import { themeGreen } from "../../sr-ui/styles";
 import { Context } from "../../App";
 
-const Recipes: React.FC = (): ReactElement => {
+interface RecipesProps {
+  onClickRecipe?: (recipe: Recipe) => void;
+}
+
+const Recipes: React.FC<RecipesProps> = ({ onClickRecipe }) => {
   const [useImageView, setUseImageView] = useState(false);
   const location = useLocation();
   const { t } = useTranslation();
@@ -24,6 +28,7 @@ const Recipes: React.FC = (): ReactElement => {
           key={index}
           recipe={recipe}
           useImageView={useImageView}
+          onClickRecipe={onClickRecipe}
         />
       ));
   };
@@ -73,7 +78,17 @@ const Recipes: React.FC = (): ReactElement => {
 
 export default Recipes;
 
-const RecipeComponent = ({ recipe, useImageView }) => {
+interface RecipeComponentProps {
+  recipe: Recipe;
+  useImageView: boolean;
+  onClickRecipe?: (recipe: Recipe) => void;
+}
+
+const RecipeComponent: React.FC<RecipeComponentProps> = ({
+  recipe,
+  useImageView,
+  onClickRecipe,
+}) => {
   const navigate = useNavigate();
   const { t } = useTranslation();
 
@@ -94,7 +109,8 @@ const RecipeComponent = ({ recipe, useImageView }) => {
     return (
       <SRBoxView
         onClick={() => {
-          navigate("/recipes/" + recipe._id);
+          if (onClickRecipe) onClickRecipe(recipe);
+          else navigate("/recipes/" + recipe._id);
         }}
         key={recipe._id}
         src={recipe.image}
@@ -112,7 +128,8 @@ const RecipeComponent = ({ recipe, useImageView }) => {
         recipe.minutes ? `${recipe.minutes}${t(" minutes")}` : ""
       }
       onClick={() => {
-        navigate("/recipes/" + recipe._id);
+        if (onClickRecipe) onClickRecipe(recipe);
+        else navigate("/recipes/" + recipe._id);
       }}
     />
   );
