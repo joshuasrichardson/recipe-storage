@@ -126,96 +126,96 @@ const logout = async (): Promise<void> => {
   await axios.delete("/api/users");
 };
 
-type APIKeychain = {
-  X_API_KEY: string;
-  X_APP_KEY: string;
-  X_RAPIDAPI_HOST: string;
-  X_RAPIDAPI_KEY: string;
-};
+// type APIKeychain = {
+//   X_API_KEY: string;
+//   X_APP_KEY: string;
+//   X_RAPIDAPI_HOST: string;
+//   X_RAPIDAPI_KEY: string;
+// };
 
-const getNutritionixV1Item = async (code: string): Promise<ItemAutofill> => {
-  let keys: APIKeychain;
-  return import("./constants").then(async (data) => {
-    keys = data.keys;
+// const getNutritionixV1Item = async (code: string): Promise<ItemAutofill> => {
+//   let keys: APIKeychain;
+//   return import("./constants").then(async (data) => {
+//     keys = data.keys;
 
-    const response = await fetch(
-      "https://nutritionix-api.p.rapidapi.com/v1_1/item?upc=" + code,
-      {
-        method: "GET",
-        headers: {
-          "x-rapidapi-host": keys.X_RAPIDAPI_HOST,
-          "x-rapidapi-key": keys.X_RAPIDAPI_KEY,
-        },
-      }
-    );
-    let item = await response.json();
-    if (!!item.item_name) {
-      return {
-        name: item.item_name,
-        brand: item.brand_name,
-        description: item.item_description,
-      };
-    }
-  });
-};
+//     const response = await fetch(
+//       "https://nutritionix-api.p.rapidapi.com/v1_1/item?upc=" + code,
+//       {
+//         method: "GET",
+//         headers: {
+//           "x-rapidapi-host": keys.X_RAPIDAPI_HOST,
+//           "x-rapidapi-key": keys.X_RAPIDAPI_KEY,
+//         },
+//       }
+//     );
+//     let item = await response.json();
+//     if (!!item.item_name) {
+//       return {
+//         name: item.item_name,
+//         brand: item.brand_name,
+//         description: item.item_description,
+//       };
+//     }
+//   });
+// };
 
-const canAccessNutritionixV2 = async (): Promise<boolean> => {
-  try {
-    const response = await axios.get("/api/calls/nutritionixV2");
-    return response.data.numCalls < 50;
-  } catch (err) {
-    console.log(err);
-    return false;
-  }
-};
+// const canAccessNutritionixV2 = async (): Promise<boolean> => {
+//   try {
+//     const response = await axios.get("/api/calls/nutritionixV2");
+//     return response.data.numCalls < 50;
+//   } catch (err) {
+//     console.log(err);
+//     return false;
+//   }
+// };
 
-const getNutritionixV2Item = async (code: string): Promise<ItemAutofill> => {
-  if (!(await canAccessNutritionixV2())) return getNutritionixV1Item(code);
-  let keys: APIKeychain;
-  return import("./constants")
-    .then(async (data) => {
-      keys = data.keys;
-      const response = await axios.get(
-        "https://trackapi.nutritionix.com/v2/search/item?upc=" + code,
-        {
-          headers: {
-            "x-app-id": keys.X_API_KEY,
-            "x-app-key": keys.X_APP_KEY,
-          },
-        }
-      );
-      axios.post("/api/calls/nutritionixV2");
-      const item = response.data.foods[0];
-      if (!!item.food_name) {
-        return {
-          name: item.food_name,
-          brand: item.brand_name,
-          description: item.nf_ingredient_statement?.toLowerCase(),
-          unit: "Grams",
-          tags: item.tags,
-          src: item.photo?.thumb,
-          // serving_weight_grams could also be useful in some situations
-        };
-      }
-    })
-    .catch((err) => {
-      console.log(err);
-      console.log(
-        "./constants.ts has not been added to github because it contains private information."
-      );
-      console.log(
-        "If you need access to it (you are working with the owner), please contact the owner directly"
-      );
-      return {
-        name: "",
-        brand: "",
-        description: "",
-        unit: "Grams",
-        tags: "",
-        src: "",
-      };
-    });
-};
+// const getNutritionixV2Item = async (code: string): Promise<ItemAutofill> => {
+//   if (!(await canAccessNutritionixV2())) return getNutritionixV1Item(code);
+//   let keys: APIKeychain;
+//   return import("./constants")
+//     .then(async (data) => {
+//       keys = data.keys;
+//       const response = await axios.get(
+//         "https://trackapi.nutritionix.com/v2/search/item?upc=" + code,
+//         {
+//           headers: {
+//             "x-app-id": keys.X_API_KEY,
+//             "x-app-key": keys.X_APP_KEY,
+//           },
+//         }
+//       );
+//       axios.post("/api/calls/nutritionixV2");
+//       const item = response.data.foods[0];
+//       if (!!item.food_name) {
+//         return {
+//           name: item.food_name,
+//           brand: item.brand_name,
+//           description: item.nf_ingredient_statement?.toLowerCase(),
+//           unit: "Grams",
+//           tags: item.tags,
+//           src: item.photo?.thumb,
+//           // serving_weight_grams could also be useful in some situations
+//         };
+//       }
+//     })
+//     .catch((err) => {
+//       console.log(err);
+//       console.log(
+//         "./constants.ts has not been added to github because it contains private information."
+//       );
+//       console.log(
+//         "If you need access to it (you are working with the owner), please contact the owner directly"
+//       );
+//       return {
+//         name: "",
+//         brand: "",
+//         description: "",
+//         unit: "Grams",
+//         tags: "",
+//         src: "",
+//       };
+//     });
+// };
 
 type OpenFoodsProductType = {
   product_name: string;
@@ -264,7 +264,7 @@ const getProduct = async (code: string): Promise<ItemAutofill> => {
     res = await axios.get(`/api/products/${code}`);
     item = viewFormattedItem(res.data.product); // TODO: handle case where the barcode isn't unique
     if (code?.length === 12 && !item.src) {
-      item2 = await getNutritionixV2Item(code);
+      // item2 = await getNutritionixV2Item(code);
       item = copyMissingFields(item, item2);
     } else if (code?.length === 13) {
       item2 = await getOpenFoodFactsItem(code);
@@ -276,7 +276,7 @@ const getProduct = async (code: string): Promise<ItemAutofill> => {
     try {
       console.log(err);
       if (item) return viewFormattedItem(item as unknown as APIFormattedItem);
-      if (code?.length === 12) item = await getNutritionixV2Item(code);
+      // if (code?.length === 12) item = await getNutritionixV2Item(code);
       if (item) return item;
       return await getOpenFoodFactsItem(code);
     } catch (error) {
