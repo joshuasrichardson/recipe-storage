@@ -1,0 +1,9 @@
+{
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "scripts": {
+    "build:both": "cd front-end && npm run build && cd ../back-end && npm run tsc",
+    "start:both": "concurrently \"cd front-end/ && npm start\" \"cd back-end/ && npm start\""
+  }
+}
