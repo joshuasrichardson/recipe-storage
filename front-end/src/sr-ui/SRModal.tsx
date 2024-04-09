@@ -47,6 +47,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
               width: "100%",
               height: "100%",
               position: "relative",
+              overflow: "auto",
             }}
           >
             <button

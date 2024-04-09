@@ -123,7 +123,7 @@ const SRBoxView: React.FC<SRBoxViewProps> = (
         {arr
           .filter((str) => !!str)
           .map((value: string, index: number) => (
-            <ItemAttr value={value} index={index} />
+            <ItemAttr key={value + index} value={value} index={index} />
           ))}
       </>
     );

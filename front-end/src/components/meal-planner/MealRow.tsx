@@ -6,14 +6,19 @@ import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
 import SRHeader from "../../sr-ui/SRHeader";
 import { Recipe } from "../../types";
 import MealRecipe from "./MealRecipe";
-import AddMealModal from "./AddMealModal";
+import AddMealModal from "./AddToMealModal";
 
 interface MealRowProps {
   mealName: string;
   meal: Recipe[];
+  updateMealPlan: (mealName: string, recipe: Recipe) => Promise<void>;
 }
 
-const MealRow = ({ mealName, meal }: MealRowProps): ReactElement => {
+const MealRow = ({
+  mealName,
+  meal,
+  updateMealPlan,
+}: MealRowProps): ReactElement => {
   const [isOpen, setIsOpen] = useState(false);
   const openModal = () => {
     setIsOpen(true);
@@ -21,7 +26,12 @@ const MealRow = ({ mealName, meal }: MealRowProps): ReactElement => {
 
   return (
     <SRFlex direction="column" alignItems="flex-start">
-      <AddMealModal mealName={mealName} isOpen={isOpen} setIsOpen={setIsOpen} />
+      <AddMealModal
+        updateMealPlan={updateMealPlan}
+        mealName={mealName}
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+      />
       <SRFlex direction="row">
         <SRHeader padding="small" size="small">
           {mealName}
@@ -35,7 +45,7 @@ const MealRow = ({ mealName, meal }: MealRowProps): ReactElement => {
       <SRFlex
         alignItems="flex-start"
         direction="column"
-        style={{ marginLeft: 12, marginBottom: 12 }}
+        style={{ marginLeft: 12, marginBottom: 12, gap: 16 }}
       >
         {meal?.map((recipe, index) => (
           <MealRecipe

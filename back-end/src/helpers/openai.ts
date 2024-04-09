@@ -26,6 +26,7 @@ const getRecipeQuery = (
         )}`
       : ""
   }
+  Do not suggest stir-fry. I want soup.
   Please do not give me any excuses. Please only respond in the following format with nothing before or after:
 
     {

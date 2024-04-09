@@ -9,20 +9,23 @@ import SRScrollContainer from "../../sr-ui/SRScrollContainer";
 import SRBoxView from "../../sr-ui/SRBoxView";
 import { t } from "i18next";
 
-interface AddMealModalProps {
+interface AddToMealModalProps {
   mealName: string;
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  updateMealPlan: (mealName: string, recipe: Recipe) => Promise<void>;
 }
 
-const AddMealModal: React.FC<AddMealModalProps> = ({
+const AddToMealModal: React.FC<AddToMealModalProps> = ({
   mealName,
   isOpen,
   setIsOpen,
-}: AddMealModalProps) => {
+  updateMealPlan,
+}: AddToMealModalProps) => {
   const [selectedRecipe, setSelectedRecipe] = useState<Recipe | undefined>();
 
-  const saveMeal = () => {
+  const addMeal = async () => {
+    updateMealPlan(mealName, selectedRecipe);
     setIsOpen(false);
   };
 
@@ -67,7 +70,7 @@ const AddMealModal: React.FC<AddMealModalProps> = ({
         </SRScrollContainer>
         <SRButton
           style={{ position: "absolute", bottom: 16 }}
-          onClick={saveMeal}
+          onClick={addMeal}
         >
           Add
         </SRButton>
@@ -76,4 +79,4 @@ const AddMealModal: React.FC<AddMealModalProps> = ({
   );
 };
 
-export default AddMealModal;
+export default AddToMealModal;

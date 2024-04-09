@@ -25,15 +25,15 @@ export const apiFormattedItem = (item: Item): APIFormattedItem => {
   return apiItem;
 };
 
-export const formatDate = (date: SRDate): string => {
+export const formatDate = (date?: SRDate): string => {
   return date?.format("ll") || "Unknown";
 };
 
-export const formatDateTime = (date: SRDate): string => {
+export const formatDateTime = (date?: SRDate): string => {
   return date?.format("lll") || "Unknown";
 };
 
-export const formatDateInput = (date: SRDate): string => {
+export const formatDateInput = (date?: SRDate): string => {
   return date?.format("YYYY-MM-DD") || "";
 };
 
@@ -66,6 +66,10 @@ export const getNDates = (startDate: SRDate, numDates: number): SRDate[] => {
   );
 };
 
+export const isSameDay = (date1: SRDate, date2: SRDate): boolean => {
+  return moment(date1).isSame(date2, "day");
+};
+
 const Utils = {
   viewFormattedItem,
   apiFormattedItem,
@@ -74,6 +78,7 @@ const Utils = {
   formatDateInput,
   stringToArray,
   arrayToString,
+  isSameDay,
 };
 
 export default Utils;

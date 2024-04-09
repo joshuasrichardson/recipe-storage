@@ -4,6 +4,10 @@ import SRFlex from "../../sr-ui/SRFlex";
 import { Recipe } from "../../types";
 import SRText from "../../sr-ui/SRText";
 import SRCheckBox from "../../sr-ui/SRCheckBox";
+import SRButton from "../../sr-ui/SRButton";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { themeGreen } from "../../sr-ui/styles";
+import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
 
 interface MealRecipeIngredientProps {
   ingredient: string;
@@ -28,12 +32,38 @@ interface MealRecipeProps {
 }
 
 const MealRecipe = ({ recipe }: MealRecipeProps): ReactElement => {
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  const toggle = () => {
+    setIsExpanded((prev) => !prev);
+  };
+
   return (
-    <div style={{ marginLeft: 4 }}>
-      <SRText fontSize="large">{recipe.name}</SRText>
-      {recipe.ingredients?.map((ingredient) => (
-        <MealRecipeIngredient key={ingredient} ingredient={ingredient} />
-      ))}
+    <div style={{ marginLeft: 4, width: "85%" }}>
+      <SRButton
+        variant="tertiary"
+        onClick={toggle}
+        style={{
+          width: "100%",
+          display: "flex",
+          justifyContent: "space-between",
+        }}
+      >
+        <SRText style={{ textAlign: "left" }} fontSize="large">
+          {recipe.name}
+        </SRText>
+        <FontAwesomeIcon
+          icon={isExpanded ? solid("caret-up") : solid("caret-down")}
+          style={{
+            color: themeGreen,
+            padding: 8,
+          }}
+        />
+      </SRButton>
+      {isExpanded &&
+        recipe.ingredients?.map((ingredient) => (
+          <MealRecipeIngredient key={ingredient} ingredient={ingredient} />
+        ))}
     </div>
   );
 };

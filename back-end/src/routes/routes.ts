@@ -4,6 +4,7 @@ import storage from "./storage-routes";
 import products from "./products-routes";
 import containers from "./containers-routes";
 import calls from "./calls-routes";
+import mealPlans from "./meal-plans-routes";
 import { Route } from "../types";
 
 const routes: Route[] = [
@@ -13,6 +14,7 @@ const routes: Route[] = [
   { path: "/api/products", router: products },
   { path: "/api/containers", router: containers },
   { path: "/api/calls", router: calls },
+  { path: "/api/meal-plans", router: mealPlans },
 ];
 
 export default routes;

@@ -105,6 +105,18 @@ export interface ItemI {
 
 export type ItemModel = ItemI & mongoose.Document;
 
+export interface MealPlanI {
+  _id?: string;
+  user: UserRef;
+  date: Date;
+  breakfast: RecipeI[];
+  lunch: RecipeI[];
+  dinner: RecipeI[];
+  snacks: RecipeI[];
+}
+
+export type MealPlanModel = MealPlanI & mongoose.Document;
+
 export interface VerifiedUserRequest<T> extends Request<any, any, any, T> {
   user: UserI;
   session: { userID: any };

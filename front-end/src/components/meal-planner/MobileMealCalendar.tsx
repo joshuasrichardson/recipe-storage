@@ -6,7 +6,7 @@ import { useTranslation } from "react-i18next";
 import SRHeader from "../../sr-ui/SRHeader";
 import ServerFacade from "../../api/ServerFacade";
 import { srDate } from "../../utils/utils";
-import { MealPlan } from "../../types";
+import { MealPlan, Recipe } from "../../types";
 import SRModal from "../../sr-ui/SRModal";
 import MealRow from "./MealRow";
 
@@ -14,6 +14,7 @@ const MobileMealCalendar = (): ReactElement => {
   const { t } = useTranslation();
   const [mealPlans, setMealPlans] = useState<MealPlan[]>([]);
   const [mealPlan, setMealPlan] = useState<MealPlan | undefined>();
+  const [mealPlanIndex, setMealPlanIndex] = useState<number | undefined>();
 
   useEffect(() => {
     const initPlans = async (): Promise<void> => {
@@ -22,19 +23,44 @@ const MobileMealCalendar = (): ReactElement => {
     initPlans();
   }, []);
 
-  const openPlan = (plan: MealPlan) => {
+  useEffect(() => {
+    if (!mealPlan) return;
+    setMealPlans((prev) => [
+      ...prev.slice(0, mealPlanIndex),
+      mealPlan,
+      ...prev.slice(mealPlanIndex + 1),
+    ]);
+  }, [mealPlan]);
+
+  const openPlan = (plan: MealPlan, index: number) => {
     setMealPlan(plan);
+    setMealPlanIndex(index);
   };
 
-  console.log(mealPlans);
+  const updateMealPlan = async (mealName: string, recipe: Recipe) => {
+    ServerFacade.updateMealPlan(mealPlan, setMealPlan, mealName, recipe);
+  };
+
   return (
     <>
       <SRModal isOpen={!!mealPlan} onClose={() => setMealPlan(undefined)}>
         <SRHeader size="large">{mealPlan?.date.format("dddd")}</SRHeader>
         <SRFlex direction="column" alignItems="flex-start">
-          <MealRow meal={mealPlan?.breakfast} mealName="Breakfast" />
-          <MealRow meal={mealPlan?.lunch} mealName="Lunch" />
-          <MealRow meal={mealPlan?.dinner} mealName="Dinner" />
+          <MealRow
+            updateMealPlan={updateMealPlan}
+            meal={mealPlan?.breakfast}
+            mealName="Breakfast"
+          />
+          <MealRow
+            updateMealPlan={updateMealPlan}
+            meal={mealPlan?.lunch}
+            mealName="Lunch"
+          />
+          <MealRow
+            updateMealPlan={updateMealPlan}
+            meal={mealPlan?.dinner}
+            mealName="Dinner"
+          />
         </SRFlex>
       </SRModal>
       <SRContainer
@@ -44,16 +70,18 @@ const MobileMealCalendar = (): ReactElement => {
         style={{ width: "100%" }}
       >
         <SRFlex direction="column" padding="none" width="max">
-          {mealPlans.map((plan) => (
+          {mealPlans.map((plan, index) => (
             <SRFlex
-              key={plan.date.toISOString()}
+              key={plan?.date.toISOString() || index}
               direction="column"
               justifyContent="space-between"
               alignItems="flex-start"
               style={{ borderBottom: "1px solid", width: "100%", padding: 8 }}
-              onClick={() => openPlan(plan)}
+              onClick={() => openPlan(plan, index)}
             >
-              <SRHeader size="medium">{t(plan.date.format("dddd"))}</SRHeader>
+              <SRHeader size="medium">
+                {t(plan?.date.format("dddd") || `${index}`)}
+              </SRHeader>
             </SRFlex>
           ))}
         </SRFlex>

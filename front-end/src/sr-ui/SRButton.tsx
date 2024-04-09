@@ -19,7 +19,7 @@ type SRButtonProps = {
   onClick?: MouseEventHandler<HTMLButtonElement>;
   children?: Child;
   style?: React.CSSProperties;
-  variant?: "primary" | "secondary";
+  variant?: "primary" | "secondary" | "tertiary";
 };
 
 const defaultProps: SRButtonProps = {
@@ -36,6 +36,19 @@ const SRButton: React.FC<SRButtonProps> = (
 ): ReactElement => {
   props = { ...defaultProps, ...props };
   const [isHover, setHover] = useState(false);
+
+  if (props.variant === "tertiary") {
+    return (
+      <button
+        type={props.type}
+        disabled={props.disabled}
+        onClick={!props.disabled ? props.onClick : undefined}
+        style={{ background: "inherit", border: "none", ...props.style }}
+      >
+        {props.children}
+      </button>
+    );
+  }
 
   const regularButtonColor =
     props.variant === "primary" ? mainButtonColor : secondaryButtonColor;

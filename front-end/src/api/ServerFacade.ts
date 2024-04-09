@@ -6,10 +6,17 @@ import {
   ItemAutofill,
   Language,
   MealPlan,
+  Recipe,
   SRDate,
   User,
 } from "../types";
-import { apiFormattedItem, getNDates, viewFormattedItem } from "../utils/utils";
+import {
+  apiFormattedItem,
+  getNDates,
+  isSameDay,
+  srDate,
+  viewFormattedItem,
+} from "../utils/utils";
 
 export type LoginParams = {
   username: string;
@@ -400,29 +407,61 @@ const deleteRecipe = async (id: string): Promise<void> => {
   console.log(response);
 };
 
+const updateMealPlan = async (
+  mealPlan: MealPlan,
+  setMealPlan: React.Dispatch<React.SetStateAction<MealPlan>>,
+  mealName: string,
+  recipe: Recipe
+) => {
+  const updatedMealPlan = {
+    ...mealPlan,
+    [mealName.toLocaleLowerCase()]: [
+      ...mealPlan[mealName.toLocaleLowerCase()],
+      recipe,
+    ],
+  };
+  const response = await axios.post("/api/meal-plans", {
+    mealPlan: updatedMealPlan,
+  });
+
+  const savedMealPlan = { ...response.data.mealPlan, date: mealPlan.date };
+
+  setMealPlan(savedMealPlan);
+};
+
 const getMealPlans = async (
   startDate: SRDate,
   numDays: number
 ): Promise<MealPlan[]> => {
-  // TODO
-
   const days: SRDate[] = getNDates(startDate, numDays);
 
-  return days.map((day) => ({
+  const mealPlanTemplates = days.map((day) => ({
     date: day,
-    breakfast: [{ _id: "q", name: "cereal", ingredients: ["cereal", "milk"] }],
-    lunch: [
-      {
-        _id: "r",
-        name: "sandwich",
-        ingredients: ["bread", "peanut butter", "jam"],
-      },
-    ],
-    dinner: [
-      { _id: "s", name: "spaghetti", ingredients: ["noodles", "sauce"] },
-    ],
-    snacks: [{ _id: "t", name: "cheese", ingredients: ["cheese"] }],
+    breakfast: [],
+    lunch: [],
+    dinner: [],
+    snacks: [],
   }));
+
+  const response = await axios.get<{ mealPlans: MealPlan[] }, any>(
+    "/api/meal-plans"
+  );
+
+  const mergedMealPlans: MealPlan[] = [];
+
+  mealPlanTemplates.forEach((mealPlanTemplate) => {
+    const existingIndex = response.data.mealPlans.findIndex((mealPlan) =>
+      isSameDay(srDate(mealPlan.date), mealPlanTemplate.date)
+    );
+    if (existingIndex === -1) {
+      mergedMealPlans.push(mealPlanTemplate);
+    } else {
+      const mealPlan = response.data.mealPlans[existingIndex];
+      mergedMealPlans.push({ ...mealPlan, date: srDate(mealPlan.date) });
+    }
+  });
+
+  return mergedMealPlans;
 };
 
 const ServerFacade = {
@@ -452,6 +491,7 @@ const ServerFacade = {
   addRecipe,
   updateRecipe,
   deleteRecipe,
+  updateMealPlan,
   getMealPlans,
 };
 
