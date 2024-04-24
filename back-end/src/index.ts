@@ -27,6 +27,8 @@ app.use(
     keys: ["secretValue"],
     cookie: {
       maxAge: ONE_MONTH,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "Lax",
     },
   })
 );

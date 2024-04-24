@@ -25,6 +25,7 @@ const AddToMealModal: React.FC<AddToMealModalProps> = ({
   const [selectedRecipe, setSelectedRecipe] = useState<Recipe | undefined>();
 
   const addMeal = async () => {
+    if (!selectedRecipe) return;
     updateMealPlan(mealName, selectedRecipe);
     setIsOpen(false);
   };
@@ -69,6 +70,7 @@ const AddToMealModal: React.FC<AddToMealModalProps> = ({
           )}
         </SRScrollContainer>
         <SRButton
+          disabled={!selectedRecipe}
           style={{ position: "absolute", bottom: 16 }}
           onClick={addMeal}
         >
