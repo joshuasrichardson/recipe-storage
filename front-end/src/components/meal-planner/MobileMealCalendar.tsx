@@ -41,6 +41,18 @@ const MobileMealCalendar = (): ReactElement => {
     ServerFacade.updateMealPlan(mealPlan, setMealPlan, mealName, recipe);
   };
 
+  const updateMealPlanNameOnly = async (
+    mealName: string,
+    recipeName: string
+  ) => {
+    ServerFacade.updateMealPlanNameOnly(
+      mealPlan,
+      setMealPlan,
+      mealName,
+      recipeName
+    );
+  };
+
   return (
     <>
       <SRModal isOpen={!!mealPlan} onClose={() => setMealPlan(undefined)}>
@@ -48,16 +60,19 @@ const MobileMealCalendar = (): ReactElement => {
         <SRFlex direction="column" alignItems="flex-start">
           <MealRow
             updateMealPlan={updateMealPlan}
+            updateMealPlanNameOnly={updateMealPlanNameOnly}
             meal={mealPlan?.breakfast}
             mealName="Breakfast"
           />
           <MealRow
             updateMealPlan={updateMealPlan}
+            updateMealPlanNameOnly={updateMealPlanNameOnly}
             meal={mealPlan?.lunch}
             mealName="Lunch"
           />
           <MealRow
             updateMealPlan={updateMealPlan}
+            updateMealPlanNameOnly={updateMealPlanNameOnly}
             meal={mealPlan?.dinner}
             mealName="Dinner"
           />

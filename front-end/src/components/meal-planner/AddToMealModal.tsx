@@ -14,6 +14,10 @@ interface AddToMealModalProps {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   updateMealPlan: (mealName: string, recipe: Recipe) => Promise<void>;
+  updateMealPlanNameOnly: (
+    mealName: string,
+    recipeName: string
+  ) => Promise<void>;
 }
 
 const AddToMealModal: React.FC<AddToMealModalProps> = ({
@@ -21,12 +25,15 @@ const AddToMealModal: React.FC<AddToMealModalProps> = ({
   isOpen,
   setIsOpen,
   updateMealPlan,
+  updateMealPlanNameOnly,
 }: AddToMealModalProps) => {
   const [selectedRecipe, setSelectedRecipe] = useState<Recipe | undefined>();
+  const [searchTerm, setSearchTerm] = useState("");
 
   const addMeal = async () => {
-    if (!selectedRecipe) return;
-    updateMealPlan(mealName, selectedRecipe);
+    if (!searchTerm) return;
+    if (selectedRecipe) updateMealPlan(mealName, selectedRecipe);
+    else updateMealPlanNameOnly(mealName, searchTerm);
     setIsOpen(false);
   };
 
@@ -66,11 +73,14 @@ const AddToMealModal: React.FC<AddToMealModalProps> = ({
               maxWidth="xxlarge"
             ></SRBoxView>
           ) : (
-            <Recipes onClickRecipe={setSelectedRecipe} />
+            <Recipes
+              onClickRecipe={setSelectedRecipe}
+              onSearch={setSearchTerm}
+            />
           )}
         </SRScrollContainer>
         <SRButton
-          disabled={!selectedRecipe}
+          disabled={!searchTerm}
           style={{ position: "absolute", bottom: 16 }}
           onClick={addMeal}
         >

@@ -12,12 +12,17 @@ interface MealRowProps {
   mealName: string;
   meal: Recipe[];
   updateMealPlan: (mealName: string, recipe: Recipe) => Promise<void>;
+  updateMealPlanNameOnly: (
+    mealName: string,
+    recipeName: string
+  ) => Promise<void>;
 }
 
 const MealRow = ({
   mealName,
   meal,
   updateMealPlan,
+  updateMealPlanNameOnly,
 }: MealRowProps): ReactElement => {
   const [isOpen, setIsOpen] = useState(false);
   const openModal = () => {
@@ -28,6 +33,7 @@ const MealRow = ({
     <SRFlex direction="column" alignItems="flex-start">
       <AddMealModal
         updateMealPlan={updateMealPlan}
+        updateMealPlanNameOnly={updateMealPlanNameOnly}
         mealName={mealName}
         isOpen={isOpen}
         setIsOpen={setIsOpen}

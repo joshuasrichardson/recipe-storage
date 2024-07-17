@@ -12,9 +12,10 @@ import { Context } from "../../App";
 
 interface RecipesProps {
   onClickRecipe?: (recipe: Recipe) => void;
+  onSearch?: (searchString: string) => void;
 }
 
-const Recipes: React.FC<RecipesProps> = ({ onClickRecipe }) => {
+const Recipes: React.FC<RecipesProps> = ({ onClickRecipe, onSearch }) => {
   const [useImageView, setUseImageView] = useState(false);
   const location = useLocation();
   const { t } = useTranslation();
@@ -57,6 +58,7 @@ const Recipes: React.FC<RecipesProps> = ({ onClickRecipe }) => {
   };
 
   const search = async (searchString: string): Promise<Recipe[]> => {
+    if (onSearch) onSearch(searchString);
     return ServerFacade.getRecipes(searchString, language);
   };
 

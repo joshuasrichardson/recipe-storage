@@ -429,6 +429,28 @@ const updateMealPlan = async (
   setMealPlan(savedMealPlan);
 };
 
+const updateMealPlanNameOnly = async (
+  mealPlan: MealPlan,
+  setMealPlan: React.Dispatch<React.SetStateAction<MealPlan>>,
+  mealName: string,
+  recipeName: string
+) => {
+  const updatedMealPlan = {
+    ...mealPlan,
+    [mealName.toLocaleLowerCase()]: [
+      ...mealPlan[mealName.toLocaleLowerCase()],
+      { name: recipeName },
+    ],
+  };
+  const response = await axios.post("/api/meal-plans", {
+    mealPlan: updatedMealPlan,
+  });
+
+  const savedMealPlan = { ...response.data.mealPlan, date: mealPlan.date };
+
+  setMealPlan(savedMealPlan);
+};
+
 const getMealPlans = async (
   startDate: SRDate,
   numDays: number
@@ -492,6 +514,7 @@ const ServerFacade = {
   updateRecipe,
   deleteRecipe,
   updateMealPlan,
+  updateMealPlanNameOnly,
   getMealPlans,
 };
 
